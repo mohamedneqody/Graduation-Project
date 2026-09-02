@@ -1,0 +1,2 @@
+time="2026-08-28T04:53:11+03:00" level=warning msg="d:\\Graduation Project\\AI-COS-Pharmacy\\backend\\docker-compose.test.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion"
+unable to get image 'redis:7-alpine': error during connect: Get "http://%2F%2F.%2Fpipe%2FdockerDesktopLinuxEngine/v1.51/images/redis:7-alpine/json": open //./pipe/dockerDesktopLinuxEngine: The system cannot find the file specified.

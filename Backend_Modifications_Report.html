@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تقرير التحديثات الهندسية للواجهة الخلفية (Backend Pipeline)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            line-height: 1.8;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            background: #fff;
+            padding: 50px 70px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            font-size: 34px;
+            margin-bottom: 5px;
+            font-weight: 900;
+        }
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 18px;
+            margin-bottom: 40px;
+        }
+        h2 {
+            color: #2980b9;
+            border-bottom: 2px solid #ecf0f1;
+            padding-bottom: 10px;
+            margin-top: 40px;
+            font-weight: 700;
+        }
+        h3 {
+            color: #34495e;
+            margin-top: 30px;
+            font-weight: 700;
+            background: #f8f9fa;
+            padding: 10px 15px;
+            border-left: 4px solid #27ae60;
+            border-radius: 4px;
+        }
+        p, li {
+            font-size: 16px;
+            color: #444;
+        }
+        ul {
+            padding-right: 25px;
+        }
+        li {
+            margin-bottom: 12px;
+        }
+        .highlight {
+            background-color: #e8f4f8;
+            padding: 15px 20px;
+            border-right: 4px solid #2980b9;
+            border-radius: 4px;
+            margin: 20px 0;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        .code-block {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+            direction: ltr;
+            text-align: left;
+            font-family: monospace;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            font-size: 14px;
+            color: #999;
+            border-top: 1px solid #ecf0f1;
+            padding-top: 20px;
+        }
+        @media print {
+            body { background: #fff; }
+            .container { box-shadow: none; margin: 0; padding: 0; width: 100%; max-width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>توثيق التحديثات الهندسية: نظام المعالجة والمطابقة</h1>
+    <div class="subtitle">AI-COS-Pharmacy: Backend & Validation Pipeline Updates</div>
+
+    <div class="highlight">
+        هذا التقرير يوثق التعديلات البرمجية الدقيقة (Backend Modifications) التي تم تنفيذها لدمج موديل الذكاء الاصطناعي المحلي (TrOCR) مع النظام الأساسي، وتأمين الاتصال بينهما، وبناء المعالج النصي الذكي (Regex Parser) لتهيئة البيانات لمحرك المطابقة.
+    </div>
+
+    <h2>1. تأمين المنظومة وهيكلة الخدمات المصغرة (Security & Microservices)</h2>
+    <p>تم تحويل سيرفر الـ OCR المحلي إلى خدمة مصغرة (Microservice) داخلية آمنة تماماً لمنع أي اختراق أو تخطي لعملية المراجعة الطبية (Playground Bypass):</p>
+    <ul>
+        <li><strong>تقييد المنفذ (Port Binding):</strong> تم إجبار السيرفر (<code>ocr_api_server.py</code>) على العمل حصرياً على <code>127.0.0.1:9202</code> لضمان عدم إمكانية الوصول إليه من خارج السيرفر (الإنترنت).</li>
+        <li><strong>المصادقة الداخلية (Internal Secret):</strong> تمت إضافة طبقة حماية تتطلب وجود Header باسم <code>X-Internal-Secret</code>. إذا لم يتطابق هذا المفتاح السري مع الـ <code>.env</code> الخاص بالواجهة الخلفية، يرفض السيرفر الطلب (403 Forbidden).</li>
+        <li><strong>تفعيل الموديل المحلي افتراضياً:</strong> تم تحديث <code>VISION_PROVIDER=local_trocr</code> ليكون هو الأساس في الإنتاج، مع بقاء <code>Gemini</code> كبديل احتياطي (Fallback).</li>
+    </ul>
+
+    <h2>2. المعالجة البعدية للنصوص (AI Post-Processing & Regex)</h2>
+    <p>بما أن موديل <code>TrOCR</code> يعيد النص كسطر واحد مسطح (Flat String) مثل: <code>"Cetirizine 4 mg/1 tab 800 mg - 1 tab after meals"</code>، كان لزاماً علينا بناء محلل نصوص ذكي <code>Regex Parser</code> داخل ملف <code>vision.py</code> لفصل مكونات الدواء:</p>
+    <ul>
+        <li><strong>استخراج التعليمات (Instructions):</strong> تم فصل التعليمات برمجياً بالاعتماد على علامة الشرطة <code>(-)</code>.</li>
+        <li><strong>استخراج الشكل الدوائي (Dosage Form):</strong> تم بناء قائمة (Regex) تلتقط الأشكال الدوائية مثل (tabs, sachets, drops, cream).</li>
+        <li><strong>تنقية الاسم (Name Sanitization):</strong> يتم <em>قص وحذف</em> هذه البيانات من السطر الأصلي، ليبقى اسم الدواء نقياً وجاهزاً لعملية المطابقة.</li>
+    </ul>
+
+    <h2>3. تطبيق خوارزمية (Last Match Heuristic)</h2>
+    <p>واجهتنا مشكلة برمجية معقدة حيث كان الـ Regex الأول يلتقط أول رقم يقابله كجرعة (مثلاً يلتقط <code>4 mg</code> ويتجاهل <code>800 mg</code> في جملة <code>Cetirizine 4 mg/1 tab 800 mg</code>).</p>
+    <div class="code-block">
+        # Heuristic: take the LAST match in the pre-dash text<br>
+        strength_matches = list(re.finditer(strength_regex, clean_name))<br>
+        if strength_matches:<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;chosen = strength_matches[-1]<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;strength = chosen.group(1).strip()
+    </div>
+    <p><strong>الحل:</strong> قمنا بتحديث الخوارزمية لاستخدام <code>re.finditer()[-1]</code> لالتقاط <em>آخر تطابق</em> قبل التعليمات، وهو ما يتماشى مع أسلوب كتابة الأطباء الحقيقي (اسم الدواء ثم الجرعة الإجمالية في نهاية السطر). هذا التعديل البسيط رفع دقة الاستخراج بشكل هائل.</p>
+
+    <h2>4. رفع كفاءة محرك المطابقة (Fuzzy Matching Optimization)</h2>
+    <p>كل التعديلات السابقة كانت تهدف إلى شيء واحد: <strong>إمداد محرك المطابقة (RapidFuzz) ببيانات نظيفة.</strong></p>
+    <ul>
+        <li>قبل التعديلات: كان دخول التركيزات والتعليمات مع اسم الدواء يقلل نسبة التشابه (Similarity Score)، مما يظهر للمستخدم رسالة <em>"الجرعة: غير محددة"</em> ويمنع ربط الدواء بسعره الصحيح.</li>
+        <li>بعد التعديلات: أصبح النظام يقارن اسم الدواء الصافي (مثلاً <code>Cetirizine</code>) مع الدواء في الـ Database، ويملأ خانة الجرعة بـ <code>800 mg</code> منفصلة، مما جعل الواجهة الأمامية (Frontend) تعرض بيانات الروشتة الحقيقية بدقة متناهية.</li>
+    </ul>
+
+    <div class="footer">
+        تم إعداد هذا التوثيق للمراجعة الفنية للتعديلات البرمجية الحديثة التي تمت على الباك إند (Backend Pipeline).
+    </div>
+</div>
+
+</body>
+</html>

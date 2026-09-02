@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تقرير مشروع قراءة الروشتات الطبية</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            color: #333;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            background: #fff;
+            padding: 50px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        h1 {
+            text-align: center;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+        h2 {
+            border-bottom: 2px solid #ecf0f1;
+            padding-bottom: 10px;
+            margin-top: 40px;
+            color: #2980b9;
+        }
+        h3 {
+            color: #e67e22;
+        }
+        p, li {
+            font-size: 16px;
+        }
+        ul {
+            padding-right: 20px;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        .highlight {
+            background-color: #e8f4f8;
+            padding: 15px;
+            border-right: 4px solid #3498db;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        .challenge {
+            background-color: #fef5f5;
+            padding: 15px;
+            border-right: 4px solid #e74c3c;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        .solution {
+            background-color: #f4fcf6;
+            padding: 15px;
+            border-right: 4px solid #2ecc71;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            font-size: 14px;
+            color: #7f8c8d;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        table, th, td {
+            border: 1px solid #bdc3c7;
+        }
+        th, td {
+            padding: 12px;
+            text-align: center;
+        }
+        th {
+            background-color: #3498db;
+            color: white;
+        }
+        @media print {
+            body { background-color: #fff; }
+            .container { box-shadow: none; margin: 0; padding: 0; max-width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>التقرير الفني الشامل: نظام قراءة الروشتات الطبية المكتوبة بخط اليد بالذكاء الاصطناعي</h1>
+    
+    <div class="highlight">
+        <strong>نبذة عن المشروع:</strong> يهدف هذا النظام إلى رقمنة قراءة الروشتات الطبية المكتوبة بخط يد الأطباء (وهي من أصعب أنواع النصوص قراءة). النظام يعمل بالكامل كعقل اصطناعي محلي (Offline AI Engine) مدمج داخل نظام صيدلية متكامل، حيث يتسلم صورة الروشتة، يقوم بتقطيعها، استخراج النصوص منها، ومطابقتها مع قاعدة بيانات الأدوية.
+    </div>
+
+    <h2>1. التقنيات المستخدمة ولماذا تم اختيارها؟</h2>
+    <ul>
+        <li><strong>نموذج TrOCR (Transformer-based Optical Character Recognition):</strong><br> 
+            <em>لماذا؟</em> بدلاً من الاعتماد على مكتبات تقليدية مثل Tesseract (التي تفشل تماماً مع الخط المتصل والسيء)، استخدمنا بنية حديثة من Microsoft تعتمد على الـ Transformers (Vision-Encoder-Decoder). النموذج يرى الصورة كـ (Vision Transformer) ويفهم سياق الكلمات كـ (RoBERTa Text Model)، مما يجعله الأقوى في فهم "سياق" الدواء المكتوب بخط سيء.
+        </li>
+        <li><strong>Hugging Face Transformers:</strong><br>
+            <em>لماذا؟</em> لتشغيل وتدريب الموديل محلياً بسهولة وتوفير واجهة برمجية للتعامل مع أوزان النموذج.
+        </li>
+        <li><strong>OpenCV:</strong><br>
+            <em>لماذا؟</em> لمعالجة الصور قبل إدخالها للموديل (Image Pre-processing & Line Segmentation). لأن الموديل مدرب على قراءة "سطر واحد"، كان لزاماً استخدام OpenCV لتقطيع الروشتة الكاملة إلى أسطر بشكل آلي.
+        </li>
+        <li><strong>خوارزمية Levenshtein Distance (Fuzzy Matching):</strong><br>
+            <em>لماذا؟</em> حتى أقوى نماذج الذكاء الاصطناعي قد تخطئ في حرف أو حرفين، ولأن الأدوية مصطلحات طبية دقيقة، تم بناء خوارزمية تبحث عن "أقرب دواء مطابق" في قاعدة البيانات (real_drugs.json) لتصحيح ناتج الـ OCR أوتوماتيكياً.
+        </li>
+        <li><strong>FastAPI (Backend):</strong><br>
+            <em>لماذا؟</em> لعمل خادم سريع جداً (API Server) يستضيف الموديل ويتواصل مع واجهة المستخدم (Next.js) لاستقبال الصور وإرجاع الـ JSON الخاص بالأدوية وأسعارها.
+        </li>
+    </ul>
+
+    <h2>2. لماذا تم بناء نموذج محلي (Local Model) ولم نستخدم API جاهز؟</h2>
+    <div class="highlight">
+        <ul>
+            <li><strong>الخصوصية والأمان (Data Privacy):</strong> الروشتات تحتوي على بيانات مرضى سرية. المعالجة المحلية تضمن عدم رفع أي بيانات لسيرفرات شركات أجنبية (مثل Google أو OpenAI).</li>
+            <li><strong>انعدام التكلفة (Cost-Free):</strong> استخدام APIs مثل GPT-4 Vision أو Gemini مكلف جداً مع كثرة الاستخدام. النموذج المحلي مجاني تماماً.</li>
+            <li><strong>العمل بدون إنترنت (Offline Capability):</strong> الصيدلية قد تواجه انقطاعاً في الإنترنت، النظام سيستمر في العمل كلياً بدون أي توقف.</li>
+            <li><strong>قوة الإنجاز التقني:</strong> الاعتماد على نموذج تم تدريبه (Fine-tuned) خصيصاً للمشروع يرفع من التقييم الأكاديمي للمشروع ويثبت الفهم العميق لأساسيات الـ Machine Learning بدلاً من مجرد استهلاك خدمة جاهزة.</li>
+        </ul>
+    </div>
+
+    <h2>3. المشاكل التي واجهتنا وكيف قمنا بحلها (Technical Challenges)</h2>
+
+    <div class="challenge">
+        <strong>المشكلة 1: الموديل لا يفهم الروشتة الكاملة!</strong><br>
+        نموذج TrOCR تم تدريبه في الأساس على قراءة صور تحتوي على سطر واحد فقط. إعطاؤه روشتة كاملة بها 4 أو 5 أدوية سيجعله يهلوس ويخرج نصاً غير مفهوم.
+    </div>
+    <div class="solution">
+        <strong>الحل:</strong> تم بناء "خط معالجة بصري" (Computer Vision Pipeline) باستخدام OpenCV. يقوم الكود بتحويل الروشتة للونين الأبيض والأسود (Adaptive Thresholding)، ثم حساب التدرج الأفقي (Horizontal Projection Profile) لمعرفة المسافات البيضاء بين السطور، ليقوم بقص كل دواء في صورة منفصلة (Crop) ثم يمرر كل صورة على حدة للموديل.
+    </div>
+
+    <div class="challenge">
+        <strong>المشكلة 2: توافق بيئة Python 3.13 مع مكتبة Transformers</strong><br>
+        أثناء تجهيز الموديل، واجهنا مشكلة في تحميل الـ <code>TrOCRProcessor</code> بسبب مشاكل في تجميع لغة Rust (Tokenizers) على أحدث إصدارات بايثون 3.13 في بيئة Colab.
+    </div>
+    <div class="solution">
+        <strong>الحل:</strong> بدلاً من الاعتماد على الفئة التجميعية (Processor)، قمنا بهندسة عكسية وتفكيكها إلى مكوناتها الأساسية يدوياً: استدعينا <code>DeiTImageProcessor</code> لمعالجة الصورة، و <code>RobertaTokenizer</code> لمعالجة النصوص، وقمنا بدمجهما معاً لتجاوز خطأ الـ Rust Compilation.
+    </div>
+
+    <div class="challenge">
+        <strong>المشكلة 3: أخطاء أحجام الصور أثناء التدريب (Image Resizing)</strong><br>
+        الموديل الأساسي كان يتطلب حجم صورة دقيق جداً (384x384). استخدام المعالج الافتراضي كان يعطي أبعاد (224x224) مما أدى إلى انهيار (Crash) أثناء التدريب في مرحلة الـ Fine-Tuning.
+    </div>
+    <div class="solution">
+        <strong>الحل:</strong> قمنا بتعديل إعدادات المعالج البصري (Image Processor) لفرض الأبعاد الصحيحة: <code>size={"height": 384, "width": 384}</code> وإيقاف الـ Center Crop للحفاظ على النص كاملاً داخل الصورة المقطوعة.
+    </div>
+
+    <div class="challenge">
+        <strong>المشكلة 4: أخطاء الإملاء للأطباء (Spelling Mistakes)</strong><br>
+        طبيعة الخط البشري تجعل الموديل أحياناً يقرأ حرف 'c' بدلاً من 'e'، أو يتجاهل مسافة (مثل قراءة "Solemtroxine" بدلاً من "Sekem Laxi"). 
+    </div>
+    <div class="solution">
+        <strong>الحل:</strong> لم نعتمد على مخرجات الموديل بشكل أعمى. تم دمج خوارزمية <strong>Fuzzy Logic Matching</strong>، تأخذ الكلمة المستخرجة وتقارنها بقاعدة بيانات الأدوية (real_drugs.json). إذا كان التشابه بنسبة معينة (باستخدام خوارزمية Levenshtein وحساب تطابق الرموز/Tokens)، يتم اعتماد اسم الدواء الحقيقي والسعر الصحيح وتصحيح الخطأ أوتوماتيكياً.
+    </div>
+
+    <h2>4. نتائج التدريب والتقييم (Evaluation Metrics)</h2>
+    <p>تم تدريب الموديل على مرحلتين:</p>
+    <ol>
+        <li><strong>Pretraining:</strong> تهيئة الموديل على طبيعة النصوص المكتوبة.</li>
+        <li><strong>Fine-Tuning:</strong> تدريب الموديل على 484 صورة لأدوية حقيقية وصعبة (مقسمة لـ Train و Validation).</li>
+    </ol>
+    <table>
+        <tr>
+            <th>المقياس (Metric)</th>
+            <th>النتيجة النهائية</th>
+            <th>الدلالة</th>
+        </tr>
+        <tr>
+            <td>Character Error Rate (CER)</td>
+            <td>0.0245 (2.45%)</td>
+            <td>نسبة الحروف الخاطئة، مما يعني دقة التعرف على الحروف تصل إلى أكثر من 97.5%. وهي نسبة استثنائية في قراءة خط اليد الطبي.</td>
+        </tr>
+        <tr>
+            <td>Validation Loss</td>
+            <td>0.123</td>
+            <td>يعكس قدرة الموديل على التعميم على الروشتات الجديدة وعدم الوقوع في فخ الـ Overfitting.</td>
+        </tr>
+    </table>
+
+    <h2>5. الخلاصة</h2>
+    <p>مشروع قراءة الروشتات لم يعد مجرد استدعاء لخدمة سحابية، بل أصبح <strong>نظام ذكاء اصطناعي متكامل محلي (End-to-End Local AI System)</strong> يمتلك القدرة على:</p>
+    <ul>
+        <li>معالجة الصورة الأصلية وتقطيعها.</li>
+        <li>استخراج النص عبر شبكات عصبية (Transformers).</li>
+        <li>تصحيح النص عبر الخوارزميات (NLP & Fuzzy Logic).</li>
+        <li>خدمة النظام بأكمله برمجياً عبر API سريع ومستقل.</li>
+    </ul>
+
+    <div class="footer">
+        تم إعداد هذا التقرير لتوثيق الجهد التقني والبرمجي وراء محرك الـ OCR الخاص بمشروع صيدلية AI-COS.
+    </div>
+</div>
+
+</body>
+</html>

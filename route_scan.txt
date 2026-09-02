@@ -1,0 +1,20 @@
+/                                                            -> EXC ConnectError
+/catalog                                                     -> EXC ConnectError
+/about                                                       -> EXC ConnectError
+/contact                                                     -> EXC ConnectError
+/login                                                       -> EXC ConnectError
+/profile                                                     -> EXC ConnectError
+/orders                                                      -> EXC ConnectError
+/checkout                                                    -> EXC ConnectError
+/admin                                                       -> EXC ConnectError
+/admin/analytics                                             -> EXC ConnectError
+/admin/orders                                                -> EXC ConnectError
+/admin/customers                                             -> EXC ConnectError
+/admin/notifications                                         -> EXC ConnectError
+/admin/settings                                              -> EXC ConnectError
+/admin/ai-review                                             -> EXC ConnectError
+/admin/agentic-ai                                            -> EXC ConnectError
+/admin/catalog                                               -> EXC ConnectError
+/admin/customers/624a7118-1b9c-460f-85d4-6fb5bcd76dfb        -> 307 -> redirect:/login?redirected_from=%2Fadmin%2Fcustomers%2F624a7118-1b9c-460f-85d4-6fb5bcd76dfb
+/admin/prescriptions/00000000-0000-0000-0000-000000000000/review -> 307 -> redirect:/login?redirected_from=%2Fadmin%2Fprescriptions%2F00000000-0000-0000-0000-000000000000%2Freview
+/nonexistent-404                                             -> 404

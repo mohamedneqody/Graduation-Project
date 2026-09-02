@@ -1,0 +1,31 @@
+name,category,is_chronic,base_price,default_cycle_days,image_url
+Concor 5mg,مزمن - ضغط,true,85,30,D:\Graduation Project\backend\backend\drug_images\concor.jpg
+Amlopres 5mg,مزمن - ضغط,true,45,30,https://seifpharmacy.com/wp-content/uploads/2021/04/104191.jpg
+Diovan 80mg,مزمن - ضغط,true,150,30,https://seifpharmacy.com/wp-content/uploads/2021/04/104192.jpg
+Norvasc 5mg,مزمن - ضغط,true,60,30,https://seifpharmacy.com/wp-content/uploads/2021/04/104194.jpg
+Capoten 25mg,مزمن - ضغط,true,35,30,https://seifpharmacy.com/wp-content/uploads/2021/04/104195.jpg
+Glucophage 500mg,مزمن - سكر,true,40,30,D:\Graduation Project\backend\backend\drug_images\glucophage.jpg
+Glucomin 500mg,مزمن - سكر,true,35,30,https://seifpharmacy.com/wp-content/uploads/2021/04/104196.jpg
+Galvus Met 50/1000mg,مزمن - سكر,true,220,30,https://seifpharmacy.com/wp-content/uploads/2021/04/104197.jpg
+Amaryl 2mg,مزمن - سكر,true,90,30,https://seifpharmacy.com/wp-content/uploads/2021/04/104198.jpg
+Diamicron MR 60mg,مزمن - سكر,true,110,30,https://seifpharmacy.com/wp-content/uploads/2021/04/104199.jpg
+Lipitor 20mg,مزمن - كوليسترول,true,130,30,https://seifpharmacy.com/wp-content/uploads/2021/04/104200.jpg
+Crestor 10mg,مزمن - كوليسترول,true,160,30,https://seifpharmacy.com/wp-content/uploads/2021/04/104201.jpg
+Eltroxin 100mcg,مزمن - غدة درقية,true,25,30,https://seifpharmacy.com/wp-content/uploads/2021/04/104202.jpg
+Panadol Extra,مسكنات,false,20,10,D:\Graduation Project\backend\backend\drug_images\panadol.jpg
+Bi Alcofan,مسكنات,false,30,10,https://seifpharmacy.com/wp-content/uploads/2021/04/104204.jpg
+Cataflam 50mg,مسكنات,false,25,10,D:\Graduation Project\backend\backend\drug_images\cataflam.jpg
+Brufen 400mg,مسكنات,false,22,10,https://seifpharmacy.com/wp-content/uploads/2021/04/104206.jpg
+Amoclan 1g,مضاد حيوي,false,65,7,https://seifpharmacy.com/wp-content/uploads/2021/04/104207.jpg
+Augmentin 1g,مضاد حيوي,false,90,7,D:\Graduation Project\backend\backend\drug_images\augmentin.jpg
+Zinnat 500mg,مضاد حيوي,false,110,7,https://seifpharmacy.com/wp-content/uploads/2021/04/104209.jpg
+Rani 150mg,جهاز هضمي,false,15,15,https://seifpharmacy.com/wp-content/uploads/2021/04/104210.jpg
+Motilium 10mg,جهاز هضمي,false,30,15,https://seifpharmacy.com/wp-content/uploads/2021/04/104211.jpg
+Nexium 40mg,جهاز هضمي,false,95,20,https://seifpharmacy.com/wp-content/uploads/2021/04/104212.jpg
+Cal-D-Vita,فيتامينات,false,65,30,https://seifpharmacy.com/wp-content/uploads/2021/04/104213.jpg
+Bio Vit-C 1000mg,فيتامينات,false,55,30,https://seifpharmacy.com/wp-content/uploads/2021/04/104214.jpg
+Feroglobin,فيتامينات - حديد,false,120,30,https://seifpharmacy.com/wp-content/uploads/2021/04/104215.jpg
+Omega Life 3,فيتامينات,false,140,30,https://seifpharmacy.com/wp-content/uploads/2021/04/104216.jpg
+Coldrex,نزلات برد,false,25,10,https://seifpharmacy.com/wp-content/uploads/2021/04/104218.jpg
+Comtrex,نزلات برد,false,28,10,https://seifpharmacy.com/wp-content/uploads/2021/04/104219.jpg
+Zyrtec 10mg,حساسية,false,45,20,https://seifpharmacy.com/wp-content/uploads/2021/04/104220.jpg

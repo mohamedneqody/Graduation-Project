@@ -1,0 +1,14 @@
+[
+    {
+        "model": "AI-COS-LFM:latest",
+        "ttft": "15.53s",
+        "gen_tps": "4.46",
+        "total_time": "15.76s"
+    },
+    {
+        "model": "AI-COS-LFM-Q4:latest",
+        "ttft": "44.37s",
+        "gen_tps": "62.15",
+        "total_time": "46.78s"
+    }
+]

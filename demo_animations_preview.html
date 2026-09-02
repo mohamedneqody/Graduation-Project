@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>مختبر التأثيرات التفاعلية والأنيميشن — AI-COS Pharmacy Labs</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* Exact AI-COS Pharmacy Color Tokens */
+      --color-surface: #f8f9ff;
+      --color-surface-card: #ffffff;
+      --color-primary: #4f46e5;
+      --color-primary-dark: #3525cd;
+      --color-primary-light: #e0e7ff;
+      --color-on-surface: #0b1c30;
+      --color-on-surface-variant: #565e74;
+      --color-emerald: #10b981;
+      --color-emerald-light: #d1fae5;
+      --color-rose: #f43f5e;
+      --color-border: #e2e8f0;
+      --color-border-card: rgba(199, 196, 216, 0.5);
+      --hero-bg: #0f172a;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+    }
+
+    body {
+      font-family: 'Cairo', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--color-surface);
+      color: var(--color-on-surface);
+      overflow-x: hidden;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    /* ── 1. Interactive Neural Network Canvas (Light Version) ── */
+    #neural-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* Background Medical Grid */
+    .aicos-grid {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background-size: 40px 40px;
+      background-image:
+        linear-gradient(to right, rgba(99, 102, 241, 0.04) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(99, 102, 241, 0.04) 1px, transparent 1px);
+    }
+
+    /* Soft Ambient Glowing Auras */
+    .aurora-glow-1 {
+      position: fixed;
+      top: -5%;
+      right: -5%;
+      width: 550px;
+      height: 550px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(79, 70, 229, 0.09) 0%, transparent 70%);
+      filter: blur(50px);
+      z-index: 1;
+      pointer-events: none;
+      animation: aurora-float-1 12s infinite alternate ease-in-out;
+    }
+
+    .aurora-glow-2 {
+      position: fixed;
+      bottom: -5%;
+      left: -5%;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(16, 185, 129, 0.08) 0%, transparent 70%);
+      filter: blur(60px);
+      z-index: 1;
+      pointer-events: none;
+      animation: aurora-float-2 15s infinite alternate ease-in-out;
+    }
+
+    @keyframes aurora-float-1 {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(-60px, 60px) scale(1.15); }
+    }
+
+    @keyframes aurora-float-2 {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(70px, -50px) scale(1.1); }
+    }
+
+    /* Floating 3D Capsules in Background */
+    .floating-capsule {
+      position: fixed;
+      font-size: 28px;
+      opacity: 0.4;
+      z-index: 1;
+      pointer-events: none;
+      animation: float-around 12s infinite ease-in-out;
+    }
+
+    @keyframes float-around {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-25px) rotate(12deg); }
+    }
+
+    /* ── Main Container ── */
+    .container {
+      position: relative;
+      z-index: 10;
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 30px 24px 100px;
+    }
+
+    /* ── Header ── */
+    header {
+      text-align: center;
+      margin-bottom: 45px;
+    }
+
+    .badge-lab {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      border-radius: 9999px;
+      background: #eff4ff;
+      border: 1px solid #c7d2fe;
+      color: #3525cd;
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 14px;
+      box-shadow: 0 2px 8px rgba(79, 70, 229, 0.08);
+    }
+
+    h1 {
+      font-size: 38px;
+      font-weight: 900;
+      color: #0b1c30;
+      margin-bottom: 10px;
+      letter-spacing: -0.5px;
+    }
+
+    h1 span {
+      background: linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    p.subtitle {
+      color: var(--color-on-surface-variant);
+      font-size: 15.5px;
+      max-width: 650px;
+      margin: 0 auto;
+    }
+
+    /* ── Floating Header Simulation (Cart Icon Test) ── */
+    .sticky-header-demo {
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--color-border);
+      border-radius: 20px;
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 35px;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--color-primary);
+    }
+
+    .cart-btn-target {
+      position: relative;
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      background: #ecfdf5;
+      border: 2px solid #a7f3d0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
+      transition: all 0.25s ease;
+    }
+
+    .cart-btn-target:hover {
+      transform: scale(1.08) translateY(-2px);
+      border-color: #10b981;
+    }
+
+    .cart-badge {
+      position: absolute;
+      top: -6px;
+      right: -6px;
+      background: var(--color-rose);
+      color: white;
+      font-size: 11px;
+      font-weight: 900;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid white;
+      box-shadow: 0 2px 6px rgba(244, 63, 94, 0.4);
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .cart-badge.pop {
+      transform: scale(1.45);
+    }
+
+    /* ── Section Title ── */
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 19px;
+      font-weight: 800;
+      margin: 45px 0 20px;
+      color: #0b1c30;
+    }
+
+    .section-title span.num {
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--color-primary), var(--color-emerald));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 900;
+      color: white;
+      box-shadow: 0 4px 10px rgba(79, 70, 229, 0.25);
+    }
+
+    /* ── Feature 1: Exact Hero Box Layout ── */
+    .hero-box {
+      background: var(--hero-bg);
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+      min-height: 280px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 40px;
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .hero-text h2 {
+      font-size: 32px;
+      font-weight: 900;
+      margin-bottom: 12px;
+      letter-spacing: -0.5px;
+    }
+
+    .hero-text p {
+      color: #94a3b8;
+      font-size: 15px;
+      margin-bottom: 24px;
+      max-width: 480px;
+      line-height: 1.6;
+    }
+
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--color-primary);
+      color: white;
+      padding: 13px 26px;
+      border-radius: 9999px;
+      font-weight: 800;
+      font-size: 14.5px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(79, 70, 229, 0.4);
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .hero-cta:hover {
+      transform: translateY(-3px) scale(1.03);
+      box-shadow: 0 12px 28px rgba(79, 70, 229, 0.6);
+      background: #4338ca;
+    }
+
+    .hero-cta .arrow {
+      transition: transform 0.25s ease;
+    }
+
+    .hero-cta:hover .arrow {
+      transform: translateX(-5px);
+    }
+
+    .hero-avatar-wrap {
+      position: relative;
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.3) 0%, transparent 70%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .synapse-orb {
+      position: absolute;
+      inset: -10px;
+      border-radius: 50%;
+      border: 2px dashed rgba(99, 102, 241, 0.5);
+      animation: rotate-synapse 16s linear infinite;
+    }
+
+    @keyframes rotate-synapse {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .hero-robot-icon {
+      font-size: 55px;
+      animation: robot-float 3s infinite ease-in-out;
+    }
+
+    @keyframes robot-float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    /* ── Feature 2: Sliding Pill Categories Bar (Exact Colors) ── */
+    .categories-bar-wrapper {
+      background: #ffffff;
+      border: 1px solid var(--color-border);
+      padding: 6px;
+      border-radius: 9999px;
+      display: inline-flex;
+      position: relative;
+      gap: 4px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+      margin-bottom: 25px;
+      overflow-x: auto;
+      max-width: 100%;
+    }
+
+    .sliding-pill {
+      position: absolute;
+      top: 6px;
+      bottom: 6px;
+      border-radius: 9999px;
+      background: var(--color-primary);
+      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.35);
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .category-btn {
+      position: relative;
+      z-index: 2;
+      background: transparent;
+      border: none;
+      color: #565e74;
+      font-family: 'Cairo', sans-serif;
+      font-size: 13.5px;
+      font-weight: 700;
+      padding: 8px 20px;
+      border-radius: 9999px;
+      cursor: pointer;
+      transition: color 0.2s ease, transform 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .category-btn.active {
+      color: #ffffff;
+    }
+
+    .category-btn:hover:not(.active) {
+      color: var(--color-on-surface);
+      background: #eff4ff;
+    }
+
+    /* ── Feature 3: 3D Tilt Cards with Shimmer & Flying Pill to Cart ── */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    .card-3d {
+      background: var(--color-surface-card);
+      border: 1px solid var(--color-border-card);
+      border-radius: 20px;
+      padding: 22px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.03);
+      transition: transform 0.15s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-3d:hover {
+      box-shadow: 0 20px 40px -10px rgba(79, 70, 229, 0.12), 0 0 0 1px rgba(79, 70, 229, 0.2);
+      border-color: rgba(79, 70, 229, 0.4);
+    }
+
+    /* Shimmer Sweep Animation on Hover */
+    .card-3d::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        60deg,
+        transparent 35%,
+        rgba(255, 255, 255, 0.6) 48%,
+        rgba(79, 70, 229, 0.08) 50%,
+        rgba(255, 255, 255, 0.6) 52%,
+        transparent 65%
+      );
+      transform: rotate(25deg) translateY(-100%);
+      transition: transform 0.75s ease;
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    .card-3d:hover::after {
+      transform: rotate(25deg) translateY(100%);
+    }
+
+    .card-badge {
+      align-self: flex-start;
+      padding: 4px 12px;
+      border-radius: 8px;
+      font-size: 11.5px;
+      font-weight: 800;
+      margin-bottom: 14px;
+    }
+
+    .badge-chronic { background: #e0e7ff; color: #3730a3; border: 1px solid #c7d2fe; }
+    .badge-otc { background: #d1fae5; color: #065f46; border: 1px solid #a7f3d0; }
+
+    .card-image-box {
+      width: 100%;
+      height: 140px;
+      background: #f8fafc;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 52px;
+      margin-bottom: 16px;
+      border: 1px solid #f1f5f9;
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .card-3d:hover .card-image-box {
+      transform: scale(1.06) translateY(-4px);
+    }
+
+    .card-title {
+      font-size: 17.5px;
+      font-weight: 800;
+      color: #0b1c30;
+      margin-bottom: 6px;
+    }
+
+    .card-desc {
+      font-size: 13px;
+      color: var(--color-on-surface-variant);
+      margin-bottom: 16px;
+      line-height: 1.5;
+      flex-grow: 1;
+    }
+
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 14px;
+      border-top: 1px solid #f1f5f9;
+    }
+
+    .card-price {
+      font-size: 18px;
+      font-weight: 900;
+      color: #0b1c30;
+    }
+
+    .card-btn {
+      background: var(--color-primary);
+      border: none;
+      color: white;
+      padding: 8px 18px;
+      border-radius: 9999px;
+      font-family: 'Cairo', sans-serif;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
+    }
+
+    .card-btn:hover {
+      background: #4338ca;
+      transform: scale(1.06);
+      box-shadow: 0 6px 16px rgba(79, 70, 229, 0.35);
+    }
+
+    /* ── Feature 4: AI Drug Interaction Checker (محاكي الفحص السريري) ── */
+    .interaction-box {
+      background: #ffffff;
+      border: 1px solid var(--color-border);
+      border-radius: 24px;
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+      margin-top: 20px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+    }
+
+    @media (max-width: 768px) {
+      .interaction-box { grid-template-columns: 1fr; }
+    }
+
+    .drug-select-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .drug-pill-select {
+      background: #f8fafc;
+      border: 2px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 12px 18px;
+      font-family: 'Cairo', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: #0b1c30;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.2s ease;
+    }
+
+    .drug-pill-select.selected {
+      border-color: var(--color-primary);
+      background: #eff4ff;
+      color: var(--color-primary-dark);
+    }
+
+    .ai-result-panel {
+      background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+      border-radius: 20px;
+      padding: 24px;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .risk-meter {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 16px 0;
+    }
+
+    .risk-bar {
+      flex: 1;
+      height: 10px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 9999px;
+      overflow: hidden;
+    }
+
+    .risk-fill {
+      width: 0%;
+      height: 100%;
+      border-radius: 9999px;
+      background: linear-gradient(90deg, #10b981, #f59e0b, #ef4444);
+      transition: width 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    /* ── Feature 5: Laser Prescription Scanner ── */
+    .scanner-box {
+      background: #ffffff;
+      border: 2px dashed #c7d2fe;
+      border-radius: 24px;
+      padding: 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      box-shadow: 0 10px 25px rgba(79, 70, 229, 0.05);
+      transition: all 0.3s ease;
+    }
+
+    .scanner-box:hover {
+      border-color: var(--color-primary);
+      background: #fbfbfe;
+    }
+
+    .scanner-laser {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, #4f46e5, #06b6d4, transparent);
+      box-shadow: 0 0 15px #4f46e5, 0 0 30px #06b6d4;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .scanner-box.scanning .scanner-laser {
+      opacity: 1;
+      animation: scan-line 2.5s infinite ease-in-out;
+    }
+
+    @keyframes scan-line {
+      0% { top: 0%; }
+      50% { top: 100%; }
+      100% { top: 0%; }
+    }
+
+    /* Flying Pill Animation Element */
+    .flying-pill-anim {
+      position: fixed;
+      font-size: 28px;
+      z-index: 9999;
+      pointer-events: none;
+      transition: all 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    /* Footer Note */
+    .footer-note {
+      text-align: center;
+      margin-top: 50px;
+      padding: 18px;
+      background: #ffffff;
+      border: 1px solid var(--color-border);
+      border-radius: 16px;
+      color: #64748b;
+      font-size: 13.5px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Neural Canvas -->
+  <canvas id="neural-canvas"></canvas>
+  <div class="aicos-grid"></div>
+  <div class="aurora-glow-1"></div>
+  <div class="aurora-glow-2"></div>
+
+  <!-- Background Floating Pills -->
+  <div class="floating-capsule" style="top: 20%; left: 6%;">💊</div>
+  <div class="floating-capsule" style="top: 55%; right: 5%; animation-delay: 2s;">🧬</div>
+  <div class="floating-capsule" style="top: 85%; left: 12%; animation-delay: 4s;">🧪</div>
+
+  <div class="container">
+    
+    <!-- Header with Live Cart simulation -->
+    <div class="sticky-header-demo">
+      <div class="brand-logo">
+        <span style="font-size: 28px;">💊</span>
+        <span>AI-COS Pharmacy Labs</span>
+      </div>
+      <div style="display: flex; align-items: center; gap: 16px;">
+        <span style="font-size: 13px; font-weight: 700; color: #64748b;">جرب الضغط على "إضافة للسلة" في أي دواء:</span>
+        <div class="cart-btn-target" id="cartTarget" title="سلة المشتريات">
+          🛒
+          <span class="cart-badge" id="cartBadge">0</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Page Title -->
+    <header>
+      <div class="badge-lab">✨ مختبر الابتكار والتأثيرات الحية (Lab Preview)</div>
+      <h1>تأثيرات الواجهة التفاعلية <span>بألوان مشروعك الرسمية</span></h1>
+      <p class="subtitle">تم ضبط جميع التدرجات، الخلفية (#f8f9ff)، والبطاقات البيضاء بنفس كود وألوان مشروعك الأصلي 100%.</p>
+    </header>
+
+    <!-- 1. Hero Section (Official Project Palette) -->
+    <div class="section-title">
+      <span class="num">1</span>
+      <span>البنر الرئيسي التفاعلي (Hero Section)</span>
+    </div>
+
+    <div class="hero-box">
+      <div class="hero-text">
+        <h2>AI-COS Pharmacy Platform</h2>
+        <p>المنصة الدوائية الذكية المتكاملة: فحص آلي للتعارضات، وتنبؤ باحتياجات المرضى المزمنين بدقة متناهية.</p>
+        <button class="hero-cta">
+          <span>تصفح الأدوية</span>
+          <span class="arrow">←</span>
+        </button>
+      </div>
+
+      <div class="hero-avatar-wrap">
+        <div class="synapse-orb"></div>
+        <div class="hero-robot-icon">🤖</div>
+      </div>
+    </div>
+
+    <!-- 2. Sliding Pill Categories Bar -->
+    <div class="section-title">
+      <span class="num">2</span>
+      <span>شريط التصنيفات مع الكبسولة المنزلقة (Sliding Pill Indicator)</span>
+    </div>
+
+    <div class="categories-bar-wrapper" id="categoriesBar">
+      <div class="sliding-pill" id="slidingPill"></div>
+      <button class="category-btn active" onclick="selectCategory(this)">الكل (114)</button>
+      <button class="category-btn" onclick="selectCategory(this)">مسكنات (16)</button>
+      <button class="category-btn" onclick="selectCategory(this)">فيتامينات (16)</button>
+      <button class="category-btn" onclick="selectCategory(this)">مضاد حيوي (15)</button>
+      <button class="category-btn" onclick="selectCategory(this)">نزلات برد (14)</button>
+      <button class="category-btn" onclick="selectCategory(this)">أدوية الضغط (22)</button>
+    </div>
+
+    <!-- 3. 3D Tilt Product Cards + Flying Pill Animation -->
+    <div class="section-title">
+      <span class="num">3</span>
+      <span>بطاقات الأدوية التفاعلية مع حركات الإضافة للسلة الطائرة (Flying Pill)</span>
+    </div>
+
+    <div class="cards-grid">
+      <!-- Card 1 -->
+      <div class="card-3d" onmousemove="handleCardTilt(event, this)" onmouseleave="resetCardTilt(this)">
+        <div class="card-badge badge-chronic">مزمن — ضغط</div>
+        <div class="card-image-box">💊</div>
+        <div class="card-title">Amlopres 5mg</div>
+        <div class="card-desc">علاج فعال لضغط الدم المرتفع وتنظيم الدورة الدموية للبالغين</div>
+        <div class="card-footer">
+          <div class="card-price">45.00 ج.م</div>
+          <button class="card-btn" onclick="flyToCart(event, this)">إضافة للسلة +</button>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="card-3d" onmousemove="handleCardTilt(event, this)" onmouseleave="resetCardTilt(this)">
+        <div class="card-badge badge-otc">مسكن سريع</div>
+        <div class="card-image-box">⚡</div>
+        <div class="card-title">Stopadol Forte 1000mg</div>
+        <div class="card-desc">فوار مسكن سريع المفعول للصداع وخافض فوري للحرارة</div>
+        <div class="card-footer">
+          <div class="card-price">32.50 ج.م</div>
+          <button class="card-btn" onclick="flyToCart(event, this)">إضافة للسلة +</button>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="card-3d" onmousemove="handleCardTilt(event, this)" onmouseleave="resetCardTilt(this)">
+        <div class="card-badge badge-otc">فيتامينات ومناعة</div>
+        <div class="card-image-box">🍊</div>
+        <div class="card-title">Bio Vit-C 1000mg</div>
+        <div class="card-desc">فيتامين سي فوار معزز للمناعة ومقاومة الإجهاد ونزلات البرد</div>
+        <div class="card-footer">
+          <div class="card-price">55.00 ج.م</div>
+          <button class="card-btn" onclick="flyToCart(event, this)">إضافة للسلة +</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. Interactive Clinical AI Interaction Checker (New Innovation) -->
+    <div class="section-title">
+      <span class="num">4</span>
+      <span>ميزة مبتكرة: محاكي الفحص السريري للتعارضات الدوائية (AI Drug Checker)</span>
+    </div>
+
+    <div class="interaction-box">
+      <div class="drug-select-group">
+        <p style="font-size: 14px; font-weight: 800; color: #0b1c30;">اختر دواءين لفحصهما لحظياً بالذكاء الاصطناعي:</p>
+        
+        <div class="drug-pill-select selected" onclick="toggleDrugSelect(this, 'Panadol', 'أمان 100% - لا يوجد تعارض', 5, '#10b981')">
+          <span>1. Panadol Extra 500mg</span>
+          <span class="material-symbols-outlined" style="color: #10b981;">check_circle</span>
+        </div>
+
+        <div class="drug-pill-select" onclick="toggleDrugSelect(this, 'Brufen', 'تحذير: تجنب الجمع بين مسكنين مضادين للالتهاب لتفادي تهيج المعدة', 75, '#ef4444')">
+          <span>2. Brufen 400mg</span>
+          <span class="material-symbols-outlined text-slate-400">radio_button_unchecked</span>
+        </div>
+
+        <div class="drug-pill-select" onclick="toggleDrugSelect(this, 'Concor', 'آمن مع مراعاة فاصل زمني ساعة بين الجرعات', 25, '#10b981')">
+          <span>3. Concor 5mg</span>
+          <span class="material-symbols-outlined text-slate-400">radio_button_unchecked</span>
+        </div>
+      </div>
+
+      <div class="ai-result-panel">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <span style="font-size: 13px; font-weight: 800; color: #a5b4fc;">🤖 تقرير الذكاء الاصطناعي الطبي</span>
+          <span id="riskBadge" style="background: rgba(16, 185, 129, 0.2); color: #34d399; font-size: 11px; font-weight: 800; padding: 4px 10px; border-radius: 9999px;">
+            آمن للاستخدام
+          </span>
+        </div>
+
+        <div class="risk-meter">
+          <span style="font-size: 12px; color: #94a3b8;">مستوى الخطورة:</span>
+          <div class="risk-bar">
+            <div class="risk-fill" id="riskFill" style="width: 10%;"></div>
+          </div>
+          <span id="riskPercent" style="font-size: 13px; font-weight: 900;">10%</span>
+        </div>
+
+        <p id="riskText" style="font-size: 13.5px; line-height: 1.6; color: #e2e8f0; margin-top: 6px;">
+          التركيبة المختارة متوافقة سريرياً ولا توجد تعارضات مسجلة في قاعدة البيانات الدوائية.
+        </p>
+      </div>
+    </div>
+
+    <!-- 5. Laser Prescription Scanner -->
+    <div class="section-title">
+      <span class="num">5</span>
+      <span>ميزة مبتكرة: ماسح الروشتة الذكي بالليزر (Laser Prescription Scanner)</span>
+    </div>
+
+    <div class="scanner-box" id="scannerBox" onclick="triggerLaserScan()">
+      <div class="scanner-laser"></div>
+      <div style="font-size: 48px; margin-bottom: 12px;">📄</div>
+      <h3 style="font-size: 18px; font-weight: 800; color: #0b1c30; margin-bottom: 6px;">
+        انقر لتجربة فحص ومسح الروشتة بالليزر
+      </h3>
+      <p style="font-size: 13.5px; color: #64748b;" id="scannerStatus">
+        اضغط في أي مكان لبدء محاكاة المسح الضوئي واستخراج أسماء الأدوية تلقائياً
+      </p>
+    </div>
+
+    <div class="footer-note">
+      💡 <strong>تأكيد:</strong> هذه الصفحة ملف تجريبي مستقل تم برمجته بألوان وتصميم مشروعك الرسمي لمعاينة أي أفكار تفضلها قبل اعتمادها.
+    </div>
+
+  </div>
+
+  <!-- Interactive Scripts -->
+  <script>
+    /* ── 1. Light Neural Network Physics ── */
+    const canvas = document.getElementById('neural-canvas');
+    const ctx = canvas.getContext('2d');
+
+    let width, height;
+    let particles = [];
+    const mouse = { x: null, y: null, radius: 140 };
+
+    function resize() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    window.addEventListener('mousemove', (e) => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+    });
+
+    window.addEventListener('mouseleave', () => {
+      mouse.x = null;
+      mouse.y = null;
+    });
+
+    class Particle {
+      constructor() {
+        this.x = Math.random() * width;
+        this.y = Math.random() * height;
+        this.size = Math.random() * 2.2 + 1;
+        this.density = (Math.random() * 25) + 1;
+        this.vx = (Math.random() - 0.5) * 0.6;
+        this.vy = (Math.random() - 0.5) * 0.6;
+        this.color = Math.random() > 0.35 ? 'rgba(79, 70, 229, ' : 'rgba(16, 185, 129, ';
+      }
+
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = this.color + '0.45)';
+        ctx.fill();
+      }
+
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+
+        if (this.x < 0 || this.x > width) this.vx = -this.vx;
+        if (this.y < 0 || this.y > height) this.vy = -this.vy;
+
+        if (mouse.x !== null && mouse.y !== null) {
+          let dx = mouse.x - this.x;
+          let dy = mouse.y - this.y;
+          let distance = Math.sqrt(dx * dx + dy * dy);
+          if (distance < mouse.radius) {
+            let forceDirectionX = dx / distance;
+            let forceDirectionY = dy / distance;
+            let maxDistance = mouse.radius;
+            let force = (maxDistance - distance) / maxDistance;
+            let directionX = forceDirectionX * force * this.density * 0.5;
+            let directionY = forceDirectionY * force * this.density * 0.5;
+            this.x -= directionX;
+            this.y -= directionY;
+          }
+        }
+      }
+    }
+
+    function initParticles() {
+      particles = [];
+      const count = Math.floor((width * height) / 14000);
+      for (let i = 0; i < count; i++) {
+        particles.push(new Particle());
+      }
+    }
+    initParticles();
+
+    function connect() {
+      for (let a = 0; a < particles.length; a++) {
+        for (let b = a + 1; b < particles.length; b++) {
+          let dx = particles[a].x - particles[b].x;
+          let dy = particles[a].y - particles[b].y;
+          let distance = Math.sqrt(dx * dx + dy * dy);
+          if (distance < 110) {
+            let opacity = 1 - (distance / 110);
+            ctx.strokeStyle = `rgba(79, 70, 229, ${opacity * 0.12})`;
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(particles[a].x, particles[a].y);
+            ctx.lineTo(particles[b].x, particles[b].y);
+            ctx.stroke();
+          }
+        }
+      }
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, width, height);
+      for (let p of particles) {
+        p.update();
+        p.draw();
+      }
+      connect();
+      requestAnimationFrame(animate);
+    }
+    animate();
+
+    /* ── 2. Sliding Pill Categories Logic ── */
+    const pill = document.getElementById('slidingPill');
+    const container = document.getElementById('categoriesBar');
+
+    function updatePillPosition(btn) {
+      if (!btn || !pill || !container) return;
+      const btnRect = btn.getBoundingClientRect();
+      const contRect = container.getBoundingClientRect();
+      pill.style.width = `${btn.offsetWidth}px`;
+      pill.style.left = `${btnRect.left - contRect.left}px`;
+    }
+
+    window.addEventListener('load', () => {
+      const activeBtn = document.querySelector('.category-btn.active');
+      setTimeout(() => updatePillPosition(activeBtn), 80);
+    });
+
+    function selectCategory(btn) {
+      document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      updatePillPosition(btn);
+    }
+
+    /* ── 3. 3D Tilt Card Effect ── */
+    function handleCardTilt(e, card) {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      const rotateX = ((y - centerY) / centerY) * -8;
+      const rotateY = ((x - centerX) / centerX) * 8;
+      card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+    }
+
+    function resetCardTilt(card) {
+      card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+    }
+
+    /* ── 4. Flying Pill to Cart Animation ── */
+    let cartCount = 0;
+    function flyToCart(e, btn) {
+      e.stopPropagation();
+      const cart = document.getElementById('cartTarget');
+      const badge = document.getElementById('cartBadge');
+      if (!cart || !badge) return;
+
+      const btnRect = btn.getBoundingClientRect();
+      const cartRect = cart.getBoundingClientRect();
+
+      const pillElem = document.createElement('div');
+      pillElem.className = 'flying-pill-anim';
+      pillElem.textContent = '💊';
+      pillElem.style.left = `${btnRect.left + btnRect.width / 2}px`;
+      pillElem.style.top = `${btnRect.top}px`;
+      document.body.appendChild(pillElem);
+
+      requestAnimationFrame(() => {
+        pillElem.style.left = `${cartRect.left + cartRect.width / 2 - 14}px`;
+        pillElem.style.top = `${cartRect.top + cartRect.height / 2 - 14}px`;
+        pillElem.style.transform = 'scale(0.3) rotate(360deg)';
+        pillElem.style.opacity = '0.5';
+      });
+
+      setTimeout(() => {
+        pillElem.remove();
+        cartCount++;
+        badge.textContent = cartCount;
+        badge.classList.add('pop');
+        cart.style.transform = 'scale(1.2)';
+        setTimeout(() => {
+          badge.classList.remove('pop');
+          cart.style.transform = 'scale(1)';
+        }, 250);
+      }, 750);
+    }
+
+    /* ── 5. AI Interaction Checker Logic ── */
+    function toggleDrugSelect(elem, name, info, risk, color) {
+      document.querySelectorAll('.drug-pill-select').forEach(el => {
+        el.classList.remove('selected');
+        el.querySelector('.material-symbols-outlined').textContent = 'radio_button_unchecked';
+        el.querySelector('.material-symbols-outlined').style.color = '#94a3b8';
+      });
+
+      elem.classList.add('selected');
+      elem.querySelector('.material-symbols-outlined').textContent = 'check_circle';
+      elem.querySelector('.material-symbols-outlined').style.color = color;
+
+      const fill = document.getElementById('riskFill');
+      const percent = document.getElementById('riskPercent');
+      const text = document.getElementById('riskText');
+      const badge = document.getElementById('riskBadge');
+
+      fill.style.width = `${risk}%`;
+      percent.textContent = `${risk}%`;
+      text.textContent = info;
+
+      if (risk > 50) {
+        badge.style.background = 'rgba(239, 68, 68, 0.2)';
+        badge.style.color = '#f87171';
+        badge.textContent = 'تحذير تعارض دوائي';
+      } else {
+        badge.style.background = 'rgba(16, 185, 129, 0.2)';
+        badge.style.color = '#34d399';
+        badge.textContent = 'آمن للاستخدام';
+      }
+    }
+
+    /* ── 6. Laser Prescription Scanner Logic ── */
+    let isScanning = false;
+    function triggerLaserScan() {
+      if (isScanning) return;
+      isScanning = true;
+      const box = document.getElementById('scannerBox');
+      const status = document.getElementById('scannerStatus');
+      box.classList.add('scanning');
+      status.textContent = '⚡ جاري مسح الروشتة وقراءة خط الطبيب بالذكاء الاصطناعي...';
+      status.style.color = '#4f46e5';
+
+      setTimeout(() => {
+        box.classList.remove('scanning');
+        status.textContent = '✅ تم التعرف على: (Panadol Extra + Amaryl 2mg) وتمت إضافتهما لقائمتك بنجاح!';
+        status.style.color = '#10b981';
+        isScanning = false;
+      }, 3000);
+    }
+  </script>
+</body>
+</html>

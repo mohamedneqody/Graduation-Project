@@ -1,0 +1,115 @@
+name,category,is_chronic,base_price,default_cycle_days,image_url
+sinopril 5mg 30 tab,مزمن - ضغط,TRUE,30.00,30,https://quhfheudhewxqmvxwjij.supabase.co/storage/v1/object/public/drug-images/sinopril-5mg-30-tab.webp
+protectopril plus 4/1.25 mg 30 tabs,مزمن - ضغط,TRUE,48.00,30,https://quhfheudhewxqmvxwjij.supabase.co/storage/v1/object/public/drug-images/protectopril-plus-4-1-25-mg-30-tabs.webp
+protectopril 8 mg 30 tabs,مزمن - ضغط,TRUE,84.00,30,https://quhfheudhewxqmvxwjij.supabase.co/storage/v1/object/public/drug-images/protectopril-8-mg-30-tabs.webp
+timbestatin 10/20 mg 14 f.c.tab,مزمن - كوليسترول,TRUE,126.00,30,https://quhfheudhewxqmvxwjij.supabase.co/storage/v1/object/public/drug-images/timbestatin-10-20-mg-14-f-c-tab.webp
+vanvilda plus 50/850 mg 30 tabs,مزمن - سكر,TRUE,105.00,30,https://quhfheudhewxqmvxwjij.supabase.co/storage/v1/object/public/drug-images/vanvilda-plus-50-850-mg-30-tabs.jpg
+vanvilda plus 50/500 mg 30 tabs,مزمن - سكر,TRUE,102.00,30,https://quhfheudhewxqmvxwjij.supabase.co/storage/v1/object/public/drug-images/vanvilda-plus-50-500-mg-30-tabs.webp
+vanvilda plus 50/1000 mg 30 tabs,مزمن - سكر,TRUE,108.00,30,https://quhfheudhewxqmvxwjij.supabase.co/storage/v1/object/public/drug-images/vanvilda-plus-50-1000-mg-30-tabs.webp
+vanvilda 50 mg 30 tabs,مزمن - سكر,TRUE,88.50,30,https://quhfheudhewxqmvxwjij.supabase.co/storage/v1/object/public/drug-images/vanvilda-50-mg-30-tabs.webp
+toujeo solostar 300 i.u./ml 1.5 ml 5 pens,مزمن - سكر,TRUE,1320.00,30,https://quhfheudhewxqmvxwjij.supabase.co/storage/v1/object/public/drug-images/toujeo-solostar-300-i-u-ml-1-5-ml-5-pens.webp
+zemylaise 200 ceip unit/ml syrup 120 ml,مسكنات,FALSE,60.00,10,https://quhfheudhewxqmvxwjij.supabase.co/storage/v1/object/public/drug-images/zemylaise-200-ceip-unit-ml-syrup-120-ml.webp
+trypsoxir 10 chew tabs,مسكنات,FALSE,99.00,10,https://quhfheudhewxqmvxwjij.supabase.co/storage/v1/object/public/drug-images/trypsoxir-10-chew-tabs.png
+tiapair 20 tabs,مسكنات,FALSE,116.00,10,https://quhfheudhewxqmvxwjij.supabase.co/storage/v1/object/public/drug-images/tiapair-20-tabs.webp
+tetracongyra eye drops 10 ml,مسكنات,FALSE,36.00,10,https://quhfheudhewxqmvxwjij.supabase.co/storage/v1/object/public/drug-images/tetracongyra-eye-drops-10-ml.webp
+targozym 20 tabs,مسكنات,FALSE,99.90,10,https://quhfheudhewxqmvxwjij.supabase.co/storage/v1/object/public/drug-images/targozym-20-tabs.webp
+stopadol night 30 f.c.tabs,مسكنات,FALSE,51.00,10,https://quhfheudhewxqmvxwjij.supabase.co/storage/v1/object/public/drug-images/stopadol-night-30-f-c-tabs.webp
+stopadol night 20 f.c.tabs,مسكنات,FALSE,52.00,10,https://quhfheudhewxqmvxwjij.supabase.co/storage/v1/object/public/drug-images/stopadol-night-20-f-c-tabs.webp
+stopadol forte 1000 mg 10 eff. sachets,مسكنات,FALSE,40.00,10,https://quhfheudhewxqmvxwjij.supabase.co/storage/v1/object/public/drug-images/stopadol-forte-1000-mg-10-eff-sachets.webp
+stopadol 650 mg 30 ext. rel. tabs,مسكنات,FALSE,51.00,10,https://quhfheudhewxqmvxwjij.supabase.co/storage/v1/object/public/drug-images/stopadol-650-mg-30-ext-rel-tabs.webp
+romage cream,مسكنات,FALSE,55.00,10,
+roflex massage gel 50gm,مسكنات,FALSE,50.00,10,https://quhfheudhewxqmvxwjij.supabase.co/storage/v1/object/public/drug-images/roflex-massage-gel-50gm.webp
+rhumaquick 50 mg 20 disp. tabs,مسكنات,FALSE,21.00,10,https://quhfheudhewxqmvxwjij.supabase.co/storage/v1/object/public/drug-images/rhumaquick-50-mg-20-disp-tabs.webp
+zathrotrue 500 mg 6 f.c. tabs,مضاد حيوي,FALSE,65.00,7,https://quhfheudhewxqmvxwjij.supabase.co/storage/v1/object/public/drug-images/zathrotrue-500-mg-6-f-c-tabs.webp
+xithrobiotic ophthalmic sol. 2.5 ml,مضاد حيوي,FALSE,18.00,7,
+wideprex 400 mg 5 caps,مضاد حيوي,FALSE,46.25,7,https://quhfheudhewxqmvxwjij.supabase.co/storage/v1/object/public/drug-images/wideprex-400-mg-5-caps.webp
+wideprex 100mg/5ml susp. 60ml,مضاد حيوي,FALSE,58.00,7,https://quhfheudhewxqmvxwjij.supabase.co/storage/v1/object/public/drug-images/wideprex-100mg-5ml-susp-60ml.webp
+volitracin 500 mg 7 f.c. tabs,مضاد حيوي,FALSE,68.25,7,https://quhfheudhewxqmvxwjij.supabase.co/storage/v1/object/public/drug-images/volitracin-500-mg-7-f-c-tabs.webp
+vancolon 1000mg i.v. vial,مضاد حيوي,FALSE,94.00,7,https://quhfheudhewxqmvxwjij.supabase.co/storage/v1/object/public/drug-images/vancolon-1000mg-i-v-vial.webp
+vancobact 1 gm vial for i.v. inf,مضاد حيوي,FALSE,60.50,7,https://quhfheudhewxqmvxwjij.supabase.co/storage/v1/object/public/drug-images/vancobact-1-gm-vial-for-i-v-inf.webp
+tinifloxacin 20 tab,مضاد حيوي,FALSE,103.50,7,https://quhfheudhewxqmvxwjij.supabase.co/storage/v1/object/public/drug-images/tinifloxacin-20-tab.webp
+tavixinor 750 mg 5 f.c. tabs,مضاد حيوي,FALSE,86.00,7,https://quhfheudhewxqmvxwjij.supabase.co/storage/v1/object/public/drug-images/tavixinor-750-mg-5-f-c-tabs.webp
+tavixinor 500 mg 5 f.c. tabs,مضاد حيوي,FALSE,64.50,7,https://quhfheudhewxqmvxwjij.supabase.co/storage/v1/object/public/drug-images/tavixinor-500-mg-5-f-c-tabs.webp
+sunnymerop 1 gm i.v. vial,مضاد حيوي,FALSE,140.00,7,https://quhfheudhewxqmvxwjij.supabase.co/storage/v1/object/public/drug-images/sunnymerop-1-gm-i-v-vial.webp
+septazole forte 800/160mg 10 tabs,مضاد حيوي,FALSE,9.00,7,https://quhfheudhewxqmvxwjij.supabase.co/storage/v1/object/public/drug-images/septazole-forte-800-160mg-10-tabs.webp
+vondalous 10 mg 20 f.c. tabs,جهاز هضمي,FALSE,64.00,15,https://quhfheudhewxqmvxwjij.supabase.co/storage/v1/object/public/drug-images/vondalous-10-mg-20-f-c-tabs.webp
+ursodol 250 mg 10 caps,جهاز هضمي,FALSE,11.00,15,
+thimepro d3 30 ml drops,جهاز هضمي,FALSE,56.00,15,https://quhfheudhewxqmvxwjij.supabase.co/storage/v1/object/public/drug-images/thimepro-d3-30-ml-drops.webp
+sona drink 10 sachets,جهاز هضمي,FALSE,22.00,15,https://quhfheudhewxqmvxwjij.supabase.co/storage/v1/object/public/drug-images/sona-drink-10-sachets.webp
+sekem laxi herbs 15 filter bags,جهاز هضمي,FALSE,25.00,15,https://quhfheudhewxqmvxwjij.supabase.co/storage/v1/object/public/drug-images/sekem-laxi-herbs-15-filter-bags.webp
+santabiota oral drops 15 ml,جهاز هضمي,FALSE,65.00,15,https://quhfheudhewxqmvxwjij.supabase.co/storage/v1/object/public/drug-images/santabiota-oral-drops-15-ml.webp
+royal ginger 12 filter bags,جهاز هضمي,FALSE,12.00,15,https://quhfheudhewxqmvxwjij.supabase.co/storage/v1/object/public/drug-images/royal-ginger-12-filter-bags.webp
+rennie 24 chew. tab,جهاز هضمي,FALSE,36.00,15,https://quhfheudhewxqmvxwjij.supabase.co/storage/v1/object/public/drug-images/rennie-24-chew-tab.webp
+racecasec 100 mg 10 caps,جهاز هضمي,FALSE,27.00,15,https://quhfheudhewxqmvxwjij.supabase.co/storage/v1/object/public/drug-images/racecasec-100-mg-10-caps.webp
+potenzym 20 tablets,جهاز هضمي,FALSE,99.90,15,https://quhfheudhewxqmvxwjij.supabase.co/storage/v1/object/public/drug-images/potenzym-20-tablets.webp
+pantomedra 40 mg 28 e.c. tabs,جهاز هضمي,FALSE,145.00,15,https://quhfheudhewxqmvxwjij.supabase.co/storage/v1/object/public/drug-images/pantomedra-40-mg-28-e-c-tabs.webp
+pangestazol 40mg 28 tabs,جهاز هضمي,FALSE,102.00,15,https://quhfheudhewxqmvxwjij.supabase.co/storage/v1/object/public/drug-images/pangestazol-40mg-28-tabs.webp
+zma 90 veg. caps. (now),فيتامينات,FALSE,1800.00,30,https://quhfheudhewxqmvxwjij.supabase.co/storage/v1/object/public/drug-images/zma-90-veg-caps-now.webp
+zinobacilly oral drops 10 ml,فيتامينات,FALSE,125.00,30,https://quhfheudhewxqmvxwjij.supabase.co/storage/v1/object/public/drug-images/zinobacilly-oral-drops-10-ml.webp
+zinc acid 20 tabs,فيتامينات,FALSE,45.00,30,
+zamcillus probiotic drops 10 ml,فيتامينات,FALSE,65.00,30,https://quhfheudhewxqmvxwjij.supabase.co/storage/v1/object/public/drug-images/zamcillus-probiotic-drops-10-ml.webp
+zakio 120 ml syrup,فيتامينات,FALSE,35.00,30,
+ximalact 250 mg 30 caps,فيتامينات,FALSE,750.00,30,https://quhfheudhewxqmvxwjij.supabase.co/storage/v1/object/public/drug-images/ximalact-250-mg-30-caps.webp
+whey protein powder 900 gm 30 serve,فيتامينات,FALSE,765.00,30,https://quhfheudhewxqmvxwjij.supabase.co/storage/v1/object/public/drug-images/whey-protein-powder-900-gm-30-serve.webp
+whey protein powder 420 gm 14 serve,فيتامينات,FALSE,345.00,30,
+whey protein powder 2100 gm 70 serve,فيتامينات,FALSE,1100.00,30,https://quhfheudhewxqmvxwjij.supabase.co/storage/v1/object/public/drug-images/whey-protein-powder-2100-gm-70-serve.webp
+whey protein isolate powder vanilla 816 gm (1.8 lbs) (now),فيتامينات,FALSE,1700.00,30,https://quhfheudhewxqmvxwjij.supabase.co/storage/v1/object/public/drug-images/whey-protein-isolate-powder-vanilla-816-gm-1-8-lbs-now.webp
+whey protein isolate powder chocolate 816 gm (1.8 lbs) (now),فيتامينات,FALSE,1700.00,30,https://quhfheudhewxqmvxwjij.supabase.co/storage/v1/object/public/drug-images/whey-protein-isolate-powder-chocolate-816-gm-1-8-lbs-now.webp
+whey protein isolate powder 544 gm (1.2 lbs) (now),فيتامينات,FALSE,1000.00,30,https://quhfheudhewxqmvxwjij.supabase.co/storage/v1/object/public/drug-images/whey-protein-isolate-powder-544-gm-1-2-lbs-now.webp
+centravita solvo plus 20 tablets,نزلات برد,FALSE,86.00,10,
+valulit syrup 120ml,نزلات برد,FALSE,59.00,10,https://quhfheudhewxqmvxwjij.supabase.co/storage/v1/object/public/drug-images/valulit-syrup-120ml.webp
+tussin syrup 100 ml,نزلات برد,FALSE,9.50,10,https://quhfheudhewxqmvxwjij.supabase.co/storage/v1/object/public/drug-images/tussin-syrup-100-ml.webp
+topaken syrup 100 ml,نزلات برد,FALSE,85.00,10,https://quhfheudhewxqmvxwjij.supabase.co/storage/v1/object/public/drug-images/topaken-syrup-100-ml.webp
+stopadol cold & flu 20 caps,نزلات برد,FALSE,33.00,10,https://quhfheudhewxqmvxwjij.supabase.co/storage/v1/object/public/drug-images/stopadol-cold-flu-20-caps.webp
+respovan 120 ml syrup,نزلات برد,FALSE,60.00,10,https://quhfheudhewxqmvxwjij.supabase.co/storage/v1/object/public/drug-images/respovan-120-ml-syrup.webp
+mave tec syrup 120 ml,نزلات برد,FALSE,37.00,10,
+linkocetamol 10 sachets pwd. for oral susp,نزلات برد,FALSE,25.00,10,
+krota 120ml syrup,نزلات برد,FALSE,40.00,10,
+ivyroegy syrup 120ml,نزلات برد,FALSE,59.00,10,
+ivymune syrup 120 ml,نزلات برد,FALSE,59.00,10,
+histonic syrup 120 ml,نزلات برد,FALSE,39.00,10,https://quhfheudhewxqmvxwjij.supabase.co/storage/v1/object/public/drug-images/histonic-syrup-120-ml.webp
+ramatrizine 5 mg 30 f.c.tabs,حساسية,FALSE,63.00,20,
+hisatrup 1mg/ml syrup 120 ml,حساسية,FALSE,28.00,20,https://quhfheudhewxqmvxwjij.supabase.co/storage/v1/object/public/drug-images/hisatrup-1mg-ml-syrup-120-ml.webp
+elballerge 30mg/5ml susp. 100 ml,حساسية,FALSE,22.00,20,https://quhfheudhewxqmvxwjij.supabase.co/storage/v1/object/public/drug-images/elballerge-30mg-5ml-susp-100-ml.webp
+badotirizin 5mg/5ml syrup 125ml,حساسية,FALSE,17.50,20,https://quhfheudhewxqmvxwjij.supabase.co/storage/v1/object/public/drug-images/badotirizin-5mg-5ml-syrup-125ml.webp
+astin 20 mg 20 f.c.tabs,حساسية,FALSE,28.80,20,https://quhfheudhewxqmvxwjij.supabase.co/storage/v1/object/public/drug-images/astin-20-mg-20-f-c-tabs.webp
+astin 10 mg 20 f.c. tabs,حساسية,FALSE,28.80,20,https://quhfheudhewxqmvxwjij.supabase.co/storage/v1/object/public/drug-images/astin-10-mg-20-f-c-tabs.webp
+allergyl 4 mg 20 tabs,حساسية,FALSE,6.00,20,https://quhfheudhewxqmvxwjij.supabase.co/storage/v1/object/public/drug-images/allergyl-4-mg-20-tabs.webp
+caftohist 0.25% eye drops 3 ml,حساسية,FALSE,50.00,20,https://quhfheudhewxqmvxwjij.supabase.co/storage/v1/object/public/drug-images/caftohist-0-25-eye-drops-3-ml.webp
+alerid 10 mg 30 f.c.tabs,حساسية,FALSE,63.00,20,https://quhfheudhewxqmvxwjij.supabase.co/storage/v1/object/public/drug-images/alerid-10-mg-30-f-c-tabs.webp
+rhipgic 5 mg 30 f.c. tabs,حساسية,FALSE,19.50,20,https://quhfheudhewxqmvxwjij.supabase.co/storage/v1/object/public/drug-images/rhipgic-5-mg-30-f-c-tabs.webp
+telfast decongestant 60/120mg 10 ext. rel. tabs,حساسية,FALSE,40.00,20,
+skivalorine 2.5mg/5ml syrup 150ml,حساسية,FALSE,13.50,20,
+thyroxine 50mcg 100 tab,مزمن - غدة درقية,TRUE,46.00,30,
+thyroxine 100mcg 100 tab,مزمن - غدة درقية,TRUE,58.00,30,
+eltroxin 50mcg 100 tabs,مزمن - غدة درقية,TRUE,78.00,30,
+eltroxin 100 mcg 100 tabs,مزمن - غدة درقية,TRUE,115.00,30,
+Concor 5mg,مزمن - ضغط,true,85,30,
+Amlopres 5mg,مزمن - ضغط,true,45,30,
+Diovan 80mg,مزمن - ضغط,true,150,30,
+Norvasc 5mg,مزمن - ضغط,true,60,30,
+Capoten 25mg,مزمن - ضغط,true,35,30,
+Glucophage 500mg,مزمن - سكر,true,40,30,
+Glucomin 500mg,مزمن - سكر,true,35,30,
+Galvus Met 50/1000mg,مزمن - سكر,true,220,30,
+Amaryl 2mg,مزمن - سكر,true,90,30,
+Diamicron MR 60mg,مزمن - سكر,true,110,30,
+Lipitor 20mg,مزمن - كوليسترول,true,130,30,
+Crestor 10mg,مزمن - كوليسترول,true,160,30,
+Panadol Extra,مسكنات,false,20,10,
+Bi Alcofan,مسكنات,false,30,10,
+Cataflam 50mg,مسكنات,false,25,10,
+Brufen 400mg,مسكنات,false,22,10,
+Amoclan 1g,مضاد حيوي,false,65,7,
+Augmentin 1g,مضاد حيوي,false,90,7,
+Zinnat 500mg,مضاد حيوي,false,110,7,
+Rani 150mg,جهاز هضمي,false,15,15,
+Motilium 10mg,جهاز هضمي,false,30,15,
+Nexium 40mg,جهاز هضمي,false,95,20,
+Cal-D-Vita,فيتامينات,false,65,30,
+Bio Vit-C 1000mg,فيتامينات,false,55,30,
+Feroglobin,فيتامينات,false,120,30,
+Omega Life 3,فيتامينات,false,140,30,
+Coldrex,نزلات برد,false,25,10,
+Comtrex,نزلات برد,false,28,10,
+Zyrtec 10mg,حساسية,false,45,20,

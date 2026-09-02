@@ -1,0 +1,303 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 9 * * *"
+            }
+          ]
+        }
+      },
+      "name": "Schedule Trigger (Every 9 AM)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [
+        5408,
+        1136
+      ],
+      "id": "4ecafaf0-2871-40f6-bb85-76f9c288b99e"
+    },
+    {
+      "parameters": {
+        "url": "http://host.docker.internal:8000/internal/governance/pending",
+        "options": {}
+      },
+      "name": "1. Pull Pending Reminders",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        5616,
+        1136
+      ],
+      "notesInFlow": true,
+      "id": "d086e0aa-16c1-491d-9bdc-b0daea4907e4",
+      "notes": "يجلب كل العملاء اللي محتاجين تذكير من قاعدة البيانات"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.decision }}",
+              "value2": "auto_send"
+            }
+          ]
+        }
+      },
+      "name": "2. Is Auto Send?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        5808,
+        1136
+      ],
+      "notesInFlow": true,
+      "id": "cc7f52f6-30ef-4952-afd1-3835207b6383",
+      "notes": "يفصل بين الثقة العالية (آلي) والمتوسطة (مراجعة بشرية)"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:8000/api/v1/agents/marketing/generate-campaign",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"customer_name\": \"{{ $('1. Pull Pending Reminders').item.json.customer_name }}\",\n  \"drug_name\": \"{{ $('1. Pull Pending Reminders').item.json.drug_name }}\",\n  \"discount_percentage\": 15\n}",
+        "options": {}
+      },
+      "name": "2.5 Marketing Agent",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        6048,
+        896
+      ],
+      "notesInFlow": true,
+      "id": "4f0e3dea-1ba8-44cd-b18d-c644eb4b264e",
+      "notes": "توليد نص تسويقي وكوبون خصم عبر الذكاء الاصطناعي"
+    },
+    {
+      "parameters": {
+        "chatId": "6262223810",
+        "text": "=🏥 <b>صيدلية AI-COS</b>\n\n💙 <b>تذكير بإعادة طلب العلاج</b>\n\nمرحباً أستاذ {{ $('1. Pull Pending Reminders').item.json.customer_name }} 👋\nنتمنى لك دوام الصحة.\n\n💊 <b>العلاج:</b>\n{{ $('1. Pull Pending Reminders').item.json.drug_name }}\n\n🎁 <b>هديتك (خصم 15%):</b>\n<code>{{ $('2.5 Marketing Agent').item.json.coupon_code }}</code>\n\n👇 اضغط الزر بالأسفل لإعادة الطلب.",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML",
+          "replyMarkup": "inlineKeyboard",
+          "inlineKeyboard": {
+            "rows": [
+              {
+                "row": {
+                  "buttons": [
+                    {
+                      "text": "🛒 إعادة الطلب الآن",
+                      "url": "https://dawaagate.com/reorder",
+                      "additionalFields": {}
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      },
+      "name": "3A. Send Telegram",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        6256,
+        896
+      ],
+      "id": "77987daa-a770-43d1-9470-03278f87c8f8",
+      "webhookId": "53e3d94f-c727-4729-bcba-8bb29792b0c5",
+      "credentials": {
+        "telegramApi": {
+          "id": "Z2Ee45Eyn9CFqyvM",
+          "name": "TEST"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "pharmacy@example.com",
+        "toEmail": "=jridjdjdmhmd@gmail.com",
+        "subject": "=هدية وكوبون خصم من صيدلية AI-COS - {{ $('1. Pull Pending Reminders').item.json.drug_name }}",
+        "html": "=<!DOCTYPE html>\n<html lang=\"ar\" dir=\"rtl\" xmlns=\"http://www.w3.org/1999/xhtml\" xmlns:v=\"urn:schemas-microsoft-com:vml\" xmlns:o=\"urn:schemas-microsoft-com:office:office\">\n<head>\n    <meta charset=\"utf-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n    <meta name=\"x-apple-disable-message-reformatting\">\n    <title>تذكير إعادة الطلب</title>\n    <!--[if mso]>\n    <xml>\n        <o:OfficeDocumentSettings>\n            <o:AllowPNG/>\n            <o:PixelsPerInch>96</o:PixelsPerInch>\n        </o:OfficeDocumentSettings>\n    </xml>\n    <style type=\"text/css\">\n        table {border-collapse: collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;}\n        table, td, p, a, h1, h2, h3, span {font-family: Arial, sans-serif !important;}\n    </style>\n    <![endif]-->\n    <style type=\"text/css\">\n        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap');\n        \n        html, body { margin: 0 auto !important; padding: 0 !important; height: 100% !important; width: 100% !important; background-color: #F8FAFC !important; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }\n        * { -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; }\n        table, td { mso-table-lspace: 0pt !important; mso-table-rspace: 0pt !important; border-spacing: 0 !important; border-collapse: collapse !important; }\n        img { -ms-interpolation-mode: bicubic; border: 0; outline: none; text-decoration: none; }\n        a { text-decoration: none; }\n        \n        .font-sans { font-family: 'Tajawal', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }\n        \n        @media screen and (max-width: 600px) {\n            .email-container { width: 100% !important; margin: 0 !important; border-radius: 0 !important; border: none !important; }\n            .content-padding { padding-left: 24px !important; padding-right: 24px !important; }\n            .mobile-full-width { display: block !important; width: 100% !important; }\n        }\n    </style>\n</head>\n<body width=\"100%\" style=\"margin: 0; padding: 0 !important; mso-line-height-rule: exactly; background-color: #F8FAFC;\">\n    <center style=\"width: 100%; background-color: #F8FAFC; text-align: center;\">\n        \n        <div style=\"display: none; font-size: 1px; line-height: 1px; max-height: 0px; max-width: 0px; opacity: 0; overflow: hidden; mso-hide: all; font-family: sans-serif;\">\n            تذكير طبي هام بخصوص استكمال خطتك العلاجية.\n        </div>\n\n        <!--[if mso | IE]>\n        <table role=\"presentation\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" style=\"background-color: #F8FAFC;\">\n        <tr><td align=\"center\" valign=\"top\" style=\"padding-top: 40px; padding-bottom: 40px;\">\n        <table role=\"presentation\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"600\">\n        <tr><td align=\"center\" valign=\"top\">\n        <![endif]-->\n\n        <table role=\"presentation\" class=\"email-container\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"600\" style=\"margin: 40px auto; background-color: #FFFFFF; border-radius: 20px; border: 1px solid #E2E8F0; width: 600px; max-width: 600px; overflow: hidden; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);\" dir=\"rtl\">\n            \n            <!-- Text Logo -->\n            <tr>\n                <td align=\"center\" class=\"content-padding\" style=\"padding: 40px 48px 0 48px;\">\n                    <p class=\"font-sans\" style=\"margin: 0; font-size: 22px; font-weight: 800; color: #0F766E; letter-spacing: -0.5px;\">\n                        🏥 صيدلية AI-COS 🏥\n                    </p>\n                </td>\n            </tr>\n\n            <!-- Hero Section -->\n            <tr>\n                <td align=\"center\" class=\"content-padding\" style=\"padding: 32px 48px 32px 48px;\">\n                    <table role=\"presentation\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"margin-bottom: 20px;\">\n                        <tr>\n                            <td align=\"center\" style=\"background-color: #F0FDF4; border: 1px solid #BBF7D0; border-radius: 100px; padding: 6px 16px;\">\n                                <span class=\"font-sans\" style=\"font-size: 13px; font-weight: 700; color: #16A34A; letter-spacing: 0.5px;\">💚 تذكير بإعادة الطلب</span>\n                            </td>\n                        </tr>\n                    </table>\n                    \n                    <h1 class=\"font-sans\" style=\"margin: 0 0 16px 0; font-size: 32px; font-weight: 800; color: #0F172A; line-height: 1.3; letter-spacing: -0.5px;\">\n                        حان وقت إعادة طلب علاجك\n                    </h1>\n                    \n                    <p class=\"font-sans\" style=\"margin: 0; font-size: 18px; font-weight: 700; color: #334155; line-height: 1.6;\">\n                        مرحباً أستاذ {{ $('1. Pull Pending Reminders').item.json.customer_name }} 👋<br>\n                        <span style=\"font-weight: 500; color: #64748B;\">نتمنى لك دوام الصحة.</span>\n                    </p>\n                </td>\n            </tr>\n\n            <!-- Message Text -->\n            <tr>\n                <td align=\"center\" class=\"content-padding\" style=\"padding: 0 48px 32px 48px;\">\n                    <p class=\"font-sans\" style=\"margin: 0; font-size: 16px; color: #475569; line-height: 1.7; font-weight: 500;\">\n                        {{ $('2.5 Marketing Agent').item.json.message_text }}\n                    </p>\n                </td>\n            </tr>\n\n            <!-- Medicine Card -->\n            <tr>\n                <td align=\"center\" class=\"content-padding\" style=\"padding: 0 48px 32px 48px;\">\n                    <table role=\"presentation\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" style=\"background-color: #F8FAFC; border-radius: 16px; border: 1px solid #E2E8F0;\">\n                        <tr>\n                            <td align=\"center\" style=\"padding: 24px;\">\n                                <p class=\"font-sans\" style=\"margin: 0 0 8px 0; font-size: 14px; font-weight: 700; color: #64748B;\">💊 الدواء الذي اقترب موعد إعادة طلبه</p>\n                                <p class=\"font-sans\" style=\"margin: 0; font-size: 22px; font-weight: 800; color: #0F766E;\">\n                                    {{ $('1. Pull Pending Reminders').item.json.drug_name }}\n                                </p>\n                            </td>\n                        </tr>\n                    </table>\n                </td>\n            </tr>\n\n            <!-- Premium Gift Voucher Card -->\n            <tr>\n                <td align=\"center\" class=\"content-padding\" style=\"padding: 0 48px 40px 48px;\">\n                    <table role=\"presentation\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" style=\"background-color: #FFF8E8; border-radius: 16px; border: 1px solid #F4C95D; box-shadow: 0 6px 16px rgba(217, 119, 6, 0.08);\">\n                        <tr>\n                            <td align=\"center\" style=\"padding: 32px 24px;\">\n                                <p class=\"font-sans\" style=\"margin: 0 0 24px 0; font-size: 16px; font-weight: 800; color: #1F2937; letter-spacing: 0.5px;\">🎁 هدية تقديراً لالتزامك بالعلاج</p>\n                                \n                                <table role=\"presentation\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">\n                                    <tr>\n                                        <td align=\"center\" style=\"background-color: #FFFFFF; border-radius: 12px; border: 2px dashed #D97706; padding: 18px 48px; box-shadow: 0 4px 6px rgba(0,0,0,0.02);\">\n                                            <span style=\"font-family: 'Courier New', Courier, monospace; font-size: 42px; font-weight: 900; color: #1F2937; letter-spacing: 4px; line-height: 1;\">\n                                                {{ $('2.5 Marketing Agent').item.json.coupon_code }}\n                                            </span>\n                                        </td>\n                                    </tr>\n                                </table>\n                                \n                                <p class=\"font-sans\" style=\"margin: 24px 0 8px 0; font-size: 17px; color: #D97706; font-weight: 800;\">خصم 15% على إعادة طلب علاجك</p>\n                                <p class=\"font-sans\" style=\"margin: 0; font-size: 13px; color: #4B5563; font-weight: 600;\">📋 استخدم هذا الكود أثناء إتمام الطلب.</p>\n                            </td>\n                        </tr>\n                    </table>\n                </td>\n            </tr>\n\n            <!-- CTA Section -->\n            <tr>\n                <td align=\"center\" class=\"content-padding\" style=\"padding: 0 48px 16px 48px;\">\n                    <!--[if mso]>\n                    <v:roundrect xmlns:v=\"urn:schemas-microsoft-com:vml\" xmlns:w=\"urn:schemas-microsoft-com:office:word\" href=\"https://dawaagate.com/reorder\" style=\"height:60px;v-text-anchor:middle;width:300px;\" arcsize=\"14%\" stroke=\"f\" fillcolor=\"#16A34A\">\n                        <w:anchorlock/>\n                        <center style=\"color:#ffffff;font-family:Arial,sans-serif;font-size:18px;font-weight:bold;\">استكمال إعادة الطلب</center>\n                    </v:roundrect>\n                    <![endif]-->\n                    <!--[if !mso]><!-->\n                    <table role=\"presentation\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">\n                        <tr>\n                            <td align=\"center\" style=\"background-color: #16A34A; border-radius: 12px; box-shadow: 0 4px 12px rgba(22, 163, 74, 0.25);\">\n                                <a href=\"https://dawaagate.com/reorder\" target=\"_blank\" class=\"font-sans\" style=\"display: inline-block; padding: 18px 48px; font-size: 18px; font-weight: 800; color: #FFFFFF; text-decoration: none; border-radius: 12px;\">استكمال إعادة الطلب</a>\n                            </td>\n                        </tr>\n                    </table>\n                    <!--<![endif]-->\n                </td>\n            </tr>\n\n            <!-- Microcopy -->\n            <tr>\n                <td align=\"center\" class=\"content-padding\" style=\"padding: 0 48px 32px 48px;\">\n                    <p class=\"font-sans\" style=\"margin: 0; font-size: 13px; color: #94A3B8; font-weight: 500;\">\n                        لن تستغرق إعادة الطلب أكثر من دقيقة.\n                    </p>\n                </td>\n            </tr>\n\n            <!-- Trust Indicators -->\n            <tr>\n                <td align=\"center\" class=\"content-padding\" style=\"padding: 0 48px 40px 48px;\">\n                    <table role=\"presentation\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" dir=\"rtl\">\n                        <tr>\n                            <td align=\"center\" valign=\"top\" width=\"33%\">\n                                <p style=\"margin: 0; font-size: 18px;\">🚚</p>\n                                <p class=\"font-sans\" style=\"margin: 6px 0 0 0; font-size: 14px; font-weight: 700; color: #334155;\">توصيل سريع</p>\n                            </td>\n                            <td align=\"center\" valign=\"top\" width=\"33%\">\n                                <p style=\"margin: 0; font-size: 18px;\">🔒</p>\n                                <p class=\"font-sans\" style=\"margin: 6px 0 0 0; font-size: 14px; font-weight: 700; color: #334155;\">دفع آمن</p>\n                            </td>\n                            <td align=\"center\" valign=\"top\" width=\"33%\">\n                                <p style=\"margin: 0; font-size: 18px;\">👨⚕️</p>\n                                <p class=\"font-sans\" style=\"margin: 6px 0 0 0; font-size: 14px; font-weight: 700; color: #334155;\">دعم صيدلي</p>\n                            </td>\n                        </tr>\n                    </table>\n                </td>\n            </tr>\n\n            <!-- Minimal Footer -->\n            <tr>\n                <td align=\"center\" class=\"content-padding\" style=\"padding: 32px 48px; background-color: #F8FAFC; border-top: 1px solid #F1F5F9; border-radius: 0 0 20px 20px;\">\n                    <p class=\"font-sans\" style=\"margin: 0; font-size: 13px; color: #64748B; font-weight: 600;\">\n                        شكراً لثقتكم برعايتنا الصحية. نحن هنا دائماً لخدمتكم.\n                    </p>\n                </td>\n            </tr>\n\n        </table>\n\n        <!--[if mso | IE]>\n        </td></tr></table>\n        </td></tr></table>\n        <![endif]-->\n        \n        <br><br>\n    </center>\n</body>\n</html>",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "name": "3B. Send Email",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        6464,
+        896
+      ],
+      "id": "4e358bb8-32d5-41c7-84ed-6292c9577f39",
+      "webhookId": "e984ac13-bf25-4c55-9696-57f9b25617d4",
+      "credentials": {
+        "smtp": {
+          "id": "QLxeFzlaWJAsV8bH",
+          "name": "SMTP account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "PATCH",
+        "url": "=http://host.docker.internal:8000/internal/governance/{{ $('1. Pull Pending Reminders').item.json.reminder_id }}/status",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "status",
+              "value": "sent"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "4A. Mark as Sent in DB",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        6688,
+        896
+      ],
+      "notesInFlow": true,
+      "id": "f5201cbc-7ed0-462d-95de-c97a9461abc4",
+      "notes": "يخبر الباك إند أن الرسالة وصلت بنجاح"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://webhook.site/placeholder-slack",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "text",
+              "value": "=⚠️ تنبيه للمراجعة (Human Review): \nالعميل: {{ $json.customer_name }} \nالدواء: {{ $json.drug_name }} \nنسبة الثقة: {{ $json.cycle_confidence }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "3B. Alert Pharmacy Staff   مشروع تخرج",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        6048,
+        1248
+      ],
+      "notesInFlow": true,
+      "id": "1fc11ae0-dbcf-42e2-bd76-9fbbd3a462a0",
+      "notes": "إرسال إشعار للصيدلي على Slack/Email"
+    },
+    {
+      "parameters": {},
+      "id": "24c3a70a-8f4b-45d7-97fb-aca86b2fd212",
+      "name": "When clicking \"Execute Workflow\"",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        5376,
+        1264
+      ]
+    }
+  ],
+  "connections": {
+    "Schedule Trigger (Every 9 AM)": {
+      "main": [
+        [
+          {
+            "node": "1. Pull Pending Reminders",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "1. Pull Pending Reminders": {
+      "main": [
+        [
+          {
+            "node": "2. Is Auto Send?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "2. Is Auto Send?": {
+      "main": [
+        [
+          {
+            "node": "2.5 Marketing Agent",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "3B. Alert Pharmacy Staff   مشروع تخرج",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "2.5 Marketing Agent": {
+      "main": [
+        [
+          {
+            "node": "3A. Send Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "3A. Send Telegram": {
+      "main": [
+        [
+          {
+            "node": "3B. Send Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "3B. Send Email": {
+      "main": [
+        [
+          {
+            "node": "4A. Mark as Sent in DB",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking \"Execute Workflow\"": {
+      "main": [
+        [
+          {
+            "node": "1. Pull Pending Reminders",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "67759659ff19a6d8d0a373387e2c30c462b5296cebb74994c5d58fe5daad1960"
+  }
+}

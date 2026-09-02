@@ -1,0 +1,9 @@
+FROM hf.co/tiiuae/Falcon-H1-3B-Instruct-GGUF:Q4_K_M
+TEMPLATE """<|system|>
+{{ .System }}<|endoftext|>
+<|user|>
+{{ .Prompt }}<|endoftext|>
+<|assistant|>
+"""
+PARAMETER stop "<|endoftext|>"
+PARAMETER temperature 0

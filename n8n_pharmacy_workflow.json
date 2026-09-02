@@ -1,0 +1,181 @@
+{
+  "name": "Pharmacy AI - Governance Reminders (Telegram + Email)",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 9 * * *"
+            }
+          ]
+        }
+      },
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [ 100, 300 ]
+    },
+    {
+      "parameters": {
+        "url": "http://host.docker.internal:8000/internal/governance/pending",
+        "options": {}
+      },
+      "name": "1. Pull Pending Reminders",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [ 300, 300 ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.decision }}",
+              "value2": "auto_send"
+            }
+          ]
+        }
+      },
+      "name": "2. Is Auto Send?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [ 500, 300 ]
+    },
+    {
+      "parameters": {
+        "chatId": "6262223810",
+        "text": "=مرحباً {{ $('1. Pull Pending Reminders').item.json.customer_name }}، دواء {{ $('1. Pull Pending Reminders').item.json.drug_name }} الخاص بك قارب على الانتهاء. هل ترغب في إعادة طلبه الآن؟",
+        "additionalFields": {}
+      },
+      "name": "3A. Send Telegram",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [ 700, 180 ],
+      "credentials": {
+        "telegramApi": {
+          "id": "Z2Ee45Eyn9CFqyvM",
+          "name": "TEST"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "pharmacy@example.com",
+        "toEmail": "={{ $('1. Pull Pending Reminders').item.json.customer_email }}",
+        "subject": "=تذكير بموعد الدواء - {{ $('1. Pull Pending Reminders').item.json.drug_name }}",
+        "text": "=مرحباً {{ $('1. Pull Pending Reminders').item.json.customer_name }}،\nدواء {{ $('1. Pull Pending Reminders').item.json.drug_name }} الخاص بك قارب على الانتهاء. يرجى زيارة الصيدلية لإعادة الطلب.",
+        "options": {}
+      },
+      "name": "3B. Send Email",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [ 900, 180 ]
+    },
+    {
+      "parameters": {
+        "method": "PATCH",
+        "url": "=http://host.docker.internal:8000/internal/governance/{{ $('1. Pull Pending Reminders').item.json.reminder_id }}/status",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "status",
+              "value": "sent"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "4A. Mark as Sent in DB",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [ 1100, 180 ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://webhook.site/placeholder-slack",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "text",
+              "value": "=⚠️ تنبيه للمراجعة (Human Review): \nالعميل: {{ $('1. Pull Pending Reminders').item.json.customer_name }} \nالدواء: {{ $('1. Pull Pending Reminders').item.json.drug_name }} \nنسبة الثقة: {{ $('1. Pull Pending Reminders').item.json.cycle_confidence }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Alert Pharmacy Staff",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [ 700, 420 ]
+    }
+  ],
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "1. Pull Pending Reminders",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "1. Pull Pending Reminders": {
+      "main": [
+        [
+          {
+            "node": "2. Is Auto Send?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "2. Is Auto Send?": {
+      "main": [
+        [
+          {
+            "node": "3A. Send Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Alert Pharmacy Staff",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "3A. Send Telegram": {
+      "main": [
+        [
+          {
+            "node": "3B. Send Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "3B. Send Email": {
+      "main": [
+        [
+          {
+            "node": "4A. Mark as Sent in DB",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>التجربة 4: مركز عمليات الصيدلية والدرونز — Enterprise Operations</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --emerald: #10b981;
+      --bg: #090d16;
+      --card: rgba(15, 23, 42, 0.85);
+      --border: rgba(99, 102, 241, 0.25);
+      --text: #ffffff;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    .container { max-width: 1200px; margin: 0 auto; }
+
+    .back-hub {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 18px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #818cf8;
+      font-weight: 800;
+      text-decoration: none;
+      font-size: 13px;
+      margin-bottom: 25px;
+    }
+
+    h1 {
+      font-size: 34px;
+      font-weight: 900;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, #ffffff 0%, #10b981 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-align: center;
+    }
+
+    /* Radar Map Stage */
+    .radar-box {
+      background: #020617;
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      height: 380px;
+      position: relative;
+      overflow: hidden;
+      margin: 30px 0;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+    }
+    #radar-canvas { width: 100%; height: 100%; }
+
+    /* Live Counter Blocks */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+    }
+    .stat-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 22px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+    .stat-val {
+      font-size: 32px;
+      font-weight: 900;
+      color: #10b981;
+      margin: 8px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="demo_labs_hub.html" class="back-hub">← العودة لمركز التجارب الرئيسي</a>
+
+    <h1>التجربة 4: مركز العمليات وتتبع توصيل الأدوية اللحظي 🛸</h1>
+    <p style="text-align: center; color: #94a3b8;">رادار تتبع أسطول التوصيل وسرعة الاستجابة لطلبات الصيدليات.</p>
+
+    <!-- Radar Map Canvas -->
+    <div class="radar-box">
+      <canvas id="radar-canvas"></canvas>
+    </div>
+
+    <!-- Live Stats -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <div style="font-size: 13px; color: #94a3b8; font-weight: 700;">الطلبات قيد التوصيل بالدرون</div>
+        <div class="stat-val">18 طرد 🛸</div>
+        <div style="font-size: 12px; color: #34d399;">● متوسط الوصول 14 دقيقة</div>
+      </div>
+
+      <div class="stat-card">
+        <div style="font-size: 13px; color: #94a3b8; font-weight: 700;">الأدوية المفحوصة سريرياً اليوم</div>
+        <div class="stat-val">8,540 دواء</div>
+        <div style="font-size: 12px; color: #818cf8;">● بنسبة دقة 99.98%</div>
+      </div>
+
+      <div class="stat-card">
+        <div style="font-size: 13px; color: #94a3b8; font-weight: 700;">مخزون الصيدليات الآلي</div>
+        <div class="stat-val">114 صنف</div>
+        <div style="font-size: 12px; color: #f59e0b;">● إعادة التعبئة الآلية نشطة</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* Radar Canvas Animation */
+    const rCanvas = document.getElementById('radar-canvas');
+    const rCtx = rCanvas.getContext('2d');
+    let rw, rh;
+    function rResize() {
+      rw = rCanvas.width = rCanvas.parentElement.clientWidth;
+      rh = rCanvas.height = rCanvas.parentElement.clientHeight;
+    }
+    window.addEventListener('resize', rResize);
+    rResize();
+
+    const drones = [
+      { x: 0.3, y: 0.4, vx: 0.001, vy: 0.0015, name: "Drone #101" },
+      { x: 0.6, y: 0.3, vx: -0.0012, vy: 0.0008, name: "Drone #102" },
+      { x: 0.7, y: 0.7, vx: 0.0005, vy: -0.0014, name: "Drone #103" },
+      { x: 0.4, y: 0.8, vx: -0.001, vy: -0.0007, name: "Drone #104" }
+    ];
+
+    let sweepAngle = 0;
+    function drawRadar() {
+      rCtx.clearRect(0, 0, rw, rh);
+      sweepAngle += 0.03;
+
+      // Radar Concentric Circles
+      const cx = rw / 2;
+      const cy = rh / 2;
+      for (let r = 50; r <= 200; r += 50) {
+        rCtx.strokeStyle = "rgba(16, 185, 129, 0.15)";
+        rCtx.lineWidth = 1;
+        rCtx.beginPath();
+        rCtx.arc(cx, cy, r, 0, Math.PI * 2);
+        rCtx.stroke();
+      }
+
+      // Radar Sweep Line
+      rCtx.strokeStyle = "rgba(16, 185, 129, 0.6)";
+      rCtx.lineWidth = 2;
+      rCtx.beginPath();
+      rCtx.moveTo(cx, cy);
+      rCtx.lineTo(cx + Math.cos(sweepAngle) * 200, cy + Math.sin(sweepAngle) * 200);
+      rCtx.stroke();
+
+      // Drones
+      drones.forEach(d => {
+        d.x += d.vx;
+        d.y += d.vy;
+        if (d.x < 0.1 || d.x > 0.9) d.vx = -d.vx;
+        if (d.y < 0.1 || d.y > 0.9) d.vy = -d.vy;
+
+        const dx = d.x * rw;
+        const dy = d.y * rh;
+
+        rCtx.beginPath();
+        rCtx.arc(dx, dy, 6, 0, Math.PI * 2);
+        rCtx.fillStyle = "#10b981";
+        rCtx.shadowColor = "#10b981";
+        rCtx.shadowBlur = 10;
+        rCtx.fill();
+        rCtx.shadowBlur = 0;
+
+        rCtx.fillStyle = "#ffffff";
+        rCtx.font = "bold 11px Cairo";
+        rCtx.fillText(d.name, dx + 10, dy + 4);
+      });
+
+      requestAnimationFrame(drawRadar);
+    }
+    drawRadar();
+  </script>
+</body>
+</html>

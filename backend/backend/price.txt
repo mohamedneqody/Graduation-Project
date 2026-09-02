@@ -1,0 +1,14 @@
+<div class="ph-price">
+ <span class="ph-price-now">
+  228.00
+ </span>
+ <span class="ph-price-cur">
+  جنيه
+ </span>
+ <span class="ph-price-old">
+  153.00
+ </span>
+ <span class="ph-badge-up">
+  +49%
+ </span>
+</div>

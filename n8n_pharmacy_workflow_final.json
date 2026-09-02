@@ -1,0 +1,261 @@
+{
+  "name": "Pharmacy AI - Governance Reminders (Final)",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 9 * * *"
+            }
+          ]
+        }
+      },
+      "name": "Schedule Trigger (Every 9 AM)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [
+        1328,
+        48
+      ],
+      "id": "bba23aca-b3d4-4772-8363-e70ade393d90"
+    },
+    {
+      "parameters": {
+        "url": "http://host.docker.internal:8000/internal/governance/pending",
+        "options": {}
+      },
+      "name": "1. Pull Pending Reminders",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        1536,
+        48
+      ],
+      "notesInFlow": true,
+      "id": "25537709-d246-48a6-9189-53b23c7abaee",
+      "notes": "يجلب كل العملاء اللي محتاجين تذكير من قاعدة البيانات"
+    },
+    {
+      "parameters": {
+        "dataType": "string",
+        "value1": "={{.decision}}",
+        "rules": {
+          "rules": [
+            {
+              "operation": "equal",
+              "value2": "auto_send",
+              "output": 0
+            },
+            {
+              "operation": "equal",
+              "value2": "human_review",
+              "output": 1
+            },
+            {
+              "operation": "equal",
+              "value2": "cold_start",
+              "output": 2
+            }
+          ]
+        }
+      },
+      "name": "2. Is Auto Send?",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [
+        1728,
+        48
+      ],
+      "notesInFlow": true,
+      "id": "c6df7cd4-a3fb-4b83-bcff-2279aab7f7e3",
+      "notes": "يفصل بين الثقة العالية (آلي) والمتوسطة (مراجعة بشرية)"
+    },
+    {
+      "parameters": {
+        "chatId": "6262223810",
+        "text": "=مرحباً {{ $('1. Pull Pending Reminders').item.json.customer_name }}، دواء {{ $('1. Pull Pending Reminders').item.json.drug_name }} الخاص بك قارب على الانتهاء. هل ترغب في إعادة طلبه الآن؟",
+        "additionalFields": {}
+      },
+      "name": "3A. Send Telegram",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1968,
+        -180
+      ],
+      "id": "telegram-node-1234",
+      "credentials": {
+        "telegramApi": {
+          "id": "Z2Ee45Eyn9CFqyvM",
+          "name": "TEST"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "pharmacy@example.com",
+        "toEmail": "={{ $('1. Pull Pending Reminders').item.json.customer_email }}",
+        "subject": "=تذكير بموعد الدواء - {{ $('1. Pull Pending Reminders').item.json.drug_name }}",
+        "text": "=مرحباً {{ $('1. Pull Pending Reminders').item.json.customer_name }}،\n\nنود تذكيرك بأن دواءك ({{ $('1. Pull Pending Reminders').item.json.drug_name }}) قد قارب على الانتهاء.\n\nلضمان عدم انقطاع العلاج، يرجى إعادة الطلب في أقرب وقت.\n\nمع تحيات صيدلية AI-COS",
+        "options": {
+          "appendAttribution": false
+        },
+        "html": "=<html><body dir=\"rtl\" style=\"font-family: Tahoma, Arial, sans-serif; color: #333;\"><div style=\"max-width: 600px; margin: auto; padding: 20px; border: 1px solid #e1e8ed; border-radius: 12px; background-color: #f9fbfd;\"><div style=\"background-color: #2c3e50; padding: 15px; border-radius: 10px 10px 0 0; text-align: center;\"><h2 style=\"color: #ffffff; margin: 0;\">🏥 صيدلية AI-COS</h2></div><div style=\"padding: 20px; background-color: #ffffff; border-radius: 0 0 10px 10px;\"><p style=\"font-size: 18px;\">مرحباً <strong>{{ $('1. Pull Pending Reminders').item.json.customer_name }}</strong>،</p><p style=\"font-size: 16px; line-height: 1.6;\">نود تذكيرك بأن دواءك الموصوف:</p><div style=\"background-color: #e8f4f8; padding: 10px; border-radius: 8px; text-align: center; font-size: 18px; font-weight: bold; color: #2980b9; margin: 15px 0;\">{{ $('1. Pull Pending Reminders').item.json.drug_name }}</div><p style=\"font-size: 16px; line-height: 1.6;\">قد قارب على الانتهاء بناءً على سجلاتنا الذكية. لضمان عدم انقطاع العلاج والمحافظة على صحتك، نرجو منك تأكيد إعادة الطلب.</p><br><div style=\"text-align: center;\"><a href=\"#\" style=\"display: inline-block; background-color: #27ae60; color: #ffffff; text-decoration: none; padding: 12px 25px; border-radius: 6px; font-weight: bold; font-size: 16px;\">🔄 إعادة الطلب الآن</a></div><hr style=\"border: none; border-top: 1px solid #eee; margin: 30px 0 15px 0;\"><p style=\"font-size: 13px; color: #7f8c8d; text-align: center; margin: 0;\">مع تحيات فريق الذكاء الاصطناعي في صيدلية AI-COS<br>نتمنى لك دوام الصحة والعافية 💙</p></div></div></body></html>"
+      },
+      "name": "3B. Send Email",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        2192,
+        -180
+      ],
+      "id": "email-node-5678"
+    },
+    {
+      "parameters": {
+        "method": "PATCH",
+        "url": "=http://host.docker.internal:8000/internal/governance/{{ $('1. Pull Pending Reminders').item.json.reminder_id }}/status",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "status",
+              "value": "sent"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "4A. Mark as Sent in DB",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        2416,
+        -180
+      ],
+      "notesInFlow": true,
+      "id": "c3e1a9ef-711e-4fb9-957d-0a98ef337fd6",
+      "notes": "يخبر الباك إند أن الرسالة وصلت بنجاح"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://webhook.site/placeholder-slack",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "text",
+              "value": "=⚠️ تنبيه للمراجعة (Human Review): \nالعميل: {{ $json.customer_name }} \nالدواء: {{ $json.drug_name }} \nنسبة الثقة: {{ $json.cycle_confidence }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "3B. Alert Pharmacy Staff",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        1968,
+        160
+      ],
+      "notesInFlow": true,
+      "id": "49f03e95-e6f4-43f4-b0de-96fefb328d89",
+      "notes": "إرسال إشعار للصيدلي على Slack/Email"
+    },
+    {
+      "parameters": {},
+      "id": "e326d6c7-afc7-483c-9cf4-03257fbc1c08",
+      "name": "When clicking \"Execute Workflow\"",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        1296,
+        176
+      ]
+    }
+  ],
+  "connections": {
+    "Schedule Trigger (Every 9 AM)": {
+      "main": [
+        [
+          {
+            "node": "1. Pull Pending Reminders",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking \"Execute Workflow\"": {
+      "main": [
+        [
+          {
+            "node": "1. Pull Pending Reminders",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "1. Pull Pending Reminders": {
+      "main": [
+        [
+          {
+            "node": "2. Is Auto Send?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "2. Is Auto Send?": {
+      "main": [
+        [
+          {
+            "node": "3A. Send Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "3B. Alert Pharmacy Staff",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "3A. Send Telegram": {
+      "main": [
+        [
+          {
+            "node": "3B. Send Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "3B. Send Email": {
+      "main": [
+        [
+          {
+            "node": "4A. Mark as Sent in DB",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "67759659ff19a6d8d0a373387e2c30c462b5296cebb74994c5d58fe5daad1960"
+  }
+}

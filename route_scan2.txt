@@ -1,0 +1,17 @@
+/                         -> 200
+/login                    -> 200
+/catalog                  -> 200
+/contact                  -> 200
+/checkout                 -> 200
+/orders                   -> 200
+/profile                  -> 200
+/about                    -> 200
+/admin                    -> 307 -> /login?redirected_from=%2Fadmin
+/admin/analytics          -> 307 -> /login?redirected_from=%2Fadmin%2Fanalytics
+/admin/orders             -> 307 -> /login?redirected_from=%2Fadmin%2Forders
+/admin/customers          -> 307 -> /login?redirected_from=%2Fadmin%2Fcustomers
+/admin/notifications      -> 307 -> /login?redirected_from=%2Fadmin%2Fnotifications
+/admin/settings           -> 307 -> /login?redirected_from=%2Fadmin%2Fsettings
+/admin/ai-review          -> 307 -> /login?redirected_from=%2Fadmin%2Fai-review
+/admin/agentic-ai         -> 307 -> /login?redirected_from=%2Fadmin%2Fagentic-ai
+/admin/catalog            -> 307 -> /login?redirected_from=%2Fadmin%2Fcatalog

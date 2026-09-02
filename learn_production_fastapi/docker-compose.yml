@@ -1,0 +1,41 @@
+version: "3.9"
+
+services:
+  # خدمة واجهة برمجة التطبيقات (FastAPI)
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://postgres:password123@db:5432/fastapidb
+      - REDIS_URL=redis://redis:6379/0
+    depends_on:
+      - db
+      - redis
+    # سيقوم Docker بإعادة تشغيل الخدمة تلقائياً إذا توقفت عن العمل
+    restart: always
+
+  # خدمة قاعدة بيانات PostgreSQL
+  db:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password123
+      - POSTGRES_DB=fastapidb
+    ports:
+      - "5432:5432"
+    # حفظ بيانات قاعدة البيانات محلياً لكي لا تضيع عند إيقاف الـ Docker
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: always
+
+  # خدمة Redis (للتخزين المؤقت أو مهام Celery)
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    restart: always
+
+# تعريف المساحات التخزينية (Volumes)
+volumes:
+  postgres_data:

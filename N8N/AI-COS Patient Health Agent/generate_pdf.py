@@ -1,0 +1,407 @@
+"""
+Generate High-Quality PDF for AI-COS Patient Health Agent Guide
+Uses Microsoft Edge Headless to render styled HTML to PDF with Arabic typography.
+"""
+import subprocess
+import os
+from pathlib import Path
+
+BASE_DIR = Path("D:/Graduation Project/N8N/AI-COS Patient Health Agent")
+HTML_FILE = BASE_DIR / "guide_styled.html"
+PDF_FILE = BASE_DIR / "AI_COS_Patient_Health_Agent_Guide.pdf"
+EDGE_EXE = r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
+
+HTML_CONTENT = """<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>دليل معمارية وسير عمل وكيل التقييم الصحي الذكي (AI-COS Patient Health Agent)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        @page {
+            size: A4;
+            margin: 20mm 15mm 20mm 15mm;
+            @bottom-center {
+                content: "صفحة " counter(page) " من " counter(pages);
+                font-family: 'Cairo', sans-serif;
+                font-size: 9pt;
+                color: #64748b;
+            }
+        }
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Cairo', sans-serif;
+            color: #0f172a;
+            line-height: 1.7;
+            background-color: #ffffff;
+            margin: 0;
+            padding: 0;
+            font-size: 11pt;
+        }
+        .header-banner {
+            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #4338ca 100%);
+            color: #ffffff;
+            padding: 30px;
+            border-radius: 16px;
+            margin-bottom: 25px;
+            border: 1px solid #4f46e5;
+            box-shadow: 0 10px 25px rgba(79, 70, 229, 0.15);
+        }
+        .header-banner h1 {
+            margin: 0 0 8px 0;
+            font-size: 22pt;
+            font-weight: 900;
+            color: #ffffff;
+        }
+        .header-banner p {
+            margin: 0;
+            font-size: 12pt;
+            color: #c7d2fe;
+            font-weight: 600;
+        }
+        .badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 9pt;
+            font-weight: 700;
+            margin-top: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        h2 {
+            color: #1e1b4b;
+            font-size: 15pt;
+            font-weight: 800;
+            border-right: 5px solid #4f46e5;
+            padding-right: 12px;
+            margin-top: 30px;
+            margin-bottom: 12px;
+            page-break-after: avoid;
+        }
+        h3 {
+            color: #312e81;
+            font-size: 12pt;
+            font-weight: 700;
+            margin-top: 20px;
+            margin-bottom: 8px;
+            page-break-after: avoid;
+        }
+        p, li {
+            color: #334155;
+            text-align: justify;
+        }
+        .card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin-bottom: 15px;
+            page-break-inside: avoid;
+        }
+        .card-highlight {
+            background: #eef2ff;
+            border: 1px solid #c7d2fe;
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin-bottom: 15px;
+            page-break-inside: avoid;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 10pt;
+            page-break-inside: avoid;
+        }
+        th {
+            background: #312e81;
+            color: #ffffff;
+            font-weight: 700;
+            padding: 10px 12px;
+            text-align: right;
+            border: 1px solid #312e81;
+        }
+        td {
+            padding: 9px 12px;
+            border: 1px solid #e2e8f0;
+            background: #ffffff;
+        }
+        tr:nth-child(even) td {
+            background: #f8fafc;
+        }
+        pre, code {
+            font-family: 'Fira Code', monospace;
+            direction: ltr;
+            text-align: left;
+        }
+        pre {
+            background: #0f172a;
+            color: #f8fafc;
+            padding: 14px;
+            border-radius: 10px;
+            font-size: 9pt;
+            overflow-x: auto;
+            border: 1px solid #1e293b;
+            page-break-inside: avoid;
+            margin: 12px 0;
+        }
+        .inline-code {
+            background: #f1f5f9;
+            color: #4f46e5;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 9.5pt;
+            font-weight: 600;
+        }
+        .step-box {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 12px;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            padding: 12px 16px;
+            border-radius: 10px;
+            page-break-inside: avoid;
+        }
+        .step-num {
+            background: #4f46e5;
+            color: #ffffff;
+            font-weight: 800;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10pt;
+            flex-shrink: 0;
+        }
+        .flow-diagram {
+            background: #0f172a;
+            color: #a5b4fc;
+            padding: 18px;
+            border-radius: 12px;
+            font-family: 'Fira Code', monospace;
+            font-size: 9pt;
+            line-height: 1.5;
+            margin: 15px 0;
+            page-break-inside: avoid;
+        }
+        .footer-note {
+            margin-top: 40px;
+            padding-top: 15px;
+            border-top: 2px solid #e2e8f0;
+            text-align: center;
+            font-size: 9pt;
+            color: #64748b;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-banner">
+        <h1>🏥 صيدلية AI-COS: وكيل التقييم الصحي الذكي</h1>
+        <p>دليل المعمارية وسير العمل وتكامل الذكاء الاصطناعي (Patient Health AI Agent)</p>
+        <span class="badge">مشروع تخرج 2026 • AI-COS Pharmacy Architecture</span>
+    </div>
+
+    <h2>1. نظرة عامة والهدف السريري والتجاري للمنظومة</h2>
+    <p>
+        يمثل <strong>وكيل التقييم الصحي الذكي (Patient Health AI Agent)</strong> الركيزة الأساسية للرعاية الصحية الذكية في منصة <strong>AI-COS</strong>. يقوم الوكيل بتحليل الحالة العلاجية للمريض فور دخوله إلى حسابه في صفحة البروفايل (<code>/profile</code>) لتقديم:
+    </p>
+    <ul>
+        <li><strong>فحص التفاعلات الدوائية (Drug Interaction Safety):</strong> التأكد من عدم وجود تضارب بين الأدوية المزمنة الحالية والسابقة.</li>
+        <li><strong>تنبيهات موعد إعادة الصرف (Smart Refill Alerts):</strong> حساب الأيام المتبقية في العبوة بدقة بناءً على تاريخ الاستهلاك.</li>
+        <li><strong>استشارات سريرية مخصصة (Personalized Clinical Tips):</strong> صياغة نصائح طبية موجهة لحالته المزمنة (مثل مرضى الحساسية أو الضغط).</li>
+        <li><strong>إشعار فوري لطاقم الصيدلية (Human-in-the-Loop Telegram Notification):</strong> إبلاغ الصيدلي بملخص الحالة ومعرف المريض.</li>
+    </ul>
+
+    <h2>2. معالجة وتجهيز البيانات قبل وصولها للسير (Pre-Processing Pipeline)</h2>
+    <p>
+        تتم معالجة البيانات وتنقيتها في واجهة المستخدم (Next.js) قبل إطلاق أي طلب نحو n8n عبر الخطوات التالية:
+    </p>
+
+    <div class="step-box">
+        <div class="step-num">1</div>
+        <div>
+            <strong>التحقق الأمني من الجلسة (Auth Session):</strong>
+            يتم فحص وجود رمز دخول معتمد (Supabase JWT Token) لضمان خصوصية البيانات الطبية للمريض.
+        </div>
+    </div>
+
+    <div class="step-box">
+        <div class="step-num">2</div>
+        <div>
+            <strong>جلب بيانات البروفايل الرسمية (Profile Ingestion):</strong>
+            يستدعي المتصفح نقطة الباك إند <code class="inline-code">GET /api/v1/customers/me</code> لجلب المعرف الفريد <code class="inline-code">customer_id</code> والاسم الحقيقي وتاريخ التسجيل.
+        </div>
+    </div>
+
+    <div class="step-box">
+        <div class="step-num">3</div>
+        <div>
+            <strong>الحساب الزمني لعضوية المريض (Tenure Calculation):</strong>
+            يحسب كود المتصفح عدد الأيام المنقضية منذ تسجيل المريض بالمعادلة:
+            <pre>days_since_join = Math.floor((Date.now() - new Date(created_at).getTime()) / (1000 * 60 * 60 * 24));</pre>
+        </div>
+    </div>
+
+    <div class="step-box">
+        <div class="step-num">4</div>
+        <div>
+            <strong>تغليف كائن الـ JSON (Payload Packaging):</strong>
+            يتم تجهيز حزمة البيانات وإرسالها عبر مسار البروكسي الداخلي <code class="inline-code">POST /n8n-webhook/aicos-patient-health</code>.
+        </div>
+    </div>
+
+    <h2>3. التشريح الهندسي لسير عمل n8n عقدة بعقدة</h2>
+    <div class="flow-diagram">
+[1. Webhook] ──▶ [2. Get Orders] ──▶ [3. Get Cycles] ──▶ [4. Build Prompt]
+                                                              │
+[8. Respond] ◀── [7. Notify Admin] ◀── [6. Parse Response] ◀── [5. Ask Ollama]
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th width="20%">اسم العقدة (Node)</th>
+                <th width="25%">نوع العقدة (Type)</th>
+                <th width="55%">الوظيفة والمسؤولية داخل المنظومة</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>1. Webhook</strong></td>
+                <td>Webhook Receiver</td>
+                <td>استقبال حزمة البيانات المجمعة من المتصفح وحفظها في سياق التنفيذ.</td>
+            </tr>
+            <tr>
+                <td><strong>2. Get Patient Orders</strong></td>
+                <td>PostgreSQL Query</td>
+                <td>استعلام مباشر من Supabase لجلب آخر 5 طلبات حقيقية وأسماء الأدوية وإجمالي الفواتير.</td>
+            </tr>
+            <tr>
+                <td><strong>3. Get Churn Data</strong></td>
+                <td>PostgreSQL Query</td>
+                <td>استعلام من جدول دورات الاستهلاك (<code>customer_cycles</code>) لمعرفة متوسط أيام استهلاك العبوة وتاريخ آخر شراء.</td>
+            </tr>
+            <tr>
+                <td><strong>4. Build Health Prompt</strong></td>
+                <td>Code Node (JS)</td>
+                <td>حساب الأيام المتبقية في العبوة بدقة وصياغة البرومبت السريري المنظم لنموذج الذكاء الاصطناعي.</td>
+            </tr>
+            <tr>
+                <td><strong>5. Ask Ollama</strong></td>
+                <td>HTTP Request</td>
+                <td>استدعاء نموذج الذكاء الاصطناعي المحلي (<code>AI-COS-LFM-Q4</code>) عبر منفذ 11434 لتحليل الحالة بسرية تامة.</td>
+            </tr>
+            <tr>
+                <td><strong>6. Parse Response</strong></td>
+                <td>Code Node (JS)</td>
+                <td>تفكيك وتنظيم إجابة المودل إلى 3 أقسام سريرية واضحة (Interaction, Refill Alert, Recommendation).</td>
+            </tr>
+            <tr>
+                <td><strong>7. Notify Admin</strong></td>
+                <td>Telegram Node</td>
+                <td>إرسال إشعار فوري منسق بـ HTML إلى هاتف الصيدلي/الإدارة متضمناً معرّف المريض (Customer ID) وملخص حالته.</td>
+            </tr>
+            <tr>
+                <td><strong>8. Respond</strong></td>
+                <td>Respond to Webhook</td>
+                <td>إرجاع كائن الـ JSON النهائي للمتصفح ليظهر في البطاقة البنفسجية في صفحة البروفايل خلال جزء من الثانية.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>4. دور الذكاء الاصطناعي المحلي (Local LLM & Prompt Engineering)</h2>
+    <div class="card-highlight">
+        <strong>🧠 هندسة البرومبت الطبي الموجه للمودل:</strong>
+        <pre>You are a professional pharmacy clinical AI.
+Patient: محمد ياسر
+Condition: حساسية ومناعة (Allergy)
+Total orders: 3
+Recent drugs: Amaryl 2mg, alerid 10 mg, allergyl 4 mg
+Chronic drugs: alerid 10 mg 30 f.c.tabs, allergyl 4 mg 20 tabs
+
+Provide a short clinical health evaluation in EXACTLY 3 lines:
+INTERACTION_CHECK: [one concise Arabic sentence verifying medication safety and absence of conflicts]
+REFILL_ALERT: [one concise Arabic sentence about refill timing]
+AI_RECOMMENDATION: [one actionable Arabic clinical tip for this patient]</pre>
+    </div>
+
+    <h2>5. نموذج الإشعار الحي المرسل لتليجرام</h2>
+    <div class="card">
+        <strong>📱 نص الرسالة الواصلة إلى تليجرام الإدارة:</strong>
+        <pre>🏥 تقييم الذكاء الاصطناعي الصحي (AI-COS)
+
+👤 المريض: محمد ياسر
+🆔 معرّف المريض: ed680fa0-e241-4231-bae6-b377f96f03a6
+📦 إجمالي الطلبات: 3
+⚠️ تنبيه الجرعات: يُرجى استشارة الصيدلي قبل إعادة التعبئة لتقييم الحساسية.
+
+💡 توصية الذكاء الاصطناعي:
+يُنصح بتجنب المضادات الحيوية واسعة الطيف بسبب تاريخ الحساسية.</pre>
+    </div>
+
+    <h2>6. أهم نقاط القوة لمناقشة مشروع التخرج (Graduation Defense)</h2>
+    <div class="step-box">
+        <div class="step-num">★</div>
+        <div>
+            <strong>معمارية الـ Agentic RAG الحقيقية:</strong>
+            النظام لا يخمن الإجابات، بل يسترجع بيانات المريض التاريخية من SQL أولاً (Retrieval)، ثم يدمجها مع البرومبت (Augmentation)، ثم يولد التقييم (Generation).
+        </div>
+    </div>
+    <div class="step-box">
+        <div class="step-num">★</div>
+        <div>
+            <strong>الخصوصية والأمان الطبي (HIPAA / GDPR Compliance):</strong>
+            استخدام نموذج محلي داخل Ollama يعني أن بيانات المرضى وأسماء أدويتهم الحساسة لا تغادر السيرفر الداخلي لأي طرف ثالث.
+        </div>
+    </div>
+    <div class="step-box">
+        <div class="step-num">★</div>
+        <div>
+            <strong>صمامات الأمان وعدم التعطل (Fault-Tolerant Design):</strong>
+            تفعيل خواص <code class="inline-code">alwaysOutputData</code> يضمن استمرار السير حتى لو كان المريض مسجلاً لأول مرة بدون مشتريات سابقة.
+        </div>
+    </div>
+
+    <div class="footer-note">
+        مشروع تخرج AI-COS Pharmacy © 2026 — تم إعداد وتوليد هذا التوثيق الرسمي كمرجع هندسي كامل للمنظومة.
+    </div>
+
+</body>
+</html>
+"""
+
+def generate_pdf():
+    # Write HTML file
+    with open(HTML_FILE, "w", encoding="utf-8") as f:
+        f.write(HTML_CONTENT)
+    print(f"HTML guide generated at: {HTML_FILE}")
+
+    # Use Edge headless to print to PDF
+    cmd = [
+        EDGE_EXE,
+        "--headless",
+        "--disable-gpu",
+        "--run-all-compositor-stages-before-draw",
+        f"--print-to-pdf={PDF_FILE}",
+        "--no-pdf-header-footer",
+        str(HTML_FILE)
+    ]
+    
+    print("Converting HTML to PDF via Microsoft Edge Headless...")
+    result = subprocess.run(cmd, capture_output=True, text=True)
+    
+    if os.path.exists(PDF_FILE) and os.path.getsize(PDF_FILE) > 1000:
+        print(f"✅ SUCCESS: PDF generated at: {PDF_FILE} (Size: {os.path.getsize(PDF_FILE):,} bytes)")
+    else:
+        print(f"❌ Error generating PDF: {result.stderr}")
+
+if __name__ == "__main__":
+    generate_pdf()

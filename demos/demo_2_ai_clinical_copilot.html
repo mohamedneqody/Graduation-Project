@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>التجربة 2: المساعد السريري والماسح الذكي — AI Clinical Copilot</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --emerald: #10b981;
+      --rose: #f43f5e;
+      --bg: #0b0f19;
+      --panel: rgba(15, 23, 42, 0.85);
+      --border: rgba(99, 102, 241, 0.25);
+      --text: #f8fafc;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    .container { max-width: 1200px; margin: 0 auto; }
+
+    /* Top link */
+    .back-hub {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 18px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #818cf8;
+      font-weight: 800;
+      text-decoration: none;
+      font-size: 13px;
+      margin-bottom: 25px;
+      transition: all 0.2s ease;
+    }
+    .back-hub:hover { background: rgba(99, 102, 241, 0.2); }
+
+    /* Hero Header */
+    .header-box {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    .header-box h1 {
+      font-size: 36px;
+      font-weight: 900;
+      background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 8px;
+    }
+    .header-box p { color: #94a3b8; font-size: 15px; }
+
+    /* Grid Layout */
+    .main-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+    }
+    @media(max-width: 850px) { .main-grid { grid-template-columns: 1fr; } }
+
+    /* Panel Card */
+    .panel-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 28px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* ── 1. Laser OCR Scanner Box ── */
+    .scanner-screen {
+      background: #020617;
+      border: 2px dashed rgba(99, 102, 241, 0.5);
+      border-radius: 18px;
+      padding: 30px;
+      position: relative;
+      overflow: hidden;
+      min-height: 240px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      margin-bottom: 20px;
+    }
+    .scanner-screen:hover { border-color: #6366f1; }
+
+    .laser-beam {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, transparent, #06b6d4, #4f46e5, #06b6d4, transparent);
+      box-shadow: 0 0 20px #06b6d4, 0 0 40px #4f46e5;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .scanner-screen.scanning .laser-beam {
+      opacity: 1;
+      animation: laser-sweep 2.5s infinite ease-in-out;
+    }
+    @keyframes laser-sweep {
+      0% { top: 0%; }
+      50% { top: 100%; }
+      100% { top: 0%; }
+    }
+
+    /* OCR Bounding Boxes */
+    .ocr-box {
+      position: absolute;
+      border: 1px solid #10b981;
+      background: rgba(16, 185, 129, 0.15);
+      border-radius: 4px;
+      padding: 2px 6px;
+      font-size: 10px;
+      font-weight: 800;
+      color: #34d399;
+      opacity: 0;
+      transform: scale(0.8);
+      transition: all 0.3s ease;
+    }
+    .ocr-box.active { opacity: 1; transform: scale(1); }
+
+    /* ── 2. AI Mind-Map Neural Network Graph ── */
+    .mindmap-box {
+      height: 280px;
+      position: relative;
+      background: #020617;
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      overflow: hidden;
+    }
+    #mindmap-canvas { width: 100%; height: 100%; }
+
+    /* ── 3. Voice AI Waveform Simulation ── */
+    .voice-bar-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      height: 45px;
+      margin: 15px 0;
+    }
+    .v-bar {
+      width: 4px;
+      background: linear-gradient(180deg, #4f46e5, #06b6d4);
+      border-radius: 9999px;
+      height: 8px;
+      transition: height 0.1s ease;
+    }
+
+    .btn-act {
+      background: linear-gradient(135deg, #4f46e5, #06b6d4);
+      border: none;
+      color: white;
+      padding: 10px 24px;
+      border-radius: 14px;
+      font-family: 'Cairo', sans-serif;
+      font-weight: 800;
+      font-size: 14px;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4);
+      transition: all 0.2s ease;
+    }
+    .btn-act:hover { transform: scale(1.05); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="demo_labs_hub.html" class="back-hub">← العودة لمركز التجارب الرئيسي</a>
+
+    <div class="header-box">
+      <h1>التجربة 2: المساعد السريري والماسح الضوئي الذكي</h1>
+      <p>محاكاة حية لمسح الروشتات بالليزر (Live OCR) ورسم خريطة التعارضات العصبية (Neural Mind-Map).</p>
+    </div>
+
+    <div class="main-grid">
+      
+      <!-- Box 1: Laser Prescription Scanner -->
+      <div class="panel-card">
+        <h2 style="font-size: 20px; font-weight: 800; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+          <span>⚡</span> ماسح الروشتة التفاعلي بالليزر (Live OCR)
+        </h2>
+        <p style="color: #94a3b8; font-size: 13.5px; margin-bottom: 20px;">انقر على الشاشة لبدء المسح واستخراج أسماء الأدوية بحدود ذكية:</p>
+
+        <div class="scanner-screen" id="ocrScreen" onclick="startScan()">
+          <div class="laser-beam"></div>
+          
+          <div style="font-size: 45px; margin-bottom: 8px;">📑</div>
+          <div style="font-weight: 800; color: #cbd5e1; font-size: 15px;" id="ocrLabel">انقر هنا لبدء المسح بالليزر</div>
+          
+          <!-- Bounding Boxes -->
+          <div class="ocr-box" id="b1" style="top: 25%; left: 20%;">Rx: Amaryl 2mg</div>
+          <div class="ocr-box" id="b2" style="top: 50%; right: 25%;">Sig: 1 tab daily</div>
+          <div class="ocr-box" id="b3" style="bottom: 20%; left: 30%;">Rx: Concor 5mg</div>
+        </div>
+
+        <button class="btn-act" onclick="startScan()">تشغيل المسح الضوئي ⚡</button>
+      </div>
+
+      <!-- Box 2: Neural Mind-Map & Voice Wave -->
+      <div class="panel-card">
+        <h2 style="font-size: 20px; font-weight: 800; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+          <span>🧠</span> خريطة التعارضات العصبية والصوت الحي
+        </h2>
+        <p style="color: #94a3b8; font-size: 13.5px; margin-bottom: 16px;">تمثيل حي للعقد الدوائية وتشابك الأعضاء الحيوية:</p>
+
+        <div class="mindmap-box">
+          <canvas id="mindmap-canvas"></canvas>
+        </div>
+
+        <!-- Voice Wave -->
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 18px;">
+          <div>
+            <div style="font-size: 13px; font-weight: 800; color: #a5b4fc;">موجات المحادثة الصوتية (Live Voice):</div>
+            <div class="voice-bar-wrap" id="voiceBars">
+              <!-- generated by JS -->
+            </div>
+          </div>
+          <button class="btn-act" onclick="toggleVoice()" id="voiceBtn">تفعيل الصوت 🎙️</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    /* ── Laser Scan Logic ── */
+    let scanning = false;
+    function startScan() {
+      if (scanning) return;
+      scanning = true;
+      const screen = document.getElementById('ocrScreen');
+      const label = document.getElementById('ocrLabel');
+      const b1 = document.getElementById('b1');
+      const b2 = document.getElementById('b2');
+      const b3 = document.getElementById('b3');
+
+      [b1, b2, b3].forEach(b => b.classList.remove('active'));
+      screen.classList.add('scanning');
+      label.textContent = 'جاري التعرف على خط الطبيب وفك الرموز...';
+      label.style.color = '#38bdf8';
+
+      setTimeout(() => b1.classList.add('active'), 800);
+      setTimeout(() => b2.classList.add('active'), 1500);
+      setTimeout(() => b3.classList.add('active'), 2200);
+
+      setTimeout(() => {
+        screen.classList.remove('scanning');
+        label.textContent = '✅ تم التعرف على الروشتة (Amaryl + Concor) بنسبة ثقة 99.4%';
+        label.style.color = '#34d399';
+        scanning = false;
+      }, 3000);
+    }
+
+    /* ── Mind Map Canvas ── */
+    const mCanvas = document.getElementById('mindmap-canvas');
+    const mCtx = mCanvas.getContext('2d');
+    let mw, mh;
+    function mResize() {
+      mw = mCanvas.width = mCanvas.parentElement.clientWidth;
+      mh = mCanvas.height = mCanvas.parentElement.clientHeight;
+    }
+    window.addEventListener('resize', mResize);
+    mResize();
+
+    const nodes = [
+      { x: 0.5, y: 0.5, label: "المريض 👤", color: "#4f46e5", r: 24 },
+      { x: 0.25, y: 0.3, label: "Amaryl 💊", color: "#10b981", r: 20 },
+      { x: 0.75, y: 0.3, label: "Concor 💊", color: "#06b6d4", r: 20 },
+      { x: 0.2, y: 0.75, label: "الكبد 🫀", color: "#f59e0b", r: 18 },
+      { x: 0.8, y: 0.75, label: "الكلى 🩺", color: "#8b5cf6", r: 18 },
+    ];
+
+    let angle = 0;
+    function drawMindMap() {
+      mCtx.clearRect(0, 0, mw, mh);
+      angle += 0.02;
+
+      // Draw pulsating connections
+      for (let i = 1; i < nodes.length; i++) {
+        mCtx.strokeStyle = `rgba(99, 102, 241, ${0.3 + Math.sin(angle + i) * 0.2})`;
+        mCtx.lineWidth = 2;
+        mCtx.setLineDash([4, 4]);
+        mCtx.beginPath();
+        mCtx.moveTo(nodes[0].x * mw, nodes[0].y * mh);
+        mCtx.lineTo(nodes[i].x * mw, nodes[i].y * mh);
+        mCtx.stroke();
+      }
+      mCtx.setLineDash([]);
+
+      // Draw Nodes
+      nodes.forEach((n, idx) => {
+        const nx = n.x * mw + Math.sin(angle + idx) * 4;
+        const ny = n.y * mh + Math.cos(angle + idx) * 4;
+        
+        mCtx.beginPath();
+        mCtx.arc(nx, ny, n.r, 0, Math.PI * 2);
+        mCtx.fillStyle = n.color;
+        mCtx.shadowColor = n.color;
+        mCtx.shadowBlur = 15;
+        mCtx.fill();
+        mCtx.shadowBlur = 0;
+
+        mCtx.fillStyle = "#ffffff";
+        mCtx.font = "bold 11px Cairo";
+        mCtx.textAlign = "center";
+        mCtx.fillText(n.label, nx, ny + n.r + 14);
+      });
+
+      requestAnimationFrame(drawMindMap);
+    }
+    drawMindMap();
+
+    /* ── Voice Wave Simulation ── */
+    const vContainer = document.getElementById('voiceBars');
+    for (let i = 0; i < 18; i++) {
+      const b = document.createElement('div');
+      b.className = 'v-bar';
+      vContainer.appendChild(b);
+    }
+
+    let voiceActive = false;
+    let vInterval;
+    function toggleVoice() {
+      voiceActive = !voiceActive;
+      const btn = document.getElementById('voiceBtn');
+      btn.textContent = voiceActive ? 'إيقاف ⏹️' : 'تفعيل الصوت 🎙️';
+      if (voiceActive) {
+        vInterval = setInterval(() => {
+          document.querySelectorAll('.v-bar').forEach(bar => {
+            bar.style.height = `${Math.floor(Math.random() * 32) + 6}px`;
+          });
+        }, 100);
+      } else {
+        clearInterval(vInterval);
+        document.querySelectorAll('.v-bar').forEach(bar => bar.style.height = '6px');
+      }
+    }
+  </script>
+</body>
+</html>

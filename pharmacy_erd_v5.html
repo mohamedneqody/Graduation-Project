@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AI-COS Pharmacy ERD v5</title>
+<style>
+  body { margin: 0; padding: 20px; background: white; display: flex; justify-content: center; }
+  svg { max-width: 100%; height: auto; }
+  @media print {
+    body { padding: 0; }
+    svg { width: 100%; }
+  }
+</style>
+</head>
+<body>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1720 746" width="1720" height="746" style="background:white">
+<path d="M 295,166.0 C 295,186.0 325,186.0 325,206.0" fill="none" stroke="#6366f1" stroke-width="1.2" stroke-opacity="0.5"/>
+<polygon points="325,206.0 319.8149723785081,202.9808132610973 323.5533884646711,200.177001196475" fill="#6366f1" fill-opacity="0.5"/>
+<circle cx="299.8" cy="172.4" r="3" fill="none" stroke="#6366f1" stroke-width="1" stroke-opacity="0.5"/>
+<text x="310.0" y="180.0" text-anchor="middle" font-size="8" fill="#64748b" font-family="Segoe UI, sans-serif" font-style="italic">owns</text>
+<path d="M 295,166.0 C 447.5,166.0 447.5,186.0 600,186.0" fill="none" stroke="#6366f1" stroke-width="1.2" stroke-opacity="0.5"/>
+<polygon points="600,186.0 594.332591890711,187.96989474915944 594.6383627489093,183.30688916163535" fill="#6366f1" fill-opacity="0.5"/>
+<circle cx="302.9828555924025" cy="166.5234659404854" r="3" fill="none" stroke="#6366f1" stroke-width="1" stroke-opacity="0.5"/>
+<text x="447.5" y="170.0" text-anchor="middle" font-size="8" fill="#64748b" font-family="Segoe UI, sans-serif" font-style="italic">scopes</text>
+<path d="M 295,166.0 C 722.5,166.0 722.5,206.0 1150,206.0" fill="none" stroke="#6366f1" stroke-width="1.2" stroke-opacity="0.5"/>
+<polygon points="1150,206.0 1144.3704809424812,208.07569631233312 1144.5888629097192,203.40778176262364" fill="#6366f1" fill-opacity="0.5"/>
+<circle cx="302.99125951461514" cy="166.373860094251" r="3" fill="none" stroke="#6366f1" stroke-width="1" stroke-opacity="0.5"/>
+<text x="722.5" y="180.0" text-anchor="middle" font-size="8" fill="#64748b" font-family="Segoe UI, sans-serif" font-style="italic">scopes</text>
+<path d="M 172.5,232 C 172.5,328.0 172.5,328.0 172.5,424" fill="none" stroke="#6366f1" stroke-width="1.2" stroke-opacity="0.5"/>
+<polygon points="172.5,424 170.1634899461481,418.4736340359827 174.8365100538519,418.4736340359827" fill="#6366f1" fill-opacity="0.5"/>
+<circle cx="172.5" cy="240.0" r="3" fill="none" stroke="#6366f1" stroke-width="1" stroke-opacity="0.5"/>
+<text x="172.5" y="322.0" text-anchor="middle" font-size="8" fill="#64748b" font-family="Segoe UI, sans-serif" font-style="italic">scopes</text>
+<path d="M 172.5,232 C 172.5,247.0 172.5,247.0 172.5,262" fill="none" stroke="#6366f1" stroke-width="1.2" stroke-opacity="0.5"/>
+<polygon points="172.5,262 170.1634899461481,256.4736340359827 174.8365100538519,256.4736340359827" fill="#6366f1" fill-opacity="0.5"/>
+<circle cx="172.5" cy="240.0" r="3" fill="none" stroke="#6366f1" stroke-width="1" stroke-opacity="0.5"/>
+<text x="172.5" y="241.0" text-anchor="middle" font-size="8" fill="#64748b" font-family="Segoe UI, sans-serif" font-style="italic">configures</text>
+<path d="M 447.5,312 C 447.5,327.0 447.5,327.0 447.5,342" fill="none" stroke="#6366f1" stroke-width="1.2" stroke-opacity="0.5"/>
+<polygon points="447.5,342 445.1634899461481,336.4736340359827 449.8365100538519,336.4736340359827" fill="#6366f1" fill-opacity="0.5"/>
+<circle cx="447.5" cy="320.0" r="3" fill="none" stroke="#6366f1" stroke-width="1" stroke-opacity="0.5"/>
+<text x="447.5" y="321.0" text-anchor="middle" font-size="8" fill="#64748b" font-family="Segoe UI, sans-serif" font-style="italic">opens</text>
+<path d="M 570,206.0 C 585.0,206.0 585.0,186.0 600,186.0" fill="none" stroke="#6366f1" stroke-width="1.2" stroke-opacity="0.5"/>
+<polygon points="600,186.0 596.6978481583747,191.00957016268364 594.1057229876669,187.12138240662202" fill="#6366f1" fill-opacity="0.5"/>
+<circle cx="576.6564023547028" cy="201.56239843019816" r="3" fill="none" stroke="#6366f1" stroke-width="1" stroke-opacity="0.5"/>
+<text x="585.0" y="190.0" text-anchor="middle" font-size="8" fill="#64748b" font-family="Segoe UI, sans-serif" font-style="italic">places</text>
+<path d="M 447.5,312 C 585.0,312 585.0,464 722.5,464" fill="none" stroke="#6366f1" stroke-width="1.2" stroke-opacity="0.5"/>
+<polygon points="722.5,464 716.5330035568783,463.3715467815556 718.7935782875229,459.28169118334984" fill="#6366f1" fill-opacity="0.5"/>
+<circle cx="454.50164861942426" cy="315.870002146009" r="3" fill="none" stroke="#6366f1" stroke-width="1" stroke-opacity="0.5"/>
+<text x="585.0" y="382.0" text-anchor="middle" font-size="8" fill="#64748b" font-family="Segoe UI, sans-serif" font-style="italic">has</text>
+<path d="M 570,206.0 C 860.0,206.0 860.0,206.0 1150,206.0" fill="none" stroke="#6366f1" stroke-width="1.2" stroke-opacity="0.5"/>
+<polygon points="1150,206.0 1144.4736340359827,208.3365100538519 1144.4736340359827,203.6634899461481" fill="#6366f1" fill-opacity="0.5"/>
+<circle cx="578.0" cy="206.0" r="3" fill="none" stroke="#6366f1" stroke-width="1" stroke-opacity="0.5"/>
+<text x="860.0" y="200.0" text-anchor="middle" font-size="8" fill="#64748b" font-family="Segoe UI, sans-serif" font-style="italic">receives</text>
+<path d="M 447.5,312 C 310.0,312 310.0,424 172.5,424" fill="none" stroke="#6366f1" stroke-width="1.2" stroke-opacity="0.5"/>
+<polygon points="172.5,424 176.7368581034865,419.75158460000426 178.49947413110922,424.0794364535422" fill="#6366f1" fill-opacity="0.5"/>
+<circle cx="440.09091250833154" cy="315.01751926933406" r="3" fill="none" stroke="#6366f1" stroke-width="1" stroke-opacity="0.5"/>
+<text x="310.0" y="362.0" text-anchor="middle" font-size="8" fill="#64748b" font-family="Segoe UI, sans-serif" font-style="italic">triggers</text>
+<path d="M 570,206.0 C 997.5,206.0 997.5,226.0 1425,226.0" fill="none" stroke="#6366f1" stroke-width="1.2" stroke-opacity="0.5"/>
+<polygon points="1425,226.0 1419.4205051066724,228.20663470817718 1419.5297856247494,223.5348925603941" fill="#6366f1" fill-opacity="0.5"/>
+<circle cx="577.9978121901618" cy="206.18708332608566" r="3" fill="none" stroke="#6366f1" stroke-width="1" stroke-opacity="0.5"/>
+<text x="997.5" y="210.0" text-anchor="middle" font-size="8" fill="#64748b" font-family="Segoe UI, sans-serif" font-style="italic">flagged_for</text>
+<path d="M 447.5,474 C 447.5,489.0 447.5,489.0 447.5,504" fill="none" stroke="#6366f1" stroke-width="1.2" stroke-opacity="0.5"/>
+<polygon points="447.5,504 445.1634899461481,498.4736340359827 449.8365100538519,498.4736340359827" fill="#6366f1" fill-opacity="0.5"/>
+<circle cx="447.5" cy="482.0" r="3" fill="none" stroke="#6366f1" stroke-width="1" stroke-opacity="0.5"/>
+<text x="447.5" y="483.0" text-anchor="middle" font-size="8" fill="#64748b" font-family="Segoe UI, sans-serif" font-style="italic">logs</text>
+<path d="M 722.5,272 C 722.5,287.0 722.5,287.0 722.5,302" fill="none" stroke="#6366f1" stroke-width="1.2" stroke-opacity="0.5"/>
+<polygon points="722.5,302 720.163489946148,296.4736340359827 724.836510053852,296.4736340359827" fill="#6366f1" fill-opacity="0.5"/>
+<circle cx="722.5" cy="280.0" r="3" fill="none" stroke="#6366f1" stroke-width="1" stroke-opacity="0.5"/>
+<text x="722.5" y="281.0" text-anchor="middle" font-size="8" fill="#64748b" font-family="Segoe UI, sans-serif" font-style="italic">contains</text>
+<path d="M 875,196.0 C 875,282.0 845,282.0 845,368.0" fill="none" stroke="#6366f1" stroke-width="1.2" stroke-opacity="0.5"/>
+<polygon points="845,368.0 843.6478050274212,362.1543547185847 848.2513259381202,362.9572944123113" fill="#6366f1" fill-opacity="0.5"/>
+<circle cx="873.6254034004213" cy="203.88102050425113" r="3" fill="none" stroke="#6366f1" stroke-width="1" stroke-opacity="0.5"/>
+<text x="860.0" y="276.0" text-anchor="middle" font-size="8" fill="#64748b" font-family="Segoe UI, sans-serif" font-style="italic">includes</text>
+<path d="M 997.5,292 C 997.5,307.0 997.5,307.0 997.5,322" fill="none" stroke="#6366f1" stroke-width="1.2" stroke-opacity="0.5"/>
+<polygon points="997.5,322 995.163489946148,316.4736340359827 999.836510053852,316.4736340359827" fill="#6366f1" fill-opacity="0.5"/>
+<circle cx="997.5" cy="300.0" r="3" fill="none" stroke="#6366f1" stroke-width="1" stroke-opacity="0.5"/>
+<text x="997.5" y="301.0" text-anchor="middle" font-size="8" fill="#64748b" font-family="Segoe UI, sans-serif" font-style="italic">conflicts</text>
+<path d="M 997.5,292 C 997.5,388.0 997.5,388.0 997.5,484" fill="none" stroke="#6366f1" stroke-width="1.2" stroke-opacity="0.5"/>
+<polygon points="997.5,484 995.163489946148,478.4736340359827 999.836510053852,478.4736340359827" fill="#6366f1" fill-opacity="0.5"/>
+<circle cx="997.5" cy="300.0" r="3" fill="none" stroke="#6366f1" stroke-width="1" stroke-opacity="0.5"/>
+<text x="997.5" y="382.0" text-anchor="middle" font-size="8" fill="#64748b" font-family="Segoe UI, sans-serif" font-style="italic">pairs_with</text>
+<path d="M 997.5,292 C 860.0,292 860.0,464 722.5,464" fill="none" stroke="#6366f1" stroke-width="1.2" stroke-opacity="0.5"/>
+<polygon points="722.5,464 725.9463962476549,459.08854879855755 728.4243868233206,463.05045233523236" fill="#6366f1" fill-opacity="0.5"/>
+<circle cx="990.7173995482822" cy="296.24220828252896" r="3" fill="none" stroke="#6366f1" stroke-width="1" stroke-opacity="0.5"/>
+<text x="860.0" y="372.0" text-anchor="middle" font-size="8" fill="#64748b" font-family="Segoe UI, sans-serif" font-style="italic">tracked_for</text>
+<path d="M 997.5,292 C 1135.0,292 1135.0,544 1272.5,544" fill="none" stroke="#6366f1" stroke-width="1.2" stroke-opacity="0.5"/>
+<polygon points="1272.5,544 1266.847047791755,541.9889974313054 1270.0041552103644,538.5437413197275" fill="#6366f1" fill-opacity="0.5"/>
+<circle cx="1003.3981233243968" cy="297.4048257372654" r="3" fill="none" stroke="#6366f1" stroke-width="1" stroke-opacity="0.5"/>
+<text x="1135.0" y="412.0" text-anchor="middle" font-size="8" fill="#64748b" font-family="Segoe UI, sans-serif" font-style="italic">stocked_as</text>
+<path d="M 1120,196.0 C 1272.5,196.0 1272.5,226.0 1425,226.0" fill="none" stroke="#6366f1" stroke-width="1.2" stroke-opacity="0.5"/>
+<polygon points="1425,226.0 1419.271457974237,227.78432235290202 1419.7288918278912,223.1337448407499" fill="#6366f1" fill-opacity="0.5"/>
+<circle cx="1127.9615792869974" cy="196.78310615937679" r="3" fill="none" stroke="#6366f1" stroke-width="1" stroke-opacity="0.5"/>
+<text x="1272.5" y="205.0" text-anchor="middle" font-size="8" fill="#64748b" font-family="Segoe UI, sans-serif" font-style="italic">target_drug</text>
+<path d="M 1395,206.0 C 1395,332.0 1425,332.0 1425,458.0" fill="none" stroke="#6366f1" stroke-width="1.2" stroke-opacity="0.5"/>
+<polygon points="1425,458.0 1422.02658522337,452.78858900429856 1426.666839395397,452.23617779334296" fill="#6366f1" fill-opacity="0.5"/>
+<circle cx="1395.9457031182808" cy="213.94390619355954" r="3" fill="none" stroke="#6366f1" stroke-width="1" stroke-opacity="0.5"/>
+<text x="1410.0" y="326.0" text-anchor="middle" font-size="8" fill="#64748b" font-family="Segoe UI, sans-serif" font-style="italic">linked_to</text>
+<path d="M 1395,428.0 C 1395,443.0 1425,443.0 1425,458.0" fill="none" stroke="#6366f1" stroke-width="1.2" stroke-opacity="0.5"/>
+<polygon points="1425,458.0 1419.4401070481356,455.74443125491405 1422.7444312549142,452.4401070481356" fill="#6366f1" fill-opacity="0.5"/>
+<circle cx="1400.6568542494924" cy="433.65685424949237" r="3" fill="none" stroke="#6366f1" stroke-width="1" stroke-opacity="0.5"/>
+<text x="1410.0" y="437.0" text-anchor="middle" font-size="8" fill="#64748b" font-family="Segoe UI, sans-serif" font-style="italic">tracks</text>
+<rect x="52" y="102" width="245" height="132" rx="8" fill="#00000010"/>
+<rect x="50" y="100" width="245" height="132" rx="8" fill="white" stroke="#4338ca" stroke-width="1.5"/>
+<rect x="50" y="100" width="245" height="28" rx="8" fill="#4338ca"/>
+<rect x="50" y="120" width="245" height="8" fill="#4338ca"/>
+<text x="62" y="118" font-size="12" font-weight="bold" fill="white" font-family="Segoe UI, sans-serif">TENANT</text>
+<rect x="51" y="130" width="243" height="20" fill="#f8fafc"/>
+<text x="58" y="144" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="125" y="144" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">tenant_id</text>
+<rect x="265" y="133" width="22" height="14" rx="7" fill="#fef3c7"/>
+<text x="269" y="143.5" font-size="8" font-weight="bold" fill="#92400e" font-family="Segoe UI, sans-serif">PK</text>
+<text x="58" y="164" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="125" y="164" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">name</text>
+<rect x="51" y="170" width="243" height="20" fill="#f8fafc"/>
+<text x="58" y="184" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="125" y="184" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">subdomain</text>
+<text x="58" y="204" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">boolean</text>
+<text x="125" y="204" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">is_active</text>
+<rect x="51" y="210" width="243" height="20" fill="#f8fafc"/>
+<text x="58" y="224" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">timestamp</text>
+<text x="125" y="224" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">created_at</text>
+<rect x="52" y="264" width="245" height="132" rx="8" fill="#00000010"/>
+<rect x="50" y="262" width="245" height="132" rx="8" fill="white" stroke="#7c3aed" stroke-width="2.5"/>
+<rect x="50" y="262" width="245" height="28" rx="8" fill="#7c3aed"/>
+<rect x="50" y="282" width="245" height="8" fill="#7c3aed"/>
+<text x="62" y="280" font-size="12" font-weight="bold" fill="white" font-family="Segoe UI, sans-serif">TENANT_SETTINGS  [NEW]</text>
+<rect x="51" y="292" width="243" height="20" fill="#f8fafc"/>
+<text x="58" y="306" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="125" y="306" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">setting_id</text>
+<rect x="265" y="295" width="22" height="14" rx="7" fill="#fef3c7"/>
+<text x="269" y="305.5" font-size="8" font-weight="bold" fill="#92400e" font-family="Segoe UI, sans-serif">PK</text>
+<text x="58" y="326" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="125" y="326" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">tenant_id</text>
+<rect x="265" y="315" width="22" height="14" rx="7" fill="#ede9fe"/>
+<text x="269" y="325.5" font-size="8" font-weight="bold" fill="#5b21b6" font-family="Segoe UI, sans-serif">FK</text>
+<rect x="51" y="332" width="243" height="20" fill="#f8fafc"/>
+<text x="58" y="346" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="125" y="346" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">key</text>
+<text x="58" y="366" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="125" y="366" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">value</text>
+<rect x="51" y="372" width="243" height="20" fill="#f8fafc"/>
+<text x="58" y="386" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">timestamp</text>
+<text x="125" y="386" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">updated_at</text>
+<rect x="327" y="102" width="245" height="212" rx="8" fill="#00000010"/>
+<rect x="325" y="100" width="245" height="212" rx="8" fill="white" stroke="#0284c7" stroke-width="1.5"/>
+<rect x="325" y="100" width="245" height="28" rx="8" fill="#0284c7"/>
+<rect x="325" y="120" width="245" height="8" fill="#0284c7"/>
+<text x="337" y="118" font-size="12" font-weight="bold" fill="white" font-family="Segoe UI, sans-serif">CUSTOMER</text>
+<rect x="326" y="130" width="243" height="20" fill="#f8fafc"/>
+<text x="333" y="144" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="400" y="144" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">customer_id</text>
+<rect x="540" y="133" width="22" height="14" rx="7" fill="#fef3c7"/>
+<text x="544" y="143.5" font-size="8" font-weight="bold" fill="#92400e" font-family="Segoe UI, sans-serif">PK</text>
+<text x="333" y="164" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="400" y="164" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">auth_user_id</text>
+<rect x="326" y="170" width="243" height="20" fill="#f8fafc"/>
+<text x="333" y="184" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="400" y="184" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">tenant_id</text>
+<rect x="540" y="173" width="22" height="14" rx="7" fill="#ede9fe"/>
+<text x="544" y="183.5" font-size="8" font-weight="bold" fill="#5b21b6" font-family="Segoe UI, sans-serif">FK</text>
+<text x="333" y="204" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="400" y="204" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">email</text>
+<rect x="326" y="210" width="243" height="20" fill="#f8fafc"/>
+<text x="333" y="224" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="400" y="224" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">full_name</text>
+<text x="333" y="244" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="400" y="244" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">phone</text>
+<rect x="326" y="250" width="243" height="20" fill="#f8fafc"/>
+<text x="333" y="264" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="400" y="264" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">preferred_channel</text>
+<text x="333" y="284" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="400" y="284" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">role</text>
+<rect x="326" y="290" width="243" height="20" fill="#f8fafc"/>
+<text x="333" y="304" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">timestamp</text>
+<text x="400" y="304" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">created_at</text>
+<rect x="327" y="344" width="245" height="132" rx="8" fill="#00000010"/>
+<rect x="325" y="342" width="245" height="132" rx="8" fill="white" stroke="#0284c7" stroke-width="1.5"/>
+<rect x="325" y="342" width="245" height="28" rx="8" fill="#0284c7"/>
+<rect x="325" y="362" width="245" height="8" fill="#0284c7"/>
+<text x="337" y="360" font-size="12" font-weight="bold" fill="white" font-family="Segoe UI, sans-serif">SESSION</text>
+<rect x="326" y="372" width="243" height="20" fill="#f8fafc"/>
+<text x="333" y="386" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="400" y="386" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">session_id</text>
+<rect x="540" y="375" width="22" height="14" rx="7" fill="#fef3c7"/>
+<text x="544" y="385.5" font-size="8" font-weight="bold" fill="#92400e" font-family="Segoe UI, sans-serif">PK</text>
+<text x="333" y="406" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="400" y="406" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">tenant_id</text>
+<rect x="540" y="395" width="22" height="14" rx="7" fill="#ede9fe"/>
+<text x="544" y="405.5" font-size="8" font-weight="bold" fill="#5b21b6" font-family="Segoe UI, sans-serif">FK</text>
+<rect x="326" y="412" width="243" height="20" fill="#f8fafc"/>
+<text x="333" y="426" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="400" y="426" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">customer_id</text>
+<rect x="540" y="415" width="22" height="14" rx="7" fill="#ede9fe"/>
+<text x="544" y="425.5" font-size="8" font-weight="bold" fill="#5b21b6" font-family="Segoe UI, sans-serif">FK</text>
+<text x="333" y="446" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="400" y="446" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">device_info</text>
+<rect x="326" y="452" width="243" height="20" fill="#f8fafc"/>
+<text x="333" y="466" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">timestamp</text>
+<text x="400" y="466" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">started_at</text>
+<rect x="327" y="506" width="245" height="132" rx="8" fill="#00000010"/>
+<rect x="325" y="504" width="245" height="132" rx="8" fill="white" stroke="#0284c7" stroke-width="1.5"/>
+<rect x="325" y="504" width="245" height="28" rx="8" fill="#0284c7"/>
+<rect x="325" y="524" width="245" height="8" fill="#0284c7"/>
+<text x="337" y="522" font-size="12" font-weight="bold" fill="white" font-family="Segoe UI, sans-serif">EVENT</text>
+<rect x="326" y="534" width="243" height="20" fill="#f8fafc"/>
+<text x="333" y="548" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="400" y="548" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">event_id</text>
+<rect x="540" y="537" width="22" height="14" rx="7" fill="#fef3c7"/>
+<text x="544" y="547.5" font-size="8" font-weight="bold" fill="#92400e" font-family="Segoe UI, sans-serif">PK</text>
+<text x="333" y="568" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="400" y="568" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">session_id</text>
+<rect x="540" y="557" width="22" height="14" rx="7" fill="#ede9fe"/>
+<text x="544" y="567.5" font-size="8" font-weight="bold" fill="#5b21b6" font-family="Segoe UI, sans-serif">FK</text>
+<rect x="326" y="574" width="243" height="20" fill="#f8fafc"/>
+<text x="333" y="588" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="400" y="588" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">event_type</text>
+<text x="333" y="608" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">json</text>
+<text x="400" y="608" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">payload</text>
+<rect x="326" y="614" width="243" height="20" fill="#f8fafc"/>
+<text x="333" y="628" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">timestamp</text>
+<text x="400" y="628" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">timestamp</text>
+<rect x="602" y="102" width="245" height="172" rx="8" fill="#00000010"/>
+<rect x="600" y="100" width="245" height="172" rx="8" fill="white" stroke="#059669" stroke-width="1.5"/>
+<rect x="600" y="100" width="245" height="28" rx="8" fill="#059669"/>
+<rect x="600" y="120" width="245" height="8" fill="#059669"/>
+<text x="612" y="118" font-size="12" font-weight="bold" fill="white" font-family="Segoe UI, sans-serif">ORDER_TBL</text>
+<rect x="601" y="130" width="243" height="20" fill="#f8fafc"/>
+<text x="608" y="144" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="675" y="144" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">order_id</text>
+<rect x="815" y="133" width="22" height="14" rx="7" fill="#fef3c7"/>
+<text x="819" y="143.5" font-size="8" font-weight="bold" fill="#92400e" font-family="Segoe UI, sans-serif">PK</text>
+<text x="608" y="164" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="675" y="164" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">tenant_id</text>
+<rect x="815" y="153" width="22" height="14" rx="7" fill="#ede9fe"/>
+<text x="819" y="163.5" font-size="8" font-weight="bold" fill="#5b21b6" font-family="Segoe UI, sans-serif">FK</text>
+<rect x="601" y="170" width="243" height="20" fill="#f8fafc"/>
+<text x="608" y="184" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="675" y="184" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">customer_id</text>
+<rect x="815" y="173" width="22" height="14" rx="7" fill="#ede9fe"/>
+<text x="819" y="183.5" font-size="8" font-weight="bold" fill="#5b21b6" font-family="Segoe UI, sans-serif">FK</text>
+<text x="608" y="204" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="675" y="204" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">status</text>
+<rect x="601" y="210" width="243" height="20" fill="#f8fafc"/>
+<text x="608" y="224" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="675" y="224" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">channel</text>
+<text x="608" y="244" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">float</text>
+<text x="675" y="244" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">total_amount</text>
+<rect x="601" y="250" width="243" height="20" fill="#f8fafc"/>
+<text x="608" y="264" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">timestamp</text>
+<text x="675" y="264" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">order_date</text>
+<rect x="602" y="304" width="245" height="132" rx="8" fill="#00000010"/>
+<rect x="600" y="302" width="245" height="132" rx="8" fill="white" stroke="#059669" stroke-width="1.5"/>
+<rect x="600" y="302" width="245" height="28" rx="8" fill="#059669"/>
+<rect x="600" y="322" width="245" height="8" fill="#059669"/>
+<text x="612" y="320" font-size="12" font-weight="bold" fill="white" font-family="Segoe UI, sans-serif">ORDER_ITEM</text>
+<rect x="601" y="332" width="243" height="20" fill="#f8fafc"/>
+<text x="608" y="346" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="675" y="346" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">order_item_id</text>
+<rect x="815" y="335" width="22" height="14" rx="7" fill="#fef3c7"/>
+<text x="819" y="345.5" font-size="8" font-weight="bold" fill="#92400e" font-family="Segoe UI, sans-serif">PK</text>
+<text x="608" y="366" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="675" y="366" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">order_id</text>
+<rect x="815" y="355" width="22" height="14" rx="7" fill="#ede9fe"/>
+<text x="819" y="365.5" font-size="8" font-weight="bold" fill="#5b21b6" font-family="Segoe UI, sans-serif">FK</text>
+<rect x="601" y="372" width="243" height="20" fill="#f8fafc"/>
+<text x="608" y="386" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="675" y="386" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">drug_id</text>
+<rect x="815" y="375" width="22" height="14" rx="7" fill="#ede9fe"/>
+<text x="819" y="385.5" font-size="8" font-weight="bold" fill="#5b21b6" font-family="Segoe UI, sans-serif">FK</text>
+<text x="608" y="406" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">int</text>
+<text x="675" y="406" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">quantity</text>
+<rect x="601" y="412" width="243" height="20" fill="#f8fafc"/>
+<text x="608" y="426" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">float</text>
+<text x="675" y="426" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">unit_price</text>
+<rect x="877" y="102" width="245" height="192" rx="8" fill="#00000010"/>
+<rect x="875" y="100" width="245" height="192" rx="8" fill="white" stroke="#d97706" stroke-width="1.5"/>
+<rect x="875" y="100" width="245" height="28" rx="8" fill="#d97706"/>
+<rect x="875" y="120" width="245" height="8" fill="#d97706"/>
+<text x="887" y="118" font-size="12" font-weight="bold" fill="white" font-family="Segoe UI, sans-serif">DRUG</text>
+<rect x="876" y="130" width="243" height="20" fill="#f8fafc"/>
+<text x="883" y="144" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="950" y="144" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">drug_id</text>
+<rect x="1090" y="133" width="22" height="14" rx="7" fill="#fef3c7"/>
+<text x="1094" y="143.5" font-size="8" font-weight="bold" fill="#92400e" font-family="Segoe UI, sans-serif">PK</text>
+<text x="883" y="164" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="950" y="164" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">brand_name</text>
+<rect x="876" y="170" width="243" height="20" fill="#f8fafc"/>
+<text x="883" y="184" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="950" y="184" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">generic_name</text>
+<text x="883" y="204" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="950" y="204" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">category</text>
+<rect x="876" y="210" width="243" height="20" fill="#f8fafc"/>
+<text x="883" y="224" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">boolean</text>
+<text x="950" y="224" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">is_chronic</text>
+<text x="883" y="244" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">int</text>
+<text x="950" y="244" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">default_cycle_days</text>
+<rect x="876" y="250" width="243" height="20" fill="#f8fafc"/>
+<text x="883" y="264" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">float</text>
+<text x="950" y="264" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">base_price</text>
+<text x="883" y="284" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="950" y="284" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">care_type</text>
+<rect x="877" y="324" width="245" height="132" rx="8" fill="#00000010"/>
+<rect x="875" y="322" width="245" height="132" rx="8" fill="white" stroke="#d97706" stroke-width="1.5"/>
+<rect x="875" y="322" width="245" height="28" rx="8" fill="#d97706"/>
+<rect x="875" y="342" width="245" height="8" fill="#d97706"/>
+<text x="887" y="340" font-size="12" font-weight="bold" fill="white" font-family="Segoe UI, sans-serif">DRUG_INTERACTION</text>
+<rect x="876" y="352" width="243" height="20" fill="#f8fafc"/>
+<text x="883" y="366" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="950" y="366" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">interaction_id</text>
+<rect x="1090" y="355" width="22" height="14" rx="7" fill="#fef3c7"/>
+<text x="1094" y="365.5" font-size="8" font-weight="bold" fill="#92400e" font-family="Segoe UI, sans-serif">PK</text>
+<text x="883" y="386" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="950" y="386" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">drug_id_a</text>
+<rect x="1090" y="375" width="22" height="14" rx="7" fill="#ede9fe"/>
+<text x="1094" y="385.5" font-size="8" font-weight="bold" fill="#5b21b6" font-family="Segoe UI, sans-serif">FK</text>
+<rect x="876" y="392" width="243" height="20" fill="#f8fafc"/>
+<text x="883" y="406" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="950" y="406" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">drug_id_b</text>
+<rect x="1090" y="395" width="22" height="14" rx="7" fill="#ede9fe"/>
+<text x="1094" y="405.5" font-size="8" font-weight="bold" fill="#5b21b6" font-family="Segoe UI, sans-serif">FK</text>
+<text x="883" y="426" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="950" y="426" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">severity</text>
+<rect x="876" y="432" width="243" height="20" fill="#f8fafc"/>
+<text x="883" y="446" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="950" y="446" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">description</text>
+<rect x="877" y="486" width="245" height="112" rx="8" fill="#00000010"/>
+<rect x="875" y="484" width="245" height="112" rx="8" fill="white" stroke="#d97706" stroke-width="1.5"/>
+<rect x="875" y="484" width="245" height="28" rx="8" fill="#d97706"/>
+<rect x="875" y="504" width="245" height="8" fill="#d97706"/>
+<text x="887" y="502" font-size="12" font-weight="bold" fill="white" font-family="Segoe UI, sans-serif">DRUG_AFFINITY</text>
+<rect x="876" y="514" width="243" height="20" fill="#f8fafc"/>
+<text x="883" y="528" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="950" y="528" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">affinity_id</text>
+<rect x="1090" y="517" width="22" height="14" rx="7" fill="#fef3c7"/>
+<text x="1094" y="527.5" font-size="8" font-weight="bold" fill="#92400e" font-family="Segoe UI, sans-serif">PK</text>
+<text x="883" y="548" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="950" y="548" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">drug_id_a</text>
+<rect x="1090" y="537" width="22" height="14" rx="7" fill="#ede9fe"/>
+<text x="1094" y="547.5" font-size="8" font-weight="bold" fill="#5b21b6" font-family="Segoe UI, sans-serif">FK</text>
+<rect x="876" y="554" width="243" height="20" fill="#f8fafc"/>
+<text x="883" y="568" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="950" y="568" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">drug_id_b</text>
+<rect x="1090" y="557" width="22" height="14" rx="7" fill="#ede9fe"/>
+<text x="1094" y="567.5" font-size="8" font-weight="bold" fill="#5b21b6" font-family="Segoe UI, sans-serif">FK</text>
+<text x="883" y="588" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">float</text>
+<text x="950" y="588" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">confidence_score</text>
+<rect x="602" y="466" width="245" height="132" rx="8" fill="#00000010"/>
+<rect x="600" y="464" width="245" height="132" rx="8" fill="white" stroke="#0d9488" stroke-width="1.5"/>
+<rect x="600" y="464" width="245" height="28" rx="8" fill="#0d9488"/>
+<rect x="600" y="484" width="245" height="8" fill="#0d9488"/>
+<text x="612" y="482" font-size="12" font-weight="bold" fill="white" font-family="Segoe UI, sans-serif">CUSTOMER_CYCLE</text>
+<rect x="601" y="494" width="243" height="20" fill="#f8fafc"/>
+<text x="608" y="508" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="675" y="508" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">customer_id</text>
+<rect x="794" y="497" width="43" height="14" rx="7" fill="#dbeafe"/>
+<text x="798" y="507.5" font-size="8" font-weight="bold" fill="#1e40af" font-family="Segoe UI, sans-serif">PK/FK</text>
+<text x="608" y="528" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="675" y="528" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">drug_id</text>
+<rect x="794" y="517" width="43" height="14" rx="7" fill="#dbeafe"/>
+<text x="798" y="527.5" font-size="8" font-weight="bold" fill="#1e40af" font-family="Segoe UI, sans-serif">PK/FK</text>
+<rect x="601" y="534" width="243" height="20" fill="#f8fafc"/>
+<text x="608" y="548" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">float</text>
+<text x="675" y="548" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">avg_cycle_days</text>
+<text x="608" y="568" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">date</text>
+<text x="675" y="568" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">last_purchase_date</text>
+<rect x="601" y="574" width="243" height="20" fill="#f8fafc"/>
+<text x="608" y="588" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">date</text>
+<text x="675" y="588" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">reminder_day</text>
+<rect x="1152" y="102" width="245" height="212" rx="8" fill="#00000010"/>
+<rect x="1150" y="100" width="245" height="212" rx="8" fill="white" stroke="#7c3aed" stroke-width="1.5"/>
+<rect x="1150" y="100" width="245" height="28" rx="8" fill="#7c3aed"/>
+<rect x="1150" y="120" width="245" height="8" fill="#7c3aed"/>
+<text x="1162" y="118" font-size="12" font-weight="bold" fill="white" font-family="Segoe UI, sans-serif">NOTIFICATION</text>
+<rect x="1151" y="130" width="243" height="20" fill="#f8fafc"/>
+<text x="1158" y="144" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="1225" y="144" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">notification_id</text>
+<rect x="1365" y="133" width="22" height="14" rx="7" fill="#fef3c7"/>
+<text x="1369" y="143.5" font-size="8" font-weight="bold" fill="#92400e" font-family="Segoe UI, sans-serif">PK</text>
+<text x="1158" y="164" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="1225" y="164" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">tenant_id</text>
+<rect x="1365" y="153" width="22" height="14" rx="7" fill="#ede9fe"/>
+<text x="1369" y="163.5" font-size="8" font-weight="bold" fill="#5b21b6" font-family="Segoe UI, sans-serif">FK</text>
+<rect x="1151" y="170" width="243" height="20" fill="#f8fafc"/>
+<text x="1158" y="184" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="1225" y="184" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">customer_id</text>
+<rect x="1365" y="173" width="22" height="14" rx="7" fill="#ede9fe"/>
+<text x="1369" y="183.5" font-size="8" font-weight="bold" fill="#5b21b6" font-family="Segoe UI, sans-serif">FK</text>
+<text x="1158" y="204" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="1225" y="204" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">notification_type</text>
+<rect x="1151" y="210" width="243" height="20" fill="#f8fafc"/>
+<text x="1158" y="224" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="1225" y="224" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">channel</text>
+<text x="1158" y="244" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="1225" y="244" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">ab_variant</text>
+<rect x="1151" y="250" width="243" height="20" fill="#f8fafc"/>
+<text x="1158" y="264" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="1225" y="264" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">status</text>
+<text x="1158" y="284" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">timestamp</text>
+<text x="1225" y="284" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">sent_at</text>
+<rect x="1151" y="290" width="243" height="20" fill="#f8fafc"/>
+<text x="1158" y="304" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">timestamp</text>
+<text x="1225" y="304" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">created_at</text>
+<rect x="52" y="426" width="245" height="152" rx="8" fill="#00000010"/>
+<rect x="50" y="424" width="245" height="152" rx="8" fill="white" stroke="#475569" stroke-width="1.5"/>
+<rect x="50" y="424" width="245" height="28" rx="8" fill="#475569"/>
+<rect x="50" y="444" width="245" height="8" fill="#475569"/>
+<text x="62" y="442" font-size="12" font-weight="bold" fill="white" font-family="Segoe UI, sans-serif">AUDIT_LOG</text>
+<rect x="51" y="454" width="243" height="20" fill="#f8fafc"/>
+<text x="58" y="468" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="125" y="468" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">log_id</text>
+<rect x="265" y="457" width="22" height="14" rx="7" fill="#fef3c7"/>
+<text x="269" y="467.5" font-size="8" font-weight="bold" fill="#92400e" font-family="Segoe UI, sans-serif">PK</text>
+<text x="58" y="488" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="125" y="488" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">tenant_id</text>
+<rect x="265" y="477" width="22" height="14" rx="7" fill="#ede9fe"/>
+<text x="269" y="487.5" font-size="8" font-weight="bold" fill="#5b21b6" font-family="Segoe UI, sans-serif">FK</text>
+<rect x="51" y="494" width="243" height="20" fill="#f8fafc"/>
+<text x="58" y="508" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="125" y="508" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">actor_id</text>
+<text x="58" y="528" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="125" y="528" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">action_type</text>
+<rect x="51" y="534" width="243" height="20" fill="#f8fafc"/>
+<text x="58" y="548" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="125" y="548" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">target_entity</text>
+<text x="58" y="568" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">timestamp</text>
+<text x="125" y="568" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">timestamp</text>
+<rect x="1427" y="102" width="245" height="252" rx="8" fill="#00000010"/>
+<rect x="1425" y="100" width="245" height="252" rx="8" fill="white" stroke="#e11d48" stroke-width="2.5"/>
+<rect x="1425" y="100" width="245" height="28" rx="8" fill="#e11d48"/>
+<rect x="1425" y="120" width="245" height="8" fill="#e11d48"/>
+<text x="1437" y="118" font-size="12" font-weight="bold" fill="white" font-family="Segoe UI, sans-serif">PENDING_REMINDER  [NEW]</text>
+<rect x="1426" y="130" width="243" height="20" fill="#f8fafc"/>
+<text x="1433" y="144" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="1500" y="144" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">reminder_id</text>
+<rect x="1640" y="133" width="22" height="14" rx="7" fill="#fef3c7"/>
+<text x="1644" y="143.5" font-size="8" font-weight="bold" fill="#92400e" font-family="Segoe UI, sans-serif">PK</text>
+<text x="1433" y="164" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="1500" y="164" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">customer_id</text>
+<rect x="1640" y="153" width="22" height="14" rx="7" fill="#ede9fe"/>
+<text x="1644" y="163.5" font-size="8" font-weight="bold" fill="#5b21b6" font-family="Segoe UI, sans-serif">FK</text>
+<rect x="1426" y="170" width="243" height="20" fill="#f8fafc"/>
+<text x="1433" y="184" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="1500" y="184" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">drug_id</text>
+<rect x="1640" y="173" width="22" height="14" rx="7" fill="#ede9fe"/>
+<text x="1644" y="183.5" font-size="8" font-weight="bold" fill="#5b21b6" font-family="Segoe UI, sans-serif">FK</text>
+<text x="1433" y="204" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="1500" y="204" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">channel</text>
+<rect x="1426" y="210" width="243" height="20" fill="#f8fafc"/>
+<text x="1433" y="224" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="1500" y="224" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">decision</text>
+<text x="1433" y="244" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">float</text>
+<text x="1500" y="244" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">cycle_confidence</text>
+<rect x="1426" y="250" width="243" height="20" fill="#f8fafc"/>
+<text x="1433" y="264" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">float</text>
+<text x="1500" y="264" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">churn_probability</text>
+<text x="1433" y="284" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">float</text>
+<text x="1500" y="284" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">predicted_days</text>
+<rect x="1426" y="290" width="243" height="20" fill="#f8fafc"/>
+<text x="1433" y="304" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="1500" y="304" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">status</text>
+<text x="1433" y="324" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">timestamp</text>
+<text x="1500" y="324" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">created_at</text>
+<rect x="1426" y="330" width="243" height="20" fill="#f8fafc"/>
+<text x="1433" y="344" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">timestamp</text>
+<text x="1500" y="344" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">processed_at</text>
+<rect x="1152" y="546" width="245" height="152" rx="8" fill="#00000010"/>
+<rect x="1150" y="544" width="245" height="152" rx="8" fill="white" stroke="#0d9488" stroke-width="2.5"/>
+<rect x="1150" y="544" width="245" height="28" rx="8" fill="#0d9488"/>
+<rect x="1150" y="564" width="245" height="8" fill="#0d9488"/>
+<text x="1162" y="562" font-size="12" font-weight="bold" fill="white" font-family="Segoe UI, sans-serif">INVENTORY_ITEM  [NEW]</text>
+<rect x="1151" y="574" width="243" height="20" fill="#f8fafc"/>
+<text x="1158" y="588" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="1225" y="588" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">inventory_id</text>
+<rect x="1365" y="577" width="22" height="14" rx="7" fill="#fef3c7"/>
+<text x="1369" y="587.5" font-size="8" font-weight="bold" fill="#92400e" font-family="Segoe UI, sans-serif">PK</text>
+<text x="1158" y="608" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="1225" y="608" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">drug_id</text>
+<rect x="1365" y="597" width="22" height="14" rx="7" fill="#ede9fe"/>
+<text x="1369" y="607.5" font-size="8" font-weight="bold" fill="#5b21b6" font-family="Segoe UI, sans-serif">FK</text>
+<rect x="1151" y="614" width="243" height="20" fill="#f8fafc"/>
+<text x="1158" y="628" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">int</text>
+<text x="1225" y="628" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">quantity_on_hand</text>
+<text x="1158" y="648" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">int</text>
+<text x="1225" y="648" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">reorder_level</text>
+<rect x="1151" y="654" width="243" height="20" fill="#f8fafc"/>
+<text x="1158" y="668" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">float</text>
+<text x="1225" y="668" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">cost_price</text>
+<text x="1158" y="688" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">timestamp</text>
+<text x="1225" y="688" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">updated_at</text>
+<rect x="1152" y="344" width="245" height="172" rx="8" fill="#00000010"/>
+<rect x="1150" y="342" width="245" height="172" rx="8" fill="white" stroke="#7c3aed" stroke-width="2.5"/>
+<rect x="1150" y="342" width="245" height="28" rx="8" fill="#7c3aed"/>
+<rect x="1150" y="362" width="245" height="8" fill="#7c3aed"/>
+<text x="1162" y="360" font-size="12" font-weight="bold" fill="white" font-family="Segoe UI, sans-serif">AB_TEST  [NEW]</text>
+<rect x="1151" y="372" width="243" height="20" fill="#f8fafc"/>
+<text x="1158" y="386" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="1225" y="386" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">test_id</text>
+<rect x="1365" y="375" width="22" height="14" rx="7" fill="#fef3c7"/>
+<text x="1369" y="385.5" font-size="8" font-weight="bold" fill="#92400e" font-family="Segoe UI, sans-serif">PK</text>
+<text x="1158" y="406" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="1225" y="406" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">test_name</text>
+<rect x="1151" y="412" width="243" height="20" fill="#f8fafc"/>
+<text x="1158" y="426" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="1225" y="426" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">variant_a</text>
+<text x="1158" y="446" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="1225" y="446" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">variant_b</text>
+<rect x="1151" y="452" width="243" height="20" fill="#f8fafc"/>
+<text x="1158" y="466" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="1225" y="466" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">status</text>
+<text x="1158" y="486" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">timestamp</text>
+<text x="1225" y="486" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">started_at</text>
+<rect x="1151" y="492" width="243" height="20" fill="#f8fafc"/>
+<text x="1158" y="506" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">timestamp</text>
+<text x="1225" y="506" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">ended_at</text>
+<rect x="1427" y="384" width="245" height="152" rx="8" fill="#00000010"/>
+<rect x="1425" y="382" width="245" height="152" rx="8" fill="white" stroke="#7c3aed" stroke-width="2.5"/>
+<rect x="1425" y="382" width="245" height="28" rx="8" fill="#7c3aed"/>
+<rect x="1425" y="402" width="245" height="8" fill="#7c3aed"/>
+<text x="1437" y="400" font-size="12" font-weight="bold" fill="white" font-family="Segoe UI, sans-serif">AB_TEST_RESULT  [NEW]</text>
+<rect x="1426" y="412" width="243" height="20" fill="#f8fafc"/>
+<text x="1433" y="426" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="1500" y="426" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">result_id</text>
+<rect x="1640" y="415" width="22" height="14" rx="7" fill="#fef3c7"/>
+<text x="1644" y="425.5" font-size="8" font-weight="bold" fill="#92400e" font-family="Segoe UI, sans-serif">PK</text>
+<text x="1433" y="446" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="1500" y="446" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">test_id</text>
+<rect x="1640" y="435" width="22" height="14" rx="7" fill="#ede9fe"/>
+<text x="1644" y="445.5" font-size="8" font-weight="bold" fill="#5b21b6" font-family="Segoe UI, sans-serif">FK</text>
+<rect x="1426" y="452" width="243" height="20" fill="#f8fafc"/>
+<text x="1433" y="466" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="1500" y="466" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">notification_id</text>
+<rect x="1640" y="455" width="22" height="14" rx="7" fill="#ede9fe"/>
+<text x="1644" y="465.5" font-size="8" font-weight="bold" fill="#5b21b6" font-family="Segoe UI, sans-serif">FK</text>
+<text x="1433" y="486" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="1500" y="486" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">variant</text>
+<rect x="1426" y="492" width="243" height="20" fill="#f8fafc"/>
+<text x="1433" y="506" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">boolean</text>
+<text x="1500" y="506" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">converted</text>
+<text x="1433" y="526" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">timestamp</text>
+<text x="1500" y="526" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">recorded_at</text>
+<rect x="1427" y="566" width="245" height="132" rx="8" fill="#00000010"/>
+<rect x="1425" y="564" width="245" height="132" rx="8" fill="white" stroke="#475569" stroke-width="2.5"/>
+<rect x="1425" y="564" width="245" height="28" rx="8" fill="#475569"/>
+<rect x="1425" y="584" width="245" height="8" fill="#475569"/>
+<text x="1437" y="582" font-size="12" font-weight="bold" fill="white" font-family="Segoe UI, sans-serif">KNOWLEDGE_CHUNK  [NEW]</text>
+<rect x="1426" y="594" width="243" height="20" fill="#f8fafc"/>
+<text x="1433" y="608" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="1500" y="608" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">chunk_id</text>
+<rect x="1640" y="597" width="22" height="14" rx="7" fill="#fef3c7"/>
+<text x="1644" y="607.5" font-size="8" font-weight="bold" fill="#92400e" font-family="Segoe UI, sans-serif">PK</text>
+<text x="1433" y="628" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="1500" y="628" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">source_type</text>
+<rect x="1426" y="634" width="243" height="20" fill="#f8fafc"/>
+<text x="1433" y="648" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="1500" y="648" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">content</text>
+<text x="1433" y="668" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">json</text>
+<text x="1500" y="668" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">embedding</text>
+<rect x="1426" y="674" width="243" height="20" fill="#f8fafc"/>
+<text x="1433" y="688" font-size="9.5" fill="#94a3b8" font-family="Consolas, monospace">timestamp</text>
+<text x="1500" y="688" font-size="10.5" fill="#1e293b" font-weight="600" font-family="Segoe UI, sans-serif">created_at</text>
+<text x="860.0" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#1e1b4b" font-family="Segoe UI, sans-serif">AI-COS Pharmacy &mdash; Entity Relationship Diagram (v5)</text>
+<text x="860.0" y="52" text-anchor="middle" font-size="12" fill="#64748b" font-family="Segoe UI, sans-serif">18 Tables &middot; PostgreSQL + Supabase Auth &middot; 21 Relationships &middot; August 2026</text>
+<rect x="50" y="68" width="12" height="12" rx="3" fill="#4338ca"/>
+<text x="66" y="78" font-size="10" fill="#334155" font-weight="600" font-family="Segoe UI, sans-serif">Multi-Tenant</text>
+<rect x="205" y="68" width="12" height="12" rx="3" fill="#0284c7"/>
+<text x="221" y="78" font-size="10" fill="#334155" font-weight="600" font-family="Segoe UI, sans-serif">Customer/Session</text>
+<rect x="360" y="68" width="12" height="12" rx="3" fill="#059669"/>
+<text x="376" y="78" font-size="10" fill="#334155" font-weight="600" font-family="Segoe UI, sans-serif">Orders</text>
+<rect x="515" y="68" width="12" height="12" rx="3" fill="#d97706"/>
+<text x="531" y="78" font-size="10" fill="#334155" font-weight="600" font-family="Segoe UI, sans-serif">Drug Catalog</text>
+<rect x="670" y="68" width="12" height="12" rx="3" fill="#0d9488"/>
+<text x="686" y="78" font-size="10" fill="#334155" font-weight="600" font-family="Segoe UI, sans-serif">Inventory/Cycle</text>
+<rect x="825" y="68" width="12" height="12" rx="3" fill="#e11d48"/>
+<text x="841" y="78" font-size="10" fill="#334155" font-weight="600" font-family="Segoe UI, sans-serif">AI/ML [NEW]</text>
+<rect x="980" y="68" width="12" height="12" rx="3" fill="#7c3aed"/>
+<text x="996" y="78" font-size="10" fill="#334155" font-weight="600" font-family="Segoe UI, sans-serif">Analytics [NEW]</text>
+<rect x="1135" y="68" width="12" height="12" rx="3" fill="#475569"/>
+<text x="1151" y="78" font-size="10" fill="#334155" font-weight="600" font-family="Segoe UI, sans-serif">System</text>
+<rect x="1310" y="68" width="22" height="14" rx="7" fill="#fef3c7"/>
+<text x="1314" y="78.5" font-size="8" font-weight="bold" fill="#92400e" font-family="Segoe UI, sans-serif">PK</text>
+<rect x="1365" y="68" width="22" height="14" rx="7" fill="#ede9fe"/>
+<text x="1369" y="78.5" font-size="8" font-weight="bold" fill="#5b21b6" font-family="Segoe UI, sans-serif">FK</text>
+<rect x="1420" y="68" width="43" height="14" rx="7" fill="#dbeafe"/>
+<text x="1424" y="78.5" font-size="8" font-weight="bold" fill="#1e40af" font-family="Segoe UI, sans-serif">PK/FK</text>
+<text x="860.0" y="736" text-anchor="middle" font-size="9" fill="#94a3b8" font-family="Segoe UI, sans-serif">AI-COS Pharmacy &middot; Graduation Project 2026 &middot; PostgreSQL + Supabase &middot; FastAPI + Next.js 16 &middot; ERD v5</text>
+</svg>
+</body>
+</html>

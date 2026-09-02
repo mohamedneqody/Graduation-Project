@@ -1,0 +1,49 @@
+# Virtual Environment
+venv/
+.venv/
+env/
+
+# Nested Git Repositories
+AI-COS-Pharmacy/
+
+# Node & Next.js
+node_modules/
+.next/
+stitch_ai_cos_pharmacy/
+
+# IDE & Tool caches
+.gemini/
+.idea/
+.vscode/
+.pytest_cache/
+.review_tmp/
+__pycache__/
+*.pyc
+
+# Large Binary & Model Files (>50MB)
+*.zip
+*.tar
+*.gz
+*.safetensors
+*.bin
+*.gguf
+*.onnx
+*.exe
+*.dll
+*.pyd
+*.mp4
+*.mkv
+*.avi
+ai models/
+upload/
+uploads/
+backups/
+
+.env
+*.env
+*.env.*
+
+# Secrets and Logs
+*.log
+scratch/
+.env*

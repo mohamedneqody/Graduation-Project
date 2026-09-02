@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>مركز تجارب الأنيميشن والابتكار — AI-COS Labs Hub</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --emerald: #10b981;
+      --bg: #090d16;
+      --card: rgba(255, 255, 255, 0.05);
+      --border: rgba(255, 255, 255, 0.12);
+      --text: #ffffff;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      min-height: 100vh;
+      padding: 50px 20px;
+    }
+    .container { max-width: 1100px; margin: 0 auto; text-align: center; }
+
+    .hub-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 20px;
+      border-radius: 9999px;
+      background: rgba(99, 102, 241, 0.15);
+      border: 1px solid rgba(99, 102, 241, 0.35);
+      color: #a5b4fc;
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: 42px;
+      font-weight: 900;
+      background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 50%, #818cf8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 12px;
+    }
+
+    p.sub { color: #94a3b8; font-size: 16px; max-width: 650px; margin: 0 auto 50px; }
+
+    /* Cards Grid */
+    .demos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+      text-align: right;
+    }
+
+    .demo-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 28px;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+    }
+
+    .demo-card:hover {
+      transform: translateY(-8px) scale(1.03);
+      border-color: rgba(99, 102, 241, 0.6);
+      box-shadow: 0 20px 50px rgba(79, 70, 229, 0.3);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .demo-card .icon {
+      font-size: 44px;
+      margin-bottom: 16px;
+    }
+
+    .demo-card h3 {
+      font-size: 20px;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+
+    .demo-card p {
+      font-size: 13.5px;
+      color: #94a3b8;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .demo-card .btn-go {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: #818cf8;
+      font-weight: 800;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="hub-badge">🚀 بوابة الابتكارات الحية — AI-COS Labs Hub</div>
+    <h1>اختر تجربة الأنيميشن لمعاينتها</h1>
+    <p class="sub">4 صفحات تجريبية مستقلة ومبهرة تم تصميمها خصيصاً لتستعرض كافة أفكار وحركات المستقبل في مشروعك.</p>
+
+    <div class="demos-grid">
+      
+      <!-- Demo 1 -->
+      <a href="demo_1_cyber_storefront.html" class="demo-card">
+        <div>
+          <div class="icon">🌌</div>
+          <h3>1. المتجر السيبراني 3D</h3>
+          <p>ألوان مشروعك الرسمية، الكبسولة الطائرة للسلة، الهولوجرام، وشريط التصنيفات المنزلق.</p>
+        </div>
+        <div class="btn-go">دخول التجربة ←</div>
+      </a>
+
+      <!-- Demo 2 -->
+      <a href="demo_2_ai_clinical_copilot.html" class="demo-card">
+        <div>
+          <div class="icon">⚡</div>
+          <h3>2. المساعد والماسح الليزري</h3>
+          <p>ماسح روشتات بالليزر (Live OCR)، خريطة عصبية تفاعلية، وموجات صوتية حية.</p>
+        </div>
+        <div class="btn-go">دخول التجربة ←</div>
+      </a>
+
+      <!-- Demo 3 -->
+      <a href="demo_3_patient_journey_3d.html" class="demo-card">
+        <div>
+          <div class="icon">🪐</div>
+          <h3>3. المدار الدوائي والاحتفال</h3>
+          <p>مدار كوكبي للأدوية المزمنة للمريض واحتفال كونفيتي مبهر عند الالتزام بالجرعات.</p>
+        </div>
+        <div class="btn-go">دخول التجربة ←</div>
+      </a>
+
+      <!-- Demo 4 -->
+      <a href="demo_4_enterprise_operations_hub.html" class="demo-card">
+        <div>
+          <div class="icon">🛸</div>
+          <h3>4. رادار التوصيل والدرونز</h3>
+          <p>رادار حي لتتبع أسطول توصيل الأدوية السريعة والتحكم الذكي بالمخزون.</p>
+        </div>
+        <div class="btn-go">دخول التجربة ←</div>
+      </a>
+
+    </div>
+  </div>
+</body>
+</html>

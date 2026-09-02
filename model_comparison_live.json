@@ -1,0 +1,228 @@
+{
+  "AI-COS-Qwen-2.5:latest": {
+    "single_turns": [
+      {
+        "category": "Identity & Project Info",
+        "name": "Creator & University",
+        "prompt": "من صانعك ومن المطور الرئيسي وما هي كليتك وجامعتك؟",
+        "response": "أنا أنتجت من AI-COS Pharmacy، وهي مشروع تطوير فريق مكون من عدة أفراد. أنا برمجي وأنا محمد ياسر سعد نقودي (Mohamed Yasser Saad Nokoudy) وهو طالب في كلية إدارة الأعمال ونظم المعلومات بجامعة بورسعيد.",
+        "speed": 48.4,
+        "elapsed": 4.33,
+        "eval_count": 72
+      },
+      {
+        "category": "Identity & Project Info",
+        "name": "Team Members",
+        "prompt": "من هم أعضاء الفريق الذين ساعدوا المطور في بناء نظام AI-COS Pharmacy؟",
+        "response": "فريق AI-COS Pharmacy يتألف من عدة أفراد، إليك تفاصيلهم:\n\n1. Mohamed Yasser Saad Nokoudoy (محمد ياسر سعد نقودي): هو المطور الرئيسي للنظام AI-COS Pharmacy.\n\n2. يوسف نوفل: يعمل كمدير للمبيعات والتسويق في النظام.\n\n3. زياد جودة: يساهم في تطوير وتحسين جوانب مختلفة من النظام، بما في ذلك الجانب التقني والمالي.\n\n4. محمود طنطاوي: عضو فريق إدارة الموارد البشرية والعمليات في النظام.\n\nهؤلاء الأعضاء يعملون معًا لتطوير وإدارة نظام AI-COS Pharmacy بشكل مستمر ومتوازن.",
+        "speed": 48.0,
+        "elapsed": 6.1,
+        "eval_count": 161
+      },
+      {
+        "category": "Identity & Project Info",
+        "name": "Role of Mohamed Yasser",
+        "prompt": "ما هو دور محمد ياسر بالتحديد في مشروع AI-COS؟",
+        "response": "محمد ياسر سعد نقودي، وهو أحد أعضاء فريق AI-COS Pharmacy، يلعب دورًا محوريًا كخبير في الذكاء الاصطناعي. يتمتع بخبرة واسعة في مجال تطوير وإدارة أنظمة الذكاء الاصطناعي، بما في ذلك استخدام التعلم الآلي والذكاء الصناعي لتحسين الخدمات التي يقدمها المشروع.\n\nفي مشروع AI-COS Pharmacy، يساهم محمد ياسر في تصميم وتطوير الحلول الذكية التي تهدف إلى تحسين تجربة العملاء وتوفير الوقت والجهد للعملاء والموظفين. يتم استخدام تقنيات الذكاء الاصطناعي لتحسين عمليات التوصيل، والتحقق من وجود الأدوية، وإدارة المخزون، وتقديم المشورة الطبية.\n\nبالإضافة إلى ذلك، يساهم محمد في تطوير الروبوتات الآلية التي يمكنها التعامل مع العملاء وتوفير المعلومات حول الأدوية والخدمات. كما أنه مسؤول عن تحسين جودة البيانات المستخدمة في النظام وتطوير التحليل",
+        "speed": 47.3,
+        "elapsed": 7.89,
+        "eval_count": 250
+      },
+      {
+        "category": "Medical & Pharmacy Knowledge",
+        "name": "Therapeutic Category (Concor)",
+        "prompt": "ما هي الفئة العلاجية لدواء Concor وما هي استخداماته الأساسية؟",
+        "response": "Concor هو دواء يستخدم عادة كجزء من نظام تناول الأدوية لعلاج ارتفاع ضغط الدم. وهو يحتوي على فئتين من الأدوية: \n\n1. فيتامين D3 (الكيراتين 25-هيدروكسيليز)\n2. أسيتادين\n\nاستخداماته الأساسية تشمل:\n\n1. علاج ارتفاع ضغط الدم المزمن\n2. التحكم بضغط الدم المرتفع عند عدم استجابة الأدوية الأخرى \n3. في بعض الحالات، قد يستخدم كجزء من نظام العلاج لمرضى السكري الذين يعانون من ارتفاع ضغط الدم\n\nيرجى ملاحظة أن استخدامه يجب أن يتم تحت إشراف طبي دائم، وفقًا لمتابعة الأطباء والاختبارات الطبية.",
+        "speed": 47.1,
+        "elapsed": 6.79,
+        "eval_count": 192
+      },
+      {
+        "category": "Medical & Pharmacy Knowledge",
+        "name": "Drug Interaction (Warfarin + Aspirin)",
+        "prompt": "مريض يتناول دواء Warfarin ويعاني من صداع شديد، هل تنصحه بأخذ Aspirin أم Paracetamol؟ اشرح السبب الطبي بدقة.",
+        "response": "عذراً، ولكنني كمساعد ذكاء صناعي لا أملك القدرة على تقديم نصائح طبية دقيقة أو تشخيصات مرضية. دواء Warfarin هو دواء يستخدم عادة لمنع النزف في الأشخاص الذين لديهم خطر كبير للنزيف، ويجب أن يتم استخدامه بحذر شديد مع أي أدوية أخرى.\n\nالصداع الشديد قد يكون مؤشرًا على تداخل دوائي غير متوقع، وقد يؤدي إلى زيادة أو نقصان فعالية Warfarin. هذا يمكن أن يسبب مشاكل صحية خطيرة مثل النزف غير المبرر أو النزيف غير مبرر.\n\nأفضل طريقة للتعامل مع هذه الحالة هي الاتصال بالطبيب أو الصيدلي الخاص بك. يجب عليك تجنب استخدام أي أدوية أخرى دون استشارة الطبيب، لأنها قد تؤثر على فعالية Warfarin أو قد تكون لها آثار جانبية خطيرة.\n\nأنا حزين أنني لا يمكنني تقديم نصيحة طبية دقيقة، ولكن من الأفضل دائمًا الاستعانة بالطبيب في مثل هذه",
+        "speed": 46.3,
+        "elapsed": 8.18,
+        "eval_count": 250
+      },
+      {
+        "category": "Medical & Pharmacy Knowledge",
+        "name": "Chronic vs Acute Drugs",
+        "prompt": "في نظام الصيدلية، ما الفرق بين الدواء المزمن (Chronic) والدواء الحاد (Acute)؟ اذكر مثالاً لكل منهما وكيف يؤثر ذلك على التذكير الذكي.",
+        "response": "الفرق الرئيسي بين الدواء المزمن والحاد يكمن في طبيعة الاستخدام والهدف من استخدامه، وليس هناك فرق واضح في كيفية تأثير هذا الفرق على التذكير الذكي لحالات الصيدلية.\n\n1. الدواء المزمن (Chronic): هو دواء يستخدم لفترة طويلة أو مدى الحياة للتحكم في حالة صحية معينة مثل ضغط الدم المرتفع، السكري، وأمراض القلب. يتم استخدامه عادة كجزء من نظام العلاج الذي يتضمن أيضاً التغييرات الغذائية والنشاط البدني.\n\n2. الدواء الحاد (Acute): هو دواء يستخدم لفترة قصيرة للتعامل مع حالة صحية مؤقتة مثل السعال، أو ارتفاع درجة الحرارة بعد الإصابة بفيروس.\n\nالتأثير على التذكير الذكي:\n- التذكير الذكي يمكن أن يكون مفيدًا في تنظيم استخدام الدواء المزمن، حيث يمكنه تذكير الأشخاص بال用药时间 والجرعات.\n- بالنسبة للدواء الحاد، التذك",
+        "speed": 46.2,
+        "elapsed": 8.31,
+        "eval_count": 250
+      },
+      {
+        "category": "Database Grounding & Pricing",
+        "name": "Direct Price RAG",
+        "prompt": "السياق المستخرج من قاعدة البيانات:\nدواء Alerid 10mg سعره 63.00 ج.م وهو مضاد للهستامين.\nدواء Stopadol Night سعره 30.00 ج.م مسكن.\n\nسؤال المستخدم: كم سعر دواء Alerid 10mg وما هو استخدامه؟",
+        "response": "سعر دواء Alerid 10mg هو 63.00 ج.م. فيما يتعلق باستخدامه، فهو مضاد للهستامين ويستخدم عادة في حالات الحساسية والتهاب المفاصل الروماتويضي (RA) وحالات أخرى تتعلق باللهستامين مثل الارتجاع المعدي المريئي.\n\nيرجى ملاحظة أن استخدام الأدوية يجب أن يتم تحت إشراف طبي، وأنا هنا للمساعدة في أي استفسارات أخرى قد تكون لديك.",
+        "speed": 46.7,
+        "elapsed": 5.52,
+        "eval_count": 118
+      },
+      {
+        "category": "Database Grounding & Pricing",
+        "name": "Contextual Pronoun Question (كم سعره)",
+        "prompt": "السياق المستخرج من قاعدة البيانات:\nدواء Alerid 10mg 30 قرص سعره 63.00 ج.م.\n\nسؤال المستخدم: كم سعره وهل هو متوفر؟",
+        "response": "سعر دواء Alerid 10mg 30 قرص هو 63.00 ج.م. ولكن، لم يتم تأكيد توفر هذا الدواء في الوقت الحالي. يرجى التحقق من توفره من قبل فريق المخزن أو التواصل مع خدمة العملاء للاستفسار عن توافره.",
+        "speed": 46.6,
+        "elapsed": 4.36,
+        "eval_count": 78
+      },
+      {
+        "category": "Database Grounding & Pricing",
+        "name": "Hallucination Test (Unknown Drug)",
+        "prompt": "السياق المستخرج من قاعدة البيانات:\nلا توجد نتائج مطابقة لهذا الدواء في المخزون.\n\nسؤال المستخدم: ما سعر دواء SuperCure Max 500mg؟",
+        "response": "عذرًا، لا أستطيع إعطائك السعر المباشر لدواء \"SuperCure Max 500mg\" لأن السعر قد يتغير باستمرار وفقًا للمنشأة أو المورد. كما أنه من الجيد ملاحظة أنني لم أجد أي نتائج مطابقة لهذا الدواء في المخزون، مما يعني أنه ليس متوفراً لدينا حالياً.\n\nإذا كنت ترغب في الحصول على السعر، يرجى التواصل مع أحد فروعنا أو زيارة موقعنا الإلكتروني للعثور على هذا المعلومات. كما أنني أستطيع تقديم معلومات عامة حول الدواء إذا كنت بحاجة إلى ذلك.",
+        "speed": 45.6,
+        "elapsed": 6.16,
+        "eval_count": 147
+      }
+    ],
+    "multi_turns": [
+      {
+        "name": "Patient Identity & Context Tracking",
+        "turns": [
+          {
+            "turn": 1,
+            "user": "أهلاً بك، أنا اسمي أحمد، عمري 45 سنة، وأعاني من ارتفاع ضغط الدم المزمن.",
+            "bot": "مرحباً أحمد، أتمنى أن تشعر بالراحة في استخدام خدماتنا. كمساعد طبي ذكي، يمكنني تقديم بعض النصائح العامة حول كيفية إدارة ارتفاع ضغط الدم، ولكن من الأفضل دائمًا استشارة الصيدلي أو الطبيب المختص للحصول على نصائح شخصية وعلاجات مخصصة لك. هل لديك أي أسئلة محددة حول هذا الموضوع؟",
+            "speed": 46.3,
+            "elapsed": 4.76
+          },
+          {
+            "turn": 2,
+            "user": "ما هي النصائح العامة لحالتي، وما هو اسمي الذي أخبرتك به؟",
+            "bot": "أهلاً أحمد! شكراً على طلبك. اسمك هو أحمد.\n\nعندما يتعلق الأمر بارتفاع ضغط الدم المزمن، هناك بعض النصائح العامة التي قد تكون مفيدة لك:\n\n1. تناول نظام غذائي صحي: احرص على تناول الأطعمة الغنية بالألياف والبروتين والدهون الصحية، وقلل من الدهون المشبعة والكربوهيدرات السكرية.\n2. الحد من الكحول والتدخين: يمكن أن يؤدي التدخين والكحول إلى زيادة ضغط الدم، لذا حاول تجنبهما أو استخدامهما بكميات قليلة فقط.\n3. ممارسة الرياضة بشكل منتظم: يوصى بممارسة الرياضة لمدة 150 دقيقة في الأسبوع على الأقل، مثل المشي أو السباحة.\n4. الحفاظ على وزنك الصحي: حاول الحفاظ على الوزن المناسب من خلال تناول الطعام الصحي وتناول كميات كافية من النشاط البدني.\n5. استرخاء وتخفيف الضغط النفسي: يمكن",
+            "speed": 46.7,
+            "elapsed": 8.0
+          },
+          {
+            "turn": 3,
+            "user": "ما هو مرضي المزمن وكم عمري؟",
+            "bot": "أعتذر على الإرباك، ولكن يبدو أن هناك بعض المعلومات غير واضحة في سؤالك. هل يمكنك توضيح ما هي حالة المزمنة الخاصة بك وكيفية تحديد عمرك؟ إذا كنت تريد الحصول على معلومات حول ارتفاع ضغط الدم المزمن ونصائح للتعامل معه، فأنا هنا لمساعدتك.",
+            "speed": 47.1,
+            "elapsed": 4.31
+          }
+        ]
+      }
+    ]
+  },
+  "AI-COS-LFM-Q4:latest": {
+    "single_turns": [
+      {
+        "category": "Identity & Project Info",
+        "name": "Creator & University",
+        "prompt": "من صانعك ومن المطور الرئيسي وما هي كليتك وجامعتك؟",
+        "response": "أنا نموذج لغوي تم تطويره بواسطة شركة **ميتا (Facebook)**، وتحديدًا من خلال فريق البحث والتطوير في الذكاء الاصطناعي التابع للمؤسسة.\n\nبخصوص الكليات والجامعات:\n- أنا لست مرتبطًا بشكل مباشر بأي جامعة أو كلية معينة، لأنني نموذج ذكاء اصطناعي تم تدريبي على كم هائل من النصوص العامة المتاحة على الإنترنت.\n- ومع ذلك، فإن تطوير تقنيات مثلّي يعتمد غالبًا على أبحاث أكاديمية وتعاون مع مؤسسات تعليمية مرموقة حول العالم.\n\nإذا كنت تبحث عن مصادر التدريب أو المؤسسات البحثية التي ساهمت في تطوير الذكاء الاصطناعي العام، يمكنني مساعدتك بذلك إذا وُفرت لك المزيد من السياق!",
+        "speed": 60.8,
+        "elapsed": 6.42,
+        "eval_count": 241
+      },
+      {
+        "category": "Identity & Project Info",
+        "name": "Team Members",
+        "prompt": "من هم أعضاء الفريق الذين ساعدوا المطور في بناء نظام AI-COS Pharmacy؟",
+        "response": "لا يحتوي السياق المقدم على معلومات حول أعضاء الفريق الذين ساعدوا المطور في بناء نظام AI-COS Pharmacy. يبدو أن الوثيقة ذات الصلة أو التفاصيل قد لم تُدرج. إذا كان لديك وثيقة محددة تتناول هذا المشروع، يرجى تزويدي بها حتى أتمكن من مساعدتك في تحديد أعضاء الفريق المعنيين.",
+        "speed": 61.1,
+        "elapsed": 4.34,
+        "eval_count": 110
+      },
+      {
+        "category": "Identity & Project Info",
+        "name": "Role of Mohamed Yasser",
+        "prompt": "ما هو دور محمد ياسر بالتحديد في مشروع AI-COS؟",
+        "response": "<think>\nOkay, the user is asking about the specific role of Muhammad Yaser in the AI-COS project. First, I need to recall what I know about AI-COS. From previous knowledge, AI-COS stands for Artificial Intelligence Center for Smart Operations and Customer Service, which is part of a university or research initiative, possibly in Saudi Arabia given the context of Vision 2030 and smart city projects.\n\nNow, Muhammad Yaser... I'm not immediately familiar with his specific role here. Maybe he's a researcher, professor, or project manager. Since the user is asking for a specific role, it's possible that there's a well-known figure associated with this project. However, without recent or detailed sources, I can't be certain. \n\nI should check if there are any official announcements or publications mentioning Muhammad Yaser in relation to AI-COS. If he's part of the academic team, his role might involve research, development, or leadership. Alternatively, he could be a consultant or industry partner contributing expertise.\n\nIt's also possible that the user is referring to a specific event or conference where his contributions were highlighted. Without concrete information, I should avoid making up details. The best approach is to state",
+        "speed": 60.7,
+        "elapsed": 6.66,
+        "eval_count": 250
+      },
+      {
+        "category": "Medical & Pharmacy Knowledge",
+        "name": "Therapeutic Category (Concor)",
+        "prompt": "ما هي الفئة العلاجية لدواء Concor وما هي استخداماته الأساسية؟",
+        "response": "<think>\nOkay, the user is asking about the therapeutic class of Concor and its main uses. Let me start by recalling what I know about Concor. I think it's a medication used for certain conditions related to the immune system or maybe the nervous system. Wait, I remember that Concor contains the active ingredient cyclosporine A. Cyclosporine is an immunosuppressant, right? So the therapeutic class would be immunosuppressive agents.\n\nNow, the main uses. Since it's an immunosuppressant, it's commonly used after organ transplants to prevent rejection. That's a key point. Also, I think it's used for autoimmune diseases like psoriasis or rheumatoid arthritis, but maybe not as first-line because of side effects. Oh, and there's something about treating certain types of cancer, particularly in combination with other drugs. Wait, isn't cyclosporine also used in some cases for graft-versus-host disease after bone marrow transplants? That might be another use.\n\nWait, but I should double-check. Let me structure this. Therapeutic class: Immunosuppressant (specifically calcineurin inhibitors since cyclosporine inhibits calcineurin). Main uses: Primary is",
+        "speed": 60.8,
+        "elapsed": 6.7,
+        "eval_count": 250
+      },
+      {
+        "category": "Medical & Pharmacy Knowledge",
+        "name": "Drug Interaction (Warfarin + Aspirin)",
+        "prompt": "مريض يتناول دواء Warfarin ويعاني من صداع شديد، هل تنصحه بأخذ Aspirin أم Paracetamol؟ اشرح السبب الطبي بدقة.",
+        "response": "في حالة مريض يتناول **Warfarin** (وهو مضاد تخثر) ويعاني من **صداع شديد**، **لا ينصح أبدًا بأخذ Aspirin أو Paracetamol بمفرده كعلاج مباشر للصداع**. والسبب في ذلك يتعلق بتفاعله مع Warfarin:\n\n*   **Aspirin (الأسبرين) يزيد من خطر النزيف:** Warfarin يعمل عن طريق تثبيط إنتاج عوامل التخثر في الكبد، وخاصة البروتينات التي تعتمد على فيتامين K. الـ Aspirin يثبط أيضًا عمل الصفائح الدموية (يمنع تجمعها). الجمع بينهما يزيد بشكل كبير من خطر النزيف، سواء كان نزيفًا داخليًا خطيرًا أو نزيفًا في موقع الحقن/الجراحة. هذا الخطر مرتفع جدًا ويمكن أن يكون مميتًا.\n*   **Par",
+        "speed": 60.5,
+        "elapsed": 6.79,
+        "eval_count": 250
+      },
+      {
+        "category": "Medical & Pharmacy Knowledge",
+        "name": "Chronic vs Acute Drugs",
+        "prompt": "في نظام الصيدلية، ما الفرق بين الدواء المزمن (Chronic) والدواء الحاد (Acute)؟ اذكر مثالاً لكل منهما وكيف يؤثر ذلك على التذكير الذكي.",
+        "response": "<think>\nOkay, the user is asking about the difference between chronic and acute medications in a pharmacy system, along with examples and how that affects smart reminders. Let me start by recalling what I know about these terms.\n\nChronic medications are those taken over a long period, usually for ongoing conditions like diabetes or hypertension. They don't have a specific end date; patients take them daily to manage their condition. Examples could be metformin for diabetes or lisinopril for high blood pressure. \n\nAcute medications, on the other hand, are used short-term to treat sudden illnesses or injuries, like a cold, flu, or acute infections. They usually have a defined period of use and aren't meant for long-term management. An example might be ibuprofen for pain relief from an injury or amoxicillin for a bacterial infection that's expected to clear up in a few days.\n\nNow, how does this affect smart reminders? For chronic drugs, the system needs to send daily or regular reminders because the medication is part of the patient's routine. If they miss a dose, it could lead to complications since the condition isn't under control. So reminders might be more frequent and consistent",
+        "speed": 60.6,
+        "elapsed": 6.83,
+        "eval_count": 250
+      },
+      {
+        "category": "Database Grounding & Pricing",
+        "name": "Direct Price RAG",
+        "prompt": "السياق المستخرج من قاعدة البيانات:\nدواء Alerid 10mg سعره 63.00 ج.م وهو مضاد للهستامين.\nدواء Stopadol Night سعره 30.00 ج.م مسكن.\n\nسؤال المستخدم: كم سعر دواء Alerid 10mg وما هو استخدامه؟",
+        "response": "دواء Alerid 10mg سعره 63.00 ج.م وهو مضاد للهستامين، ويُستخدم لعلاج الحساسية والربو عن طريق تثبيط تأثير الهيستامين في الجسم.",
+        "speed": 61.5,
+        "elapsed": 3.8,
+        "eval_count": 60
+      },
+      {
+        "category": "Database Grounding & Pricing",
+        "name": "Contextual Pronoun Question (كم سعره)",
+        "prompt": "السياق المستخرج من قاعدة البيانات:\nدواء Alerid 10mg 30 قرص سعره 63.00 ج.م.\n\nسؤال المستخدم: كم سعره وهل هو متوفر؟",
+        "response": "الدواء Alerid 10mg (30 قرص) سعره 63.00 ج.م.  \nلا يتضمن السياق المُستخرج معلومات عن توفر الدواء، لذا يُفضل التحقق من المخزون مباشرةً عند الصيدلية أو البائع.",
+        "speed": 61.3,
+        "elapsed": 3.94,
+        "eval_count": 74
+      },
+      {
+        "category": "Database Grounding & Pricing",
+        "name": "Hallucination Test (Unknown Drug)",
+        "prompt": "السياق المستخرج من قاعدة البيانات:\nلا توجد نتائج مطابقة لهذا الدواء في المخزون.\n\nسؤال المستخدم: ما سعر دواء SuperCure Max 500mg؟",
+        "response": "لا يتوفر حاليًا معلومات حول سعر دواء SuperCure Max 500mg، حيث أنه غير موجود في المخزون. يرجى التحقق من المتجر أو الصيدلية التي تهتم بها للحصول على أحدث المعلومات.",
+        "speed": 61.8,
+        "elapsed": 3.66,
+        "eval_count": 63
+      }
+    ],
+    "multi_turns": [
+      {
+        "name": "Patient Identity & Context Tracking",
+        "turns": [
+          {
+            "turn": 1,
+            "user": "أهلاً بك، أنا اسمي أحمد، عمري 45 سنة، وأعاني من ارتفاع ضغط الدم المزمن.",
+            "bot": "<think>\nOkay, the user is Ahmed, 45 years old with chronic hypertension. I need to respond appropriately. First, I should acknowledge his age and condition. Since he mentioned chronic hypertension, it's important to emphasize management strategies. Maybe start with a friendly greeting, then address common concerns for someone his age.\n\nI should mention lifestyle changes like diet (low sodium), regular exercise, stress reduction. Also, medication adherence is crucial. Maybe suggest monitoring blood pressure regularly at home. It's good to remind him about follow-ups with his doctor. Avoid giving medical advice beyond general tips since I'm an AI. Keep the tone supportive and encouraging. Check if there are any specific questions he might have, but since he didn't ask, provide a comprehensive yet concise response.\n</think>مرحبًا يا أحمد، شكرًا لمشاركتك هذه المعلومة. ارتفاع ضغط الدم المزمن يتطلب إدارة دقيقة، خاصة في منتصف العمر. إليك بعض النصائح التي قد تساعدك:\n\n1. **النظام الغذائي**:  \n   - قلل من تناول الملح (",
+            "speed": 61.0,
+            "elapsed": 6.65
+          },
+          {
+            "turn": 2,
+            "user": "ما هي النصائح العامة لحالتي، وما هو اسمي الذي أخبرتك به؟",
+            "bot": "مرحبًا يا أحمد!  \nاسمك لم يتم ذكره في المحادثة السابقة، لكنني سأستخدم \"أحمد\" كاسم افتراضي لك.  \n\n### نصائح عامة لإدارة ارتفاع ضغط الدم المزمن:  \n1. **النظام الغذائي**:  \n   - اتبع نظامًا غذائيًا منخفض الصوديوم (تجنب الملح الزائد).  \n   - زيد من تناول الفواكه والخضروات الغنية بالبوتاسيوم (مثل البطاطا الحلوة، السبانخ).  \n   - اختر الأطعمة قليلة الدهون المشبعة والسكر.  \n\n2. **النشاط البدني**:  \n   - مارس تمارين خفيفة 3-5 مرات أسبوعيًا (مثل المشي السريع، اليوجا).  \n   - تجنب الجلوس لفترات طويلة؛ قم بالتمدد كل",
+            "speed": 60.7,
+            "elapsed": 6.61
+          },
+          {
+            "turn": 3,
+            "user": "ما هو مرضي المزمن وكم عمري؟",
+            "bot": "مرضك المزمن هو **ارتفاع ضغط الدم** (الهيبيرتنس)، وعمرك 45 سنة.  \nإدارة هذا المرض تتطلب توازنًا بين نمط الحياة والعلاج الطبي. إليك ملخصًا للخطوات الأساسية:  \n\n### 1. **التغذية الصحية**:  \n- قلل من الملح (الصوديوم) في النظام الغذائي.  \n- زيد من تناول الخضروات والفواكه (خاصة البوتاسيوم).  \n- تجنب الأطعمة المصنعة والمشبعة بالدهون.  \n\n### 2. **النشاط البدني**:  \n- مارس تمارين خفيفة لمدة 30 دقيقة يوميًا (مثل المشي، السباحة).  \n- تجنب الجلوس لفترات طويلة؛ قم بالحركة كل ساعة.  \n\n### 3. **التحكم في الوزن**:  \n- الحف",
+            "speed": 60.4,
+            "elapsed": 6.61
+          }
+        ]
+      }
+    ]
+  }
+}

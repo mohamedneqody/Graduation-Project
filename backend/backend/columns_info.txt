@@ -1,0 +1,9 @@
+Excel Columns:
+["اسم الصنف", "رابط الصورة (مباشر ومتأكد إنه شغّال)"]
+
+Excel First Row:
+{"اسم الصنف":{"0":"Zyrtec 10mg 20 tablets"},"رابط الصورة (مباشر ومتأكد إنه شغّال)":{"0":"https:\/\/www.bloompharmacy.com\/cdn\/shop\/products\/zyrtec-10-mg-20-tablets-382069.jpg?v=1687731891"}}
+
+CSV Columns:
+["name", "category", "is_chronic", "base_price", "default_cycle_days", "image_url"]
+

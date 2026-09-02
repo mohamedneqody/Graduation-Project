@@ -1,0 +1,21 @@
+Sample 20 Drugs from Database:
+ - alerid 10 mg 30 f.c.tabs            | Cat: حساسية               | Price: 63.00 | Img: /medicines/c1e62244-d977-49e4-816a-933a28780dad.png
+ - allergyl 4 mg 20 tabs               | Cat: حساسية               | Price: 6.00 | Img: /medicines/bf5de945-2519-4cfb-ac31-69d6b242ebf5.png
+ - Amaryl 2mg                          | Cat: مزمن - سكر           | Price: 90.00 | Img: /medicines/e3643f88-ae7f-41c3-b60b-98154f31f0b7.webp
+ - Amlopres 5mg                        | Cat: مزمن - ضغط           | Price: 45.00 | Img: /medicines/cdd0c65a-2dc8-45f4-92ec-6511c03c8e4e.webp
+ - Amoclan 1g                          | Cat: مضاد حيوي            | Price: 65.00 | Img: /medicines/f092d259-0e17-4976-88a2-864c22aa91aa.webp
+ - astin 10 mg 20 f.c. tabs            | Cat: حساسية               | Price: 28.80 | Img: /medicines/bf08e305-5bdb-43e2-a11c-75ddbca5498e.png
+ - astin 20 mg 20 f.c.tabs             | Cat: حساسية               | Price: 28.80 | Img: /medicines/bd178832-513a-4896-acc4-7bedcbf39099.png
+ - Augmentin 1g                        | Cat: مضاد حيوي            | Price: 90.00 | Img: /medicines/f11ddf64-bb35-4329-8f01-f98f050bde95.webp
+ - badotirizin 5mg/5ml syrup 125ml     | Cat: حساسية               | Price: 17.50 | Img: /medicines/bc314701-6b98-4187-9a58-41accbdb1721.png
+ - Bi Alcofan                          | Cat: مسكنات               | Price: 30.00 | Img: /medicines/ec3ac7a5-e626-4b31-aa13-9d7c5b32639b.webp
+ - Bio Vit-C 1000mg                    | Cat: فيتامينات            | Price: 55.00 | Img: /medicines/fab952ae-7b45-408d-9cc9-205160e4faab.webp
+ - Brufen 400mg                        | Cat: مسكنات               | Price: 22.00 | Img: /medicines/ee0e4675-a1f3-4a89-b8a5-40ab58d93741.webp
+ - caftohist 0.25% eye drops 3 ml      | Cat: حساسية               | Price: 50.00 | Img: /medicines/c10724cd-3fd6-4e68-b50a-de6bf3609735.webp
+ - Cal-D-Vita                          | Cat: فيتامينات            | Price: 65.00 | Img: /medicines/faacedf4-55d5-40a6-ba4d-9f072446868f.webp
+ - Capoten 25mg                        | Cat: مزمن - ضغط           | Price: 35.00 | Img: /medicines/d4036c4b-e5f4-475a-8002-e3bc89a098d0.png
+ - Cataflam 50mg                       | Cat: مسكنات               | Price: 25.00 | Img: /medicines/edf7ae36-5fc5-419e-9f50-bf5ec84dbcff.png
+ - centravita solvo plus 20 tablets    | Cat: نزلات برد            | Price: 86.00 | Img: /medicines/8f4c5043-1cba-4f2e-b647-6b87b345cc08.webp
+ - Coldrex                             | Cat: نزلات برد            | Price: 25.00 | Img: /medicines/fe580b1d-48d1-43e8-b0b1-eccff093a531.png
+ - Comtrex                             | Cat: نزلات برد            | Price: 28.00 | Img: /medicines/ff1f4f62-aaf8-4342-bea9-c906d50834a9.webp
+ - Concor 5mg                          | Cat: مزمن - ضغط           | Price: 85.00 | Img: /medicines/cbce64ed-0c14-4533-a710-2ce0e72619f6.webp

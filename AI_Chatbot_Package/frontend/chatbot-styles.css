@@ -1,0 +1,25 @@
+/* Chatbot Bubble & Selection Styling */
+.chat-user-bubble, .chat-user-bubble * {
+  user-select: text !important;
+  -webkit-user-select: text !important;
+}
+
+.chat-user-bubble ::selection,
+.chat-user-bubble::selection,
+.chat-user-bubble *::selection {
+  background-color: rgba(255, 255, 255, 0.4) !important;
+  color: #ffffff !important;
+  text-shadow: 0 0 1px rgba(0, 0, 0, 0.5) !important;
+}
+
+.chat-bot-bubble, .chat-bot-bubble * {
+  user-select: text !important;
+  -webkit-user-select: text !important;
+}
+
+.chat-bot-bubble ::selection,
+.chat-bot-bubble::selection,
+.chat-bot-bubble *::selection {
+  background-color: #4f46e5 !important;
+  color: #ffffff !important;
+}

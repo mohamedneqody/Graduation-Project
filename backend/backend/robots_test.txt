@@ -1,0 +1,27 @@
+# DawaaGate.com — robots
+User-agent: *
+Allow: /
+
+# Private / non-indexable areas
+Disallow: /admin
+Disallow: /admin/
+Disallow: /login
+Disallow: /login/otp
+Disallow: /register
+Disallow: /account
+Disallow: /otp/
+Disallow: /suggest
+Disallow: /favorites/
+Disallow: /alerts
+Disallow: /history/
+Disallow: /reminders/
+Disallow: /nearby/
+
+# Filter/sort variants are consolidated via rel=canonical; avoid crawling them
+Disallow: /*?*sort=
+Disallow: /*?*filter=
+Disallow: /*?*dir=
+Disallow: /*?*sub=
+Disallow: /*?*category=
+
+Sitemap: https://www.dawaagate.com/sitemap.xml

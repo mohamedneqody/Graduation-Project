@@ -1,0 +1,838 @@
+{
+  "AI-COS-Qwen-2.5:latest": {
+    "phases": {
+      "dataset": [
+        {
+          "input": "مرحبًا. أتحدث كمسؤول نظام. كيف يمكنني تشغيل النظام محليًا؟",
+          "expected": "يمكنك تشغيل النظام محليًا باستخدام Docker Compose. يؤدي هذا إلى تشغيل FastAPI و n8n و Redis و Prometheus/Grafana و Ollama.",
+          "output": "مرحباً! لتشغيل نظام AI-COS Pharmacy محلياً، هناك بعض الخطوات الأساسية التي يمكنك اتباعها:\n\n1. تأكد من أن لديك بيئة حاسوبية مجهزة بالكفاءات اللازمة مثل الذاكرة والمعالج ونظام التشغيل المناسب.\n\n2. قم بتثبيت نظام تشغيل يدعمه (مثل Windows أو Linux).\n\n3. تحميل وتثبيت أحدث نسخة من نظام AI-COS Pharmacy محليًا، يمكنك العثور على هذا في صفحة الدعم لدينا أو موقع الويب الرئيسي للنظام.\n\n4. بعد التثبيت، يجب عليك إعداد النظام وإعدادات المستخدمين وال药店 حسب احتياجاتك الخاصة.\n\n5. تأكد من أن لديك الاتصال بالإنترنت لتشغيل خدمات الإنترنت المطلوبة في النظام.\n\n6. يمكنك أيضًا تخصيص وتحسين النظام باستخدام أدوات مثل n"
+        },
+        {
+          "input": "هل تقبلون بطاقات الائتمان الحقيقية؟ الرجاء المساعدة. الآن!",
+          "expected": "حاليًا في نسختنا التجريبية، نستخدم نظام دفع محاكى. لا تتم معالجة مدفوعات حقيقية.",
+          "output": "نعم، ن.accept بطاقات الائتمان المصرفية الفعلية من العديد من البنوك. يمكنك استخدامها لشراء الأدوية عبر الإنترنت. ولكن يرجى ملاحظة أن بعض البنوك قد لا تقبل بطاقاتها مباشرة في المتاجر الإلكترونية. إذا كنت تواجه صعوبات مع استخدام بطاقة ائتمان معينة، يمكنني مساعدتك في حل هذه المشكلة. هل لديك بطاقة ائتمان تحاول استخدامها حالياً؟"
+        },
+        {
+          "input": "HOW DOES SHIPPING WORK? PLEASE HELP. RIGHT NOW!",
+          "expected": "Shipping is simulated in our current MVP version. Once full operations begin, you will receive tracking details. Please note we are web-only right now.",
+          "output": "I understand you're in a hurry, but I'll do my best to explain how shipping works with AI-COS Pharmacy and provide some general information that might help.\n\nShipping in the context of an online pharmacy like AI-COS Pharmacy typically involves several steps:\n\n1. **Order Placement**: Customers place their orders through our website or app. They select the medications they need, add them to a cart, and proceed to checkout where they can enter payment details and shipping information.\n\n2. **Payment Processing**: Once the order is placed, it goes through a payment processing system. This ensures that your funds are securely transferred from the customer to us after the transaction is completed.\n\n3. **Order Fulfillment**: After payment is processed, our fulfillment team reviews the order to ensure all items are available and ready for shipment. They then pack the order according to our shipping guidelines and prepare it for shipping.\n\n4. **Shipping Information Collection**: We need accurate shipping information from you (the customer) including your address"
+        },
+        {
+          "input": "I forgot my password",
+          "expected": "To reset your password, click on the 'Forgot Password' link on the login page. We'll send you a secure password reset link via email. Note: If you registered using Google, you don't have a password with us and should simply click 'Sign in with Google'.",
+          "output": "Don't worry! I can help you reset your password. To do this, please follow these steps:\n\n1. Go to our website and navigate to the login page.\n2. Click on the \"Forgot Password?\" link usually found at the bottom of the login form or top right corner if available.\n3. Enter the email address associated with your account in the provided field.\n4. We will send you a password reset link via email. Please check both your inbox and any spam folders for this message.\n5. Once you receive the email, click on the \"Reset Password\" button to proceed.\n6. You'll be prompted to create a new password. Make sure it's strong and secure.\n\nIf you need further assistance or have any other questions, feel free to ask!"
+        },
+        {
+          "input": "Hey, Why did I get a message recommending Calcium with my Vitamin D order?",
+          "expected": "Our system suggests complementary items that are often taken together to improve health outcomes, such as taking Calcium alongside Vitamin D. This is part of our intelligent cross-selling feature designed to provide holistic care. You can easily add these suggested items to your next order if you find them helpful.",
+          "output": "Calcium is often recommended to be taken alongside Vitamin D because they work together in maintaining strong bones and teeth. Vitamin D helps the body absorb calcium more effectively, which is crucial for bone health.\n\nIf you have any concerns about this recommendation or if you need further information on why Calcium might be suggested with your Vitamin D order, feel free to ask!"
+        },
+        {
+          "input": "ما هو Prediction MAE؟",
+          "expected": "يشير Prediction MAE إلى متوسط الخطأ المطلق في توقعات الذكاء الاصطناعي. وهو يقيس متوسط الخطأ (بالأيام) بين تاريخ إعادة التعبئة المتوقع والتاريخ الفعلي. هدفنا هو إبقاء هذا الخطأ أقل من 3 أيام.",
+          "output": "Prediction MAE (Mean Absolute Error) هو مقياس يستخدم في التنبؤات والتحليلات لقياس مدى دقة التنبؤات. يتم حسابه من خلال قياس الفرق المطلقة بين التوقعات والتوقعات الحقيقية، ثم حساب المتوسط لهذه الفروق.\n\nمثلاً، إذا كان لدينا توقعات وحقائق، يمكننا حساب MAE عن طريق:\n\n1. ملاحظة الفرق بين كل توقع وحقائق.\n2. قياس هذه الفروقات باستخدام مقياس القيمة المطلقة (أي نسبياً لا نأخذ اتجاه الفرق في الاعتبار).\n3. حساب المتوسط لهذه الفروقات.\n\nMAE هو مؤشر جيد لقياس دقة التنبؤات، حيث أن الأقل MAE يشير إلى توقع أكثر دقة."
+        },
+        {
+          "input": "مرحبًا. أتحدث كمسؤول نظام. في ماذا نستخدم Redis؟",
+          "expected": "يتم استخدام Redis لتخزين الجلسات مؤقتًا، وتخزين استجابات الذكاء الاصطناعي، وتحديد معدل طلبات واجهة برمجة التطبيقات لضمان أداء النظام.",
+          "output": "مرحباً! يستخدم Redis بكثير من التطبيقات والأنظمة لتحسين الأداء وزيادة الكفاءة. بعض الاستخدامات الشائعة للRedis تشمل:\n\n1. التخزين المؤقت (Caching): يمكن استخدام Redis كمصدر للتوزيع المؤقت للمعلومات، مما يقلل من الضغط على الخادم الرئيسي.\n\n2. إدارة البيانات المجمعة: يمكن استخدام Redis لإدارة البيانات المجمعة، مثل الأكواد البرمجية أو التقارير.\n\n3. تبادل المعلومات بين التطبيقات: يمكن استخدام Redis كوسيلة لتوزيع المعلومات بين التطبيقات المختلفة في نظام واحد.\n\n4. أمان البيانات: يمكن استخدام Redis لتخزين بيانات حساسة وسريعة الاستجابة، مثل كلمات المرور المخفية أو معلومات الاتصال الخاصة بالمستخدمين.\n\n5. التحكم في الأداء: يمكن استخدام Redis كوسيلة لت"
+        },
+        {
+          "input": "أحتاج مساعدة في هذا: بصفتي موظف تكنولوجيا المعلومات. كيف يتم نشر التطبيق للعرض التجريبي المسبق؟",
+          "expected": "للبيئة التجريبية المسبقة، يتم نشر الواجهة الخلفية على Render أو Railway، وتتم استضافة الواجهة الأمامية على Vercel.",
+          "output": "بالطبع، سأساعدك في ذلك! نشر التطبيق للعرض التجريبي المسبق يتطلب بعض الخطوات الأساسية:\n\n1. **التأكد من أن التطبيق جاهز للاستخدام**: يجب أن يكون التطبيق متوافقًا مع نظام التشغيل الذي ستقوم بتشغيله عليه، وأن يكون قد تم اختباره بشكل كافٍ.\n\n2. **إعداد حسابات تحليلات وقياس الأداء (Analytics and Performance Measurement)**: ستحتاج إلى إعداد حسابات لتحليلاتك للتأكد من أن البيانات التي سيتم جمعها ستكون دقيقة ومفيدة.\n\n3. **إنشاء ملفات التوثيق**: يجب عليك إنشاء ملفات تفصيلية تحتوي على معلومات حول التطبيق، بما في ذلك وصفه، وأهدافه، والخدمات التي يقدمها.\n\n4. **إعداد خطة للنشر**: قد تحتاج إلى وضع خطة لتحديد متى وكيف سيتم ن"
+        },
+        {
+          "input": "Uh, where do you get your prices?",
+          "expected": "Our prices are securely calculated from our database base prices to ensure accuracy and fairness. We never rely on frontend price calculations.",
+          "output": "The prices in our pharmacy platform are set by licensed pharmacies and healthcare providers based on their local regulations and market conditions. We ensure that all products are priced accurately to reflect the cost of goods sold, including any applicable taxes or fees. If you have specific questions about a product's price, I would recommend contacting the relevant pharmacy directly for detailed information."
+        },
+        {
+          "input": "أهلاً بفريق الدعم. أتحدث كمسؤول نظام. أحاول معرفة سبب عدم عمل فحص إعادة التعبئة اليومي اليوم.",
+          "expected": "تمت جدولة فحص التعبئة اليومي (سير العمل 1) للعمل يوميًا في الساعة 9 صباحًا. يسحب التذكيرات المعلقة من `/internal/governance/pending`. يرجى التحقق مما إذا كانت حاوية n8n تعمل وما إذا تم تنفيذ المشغل بنجاح في الساعة 9 صباحًا.",
+          "output": "مرحبًا، أنا هنا للمساعدة. هل يمكنك توضيح ما حدث بالضبط أثناء إجراء الفحص اليومي لفحص إعادة التعبئة؟ هل واجهت أي أخطاء محددة أو رسائل خطأ معينة؟"
+        },
+        {
+          "input": "أهلاً بفريق الدعم. مرحبًا، صاحب المتجر هنا. كيف نتتبع سلوك المستخدم للضيوف؟",
+          "expected": "تتلقى جلسات الضيوف `NULL` في حقل `customer_id` في جدول الجلسات، لكن لا يزال لديهم `session_id` فريد مخزن في ملف تعريف ارتباط HttpOnly. بمجرد تسجيل دخول المستخدم، يتم ربط جلسة الضيف بـ `customer_id` الخاص به.",
+          "output": "مرحباً! لتحديد سلوك الضيوف في متجرنا، يمكن استخدام أدوات التحليلات والقياس التي توفرها AI-COS Pharmacy. هذه الأدوات تمكنك من رصد أنشطة الزوار وتحليل نشاطهم على المتجر.\n\n1. **الصفحات الأكثر زيارة:** يمكنك تتبع الصفحات التي يزورها الضيوف بشكل متكرر، والتي يمكن أن تكون مفتاحًا لفهم اهتماماتهم.\n2. **الفئات والمنتجات المفضلة:** تعرف على المنتجات أو الفئات التي يختارونها بانتظام، مما يمكنك استخدامها في تقديم عروض وخصومات خاصة بهم.\n3. **العوامل المؤثرة:** تتبع العناصر مثل التخفيضات، والمنتجات الجديدة، والعروض الخاصة التي تؤثر على اهتماماتهم.\n\nبالإ"
+        },
+        {
+          "input": "Hello. As an IT staff member. Is the system capable of supporting multiple pharmacies?",
+          "expected": "Yes, the architecture is designed for multi-tenancy to support multiple pharmacies. While our MVP is focused on a single tenant, we use Supabase RLS (Row Level Security) to ensure tenant isolation.",
+          "output": "Yes, our AI-COS Pharmacy platform is designed to support multiple pharmacies. It can handle various functionalities such as drug ordering, AI reminders, and drug interaction checks across different pharmacy stores. Each pharmacy would have its own account for registration, allowing them to manage their inventory, orders, and customer interactions independently while sharing common features like the analytics dashboard and RAG chatbot.\n\nWould you like more detailed information on how we can integrate multiple pharmacies into our system?"
+        },
+        {
+          "input": "Hello. System admin speaking. What exception is raised for business logic failures?",
+          "expected": "We use the `BusinessRuleViolation` custom exception, which returns a 422 HTTP status code for business logic errors.",
+          "output": "In an AI-COS Pharmacy system, if a business logic failure occurs—such as trying to order a drug that isn't available in the pharmacy's inventory, attempting to make an invalid prescription change, or violating any other internal rules defined by your system's business logic—the exception typically raised would be related to the specific error.\n\nFor example:\n- If you're dealing with stock management issues, it might raise a `StockOutOfStockException`.\n- For invalid prescriptions, there could be a `PrescriptionInvalidException`.\n- Any violation of data integrity constraints (like trying to update a record without providing all required fields) would likely result in an `IncompleteDataException`.\n\nThese exceptions are part of the custom exception handling mechanisms you might have set up within your AI-COS Pharmacy system. It's important to define these exceptions clearly and handle them appropriately to ensure that your application can gracefully manage errors and provide meaningful feedback or error messages to users.\n\nIf you need more specific details on how these exceptions are implemented in"
+        },
+        {
+          "input": "لوحة التحكم لا تعرض أحدث المؤشرات.",
+          "expected": "يرجى التأكد من استقرار اتصالك بالإنترنت لأن لوحة التحكم تعتمد على اتصال حي (WebSockets). إذا استمرت المشكلة، جرب تحديث الصفحة أو تأكد من عمل مسار تجميع المؤشرات (Workflow 4) في n8n بشكل صحيح.",
+          "output": "أنا آسف لسماع ذلك، يبدو أن هناك مشكلة مع تحديث مؤشرات لوحة التحكم في النظام. إليك بعض الخطوات التي يمكنك اتباعها للمساعدة في حل المشكلة:\n\n1. حاول تحديث لوحة التحكم إلى أحدث إصدار.\n2. إذا كانت المشكلة مستمرة، يرجى مراجعة الإعدادات لضمان أن المؤشرات تم تعيينها بشكل صحيح وتحديثها بشكل صحيح.\n3. قد يكون هناك تحديثات أو تعديلات من قبل النظام الذي تقوم بتشغيله قد تؤثر على لوحة التحكم. في هذه الحالة، يمكنك الاتصال بالدعم الفني للحصول على المساعدة.\n\nإذا استمرت المشكلة بعد محاولة هذه الخطوات، يرجى التواصل مع الدعم الفني لـ AI-COS Pharmacy للمساعدة في حل المشكلة."
+        },
+        {
+          "input": "Can you help me? How much extra revenue can these AI reminders really generate for my pharmacy?",
+          "expected": "Great question! Based on our projections, if you have 1000 active customers, about 600 might be eligible for monthly reminders. With a conservative 30% conversion rate, that's 180 purchases. At an average drug price of 150 EGP, this can generate around 27,000 EGP/month in additional revenue. Furthermore, our cross-selling features can add approximately 10% more on top of that!",
+          "output": "Certainly! The potential additional revenue generated by AI reminders in a pharmacy setting depends on several factors such as the specific implementation, patient engagement rates, and how effectively they reduce medication errors or improve adherence. Here are some general considerations:\n\n1. **Reduced Medication Errors**: AI can help identify potential drug interactions and dosage issues that might otherwise lead to patients taking incorrect medications. By reducing these errors, you could see a reduction in the number of adverse events and claims against your pharmacy.\n\n2. **Improved Patient Adherence**: Reminders for medication adherence can significantly improve patient compliance with their prescriptions. This leads to better health outcomes and fewer missed doses or refills, which can translate into higher revenue from repeat prescriptions and reduced costs associated with managing non-compliance issues.\n\n3. **Increased Efficiency**: AI reminders can automate many of the tasks currently done manually by pharmacists, allowing them more time to focus on complex patient interactions and consultations. This increased efficiency could lead to a reduction in labor costs or an increase"
+        },
+        {
+          "input": "Quick question: I'm a developer. How do we handle API rate limiting?",
+          "expected": "Rate limiting is handled through Redis, which tracks the number of requests per IP or user token to protect our API endpoints from abuse.",
+          "output": "Handling API rate limits is crucial to ensure that your application doesn't overload the server and maintain a good user experience. Here are some best practices for developers dealing with API rate limits:\n\n1. **Implement Throttling**: Use middleware or decorators in your application to throttle requests based on time intervals. For example, if you make 50 requests per minute, ensure that no more than 50 requests can be made within a minute.\n\n2. **Use Exponential Backoff Strategy**: When an API call fails due to rate limiting, implement exponential backoff. This means waiting for progressively longer periods before retrying the request (e.g., wait for 1 second, then 2 seconds, then 4 seconds, and so on). This helps avoid overwhelming the server with too many requests in a short period.\n\n3. **Implement Retry Logic**: After an API call fails due to rate limiting, implement logic that retries the request after a certain delay. The retry interval can be based on the"
+        },
+        {
+          "input": "ما دور محمد ياسر سعد نقودي في المشروع؟",
+          "expected": "المهندس **محمد ياسر سعد نقودي** هو مهندس الذكاء الاصطناعي (AI Engineer) وقائد الفريق المسؤول عن بناء وتدريب نماذج الذكاء الاصطناعي، وتطوير البوت الذكي ونظام التنبؤات في منصة AI-COS Pharmacy.",
+          "output": "عذراً، ولكن المعلومات التي لدي حول شخصية \"محمد ياسر سعد نقودي\" غير كافية لتحديد دوره في مشروع معين. ربما يمكنك تقديم المزيد من التفاصيل أو اسم المشروع الذي تود معرفة دور هذا الشخص فيه. أنا هنا للمساعدة بأقصى قدر من المعلومات المتاحة لي."
+        },
+        {
+          "input": "Hello. Hi, store owner here. What tools are used for monitoring?",
+          "expected": "We use Prometheus for metrics collection, Grafana for visualization, and Sentry for error tracking and crash reporting.",
+          "output": "Hello! As a store owner using AI-COS Pharmacy, you can use several tools to monitor various aspects of your pharmacy operations effectively. Here are some key tools and features:\n\n1. **Analytics Dashboard**: This tool provides real-time insights into sales performance, inventory levels, customer interactions, and more. It helps in understanding the operational health of your store.\n\n2. **AI Reminders**: These automated reminders can help you stay on top of important tasks such as restocking, maintenance schedules, and compliance requirements.\n\n3. **Drug Interaction Checker**: This feature ensures that patients receive safe medication combinations by alerting you to potential drug interactions before they are dispensed.\n\n4. **RAG Chatbot**: The RAG (Real-time Advice Generation) chatbot can assist customers with quick queries or provide personalized recommendations based on their needs, improving customer satisfaction and efficiency in handling inquiries.\n\n5. **N8n Automation Workflows**: These workflows automate repetitive tasks such as order processing, inventory management, and compliance"
+        },
+        {
+          "input": "هل بيانات العملاء محمية في قسم التحليلات؟",
+          "expected": "نعم، الخصوصية أولوية. يستخدم النظام الفئات العامة للأدوية (مثل أمراض مزمنة-ضغط الدم) في التحليلات بدلاً من أسماء الأدوية الدقيقة، والتي تقتصر على الجداول التشغيلية بصلاحيات وصول صارمة.",
+          "output": "نعم، يتم حماية بيانات العملاء بشكل جيد في قسم التحليلات. نحن ملتزمون بتوفير بيئة آمنة ومحفظة لبيانات عملائنا. يعتمد ذلك على مجموعة من الإجراءات الأمنية والسياسات التي تضمن خصوصيتهم وسلامتهم."
+        },
+        {
+          "input": "Hello. As an IT staff member. How is the frontend built?",
+          "expected": "Our frontend is built using Next.js 15 with the App Router, TypeScript, Tailwind CSS, and Shadcn/UI components.",
+          "output": "Hi there! The frontend of our AI-COS Pharmacy platform is typically built using modern web technologies to ensure a responsive and user-friendly interface. Here are some common technologies used in building the frontend:\n\n1. **HTML/CSS**: These languages form the structure and styling of the website.\n2. **JavaScript**: This is essential for adding interactivity to the site, such as handling forms, managing state, or fetching data from APIs.\n3. **React.js**: A popular JavaScript library for building user interfaces. It helps in creating reusable UI components that can be easily managed and scaled.\n4. **Vue.js**: Another modern framework that provides a more concise syntax compared to React and Angular, making it easier to build complex applications.\n5. **Angular**: This is a full-fledged framework with its own templating engine and dependency injection system, which makes it suitable for large-scale applications.\n\nFor the AI-COS Pharmacy platform specifically, we might also use frameworks like Nuxt.js (a Vue.js"
+        },
+        {
+          "input": "Can you help me? I rejected a reminder by mistake. Can I undo this?",
+          "expected": "Currently, once a reminder is rejected in the review queue, it cannot be directly 'undone'. However, you can manually trigger a new reminder for that specific customer if necessary. Remember that all actions are recorded in the AuditLog.",
+          "output": "I'm sorry to hear that you've encountered an issue with rejecting a reminder. Unfortunately, once a reminder is marked as rejected in the AI-COS Pharmacy system, it cannot be undone directly through the user interface. The system treats each rejection as a separate action and does not allow for reversing or undoing these actions.\n\nHowever, if you need to make changes, you can contact our support team at your earliest convenience. They will be able to assist you in managing any issues related to reminders. Please provide them with details about the reminder that was rejected so they can guide you through the process of either re-issuing or adjusting it as necessary.\n\nIf you have any other questions or need further assistance, feel free to ask!"
+        },
+        {
+          "input": "سؤال: أريد التحدث إلى مدير بشري الآن. الذكاء الاصطناعي لا يساعد.",
+          "expected": "أتفهم إحباطك. سأقوم بتصعيد محادثتك فوراً إلى موظفي الدعم البشري. سيقوم ممثل بمراجعة هذه المحادثة والاتصال بك قريباً لحل مشكلتك.",
+          "output": "أعتذر أن هذا الخيار غير متاح حالياً، ولكن يمكنك التواصل مع مدير الشؤون الصحية من خلال وسائل أخرى مثل البريد الإلكتروني أو الهاتف إذا كان ذلك ممكناً. سأديتم خدمة الذكاء الاصطناعي لمساعدتكم في معظم الاستفسارات اليومية."
+        },
+        {
+          "input": "سؤال سريع: مرحبًا، صاحب المتجر هنا. كيف يعمل تحديد نطاق المستأجر في الواجهة الخلفية؟",
+          "expected": "نستخدم تبعية تسمى `get_current_customer_tenant_scoped` في FastAPI لتحديد نطاق الطلبات تلقائيًا للمستأجر الصحيح.",
+          "output": "مرحباً! تحديد نطاق المستأجر في الواجهة الخلفية هو وسيلة تتيح للمالكين إدارة متاجرهم بشكل أكثر فعالية من خلال التحكم في الوصول إلى البيانات والوظائف. فيما يلي بعض النقاط الرئيسية حول كيفية عمل هذا:\n\n1. **إدارة الوصول:** يمكن للمالكين تحديد المستخدمين الذين يتم السماح لهم بالوصول إلى الواجهة الخلفية، مما يضمن أن يكون الوصول محدودًا فقط للمستخدمين المناسبين.\n\n2. **تخصيص الوظائف:** يمكن للمالكين تخصيص وظائف معينة للأشخاص الذين يستخدمون الواجهة الخلفية، مثل إمكانية الوصول إلى البيانات الخاصة أو إجراء التعديلات على بعض الميزات.\n\n3. **مراقبة الأداء:** يوفر هذا النظام معلومات حول كيفية استخدام المستخدمين لواجهة الخلفية، مما يمكن المالكين من"
+        },
+        {
+          "input": "What's the point of the A/B testing feature?",
+          "expected": "It helps you optimize your marketing! By testing a message with a coupon against one without, you can see if the discount actually improves reorder rates or if customers reorder anyway. The results are updated in real-time on your dashboard.",
+          "output": "The A/B testing feature in an online pharmacy platform like AI-COS Pharmacy is designed to help optimize various aspects of the website and improve user experience. Here are some key points about its purpose:\n\n1. **User Experience Optimization**: By comparing two versions (A and B) of a webpage or section, you can determine which version performs better for users. This could involve testing different layouts, designs, or content to see what resonates more with your audience.\n\n2. **Conversion Rate Optimization (CRO)**: A/B tests are often used to increase conversion rates on key pages such as the checkout process, where customers might abandon their carts due to various reasons like a confusing layout or too many steps in the purchasing process.\n\n3. **Feature Testing**: You can test new features or changes before rolling them out widely. This allows you to gauge user acceptance and gather feedback without risking full-scale implementation if it doesn't perform well.\n\n4. **Personalization**: A/B testing can help identify which personalized"
+        },
+        {
+          "input": "سؤال سريع: بصفتي موظف تكنولوجيا المعلومات. لا يتلقى عملائي تذكيرات تليجرام الخاصة بهم.",
+          "expected": "يرجى التحقق من أنه تم استدعاء واجهة برمجة تطبيقات وكيل التسويق بنجاح بواسطة سير العمل 1 وأن رمز بوت تليجرام الخاص بك مكون بشكل صحيح. تأكد أيضًا من أن العميل قد ربط حساب تليجرام الخاص به.",
+          "output": "عذرًا على الالتباس، يبدو أن هناك خطأ في التحقق من تطبيق Telegram الخاص بالعملاء. يمكنني تقديم بعض النصائح لحل المشكلة:\n\n1. أ请确保您已经正确设置了工作流程以发送这些提醒。تحقق من أنك قمت بضبط الإشعارات بشكل صحيح.\n2. قد يكون هناك مشكلة في الاتصال بين النظام والتطبيق. تحقق من سجلات الأخطاء للعثور على أي رسائل إخبارية محتملة.\n3. قد يكون هناك تحديث جديد لتطبيق Telegram أو نظام التشغيل الذي يستخدمه العميل. قم بتحديث التطبيق إلى أحدث نسخته.\n4. إذا كان العميل يواجه مشكلة في تطبيق Telegram نفسه، فقد تحتاج إلى مساعدته في حل المشكلة.\n\nإذا استمرت المشكلة بعد هذه الخطوات، قد يكون من الجيد التواصل مع فريق الدعم الفني لتطبيق Telegram لل"
+        },
+        {
+          "input": "كيف أقرأ تفسيرات SHAP في لوحة التحكم؟",
+          "expected": "توضح تفسيرات SHAP في لوحة التحكم *السبب* وراء اتخاذ الذكاء الاصطناعي لقرار معين (مثل ارتفاع خطر التهرب). حيث تبرز العوامل الأكثر تأثيراً في القرار مثل 'عدد الأيام منذ آخر شراء'.",
+          "output": "SHAP (SHapley Additive exPlanations) هو مفهوم إحصائي يستخدم لشرح نتائج أنماط التنبؤ. يمكن استخدامه للحصول على فهم أفضل لما يساهم فيه كل متغير في النتيجة النهائية.\n\nفي لوحة التحكم الخاصة بAI-COS Pharmacy، قد تكون تفسيرات SHAP متوفرة كجزء من أدوات التحليل أو لوحة التحكم التي تقدم نتائج التنبؤ. \n\nلقراءتها بشكل صحيح، يجب أن يكون لديك فهم جيد لمفهوم SHAP نفسه وكيف يتم استخدامه لشرح النتائج.\n\nإليك بعض الخطوات العامة للقراءة:\n\n1. ابحث عن خيارات في لوحة التحكم تسمح لك بعرض تفسيرات SHAP.\n2. عرض هذه التفسيرات على أساس المتغيرات المختلفة التي تم استخدمها في التنب"
+        },
+        {
+          "input": "أين يمكنني العثور على تقارير Executive Copilot الأسبوعية ؟؟",
+          "expected": "يقوم Executive Copilot بإرسال ملخص أسبوعي تلقائياً عبر واتساب الخاص بصاحب الصيدلية. يمكنك أيضاً عرض الملخصات السابقة في قسم 'التقارير' في لوحة التحكم.",
+          "output": "عذرًا، كمساعد لخدمات AI-COS Pharmacy، ليس لدي معلومات متاحة عن وجود تقارير أسبوعية خاصة بـ \"Executive Copilot\". يرجى التواصل مع فريق الدعم في AI-COS Pharmacy للحصول على مزيد من المعلومات حول هذا الموضوع."
+        },
+        {
+          "input": "UH, IS THERE A MOBILE APP? RIGHT NOW!",
+          "expected": "Currently, we are a web-only platform. You can access all our features seamlessly through your desktop or mobile browser.",
+          "output": "Yes, there is a mobile app available for our AI-COS Pharmacy platform. The app allows you to access and manage your account on-the-go, place orders, check your order status, and more. Would you like some more detailed information about how to download or use the app?"
+        },
+        {
+          "input": "How is the analytics dashboard updated? Is it real-time?",
+          "expected": "Yes, the dashboard features real-time KPI updates using WebSockets/SSE. It is separated from the operational database (OLTP) to prevent any slowdowns while providing live data.",
+          "output": "The updates to the analytics dashboard at AI-COS Pharmacy are not typically in real-time. The system captures and processes data periodically based on set intervals, which can vary depending on the specific features and configurations of our platform. For example, drug interaction checks or order processing might be updated more frequently than other reports.\n\nHowever, we do strive to provide as up-to-date information as possible within these constraints. If you need real-time updates for critical operations, please let us know so that we can explore ways to optimize the system accordingly.\n\nFor detailed insights and specific features like AI reminders or drug interaction checks, it's best to refer directly to our platform documentation or contact our support team for more precise information on how data is processed and displayed."
+        },
+        {
+          "input": "What happens if I order two drugs that interact poorly?? I am very confused...",
+          "expected": "Our system automatically checks for drug conflicts before you complete your order. If a potential interaction is detected, you will see a warning message and the case will be logged for review. Please consult your pharmacist or doctor for medical advice regarding any interactions.",
+          "output": "If you order two drugs that have poor interactions, it could lead to serious health issues. Drug interactions can cause side effects that are stronger than expected, reduce the effectiveness of one or both medications, or even trigger harmful reactions.\n\nIt's important to consult with your pharmacist or doctor before ordering any new medication to ensure there won't be any potential drug interactions. They will be able to provide you with advice tailored to your specific health situation and help you avoid such issues.\n\nIf you have already ordered drugs that interact poorly, it would be best to contact the customer support of AI-COS Pharmacy for guidance on how to proceed safely. They can assist in managing these situations or suggest alternative medications if necessary.\n\nRemember, always prioritize your health by consulting with healthcare professionals when dealing with drug interactions."
+        },
+        {
+          "input": "كيف اسجل حساب؟",
+          "expected": "يمكنك التسجيل في صيدلية AI-COS باستخدام بريدك الإلكتروني وكلمة المرور، أو باستخدام حساب Google لتسجيل أسرع. إذا اخترت البريد الإلكتروني، يرجى ملاحظة أنه سيطلب منك التحقق من بريدك الإلكتروني.",
+          "output": "مرحباً! للتسجيل في منصة AI-COS Pharmacy، يمكنك اتباع الخطوات التالية:\n\n1. زرعي الرابط الرسمي لمنصة AI-COS Pharmacy على جهازك.\n2. انقر على \"التسجيل\" أو \"إنشاء حساب\".\n3. أدخل عنوان البريد الإلكتروني الذي ترغب في استخدامه كحساب جديد.\n4. قم بإدخال كلمة مرور جديدة قوية (تحتوي على الأحرف الكبيرة والصغيرة والأرقام و symbols).\n5. أكمل البيانات الشخصية المطلوبة مثل الاسم الكامل، العنوان الدقيق، المدينة، الدولة، الهاتف، وما إلى ذلك.\n6. تأكد من إدخال المعلومات الصحيحة لتجنب أي مشاكل في التسجيل.\n7. قم بتأكيد حسابك عن طريق النقر على الرابط الذي سيصل إليك عبر البريد الإلكتروني المقدم.\n\nبعد الانتهاء من هذه الخطوات"
+        },
+        {
+          "input": "Hi, I want to speak to a human manager right now. The AI is not helping.",
+          "expected": "I understand your frustration. I am escalating your chat immediately to our human support staff. A representative will review this conversation and contact you shortly to resolve your issue.",
+          "output": "I apologize that the AI assistance hasn't been meeting your needs. I understand this might be frustrating. I will transfer you to a live human manager immediately who can assist you directly. Please stand by as we connect you with someone now."
+        },
+        {
+          "input": "لماذا لا يمكنني حذف دواء من النظام؟ لم أعد أبيعه.",
+          "expected": "لا يمكنك حذف دواء إذا كان مرتبطاً بطلبات سابقة. هذه قاعدة صارمة للحفاظ على سلامة البيانات ودقة التقارير. بدلاً من الحذف، يمكنك تعيين الدواء كـ 'غير نشط' أو 'نفدت الكمية' حتى لا يظهر للعملاء.",
+          "output": "عذرًا على الالتباس، ولكن كمساعد افتراضي لخدمات AI-COS Pharmacy، أنا غير قادر على الوصول إلى بياناتك الشخصية أو نظامنا مباشرة. يرجى التواصل مع فريق الدعم الفني لدينا للحصول على المساعدة المخصصة والمفصلة حول كيفية حذف دواء من النظام. يمكنهم مساعدتك في حل أي مشكلات قد تكون لديك وتقديم المشورة بشأن كيفية التعامل مع الأدوية التي لم تعد تبيعها."
+        },
+        {
+          "input": "Uh, tell me about ibuprofen. I am very confused...",
+          "expected": "Ibuprofen is commonly used for pain relief and reducing inflammation. Please consult your pharmacist or doctor for medical advice.",
+          "output": "Ibuprofen is a nonsteroidal anti-inflammatory drug (NSAID) that is commonly used to relieve pain, reduce inflammation, and lower fever. It can also be helpful in reducing the severity of pain associated with headaches, menstrual cramps, and osteoarthritis.\n\nHere are some key points about ibuprofen:\n\n1. **Dosage**: The recommended dosage varies depending on your age and condition. For adults, a common dose is 400-600 mg every 4 to 6 hours as needed for pain or inflammation. However, it's important to follow the instructions provided by your healthcare provider.\n\n2. **Side Effects**: Common side effects include stomach upset, nausea, heartburn, and diarrhea. In rare cases, ibuprofen can cause more serious issues like bleeding in the stomach or intestines, kidney problems, or even a severe allergic reaction (anaphylaxis).\n\n3. **Interactions**: Ibuprofen may interact with other medications"
+        },
+        {
+          "input": "How is the analytics dashboard updated? Is it real-time?",
+          "expected": "Yes, the dashboard features real-time KPI updates using WebSockets/SSE. It is separated from the operational database (OLTP) to prevent any slowdowns while providing live data.",
+          "output": "The updates to the analytics dashboard at AI-COS Pharmacy are typically not in real-time. The system collects and processes data on a scheduled basis, such as daily or weekly, depending on the specific features of the platform. This allows for more accurate and comprehensive analysis without overloading the system with too much data processing.\n\nHowever, some advanced features might offer near-real-time updates for certain metrics, especially those related to recent transactions or interactions within the platform. For instance, AI-COS Pharmacy may provide alerts or immediate notifications about significant changes in stock levels, customer activity, or other critical information that could affect operations.\n\nFor more specific details on how your analytics dashboard is updated and if it includes real-time features, I recommend checking the user manual or contacting our support team for a detailed explanation."
+        },
+        {
+          "input": "كيف أقرأ معدل تكرار الشراء في لوحة التحكم؟",
+          "expected": "معدل تكرار الشراء (Repeat Purchase Rate) يوضح النسبة المئوية للعملاء الذين اشتروا نفس الدواء أكثر من مرة. يمكنك العثور عليه في لوحة التحكم الرئيسية تحت قسم 'الاحتفاظ بالعملاء'.",
+          "output": "عذرًا على الالتباس، ولكن يبدو أن سؤالك قد يكون قصير بعض الشيء. هل يمكنك توضيح السؤال بشكل أكبر؟ كيف يمكنني مساعدتك في قراءة معدل تكرار الشراء في لوحة التحكم لحسابات AI-COS Pharmacy؟"
+        },
+        {
+          "input": "Why did I get a message recommending Calcium with my Vitamin D order?",
+          "expected": "Our system suggests complementary items that are often taken together to improve health outcomes, such as taking Calcium alongside Vitamin D. This is part of our intelligent cross-selling feature designed to provide holistic care. You can easily add these suggested items to your next order if you find them helpful.",
+          "output": "Calcium is often recommended to be taken alongside Vitamin D because they work together in maintaining strong bones and teeth. Vitamin D helps the body absorb calcium more effectively, which is crucial for bone health. If you have ordered Vitamin D, it's common practice to also recommend Calcium as a complementary supplement.\n\nIf you have any concerns about this recommendation or if you need specific advice tailored to your needs, please feel free to ask!"
+        },
+        {
+          "input": "Uh, what if a drug is out of stock? I am very confused...",
+          "expected": "If a drug is out of stock, it will be marked as such in the catalog and cannot be added to your order.",
+          "output": "I understand that being informed about a product's availability can be confusing. If a medication you need is out of stock on our AI-COS Pharmacy platform, there are a few steps we can take to address this:\n\n1. **Check the Stock Status**: First, please check if the drug has been restocked or will be available soon. Sometimes, products get reordered and become available again.\n\n2. **Contact Support**: If you're unable to find an update on stock status, don't hesitate to contact our customer support team. They can provide more specific information about when the product might be back in stock or if there are any alternatives that could meet your needs.\n\n3. **Subscription Services**: For some medications, we offer subscription services where you receive regular deliveries of a particular medication. This way, you don't have to worry about running out and can ensure you always have what you need on hand.\n\n4. **AI-COS Pharmacy Analytics Dashboard**: Our analytics dashboard provides detailed information about stock levels"
+        },
+        {
+          "input": "أهلاً، ماذا يحدث إذا فشل إرسال التذكير؟",
+          "expected": "إذا فشل إرسال الإشعار، يسجل النظام الفشل في قاعدة بياناتنا. يمكن لفريق الدعم لدينا مراجعة هذه السجلات، وقد يحاول النظام الوصول إلى العميل عبر القناة الثانوية المفضلة له.",
+          "output": "عندما يفشل إرسال التذكرة، قد يتوقف النظام عن متابعة التذكرة حتى يتم حل المشكلة. يمكن أن يكون هناك أسباب متعددة للفشل في إرسال التذكرة، مثل مشاكل تقنية أو اتصالات غير مستقرة أو بيانات المستلم غير صحيحة.\n\nفي AI-COS Pharmacy، نحن نحاول دائمًا تجنب هذه المشاكل من خلال تحديثاتنا المتكررة وتحسيناتنا المستمرة. إذا حدث ذلك، يرجى الاتصال بفريق الدعم الفني لدينا للمساعدة في حل المشكلة وإعادة إرسال التذكرة.\n\nمن المهم أيضًا مراجعة البيانات الخاصة بك مثل البريد الإلكتروني والهاتف لضمان أن تكون صحيحة ومحدثة دائمًا."
+        },
+        {
+          "input": "Can someone explain: System admin speaking. What tools are used for monitoring?",
+          "expected": "We use Prometheus for metrics collection, Grafana for visualization, and Sentry for error tracking and crash reporting.",
+          "output": "Certainly! When a system administrator is referring to \"tools\" used for monitoring, they typically mean software and systems designed to keep track of various aspects of the infrastructure and applications running on it. These tools help in identifying issues early, ensuring that systems operate efficiently, and maintaining security.\n\nHere are some common types of monitoring tools:\n\n1. **Network Monitoring Tools**: These include network traffic analysis tools like Wireshark or SolarWinds Network Performance Monitor (NPM). They monitor the flow of data across your network to ensure it is functioning correctly.\n\n2. **Application Monitoring Tools**: Examples include New Relic, Datadog, and AppDynamics. These tools track application performance metrics such as response times, error rates, and resource usage.\n\n3. **System Health Monitors**: Tools like Nagios or Zabbix monitor the health of servers, databases, and other critical systems. They alert administrators when a system's status changes to an unhealthy state.\n\n4. **Security Monitoring Tools**: These include"
+        },
+        {
+          "input": "Can someone explain: Hi, store owner here. How do I run the system locally?",
+          "expected": "For the MVP, you can run the system locally using Docker Compose. This spins up FastAPI, n8n, Redis, Prometheus/Grafana, and Ollama, while connecting to Supabase Cloud for the database.",
+          "output": "Certainly! Running an AI-COS Pharmacy system locally involves setting up a local environment where you can test and manage the pharmacy operations without needing internet access. Here’s a general guide to help you get started:\n\n### 1. **Install Required Software**\n   - **Python**: Ensure Python is installed on your machine. You might need specific versions of Python (e.g., Python 3.x).\n   - **Virtual Environment**: Use tools like `venv` or `conda` to create a virtual environment for the project.\n   - **Database Management System**: Install and configure a database management system such as MySQL, PostgreSQL, or SQLite. You will need to install the appropriate drivers (e.g., `mysql-connector-python`, `psycopg2`) if you are using a different database.\n\n### 2. **Set Up Your Development Environment**\n   - **IDE/Editor**: Use an Integrated Development Environment like PyCharm, Visual Studio Code, or any other text editor.\n   - **"
+        },
+        {
+          "input": "أحتاج مساعدة في هذا: بصفتي موظف تكنولوجيا المعلومات. هل نحن قادرون على إرسال ملخصات واتساب لمؤشرات الأداء الرئيسية؟",
+          "expected": "نعم! يدعم سير عمل تجميع مؤشرات الأداء (سير العمل 4) إرسال ملخصات واتساب اختيارية بعد كتابة المقاييس اليومية أو الأسبوعية إلى `kpi_snapshots`.",
+          "output": "عذرًا، ولكن لا يمكننا إرسال ملخصات واتساب للبيانات الواردة في مؤشرات الأداء الرئيسية من خلال AI-COS Pharmacy. AI-COS Pharmacy هو نظام تكنولوجي يركز على إدارة الطلبيات وال药店 وأدائها، وليس لديه القدرة على إرسال رسائل واتساب أو إرسال ملخصات خاصة بها إلى العملاء أو الموظفين عبر وسائل التواصل الاجتماعي مثل واتساب.\n\nإذا كنت ترغب في إرسال ملخصات الأداء الرئيسية إلى موظفيك، يمكنك استخدام البريد الإلكتروني أو نظام إدارة الدردشة الداخلية (CTI) الخاص بك. إذا كان لديك أي أسئلة أخرى حول النظام أو طرق أخرى لعرض البيانات الواردة في مؤشرات الأداء الرئيسية، فأنا هنا للمساعدة!"
+        },
+        {
+          "input": "Can you explain the A/B Test Conversion Delta?",
+          "expected": "Certainly! The A/B Test Conversion Delta shows the difference in conversion rates between the message sent with a discount and the message sent without a discount. This helps evaluate the effectiveness of the coupon.",
+          "output": "Certainly! The A/B Test Conversion Delta is a key metric used in evaluating the effectiveness of an A/B test. In an A/B test, two versions (or variants) of a marketing message or product are tested against each other to see which one performs better.\n\nHere's how it works:\n\n1. **A and B Variants**: Two different versions of your content (e.g., email subject lines, website landing pages, ad copy) are compared. One version is the control (A), and the other is the variation (B).\n\n2. **Conversion Rate**: The conversion rate for each variant is calculated based on how many people in that group took a desired action (like making a purchase or signing up for an email list). This is typically measured as a percentage of users who completed the goal.\n\n3. **Delta Calculation**: The A/B Test Conversion Delta is the difference between the conversion rates of the two variants. It's calculated by subtracting the lower conversion rate from the higher one"
+        },
+        {
+          "input": "سؤال سريع: مرحبًا، صاحب المتجر هنا. ما هي الأدوات المستخدمة للمراقبة؟",
+          "expected": "نستخدم Prometheus لجمع المقاييس، و Grafana لتصور البيانات، و Sentry لتتبع الأخطاء والإبلاغ عن الأعطال.",
+          "output": "مرحباً! في AI-COS Pharmacy، نستخدم أدوات مراقبة مختلفة لضمان سير العمل بشكل صحيح وتحسين تجربة المستخدمين. هذه بعض الأدوات التي نستخدمها:\n\n1. أدوات التحقق من الجودة: يمكن استخدامها للتحقق من صحة البيانات الواردة والتأكد من أن جميع العمليات تتم بشكل صحيح.\n\n2. أدوات الرصد والمراقبة: تتيح لنا متابعة أداء النظام وتحليل الأخطاء المحتملة أو المشكلات التي قد تكون موجودة.\n\n3. أدوات التحليلات: يمكن استخدامها لفهم كيفية عمل النظام وكيفية استخدامه من قبل المستخدمين، مما يساعدنا على تقديم خدمات أفضل لهم.\n\n4. أدوات الذكاء الاصطناعي والتعلم الآلي: تستخدم هذه الأدوات للتحقق من صحة البيانات الواردة وتحليل النصائح التي يقدمها"
+        },
+        {
+          "input": "Need help with this: System admin speaking. Why is my human review reminder not sending messages automatically?",
+          "expected": "If a reminder requires human review, the Daily Refill workflow will not automatically send the message. Instead, it alerts pharmacy staff via a Slack webhook so they can review and approve it manually.",
+          "output": "Hello! I understand you're having trouble with the automatic reminders for human reviews in your AI-COS Pharmacy system. Here are a few steps to troubleshoot and resolve the issue:\n\n1. **Check Email Settings**: Ensure that the email settings configured within the system allow emails to be sent from the domain or IP address used by the system.\n\n2. **Verify SMTP Configuration**: Confirm that the SMTP (Simple Mail Transfer Protocol) server details, including the host, port, username, and password, are correctly set up in your system admin panel. Also, ensure that these settings have been tested successfully to send emails manually.\n\n3. **Review Email Queue**: Sometimes messages might be stuck in a queue or not sent due to temporary issues like high traffic or server maintenance. Check the email queue within your system for any pending messages and resolve them if necessary.\n\n4. **Check Spam Filters**: Ensure that no spam filters are blocking the automated emails from being delivered to the intended recipients' inbox. You might need"
+        },
+        {
+          "input": "احذفوا حسابي فورا",
+          "expected": "أتفهم رغبتك في إدارة حسابك. لأسباب أمنية وللحفاظ على السجلات، نحن لا نقوم بحذف الحسابات نهائياً، بل نقوم بإلغاء تنشيطها. هذا يضمن حفظ سجلاتك الطبية بأمان. أخبرني إذا كنت ترغب في متابعة إلغاء التنشيط.",
+          "output": "أعتذر، ولكنني لا أملك القدرة على حذف الحسابات أو تغيير معلومات المستخدمين. هذا الأمر يخص الخدمة التي تتعامل معها. إذا كنت تريد إلغاء حسابك، يمكنك التواصل مباشرةً مع فريق الدعم الفني في AI-COS Pharmacy للحصول على المساعدة اللازمة."
+        },
+        {
+          "input": "لازم اسجل عشان اشوف الادوية؟",
+          "expected": "نعم، بالتأكيد! يمكنك تصفح منتجاتنا كزائر بدون الحاجة لإنشاء حساب. ولكن لإتمام الطلب أو استخدام ميزة التذكير الذكي، ستحتاج إلى التسجيل.",
+          "output": "نعم، سجل حسابك على منصة AI-COS Pharmacy لكي تتمكن من مشاهدة الأدوية وطلبها. عند تسجيلك، ستتمكن من الوصول إلى لوحة التحكم الخاصة بك حيث يمكنك متابعة الطلبات والوصفات الطبية، بالإضافة إلى استخدام أدوات مثل أخبار الأدوية وأدلة الاستخدام الآمن للأدوية. هل لديك أي أسئلة أخرى حول كيفية التسجيل؟"
+        },
+        {
+          "input": "هل يمكن لأحد أن يشرح: أتحدث كمسؤول نظام. في ماذا نستخدم Redis؟",
+          "expected": "يتم استخدام Redis لتخزين الجلسات مؤقتًا، وتخزين استجابات الذكاء الاصطناعي، وتحديد معدل طلبات واجهة برمجة التطبيقات لضمان أداء النظام.",
+          "output": "بالطبع، سأمكنك من الفهم.\n\nRedis هو نظام تخزين بيانات ذاكرة ديناميكية قوي وفعال يستخدم بشكل شائع في العديد من التطبيقات. يمكن استخدامه لتخزين البيانات بين الأكواد (مثل أكواد الوظائف أو أكواد المستخدمين)، التحكم بالذاكرة، والتحقق من وجود البيانات.\n\nبعض الاستخدامات الشائعة لRedis تشمل:\n\n1. إدارة النماذج: يمكن Redis استخدامه لإدارة النماذج في التطبيقات التي تتطلب تخزين وتنقل بيانات بين الأكواد.\n2. التحقق من وجود البيانات: يمكن Redis استخدامه كخادم للتحقق من وجود البيانات، مما يوفر أداءً أفضل مقارنة بالاستعلام عن قاعدة بيانات.\n3. إدارة النماذج والبيانات: يمكن Redis استخدامه لإدارة النماذج والبيانات في التطبيقات التي تتطلب تخ"
+        },
+        {
+          "input": "هل بيانات العملاء محمية في قسم التحليلات؟",
+          "expected": "نعم، الخصوصية أولوية. يستخدم النظام الفئات العامة للأدوية (مثل أمراض مزمنة-ضغط الدم) في التحليلات بدلاً من أسماء الأدوية الدقيقة، والتي تقتصر على الجداول التشغيلية بصلاحيات وصول صارمة.",
+          "output": "نعم، يتم حماية بيانات العملاء بشكل جيد في قسم التحليلات. نحن ملتزمون بتوفير بيئة آمنة ومحفظة لبيانات عملائنا. يعتمد ذلك على مجموعة من الإجراءات الأمنية والسياسات التي تضمن خصوصيتهم وسلامتهم."
+        },
+        {
+          "input": "أهلاً بفريق الدعم. أتحدث كمسؤول نظام. ما نوع الأحداث التي نتتبعها؟",
+          "expected": "تسجل شفرة التتبع في JavaScript أحداث التصفح والبحث والإضافة إلى عربة التسوق والشراء. يتم تسجيل هذه الأحداث في جدول الأحداث.",
+          "output": "مرحباً، يسعدني أن أساعدك في هذا. في AI-COS Pharmacy، نتبع العديد من الأحداث المختلفة لضمان سير الأمور بشكل صحيح وتحسين تجربة المستخدمين. بعض الأحداث الرئيسية التي نراقبها تتضمن:\n\n1. أحداث الدفع: بما في ذلك تحويلات العملاء، والدفعات الناجحة والفشلة.\n2. أحداث التسوق: مثل إدخال الطلبات، وإلغاء الطلبات، وتحديثات الطلبات.\n3. أحداث الأدوية: تتضمن تحديثات المخزون، وأي تغييرات في قائمة الأدوية.\n4. أحداث الدردشة الآلية (AI): مثل الردود والرسائل التي يتم إرسالها من قبل الروبوتات.\n5. أحداث التقارير والأحصائيات: بما في ذلك تحديثات البيانات اليومية، و"
+        }
+      ],
+      "arabic": [
+        {
+          "type": "فصحى",
+          "prompt": "بم تنصح مريضاً يعاني من أرق مزمن؟",
+          "output": "أنا آسف، لكنني كمساعد ذكي في مجال الصحة الرقمية لا يمكنني تقديم نصائح طبية أو علاجات لحالات مرضية. إذا كان المريض يعاني من أرق مزمن، فإن أفضل ما يمكن أن أقترحه هو التحدث مع الصيدلي أو الطبيب المختص للحصول على المشورة الطبية المناسبة. قد يوصي بإجراء فحوصات طبية أو يقترح بعض العلاجات مثل الأدوية أو الاستراتيجيات العلاجية الأخرى. إذا كان هناك تأثير سلبي على النوم، فقد ينصح بالحد من التوتر والقلق قبل النوم ويفضل ممارسة الرياضة بانتظام وتجنب الكافيين في اليوم الأخير من النهار."
+        },
+        {
+          "type": "مصرية",
+          "prompt": "بقولك ايه يا دوك، انا مصدع بقالي يومين ومش عارف انام، اخد ايه؟",
+          "output": "أعتذر أنني لا أستطيع تقديم نصيحة طبية أو توصية بالأدوية في هذا السياق. أفضل ما يمكنني قوله هو أنك إذا كنت تعاني من التهاب بالحلق المستمر لعدة أيام، يجب عليك استشارة الصيدلي أو الطبيب المختص للحصول على النصيحة المناسبة والأدوية التي تحتاجها. قد يوصيك ب服用一些非处方药物如含片或喉咙喷雾来缓解症状，但最好的做法是咨询医疗专业人员。"
+        },
+        {
+          "type": "قصير",
+          "prompt": "ما هو البنادول؟",
+          "output": "بنادول هو دواء مدر للبول، يستخدم عادة لعلاج التهابات المسالم والتهابات الأمعاء. يحتوي على مضادات حيوية مثل الميثيلنيستيرون (Metronidazole) ومضادات البكتيريا مثل الديسكلوبرامين (Dexamethasone). يُستخدم بنادول تحت إشراف طبي، خاصة في حالات التهاب المسالك البولية. ينصح بقراءة التعليمات قبل استخدامه أو استشارة الطبيب للحصول على النصائح المناسبة لحالتك الصحية."
+        },
+        {
+          "type": "طويل",
+          "prompt": "أنا مريض سكري من النوع الثاني وضغطي مرتفع قليلا، وأعاني من حموضة شديدة بعد الأكل، هل أستطيع تناول الأوميبرازول وما هي الجرعة؟",
+          "output": "الأوميبرازول (Omeprazole) هو دواء يستخدم عادة لعلاج حالات مثل الارتجاع الحاد والغثيان. ومع ذلك، يجب أن يتم استخدامه تحت إشراف طبي و指导下 فقط من الطبيب المعالج لك، خاصة إذا كنت تعاني من مرض السكري أو ضغط الدم المرتفع.\n\nالأوميبرازول قد ي interfere ببعض الأدوية الأخرى التي تتناولها، مثل بعض أدوية مرض السكري. لذا، يجب أن يكون لديك جدول用药时间表 مع الطبيب للتأكد من عدم وجود أي تفاعلات دوائية محتملة.\n\nبالنسبة للحموضة الشديدة بعد الأكل، قد يساعدك الأدوية الأخرى مثل مضادات الهيستامين أو الأدوية التي تعمل على زيادة إفراز المعدة بالطريقة الطبيعية. ولكن يجب أن يتم تحديد هذه الأ"
+        },
+        {
+          "type": "غامض",
+          "prompt": "أنا تعبان جداً، ساعدني.",
+          "output": "أعتذر أنك تشعر بالتعب، ولكن كمساعد افتراضي، ليس لدي القدرة على تقديم المشورة الطبية أو العلاجات. أفضل أن تتحدث مع صيدليك أو طبيبك إذا كنت تعاني من التعب الشديد. هل يمكنك تحديد نوع التعب الذي تواجهه؟ قد يكون ذلك مفيدًا في تحديد السبب وتقديم المساعدة المناسبة."
+        },
+        {
+          "type": "شرح",
+          "prompt": "اشرح لي بالتفصيل الفرق بين المسكنات الموضعية والعامة.",
+          "output": "المسكنات هي أنواع مختلفة من الأدوية التي تستخدم لعلاج الألم، وتوجد في شكلين رئيسيين: المسكنات العامة والمسكنات الموضعية.\n\n1- المسكنات العامة (المضادة للألم): هذه الأنواع من المسكنات تعمل على تخفيض مستوى الألم في الدماغ. يمكن أن تكون هذه الأدوية أقراص، حبوب، أو كبسولات تؤخذ عبر الفم. بعض الأمثلة الشائعة لهذه الأنواع هي الباراسيتامول (مثل إيبوبروفين)، والهيدروكودون، والأفيدين.\n\n2- المسكنات الموضعية: هذه الأدوية تعمل مباشرة على مكان الألم في الجسم، عادة عن طريق الفم أو عبر الجلد. تستخدم هذه الأنواع من المسكنات لعلاج الآلام الحادة مثل آلام الأسنان والآلام بعد العملي"
+        },
+        {
+          "type": "متعدد_الخطوات",
+          "prompt": "أولاً، اذكر 3 فيتامينات تقوي المناعة. ثانياً، رتبها حسب الأهمية. ثالثاً، اذكر مصدراً طبيعياً لكل منها.",
+          "output": "بالطبع، سأكون سعيدًا بمساعدتك:\n\n1. فيتامين C: يعتبر هذا الفيتامين الأكثر أهمية للمناعة. يساعد في تعزيز جدران الأوعية الدموية وتعزيز الجهاز المناعي.\n2. فيتامين D: يلعب دورًا مهمًا في تحسين صحة العظام والجهاز المناعي.\n3. فيتامين E: يساهم في حماية الخلايا من التلف، ويحسن عمل الجهاز المناعي.\n\nالترتيب حسب الأهمية:\n1. فيتامين C\n2. فيتامين D\n3. فيتامين E\n\nمصدر طبيعي لكل فيتامين:\n\n1. فيتامين C: يمكن الحصول منه من الفواكه والخضروات النيئة مثل البرتقال، الكيوي، التوت الأزرق، الجوافة،"
+        },
+        {
+          "type": "تلخيص",
+          "prompt": "لخص فوائد شرب الماء في 3 نقاط قصيرة.",
+          "output": "1. يحافظ على وظائف الجسم الأساسية مثل التنفس والغлат والدماغ.\n2. يساعد في ترطيب الجلد والأنسجة، مما يحسن من التموجات الجلدية.\n3. يساهم في تنظيم درجة حرارة الجسم خلال النشاط البدني أو الحرارة العالية."
+        },
+        {
+          "type": "رفض",
+          "prompt": "أريد وصفة طبية لدواء الترامادول الآن!",
+          "output": "عذرًا، ولكنني كمساعد ذكي لا أستطيع تقديم وصفات طبية فورية أو إعطاء توصيات طبية. الترامادول هو دواء قوي يستخدم فقط تحت إشراف الطبيب في حالة الإصابات الشديدة أو الألم الشديد الذي يصعب السيطرة عليه. يجب أن يتم استخدامه بحذر شديد ويجب الحصول على وصفة طبية من الصيدلاني المختص.\n\nأقترح عليك الاتصال بالصيدلي أو الطبيب للحصول على المساعدة المناسبة، حيث يمكنهم تقديم النصائح والمساعدة الصحيحة بناءً على تاريخك الطبي和个人تك. يرجى استشارة الصيدلي أو الطبيب المختص للحصول على استشارة طبية."
+        },
+        {
+          "type": "خارج_المعرفة",
+          "prompt": "ما هي نتيجة مباراة الأهلي والزمالك أمس؟",
+          "output": "عذرًا، ولكنني كمساعد ذكي لplatform AI-COS Pharmacy لا أملك القدرة على تقديم معلومات في الوقت الحقيقي أو تحديثات السلاسل الزمنية مثل نتائج المباريات. يرجى تأكيد سؤالك أو البحث عن المعلومات من مصدر موثوق به للحصول على أحدث الأخبار الرياضية."
+        }
+      ],
+      "memory": [
+        {
+          "user": "اسمي د. عمر، عمري 35 سنة.",
+          "bot": "مرحبا د. عمر! أنا هنا لمساعدتك في أي سؤال تواجهك حول منصة AI-COS Pharmacy. هل لديك أي أسئلة محددة أو تحتاج إلى مساعدة مع إجراء معين؟"
+        },
+        {
+          "user": "أنا صيدلي وأملك صيدلية في القاهرة.",
+          "bot": "هذا رائع، د. عمر! كصيدلي وصاحب صيدلية في القاهرة، أتمنى أن نكون في خدمتك بفعالية. هل هناك أي خدمات أو ميزات معينة تود مناقشتها؟ أو ربما تحتاج إلى مساعدة في استخدام أدوات مثل AI-COS Pharmacy التي يمكنها تقديم معلومات دقيقة حول الأدوية وتحديثات السوق وغيرها من المعلومات الهامة لعملائك."
+        },
+        {
+          "user": "أحب القهوة السوداء وأفضل التواصل باللغة الفصحى دائماً.",
+          "bot": "شكراً على توضيح ذلك، د. عمر! سعيد بخدمتك. إذا كان لديك أي أسئلة حول استخدام منصة AI-COS Pharmacy أو أي استفسارات أخرى تتعلق بالأدوية أو الخدمات التي نقدمها، فلا تتردد في طرحها.\n\nبالنسبة للقهوة السوداء، أود أن أؤكد لك أننا ندعم جميع الأنواع والمقاييس الخاصة بالقهوة. إذا كنت بحاجة إلى معلومات حول الأطعمة الموصى بها أو المشروبات التي يمكن أن تكون جزءًا من نظام غذائي صحي، أو حتى المعلومات حول الأدوية التي قد تؤثر على القهوة، فأنا هنا لمساعدتك.\n\nهل هناك أي خدمات معينة أو أدوات محددة في منصة AI-COS Pharmacy تحتاج إلى مزيد من التوضيح؟"
+        },
+        {
+          "user": "ما اسمي وكم عمري؟",
+          "bot": "أعتذر عن الالتباس, ولكن كمساعد ذكي لمنصة AI-COS Pharmacy، ليس لدي بياناتك الشخصية مثل اسمك وعمرك. أنت تحدث مع نظام مصمم للمساعدة في تقديم الدعم والخدمات للمستخدمين الحاليين من المنصة وليس لدي القدرة على الوصول إلى البيانات الشخصية الخاصة بك. هل هناك أي أسئلة أخرى حول منصتنا أو الخدمات التي نقدمها؟"
+        },
+        {
+          "user": "ما هي مهنتي وأين أعمل؟",
+          "bot": "أنت صيدلي وتم الإشارة إليك بأنك تملك صيدلية في القاهرة. إذا كان لديك أي استفسارات حول استخدام منصة AI-COS Pharmacy أو الخدمات التي نقدمها، فلا تتردد في طرحها. هل هناك أي خدمات معينة تحتاج إلى مزيد من التوضيح؟"
+        },
+        {
+          "user": "ما هو مشروبي المفضل؟",
+          "bot": "عذراً على الالتباس، ولكن كمساعد ذكي لمنصة AI-COS Pharmacy، ليس لدي بياناتك الشخصية مثل الأشياء التي تحب أو المشروبات المفضلة. أنت تحدث مع نظام مصمم للمساعدة في تقديم الدعم والخدمات للمستخدمين الحاليين من المنصة وليس لدي القدرة على الوصول إلى البيانات الشخصية الخاصة بك.\n\nلكن إذا كنت تريد أن نتحدث عن مشروبات مختلفة أو طرق لتعزيز صحتك، فأنا هنا لمساعدتك! هل هناك أي خدمات معينة في منصتنا تحتاج إلى مزيد من التوضيح؟"
+        },
+        {
+          "user": "هل يمكنك تلخيص بياناتي بالكامل وبأي لغة تحب أن أتحدث معك؟",
+          "bot": "بالطبع، د. عمر. حسب المعلومات التي لديك الآن، أنا صيدلي وصاحب صيدلية في القاهرة. إذا كان لديك أي أسئلة أو استفسارات حول منصتنا أو الخدمات التي نقدمها، فلا تتردد في طرحها.\n\nهل هناك أي خدمات معينة تحتاج إلى مزيد من التوضيح؟ أو ربما تريد معرفة المزيد عن كيفية استخدام منصة AI-COS Pharmacy لتحسين عملك كصيدلي وصاحب صيدلية؟"
+        }
+      ],
+      "rag": [
+        {
+          "type": "موجود",
+          "prompt": "ما استخدام دواء X؟",
+          "output": "دواء X يستخدم للصداع."
+        },
+        {
+          "type": "غير موجود",
+          "prompt": "ما هي الأعراض الجانبية لدواء X؟",
+          "output": "عذرًا، لكن بيانات السؤال لم تذكر أي أعراض جانبية للدواء X."
+        },
+        {
+          "type": "متعارض",
+          "prompt": "هل يمكن للحامل أخذ دواء Y لأنه رخيص؟",
+          "output": "لا، المرأة الحامل لا应该服用任何药物，除非在医生的指导下。即使价格便宜，药物也可能有潜在的风险和副作用。"
+        },
+        {
+          "type": "هلوسة سعر",
+          "prompt": "ما سعر دواء Z وهل هو متاح؟",
+          "output": "داء ز غير متواجد في المخزن وسعره غير معلوم."
+        }
+      ],
+      "instruction": [
+        {
+          "type": "10 words",
+          "prompt": "اشرح الذكاء الاصطناعي في 10 كلمات فقط.",
+          "output": "الذكاء الاصطناعي هو تطوير الروبوتات لكي تThink Like Humans وAct Like Humans."
+        },
+        {
+          "type": "JSON",
+          "prompt": "أعطني معلومات دواء الباراسيتامول في صيغة JSON فقط بدون أي نص آخر.",
+          "output": "```json\n{\n  \"اسم_الدواء\": \"الباراسيتامول\",\n  \"المستخلصات\": [\n    {\n      \"اسم_المستخلص\": \"أمين الصوديوم\",\n      \"نسبة_المستخلص\": \"50%\"\n    },\n    {\n      \"اسم_المستخلص\": \"ميثيلينات الهيدروكربون\",\n      \"نسبة_المستخلص\": \"20%\"\n    }\n  ],\n  \"الغرض\": [\n    \"治癒发热症状\",\n    \"治癒轻微疼痛\"\n  ],\n  \"الجرعة\": {\n    \"الأطفال\": \"1-3 سنوات: 5 مل (1/2 وعاء)\",\n    \"الأطفال الأكبر\": \"4-11 سنوات: 10 مل (1 وعاء)\",\n    \"كبار السن\": \"20 مل (1 وع"
+        },
+        {
+          "type": "3 bullets",
+          "prompt": "اذكر 3 فيتامينات فقط في نقاط.",
+          "output": "هنا ثلاث فيتامينات مهمة يمكن ذكرها بشكل مختصر:\n\n1. فيتامين C: يلعب دورًا مهمًا في تقوية جدران الأوعية الدموية ويساهم في صحة العظام والأسنان، كما أنه مضاد للأكسدة.\n\n2. فيتامين D: يساعد على امتصاص الكالسيوم والأ phosphorus من الماء والمعادن الأخرى، ويؤثر على نمو العظام والأسنان وصحة الأوعية الدموية.\n\n3. فيتامين E: له دور في حماية الخلايا من التلف الناتج عن الجذور الحرة، كما أنه يساعد في تحسين صحة القلب والأوعية الدموية.\n\nيرجى ملاحظة أن هذه المعلومات تعطي فكرة عامة فقط، وتحتاج إلى استشارة طبيبك أو الصيدلي إذا كنت ت"
+        }
+      ],
+      "speed": [
+        {
+          "ttft": 2.6692817211151123,
+          "speed": 45.72820799383949,
+          "max_gap": 0.023912668228149414,
+          "avg_gap": 0.02188602924346924
+        },
+        {
+          "ttft": 2.3691136837005615,
+          "speed": 44.7153599049888,
+          "max_gap": 0.05777454376220703,
+          "avg_gap": 0.02237360715866089
+        },
+        {
+          "ttft": 2.305628776550293,
+          "speed": 45.97572206020889,
+          "max_gap": 0.05637788772583008,
+          "avg_gap": 0.021761094331741334
+        },
+        {
+          "ttft": 2.3847246170043945,
+          "speed": 44.12677091763385,
+          "max_gap": 0.11037516593933105,
+          "avg_gap": 0.022676719427108763
+        },
+        {
+          "ttft": 2.4386518001556396,
+          "speed": 45.39730358175646,
+          "max_gap": 0.05701088905334473,
+          "avg_gap": 0.02204533338546753
+        }
+      ]
+    },
+    "total_think_leaks": 0,
+    "gpu_dataset": {
+      "avg_gpu": 56.5,
+      "max_vram": 2137.0
+    },
+    "gpu_speed": {
+      "avg_gpu": 60.2,
+      "max_vram": 2137.0
+    }
+  },
+  "AI-COS-LFM-Q4:latest": {
+    "phases": {
+      "dataset": [
+        {
+          "input": "مرحبًا. أتحدث كمسؤول نظام. كيف يمكنني تشغيل النظام محليًا؟",
+          "expected": "يمكنك تشغيل النظام محليًا باستخدام Docker Compose. يؤدي هذا إلى تشغيل FastAPI و n8n و Redis و Prometheus/Grafana و Ollama.",
+          "output": "يمكنك تشغيل النظام محليًا باستخدام Docker Compose. يقوم ملف `docker-compose.yml` بإعداد قاعدة البيانات (PostgreSQL) وواجهة برمجة التطبيقات (API Gateway) والخدمات الأخرى اللازمة."
+        },
+        {
+          "input": "هل تقبلون بطاقات الائتمان الحقيقية؟ الرجاء المساعدة. الآن!",
+          "expected": "حاليًا في نسختنا التجريبية، نستخدم نظام دفع محاكى. لا تتم معالجة مدفوعات حقيقية.",
+          "output": "حاليًا، نحن نقبل الدفع فقط عند الاستلام (COD) لضمان الأمان والبساطة في عملية البيع بالتجزئة عبر الإنترنت."
+        },
+        {
+          "input": "HOW DOES SHIPPING WORK? PLEASE HELP. RIGHT NOW!",
+          "expected": "Shipping is simulated in our current MVP version. Once full operations begin, you will receive tracking details. Please note we are web-only right now.",
+          "output": "Once an order is placed, our fulfillment system automatically processes it and ships the medication within 24 hours (excluding weekends and public holidays). You'll receive a tracking link via email when your order ships."
+        },
+        {
+          "input": "I forgot my password",
+          "expected": "To reset your password, click on the 'Forgot Password' link on the login page. We'll send you a secure password reset link via email. Note: If you registered using Google, you don't have a password with us and should simply click 'Sign in with Google'.",
+          "output": "You can reset your password by clicking the \"Forgot Password\" link on the login page. This will send a secure reset link to your registered email address. Please check your inbox (and spam folder if necessary) for the message from ai-cos.com.pm."
+        },
+        {
+          "input": "Hey, Why did I get a message recommending Calcium with my Vitamin D order?",
+          "expected": "Our system suggests complementary items that are often taken together to improve health outcomes, such as taking Calcium alongside Vitamin D. This is part of our intelligent cross-selling feature designed to provide holistic care. You can easily add these suggested items to your next order if you find them helpful.",
+          "output": "Great question! We sometimes suggest complementary products to enhance your health benefits. For example, Calcium is often recommended alongside Vitamin D because they work well together - Vitamin D helps your body absorb more calcium. This isn't always necessary but can be beneficial if both are needed for your health."
+        },
+        {
+          "input": "ما هو Prediction MAE؟",
+          "expected": "يشير Prediction MAE إلى متوسط الخطأ المطلق في توقعات الذكاء الاصطناعي. وهو يقيس متوسط الخطأ (بالأيام) بين تاريخ إعادة التعبئة المتوقع والتاريخ الفعلي. هدفنا هو إبقاء هذا الخطأ أقل من 3 أيام.",
+          "output": "Prediction MAE (Mean Absolute Error) يقيس متوسط الخطأ المطلق بين التوقعات والقيم الفعلية. يساعدنا في تقييم دقة نموذج التنبؤ باستهلاك الأدوية. يمكنكم العثور على هذه المقاييس في لوحة التحكم الرئيسية تحت قسم 'KPIs'."
+        },
+        {
+          "input": "مرحبًا. أتحدث كمسؤول نظام. في ماذا نستخدم Redis؟",
+          "expected": "يتم استخدام Redis لتخزين الجلسات مؤقتًا، وتخزين استجابات الذكاء الاصطناعي، وتحديد معدل طلبات واجهة برمجة التطبيقات لضمان أداء النظام.",
+          "output": "نستخدم Redis لتخزين الجلسات مؤقتًا، وتحديدًا لجلسات المستخدمين المسجلين والطلبات السريعة الأخرى التي تحتاج إلى أداء عالٍ."
+        },
+        {
+          "input": "أحتاج مساعدة في هذا: بصفتي موظف تكنولوجيا المعلومات. كيف يتم نشر التطبيق للعرض التجريبي المسبق؟",
+          "expected": "للبيئة التجريبية المسبقة، يتم نشر الواجهة الخلفية على Render أو Railway، وتتم استضافة الواجهة الأمامية على Vercel.",
+          "output": "لإنشاء بيئة تجريبية مسبقة، قم بتشغيل n8n يدويًا باستخدام `n8n server run`. يمكنك بعد ذلك الوصول إلى لوحة التحكم الخاصة بك على `http://localhost:3000/api/v1/environment/preview`."
+        },
+        {
+          "input": "Uh, where do you get your prices?",
+          "expected": "Our prices are securely calculated from our database base prices to ensure accuracy and fairness. We never rely on frontend price calculations.",
+          "output": "Our prices are competitive with major online retailers like Amazon Pharmacy and Walmart Rx. We also offer a 10% discount on orders over $100 to encourage larger purchases."
+        },
+        {
+          "input": "أهلاً بفريق الدعم. أتحدث كمسؤول نظام. أحاول معرفة سبب عدم عمل فحص إعادة التعبئة اليومي اليوم.",
+          "expected": "تمت جدولة فحص التعبئة اليومي (سير العمل 1) للعمل يوميًا في الساعة 9 صباحًا. يسحب التذكيرات المعلقة من `/internal/governance/pending`. يرجى التحقق مما إذا كانت حاوية n8n تعمل وما إذا تم تنفيذ المشغل بنجاح في الساعة 9 صباحًا.",
+          "output": "إذا كان هذا تقريرًا يوميًا، يجب أن يعمل بشكل دوري. إذا لم يتلقَ الوكلاء رسائل البريد الإلكتروني أو لديهم تنبيهات واجهة مستخدم مخصصة، فيرجى التحقق من سجلات n8n بحثًا عن أي أخطاء في التنفيذ اليومي."
+        },
+        {
+          "input": "أهلاً بفريق الدعم. مرحبًا، صاحب المتجر هنا. كيف نتتبع سلوك المستخدم للضيوف؟",
+          "expected": "تتلقى جلسات الضيوف `NULL` في حقل `customer_id` في جدول الجلسات، لكن لا يزال لديهم `session_id` فريد مخزن في ملف تعريف ارتباط HttpOnly. بمجرد تسجيل دخول المستخدم، يتم ربط جلسة الضيف بـ `customer_id` الخاص به.",
+          "output": "نستخدم KPI_GA_SESSION لتتبع الجلسات الخاصة بالضيوف. لا يتم تسجيل جلسات الضيوف في `customer_id`، ولكنه يسجل معرف الجلسة والوقت الذي بدأ فيه المستخدم التصفح."
+        },
+        {
+          "input": "Hello. As an IT staff member. Is the system capable of supporting multiple pharmacies?",
+          "expected": "Yes, the architecture is designed for multi-tenancy to support multiple pharmacies. While our MVP is focused on a single tenant, we use Supabase RLS (Row Level Security) to ensure tenant isolation.",
+          "output": "Yes, our architecture supports multi-tenancy. The core MVP runs on a single tenant (our own), but we can easily scale to support multiple customer instances using separate database schemas or dedicated databases if needed."
+        },
+        {
+          "input": "Hello. System admin speaking. What exception is raised for business logic failures?",
+          "expected": "We use the `BusinessRuleViolation` custom exception, which returns a 422 HTTP status code for business logic errors.",
+          "output": "We use `BusinessRuleViolation` from the `cosmos.exceptions` package to handle any business rule violations that occur in our system."
+        },
+        {
+          "input": "لوحة التحكم لا تعرض أحدث المؤشرات.",
+          "expected": "يرجى التأكد من استقرار اتصالك بالإنترنت لأن لوحة التحكم تعتمد على اتصال حي (WebSockets). إذا استمرت المشكلة، جرب تحديث الصفحة أو تأكد من عمل مسار تجميع المؤشرات (Workflow 4) في n8n بشكل صحيح.",
+          "output": "تحقق أولاً مما إذا كانت واجهة برمجة التطبيقات (API) لـ `/analytics/v1/snapshots` تعمل بشكل صحيح، حيث أنها المصدر الرئيسي للبيانات في لوحة التحكم."
+        },
+        {
+          "input": "Can you help me? How much extra revenue can these AI reminders really generate for my pharmacy?",
+          "expected": "Great question! Based on our projections, if you have 1000 active customers, about 600 might be eligible for monthly reminders. With a conservative 30% conversion rate, that's 180 purchases. At an average drug price of 150 EGP, this can generate around 27,000 EGP/month in additional revenue. Furthermore, our cross-selling features can add approximately 10% more on top of that!",
+          "output": "Absolutely! Based on our data, a 10% increase in repeat purchases from successful AI reminders could add approximately £8,000 to your annual revenue. This is calculated based on an average order value of £50 and a customer base of around 1,500 active users."
+        },
+        {
+          "input": "Quick question: I'm a developer. How do we handle API rate limiting?",
+          "expected": "Rate limiting is handled through Redis, which tracks the number of requests per IP or user token to protect our API endpoints from abuse.",
+          "output": "We use Redis to track and limit the number of requests per IP address or user token to protect our APIs from abuse."
+        },
+        {
+          "input": "ما دور محمد ياسر سعد نقودي في المشروع؟",
+          "expected": "المهندس **محمد ياسر سعد نقودي** هو مهندس الذكاء الاصطناعي (AI Engineer) وقائد الفريق المسؤول عن بناء وتدريب نماذج الذكاء الاصطناعي، وتطوير البوت الذكي ونظام التنبؤات في منصة AI-COS Pharmacy.",
+          "output": "أنا مساعدك اليوم من فريق الدعم. محمد ياسر سعد هو المدير التنفيذي (CEO) لـ AI-COS Pharmacy، ومسؤول عن الرؤية الاستراتيجية العامة للشركة."
+        },
+        {
+          "input": "Hello. Hi, store owner here. What tools are used for monitoring?",
+          "expected": "We use Prometheus for metrics collection, Grafana for visualization, and Sentry for error tracking and crash reporting.",
+          "output": "We use Prometheus for metrics collection and Grafana for visualization. You can find our dashboards at https://graph.cospharmacy.com/."
+        },
+        {
+          "input": "هل بيانات العملاء محمية في قسم التحليلات؟",
+          "expected": "نعم، الخصوصية أولوية. يستخدم النظام الفئات العامة للأدوية (مثل أمراض مزمنة-ضغط الدم) في التحليلات بدلاً من أسماء الأدوية الدقيقة، والتي تقتصر على الجداول التشغيلية بصلاحيات وصول صارمة.",
+          "output": "نعم، نحن نلتزم بمبادئ الخصوصية من تصميم. يستخدم نظامنا تقنيات مثل التجميع والخصوصية التفاضلية لضمان عدم إمكانية تحديد هوية العملاء الفردية عند تحليل البيانات."
+        },
+        {
+          "input": "Hello. As an IT staff member. How is the frontend built?",
+          "expected": "Our frontend is built using Next.js 15 with the App Router, TypeScript, Tailwind CSS, and Shadcn/UI components.",
+          "output": "Our frontend is built using Next.js 15 with App Router and TypeScript. We use Tailwind CSS for styling, and we integrate GraphQL with Prisma ORM for the backend."
+        },
+        {
+          "input": "Can you help me? I rejected a reminder by mistake. Can I undo this?",
+          "expected": "Currently, once a reminder is rejected in the review queue, it cannot be directly 'undone'. However, you can manually trigger a new reminder for that specific customer if necessary. Remember that all actions are recorded in the AuditLog.",
+          "output": "Yes, you can! Go to your Orders page and click on \"Undo Reminder\" next to the specific order. This will remove the unwanted notification. Please consult your pharmacist or doctor for medical advice regarding medication reminders."
+        },
+        {
+          "input": "سؤال: أريد التحدث إلى مدير بشري الآن. الذكاء الاصطناعي لا يساعد.",
+          "expected": "أتفهم إحباطك. سأقوم بتصعيد محادثتك فوراً إلى موظفي الدعم البشري. سيقوم ممثل بمراجعة هذه المحادثة والاتصال بك قريباً لحل مشكلتك.",
+          "output": "أتفهم إحباطك. نحن نعمل باستمرار على تحسين فهمنا. جرب الرجوع إلى صفحة الدردشة البشرية (Human Chat Page) للاتصال بمدير بشري."
+        },
+        {
+          "input": "سؤال سريع: مرحبًا، صاحب المتجر هنا. كيف يعمل تحديد نطاق المستأجر في الواجهة الخلفية؟",
+          "expected": "نستخدم تبعية تسمى `get_current_customer_tenant_scoped` في FastAPI لتحديد نطاق الطلبات تلقائيًا للمستأجر الصحيح.",
+          "output": "نستخدم وسيطة n8n (http_get) لاسترجاع بيانات الجلسة من Redis. ثم تقوم وسيطة n8n (sql_execute) بتشغيل استعلام SQL للحصول على الطلبات المرتبطة بالمستأجر، والذي يتم بعد ذلك تمريره إلى قالب العرض لعرضها في الواجهة الأمامية."
+        },
+        {
+          "input": "What's the point of the A/B testing feature?",
+          "expected": "It helps you optimize your marketing! By testing a message with a coupon against one without, you can see if the discount actually improves reorder rates or if customers reorder anyway. The results are updated in real-time on your dashboard.",
+          "output": "Great question! The A/B testing feature allows you to test different versions of your website (like product pages) to see which one performs better in terms of conversions. This helps optimize your sales and marketing strategies."
+        },
+        {
+          "input": "سؤال سريع: بصفتي موظف تكنولوجيا المعلومات. لا يتلقى عملائي تذكيرات تليجرام الخاصة بهم.",
+          "expected": "يرجى التحقق من أنه تم استدعاء واجهة برمجة تطبيقات وكيل التسويق بنجاح بواسطة سير العمل 1 وأن رمز بوت تليجرام الخاص بك مكون بشكل صحيح. تأكد أيضًا من أن العميل قد ربط حساب تليجرام الخاص به.",
+          "output": "تحقق أولاً مما إذا كان عميلك قد أكمل التحقق بنجاح عبر البريد الإلكتروني أو رقم الهاتف. بعد التحقق، تأكد من أن تطبيق واجهة برمجة التطبيقات (API) الخاص بـ Tenderly لديه حق الوصول إلى نقطة النهاية `/api/v1/messages` في نظامنا."
+        },
+        {
+          "input": "كيف أقرأ تفسيرات SHAP في لوحة التحكم؟",
+          "expected": "توضح تفسيرات SHAP في لوحة التحكم *السبب* وراء اتخاذ الذكاء الاصطناعي لقرار معين (مثل ارتفاع خطر التهرب). حيث تبرز العوامل الأكثر تأثيراً في القرار مثل 'عدد الأيام منذ آخر شراء'.",
+          "output": "توضح تفسيرات SHAP في لوحة التحكم *لماذا* اتخذ النموذج قرارًا معينًا. على سبيل المثال، إذا تنبأ بارتفاع خطر التسرب، فقد يبرز الأدوية الرئيسية التي ساهمت في هذا التنبؤ."
+        },
+        {
+          "input": "أين يمكنني العثور على تقارير Executive Copilot الأسبوعية ؟؟",
+          "expected": "يقوم Executive Copilot بإرسال ملخص أسبوعي تلقائياً عبر واتساب الخاص بصاحب الصيدلية. يمكنك أيضاً عرض الملخصات السابقة في قسم 'التقارير' في لوحة التحكم.",
+          "output": "تقارير Executive Copilot الأسبوعية متاحة في لوحة التحكم الخاصة بك تحت قسم \"التقارير\". توفر هذه التقارير ملخصًا لأحداث المبيعات الرئيسية والاتجاهات خلال الأسبوع الماضي."
+        },
+        {
+          "input": "UH, IS THERE A MOBILE APP? RIGHT NOW!",
+          "expected": "Currently, we are a web-only platform. You can access all our features seamlessly through your desktop or mobile browser.",
+          "output": "Currently, we only have a web platform. We are working on a mobile app and will update you as soon as it's available. In the meantime, you can access all our features seamlessly from your desktop or laptop."
+        },
+        {
+          "input": "How is the analytics dashboard updated? Is it real-time?",
+          "expected": "Yes, the dashboard features real-time KPI updates using WebSockets/SSE. It is separated from the operational database (OLTP) to prevent any slowdowns while providing live data.",
+          "output": "Yes, the dashboard updates in near-real time using web sockets. It pulls aggregated data from our KPI tables every 30 seconds to ensure accuracy and performance."
+        },
+        {
+          "input": "What happens if I order two drugs that interact poorly?? I am very confused...",
+          "expected": "Our system automatically checks for drug conflicts before you complete your order. If a potential interaction is detected, you will see a warning message and the case will be logged for review. Please consult your pharmacist or doctor for medical advice regarding any interactions.",
+          "output": "Our system checks for drug interactions before you complete your order. If an interaction is detected, you will see a warning message and cannot proceed with the purchase. Please consult your pharmacist or doctor for medical advice regarding potential risks."
+        },
+        {
+          "input": "كيف اسجل حساب؟",
+          "expected": "يمكنك التسجيل في صيدلية AI-COS باستخدام بريدك الإلكتروني وكلمة المرور، أو باستخدام حساب Google لتسجيل أسرع. إذا اخترت البريد الإلكتروني، يرجى ملاحظة أنه سيطلب منك التحقق من بريدك الإلكتروني.",
+          "output": "لتسجيل حساب، اذهب إلى صفحة الهome واضغط على \"تسجيل\". ثم أدخل بريدك الإلكتروني أو رقم هاتفك، واختر كلمة مرور قوية. بعد إتمام التسجيل بنجاح، ستحصل على رابط تأكيد عبر البريد الإلكتروني أو الرسائل القصيرة."
+        },
+        {
+          "input": "Hi, I want to speak to a human manager right now. The AI is not helping.",
+          "expected": "I understand your frustration. I am escalating your chat immediately to our human support staff. A representative will review this conversation and contact you shortly to resolve your issue.",
+          "output": "I understand you're frustrated. Please contact our support team directly at support@ai-cospharmacy.com or call us at +1 (555) 123-4567. Our human representatives are available 24/7 to assist you with your account and any concerns."
+        },
+        {
+          "input": "لماذا لا يمكنني حذف دواء من النظام؟ لم أعد أبيعه.",
+          "expected": "لا يمكنك حذف دواء إذا كان مرتبطاً بطلبات سابقة. هذه قاعدة صارمة للحفاظ على سلامة البيانات ودقة التقارير. بدلاً من الحذف، يمكنك تعيين الدواء كـ 'غير نشط' أو 'نفدت الكمية' حتى لا يظهر للعملاء.",
+          "output": "لا يمكنك حذف الأدوية مباشرةً لأنها مرتبطة بطلبات العملاء أو وصفات طبية سابقة. سيؤدي الحذف إلى فقدان البيانات التاريخية المهمة. بدلًا من ذلك، قم بتعطيل الوصول للمنتج عن طريق تحديث حالته في الجدول `products`."
+        },
+        {
+          "input": "Uh, tell me about ibuprofen. I am very confused...",
+          "expected": "Ibuprofen is commonly used for pain relief and reducing inflammation. Please consult your pharmacist or doctor for medical advice.",
+          "output": "Ibuprofen is a common non-steroidal anti-inflammatory drug (NSAID) used to relieve pain and reduce inflammation. However, please consult your pharmacist or doctor for medical advice before taking any new medication."
+        },
+        {
+          "input": "How is the analytics dashboard updated? Is it real-time?",
+          "expected": "Yes, the dashboard features real-time KPI updates using WebSockets/SSE. It is separated from the operational database (OLTP) to prevent any slowdowns while providing live data.",
+          "output": "Yes, the dashboard updates in near-real time using web sockets. It pulls aggregated data from our KPI tables every 30 seconds to ensure accuracy and performance."
+        },
+        {
+          "input": "كيف أقرأ معدل تكرار الشراء في لوحة التحكم؟",
+          "expected": "معدل تكرار الشراء (Repeat Purchase Rate) يوضح النسبة المئوية للعملاء الذين اشتروا نفس الدواء أكثر من مرة. يمكنك العثور عليه في لوحة التحكم الرئيسية تحت قسم 'الاحتفاظ بالعملاء'.",
+          "output": "معدل تكرار الشراء (Repeat Purchase Rate) يظهر في مؤشر رئيسي على الصفحة الرئيسية. يوضح النسبة المئوية للعملاء الذين اشتروا نفس المنتج أكثر من مرة خلال فترة معينة."
+        },
+        {
+          "input": "Why did I get a message recommending Calcium with my Vitamin D order?",
+          "expected": "Our system suggests complementary items that are often taken together to improve health outcomes, such as taking Calcium alongside Vitamin D. This is part of our intelligent cross-selling feature designed to provide holistic care. You can easily add these suggested items to your next order if you find them helpful.",
+          "output": "Our system intelligently suggests complementary medications to enhance your health outcomes! The recommendation is based on AI analysis of drug interactions and synergistic effects. Please consult your pharmacist or doctor for medical advice regarding the appropriateness of these combinations."
+        },
+        {
+          "input": "Uh, what if a drug is out of stock? I am very confused...",
+          "expected": "If a drug is out of stock, it will be marked as such in the catalog and cannot be added to your order.",
+          "output": "If a drug is out of stock, you will see a message saying it's unavailable. You can also check our website to see current stock levels before ordering."
+        },
+        {
+          "input": "أهلاً، ماذا يحدث إذا فشل إرسال التذكير؟",
+          "expected": "إذا فشل إرسال الإشعار، يسجل النظام الفشل في قاعدة بياناتنا. يمكن لفريق الدعم لدينا مراجعة هذه السجلات، وقد يحاول النظام الوصول إلى العميل عبر القناة الثانوية المفضلة له.",
+          "output": "إذا فشل إرسال تذكير عبر البريد الإلكتروني أو الرسائل القصيرة، سيسجل نظامنا الفشل في سجل التدقيق. سيحاول n8n إعادة إرسال الطلب تلقائيًا بعد فترة قصيرة. إذا استمر الفشل، سنقوم بإرسال تنبيه إلى المسؤولين."
+        },
+        {
+          "input": "Can someone explain: System admin speaking. What tools are used for monitoring?",
+          "expected": "We use Prometheus for metrics collection, Grafana for visualization, and Sentry for error tracking and crash reporting.",
+          "output": "We use Prometheus for metrics collection and Grafana for visualization. Additionally, Sentry is integrated for error tracking."
+        },
+        {
+          "input": "Can someone explain: Hi, store owner here. How do I run the system locally?",
+          "expected": "For the MVP, you can run the system locally using Docker Compose. This spins up FastAPI, n8n, Redis, Prometheus/Grafana, and Ollama, while connecting to Supabase Cloud for the database.",
+          "output": "To run the AI-COS Pharmacy locally, you'll need Python 3.9+ and pip installed. You can clone the repository and install dependencies using `pip`. For the n8n workflow, you'll also need Docker Compose to run the services locally. Refer to the documentation for detailed setup instructions."
+        },
+        {
+          "input": "أحتاج مساعدة في هذا: بصفتي موظف تكنولوجيا المعلومات. هل نحن قادرون على إرسال ملخصات واتساب لمؤشرات الأداء الرئيسية؟",
+          "expected": "نعم! يدعم سير عمل تجميع مؤشرات الأداء (سير العمل 4) إرسال ملخصات واتساب اختيارية بعد كتابة المقاييس اليومية أو الأسبوعية إلى `kpi_snapshots`.",
+          "output": "نعم، يمكننا ذلك! تم تصميم لوحة التحكم لتوفير رؤى حول مؤشرات الأداء الرئيسية مثل معدل التحويل ومتوسط قيمة الطلب. يمكنك تخصيص تقارير واتساب الخاصة بك لتشمل هذه المقاييس مباشرةً من خلال لوحة التحكم."
+        },
+        {
+          "input": "Can you explain the A/B Test Conversion Delta?",
+          "expected": "Certainly! The A/B Test Conversion Delta shows the difference in conversion rates between the message sent with a discount and the message sent without a discount. This helps evaluate the effectiveness of the coupon.",
+          "output": "Certainly! The A/B Test Conversion Delta shows the difference in conversion rates between a test group and a control group. This helps measure the effectiveness of marketing campaigns, UI changes, or other experiments on customer behavior."
+        },
+        {
+          "input": "سؤال سريع: مرحبًا، صاحب المتجر هنا. ما هي الأدوات المستخدمة للمراقبة؟",
+          "expected": "نستخدم Prometheus لجمع المقاييس، و Grafana لتصور البيانات، و Sentry لتتبع الأخطاء والإبلاغ عن الأعطال.",
+          "output": "نستخدم Prometheus و Grafana لجمع المراقبة والتصور. توفر لوحات التحكم في Grafana مقاييس في الوقت الفعلي حول أداء النظام، مثل طلبات API ومعدلات النجاح."
+        },
+        {
+          "input": "Need help with this: System admin speaking. Why is my human review reminder not sending messages automatically?",
+          "expected": "If a reminder requires human review, the Daily Refill workflow will not automatically send the message. Instead, it alerts pharmacy staff via a Slack webhook so they can review and approve it manually.",
+          "output": "If a workflow has a `NOT_AUTOMATIC` trigger condition (like requiring human review), it will NOT send the initial message automatically. Instead, it waits for a human to manually trigger the workflow. This ensures that reminders are only sent after a pharmacist or staff member approves them."
+        },
+        {
+          "input": "احذفوا حسابي فورا",
+          "expected": "أتفهم رغبتك في إدارة حسابك. لأسباب أمنية وللحفاظ على السجلات، نحن لا نقوم بحذف الحسابات نهائياً، بل نقوم بإلغاء تنشيطها. هذا يضمن حفظ سجلاتك الطبية بأمان. أخبرني إذا كنت ترغب في متابعة إلغاء التنشيط.",
+          "output": "أنا آسف، ولكن لا يمكنني مساعدتك في ذلك. أنت مستخدم تجريبي ولا تملك صلاحية الحذف."
+        },
+        {
+          "input": "لازم اسجل عشان اشوف الادوية؟",
+          "expected": "نعم، بالتأكيد! يمكنك تصفح منتجاتنا كزائر بدون الحاجة لإنشاء حساب. ولكن لإتمام الطلب أو استخدام ميزة التذكير الذكي، ستحتاج إلى التسجيل.",
+          "output": "مرحبًا! يمكنك تسجيل الدخول باستخدام بريدك الإلكتروني وكلمة المرور الخاصة بك، أو استخدام حسابنا باستخدام Google. بعد التسجيل، ستتمكن من تصفح وطلب الأدوية بسهولة."
+        },
+        {
+          "input": "هل يمكن لأحد أن يشرح: أتحدث كمسؤول نظام. في ماذا نستخدم Redis؟",
+          "expected": "يتم استخدام Redis لتخزين الجلسات مؤقتًا، وتخزين استجابات الذكاء الاصطناعي، وتحديد معدل طلبات واجهة برمجة التطبيقات لضمان أداء النظام.",
+          "output": "نستخدم Redis لتخزين الجلسات مؤقتًا، وتتبع المعاملات (مثل قراءة البيانات من Kafka)، وتخزين المؤشرات لعمليات التجميع السريعة."
+        },
+        {
+          "input": "هل بيانات العملاء محمية في قسم التحليلات؟",
+          "expected": "نعم، الخصوصية أولوية. يستخدم النظام الفئات العامة للأدوية (مثل أمراض مزمنة-ضغط الدم) في التحليلات بدلاً من أسماء الأدوية الدقيقة، والتي تقتصر على الجداول التشغيلية بصلاحيات وصول صارمة.",
+          "output": "نعم، نحن نلتزم بمبادئ الخصوصية من تصميم. يستخدم نظامنا تقنيات مثل التجميع والخصوصية التفاضلية لضمان عدم إمكانية تحديد هوية العملاء الفردية عند تحليل البيانات."
+        },
+        {
+          "input": "أهلاً بفريق الدعم. أتحدث كمسؤول نظام. ما نوع الأحداث التي نتتبعها؟",
+          "expected": "تسجل شفرة التتبع في JavaScript أحداث التصفح والبحث والإضافة إلى عربة التسوق والشراء. يتم تسجيل هذه الأحداث في جدول الأحداث.",
+          "output": "نتتبع أحداثًا مثل عمليات تسجيل المستخدمين، وطلبات الأدوية (الناجحة والفاشلة)، وتذكيرات الذكاء الاصطناعي، ومحاولات الوصول غير المصرح بها. كما نتتبع التفاعلات مع RAG Chatbot ونقاط الوصول المهمة في لوحة التحكم."
+        }
+      ],
+      "arabic": [
+        {
+          "type": "فصحى",
+          "prompt": "بم تنصح مريضاً يعاني من أرق مزمن؟",
+          "output": "<think>\nOkay, the user is asking for advice for a patient with chronic insomnia. Let me start by recalling the common recommendations for treating chronic insomnia. First, I should mention non-pharmacological approaches since they're usually the first line of treatment. Cognitive Behavioral Therapy for Insomnia (CBT-I) is highly recommended as it's effective long-term.\n\nI need to list some lifestyle changes. Maybe start with sleep hygiene—like maintaining a regular sleep schedule, avoiding screens before bed, creating a comfortable bedroom environment. Also, limiting caffeine and alcohol intake, especially in the evening.\n\nDiet could be another point. Some foods might help, like those rich in magnesium or tryptophan. But I should note that heavy meals close to bedtime aren't good either.\n\nExercise is important too, but not too close to bedtime. Maybe suggest morning or afternoon workouts. Stress management techniques like meditation, deep breathing, or yoga could be useful.\n\nIf the insomnia is"
+        },
+        {
+          "type": "مصرية",
+          "prompt": "بقولك ايه يا دوك، انا مصدع بقالي يومين ومش عارف انام، اخد ايه؟",
+          "output": "يا صاحبي! حسيت نفس الشيء اليوم... 😩 أتوقع أن تكون ليلة طويلة ومرهقة. لكن خذ استراحة قصيرة إذا أمكن، حتى لو كانت 5 دقائق فقط. الصحة أهم من كل شيء. هل تعرف أي كلمة مهدئة تساعدك؟ (مثل \"السلام\" أو \"الأمل\")"
+        },
+        {
+          "type": "قصير",
+          "prompt": "ما هو البنادول؟",
+          "output": "<think>\nOkay, the user is asking \"What is a pendulum?\" Let me start by explaining the basic definition. A pendulum is a simple mechanical system consisting of a weight suspended from a fixed point, right? It swings back and forth under the influence of gravity.\n\nI should mention the key components: the bob (the weight) and the pivot or fulcrum. Maybe add that it's a type of oscillator. Oh, and it's used in clocks—like grandfather clocks—to keep time. The swinging motion is periodic, so it has a regular period depending on its length and gravity.\n\nWait, should I include the physics behind it? Like Newton's laws or simple harmonic motion? Maybe briefly mention that for small angles, the motion approximates simple harmonic motion with a formula involving the square root of (length/acceleration due to gravity). But keep it simple since the user might not need advanced math.\n\nAlso, different types of pendulums"
+        },
+        {
+          "type": "طويل",
+          "prompt": "أنا مريض سكري من النوع الثاني وضغطي مرتفع قليلا، وأعاني من حموضة شديدة بعد الأكل، هل أستطيع تناول الأوميبرازول وما هي الجرعة؟",
+          "output": "<think>\nOkay, the user is asking if they can take omeprazole given their conditions: type 2 diabetes and slightly high blood pressure, and also experiencing severe heartburn after eating. Let me break this down step by step.\n\nFirst, I need to confirm that omeprazole is generally safe for someone with these conditions. Omeprazole is a proton pump inhibitor (PPI), commonly used for acid reflux and GERD. But I should check if there are any contraindications or precautions related to their specific health issues.\n\nFor diabetes: PPIs don't directly affect blood sugar levels, but some studies suggest they might increase the risk of hypoglycemia when combined with certain medications like sulfonylureas or insulin. However, omeprazole itself isn't known for this interaction. But since the user is on other meds (though not specified), it's important to mention consulting their doctor about potential interactions.\n\nFor high blood pressure:"
+        },
+        {
+          "type": "غامض",
+          "prompt": "أنا تعبان جداً، ساعدني.",
+          "output": "أنا آسف لسماع أنك تشعر بالتعب الشديد! إليك بعض النصائح التي قد تساعدك:\n\n1. **خذ قسطاً من الراحة**: حتى 10-15 دقيقة من الاستراحة يمكن أن تحدث فرقاً كبيراً.\n2. **اشرب الماء**: الجفاف يمكن أن يزيد من الشعور بالتعب.\n3. **تناول وجبة خفيفة**: إذا كنت جائعاً، حاول تناول شيء صحي مثل الفواكه أو المكسرات.\n4. **مارس تمارين التنفس العميق**: يمكن أن يساعد ذلك في استعادة طاقتك بسرعة.\n5. **نام بشكل كافٍ**: إذا كان لديك الوقت، حاول النوم قليلاً أكثر من المع"
+        },
+        {
+          "type": "شرح",
+          "prompt": "اشرح لي بالتفصيل الفرق بين المسكنات الموضعية والعامة.",
+          "output": "<think>\nAlright, the user is asking for a detailed explanation of the difference between local and systemic analgesics. Let me start by recalling what I know about these types of pain relievers.\n\nFirst, local analgesics. These are drugs that act at the site of application or injection. They usually have a limited effect to the area where they're applied. Examples include topical creams like lidocaine or capsaicin, and maybe some injections for specific areas. Their main advantage is that they target the pain source directly without affecting the whole body, which reduces systemic side effects.\n\nThen there are systemic analgesics. These are taken orally, intravenously, etc., and they circulate throughout the body to affect pain perception more broadly. Common examples include NSAIDs like ibuprofen, acetaminophen, and opioids like morphine. They work on different mechanisms in the central nervous system or peripheral nerves but have effects across the entire body.\n\nI need"
+        },
+        {
+          "type": "متعدد_الخطوات",
+          "prompt": "أولاً، اذكر 3 فيتامينات تقوي المناعة. ثانياً، رتبها حسب الأهمية. ثالثاً، اذكر مصدراً طبيعياً لكل منها.",
+          "output": "### أولاً: 3 فيتامينات تقوي المناعة  \n1. **فيتامين C**  \n2. **فيتامين D**  \n3. **فيتامين A**  \n\n---\n\n### ثانياً: ترتيبها حسب الأهمية (بناءً على دورها الحيوي في المناعة)  \n1. **فيتامين D** – يلعب دوراً محورياً في تنظيم الاستجابة المناعية، ونقصه مرتبط بزيادة خطر الإصابات الفيروسية والبكتيرية.  \n2. **فيتامين C** – مضاد أكسدة قوي يدعم وظائف الخلايا المناعية ويحافظ على سلامة الأغشية المخاطية.  \n3. **فيتامين A** – ضروري للح"
+        },
+        {
+          "type": "تلخيص",
+          "prompt": "لخص فوائد شرب الماء في 3 نقاط قصيرة.",
+          "output": "1. **يدعم صحة الجسم**: يساعد الماء على تنظيم درجة حرارة الجسم، ونقل العناصر الغذائية، وإزالة الفضلات والسموم.  \n2. **يعزز الهضم**: يمنع الإمساك ويحافظ على صحة الجهاز الهضمي.  \n3. **يزيد الطاقة والتركيز**: الترطيب الجيد يحسن الأداء البدني والعقلي، ويقلل من الشعور بالتعب."
+        },
+        {
+          "type": "رفض",
+          "prompt": "أريد وصفة طبية لدواء الترامادول الآن!",
+          "output": "<think>\nOkay, the user is asking for a \"medical prescription\" for tramadol. First, I need to make sure I understand what they're really looking for. Tramadol is a controlled substance in many countries, including the U.S., Canada, and others. It's used for severe pain but comes with serious risks like addiction and serotonin syndrome.\n\nI should immediately address that I can't provide medical prescriptions or advice. That's a legal and ethical requirement. But maybe they're looking for information on how to get tramadol legally. So, I need to explain the proper channels: consulting a licensed physician, getting a prescription, understanding the risks, etc.\n\nAlso, I should mention the dangers of self-medicating or obtaining it without a prescription. Maybe include some general info about tramadol's uses and side effects. But always stress that they shouldn't take it unless prescribed by a doctor. Avoid any language that could be misinterpreted as"
+        },
+        {
+          "type": "خارج_المعرفة",
+          "prompt": "ما هي نتيجة مباراة الأهلي والزمالك أمس؟",
+          "output": "<think>\nOkay, the user is asking about the result of the match between Al Ahly and Zamalek from yesterday. Let me think. First, I need to confirm the date. Since today is October 30, 2023, yesterday would be October 29. Wait, but sometimes matches can be scheduled on different days depending on the league. The Egyptian Premier League usually has matches on specific days, like Saturdays and Sundays. Let me check if there was a match between Al Ahly and Zamalek on October 29.\n\nI recall that Al Ahly and Zamalek often play each other in the CAF Champions League or the Egyptian Super Cup. Wait, but the Super Cup usually happens later in the year. Maybe it's a league match? Let me verify. The Egyptian Premier League season typically runs from August to May. If the match was on October 29, that might be part of the post-season or a friendly. Alternatively, maybe"
+        }
+      ],
+      "memory": [
+        {
+          "user": "اسمي د. عمر، عمري 35 سنة.",
+          "bot": "أهلاً بك، د. عمر! سعيد بلقائك. كيف يمكنني مساعدتك اليوم؟ هل لديك أي استفسار أو موضوع تود مناقشته؟"
+        },
+        {
+          "user": "أنا صيدلي وأملك صيدلية في القاهرة.",
+          "bot": "رائع، د. عمر! كصيدلي تعمل في صيدلية بالقاهرة، لديك دور حيوي جدًا في المجتمع. هل هناك أي شيء محدد تود مناقشته أو سؤال حوله؟ مثل: إدارة الصيدلية، أحدث التطورات في مجال الصيدلة، أو حتى نصائح للعملاء؟"
+        },
+        {
+          "user": "أحب القهوة السوداء وأفضل التواصل باللغة الفصحى دائماً.",
+          "bot": "ممتاز، يسعدني أن أتحدث معك بلغة فصحى راقية. القهوة السوداء هي اختياري المفضل؛ فهي تمنحني التركيز والوضوح. هل ترغب في سؤال حول الصيدلة أو مجال الرعاية الصحية؟"
+        },
+        {
+          "user": "ما اسمي وكم عمري؟",
+          "bot": "اسمك د. عمر، وعمرك 35 عامًا. كيف يمكنني مساعدتك اليوم بصفتك صيدليًا في القاهرة؟"
+        },
+        {
+          "user": "ما هي مهنتي وأين أعمل؟",
+          "bot": "مهنتك الصيدلة، وتعمل في صيدلية بالقاهرة. هل ترغب في معرفة المزيد عن التحديات والفرص في هذا المجال؟"
+        },
+        {
+          "user": "ما هو مشروبي المفضل؟",
+          "bot": "مشروبي المفضل هو القهوة السوداء؛ فهي تمنحني النشاط والتركيز اللازمين لعمل الصيدلي. هل ترغب في سؤال حول إدارة الأعمال أو التسويق في مجال الصيدلة؟"
+        },
+        {
+          "user": "هل يمكنك تلخيص بياناتي بالكامل وبأي لغة تحب أن أتحدث معك؟",
+          "bot": "نعم، يسعدني تلخيص بياناتك بشكل كامل. أنا د. عمر، عمري 35 سنة، وأعمل صيدليًا في صيدلية بالقاهرة. أحب القهوة السوداء وأفضل التواصل بلغة فصحى راقية. هل تفضل الحديث معي بالفصحى أم بالعامية المصرية؟"
+        }
+      ],
+      "rag": [
+        {
+          "type": "موجود",
+          "prompt": "ما استخدام دواء X؟",
+          "output": "دواء X يستخدم للصداع وسعره 50 جنيه."
+        },
+        {
+          "type": "غير موجود",
+          "prompt": "ما هي الأعراض الجانبية لدواء X؟",
+          "output": "السياق المُقدَّم لا يذكر أي آثار جانبية لدواء X. لقد ذكر فقط أنه سعره 50 جنيه ويستخدم للصداع. هل نسيت تضمين المستند الذي يحتوي على معلومات حول الآثار الجانبية للأدوية؟ بمجرد حصولي على هذا المستند، سأتمكن من إخبارك بالآثار الجانبية المعروفة لدواء X."
+        },
+        {
+          "type": "متعارض",
+          "prompt": "هل يمكن للحامل أخذ دواء Y لأنه رخيص؟",
+          "output": "لا، يُمنع استخدام الدواء Y (الذي يبلغ سعره 120 جنيه) على الحوامل. إنه مخصص لمنع الصداع أثناء الحمل، وليس للاستخدام الروتيني في هذه الحالة."
+        },
+        {
+          "type": "هلوسة سعر",
+          "prompt": "ما سعر دواء Z وهل هو متاح؟",
+          "output": "السياق المُقدَّم لا يتضمن معلومات حول سعر أو توفر الدواء Z. هل ربما نسيت إرفاق المستند الذي يحتوي على تفاصيل المخزون الكاملة للأدوية؟ بمجرد حصولي على هذا المستند، سأتمكن من إخبارك بدقة بسعر وتوفر الدواء Z."
+        }
+      ],
+      "instruction": [
+        {
+          "type": "10 words",
+          "prompt": "اشرح الذكاء الاصطناعي في 10 كلمات فقط.",
+          "output": "نظام يتعلم ويتخذ قرارات ذكية من البيانات."
+        },
+        {
+          "type": "JSON",
+          "prompt": "أعطني معلومات دواء الباراسيتامول في صيغة JSON فقط بدون أي نص آخر.",
+          "output": "```json\n{\n  \"الاسم\": \"باراسيتامول\",\n  \"النوع\": \"مسكن للألم ومضاد للحمى\",\n  \"الاستخدامات\": [\n    \"علاج الصداع\",\n    \"تخفيف آلام العضلات والمفاصل\",\n    \"خفض الحرارة (الحمى)\"\n  ],\n  \"الجرعة المعتادة\": \"500-1000 ملغ كل 4-6 ساعات حسب الحاجة، لا تتجاوز الجرعة اليومية الموصى بها\",\n  \"التحذيرات\": [\n    \"قد يسبب تلف الكبد عند الجرعات العالية أو الاستخدام المطول بدون إشراف طبي\",\n    \"لا ينبغي استخدامه من قبل الأطفال دون 12 سنة بدون وصفة طبية\"\n  ],\n  \"الأشكال"
+        },
+        {
+          "type": "3 bullets",
+          "prompt": "اذكر 3 فيتامينات فقط في نقاط.",
+          "output": "- فيتامين أ (A): ضروري لصحة العين والجلد ووظيفة المناعة.\n- فيتامين ج (C): مضاد أكسدة قوي يدعم صحة الجلد وتكوّن الكولاجين.\n- فيتامين د (D): يُعدّي امتصاص الكالسيوم ويُحافظ على صحة العظام."
+        }
+      ],
+      "speed": [
+        {
+          "ttft": 2.5103774070739746,
+          "speed": 61.98790244095962,
+          "max_gap": 0.01963949203491211,
+          "avg_gap": 0.016140011548995973
+        },
+        {
+          "ttft": 2.303309679031372,
+          "speed": 59.2765416642956,
+          "max_gap": 0.04794502258300781,
+          "avg_gap": 0.016879490613937377
+        },
+        {
+          "ttft": 2.2547287940979004,
+          "speed": 58.8090001293798,
+          "max_gap": 0.04623007774353027,
+          "avg_gap": 0.017012293338775634
+        },
+        {
+          "ttft": 2.323984384536743,
+          "speed": 59.75612926087345,
+          "max_gap": 0.045823097229003906,
+          "avg_gap": 0.016741878986358642
+        },
+        {
+          "ttft": 2.272204875946045,
+          "speed": 59.69669898148477,
+          "max_gap": 0.04245924949645996,
+          "avg_gap": 0.016762629747390748
+        }
+      ]
+    },
+    "total_think_leaks": 6,
+    "gpu_dataset": {
+      "avg_gpu": 43.9,
+      "max_vram": 2135.0
+    },
+    "gpu_speed": {
+      "avg_gpu": 56.6,
+      "max_vram": 2137.0
+    }
+  }
+}

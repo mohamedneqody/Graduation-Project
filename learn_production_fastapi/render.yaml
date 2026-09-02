@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: fastapi-backend
+    env: docker
+    region: frankfurt
+    plan: free
+    dockerfilePath: ./Dockerfile
+    startCommand: "uvicorn app.main:app --host 0.0.0.0 --port $PORT"
+    healthCheckPath: /api/v1/health
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: postgres-db
+          property: connectionString
+      - key: REDIS_URL
+        sync: false
+
+  - type: psql
+    name: postgres-db
+    region: frankfurt
+    plan: free
+    postgresMajorVersion: 15
