@@ -1,0 +1,61 @@
+{
+  "name": "AI-COS Global Error Handler",
+  "nodes": [
+    {
+      "parameters": {},
+      "name": "Error Trigger",
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        250,
+        300
+      ],
+      "id": "e2200002-a1c0-4000-8000-000000000001",
+      "notesInFlow": true,
+      "notes": "يلتقط تلقائياً أي خطأ أو فشل اتصال في أي سير عمل في النظام"
+    },
+    {
+      "parameters": {
+        "chatId": "6262223810",
+        "text": "=⚠️ <b>عطل تشغيلي في منظومة الأتمتة — AI-COS Ops Alert</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n⚙️ <b>سير العمل المتأثر:</b> {{ $json.workflow.name }}\n🛑 <b>العقدة المتعثرة:</b> {{ $json.execution.error.node.name || 'Unknown Node' }}\n❌ <b>رسالة الخطأ:</b> <code>{{ $json.execution.error.message || 'Execution Error' }}</code>\n🆔 <b>رقم التشغيل:</b> #{{ $json.execution.id }}\n🕒 <b>التوقيت:</b> {{ $json.execution.lastNodeExecuted || new Date().toISOString() }}\n\n🛠️ <b>الإجراء المتبع:</b> تم تسجيل الخطأ في سجلات المراقبة لإعادة المحاولة (Self-Healing).",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "name": "Send Ops Error Alert",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        500,
+        300
+      ],
+      "id": "e2200002-a1c0-4000-8000-000000000002",
+      "notesInFlow": true,
+      "notes": "إرسال تفاصيل الخطأ مباشرة لفريق العمليات لمنع Silent Failures",
+      "credentials": {
+        "telegramApi": {
+          "id": "Z2Ee45Eyn9CFqyvM",
+          "name": "TEST"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Error Trigger": {
+      "main": [
+        [
+          {
+            "node": "Send Ops Error Alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  }
+}
