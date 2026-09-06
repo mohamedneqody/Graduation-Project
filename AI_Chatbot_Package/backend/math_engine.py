@@ -48,10 +48,10 @@ class DeterministicMathEngine:
         qty_match = re.search(r'(?:عايز|عاوز|محتاج|شراء|كمية|احسبلي|سعر)\s*(\d+)\s*(?:علب|علبة|شريط|قطع|عبوة|منه)?', query)
         qty = int(qty_match.group(1)) if qty_match else 1
         
-        discount_match = re.search(r'خصم\s*(\d+)%', query)
-        discount = float(discount_match.group(1)) if discount_match else 0.0
-        
-        if 'care15' in query.lower():
+        discount = 0.0
+        if 'care5' in query.lower() or 'خصم 5' in query or '5%' in query or '5 في الميه' in query or '5 في الماية' in query:
+            discount = 5.0
+        elif 'care15' in query.lower() or 'خصم 15' in query:
             discount = 15.0
 
         if base_price is not None and (qty > 1 or discount > 0):

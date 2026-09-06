@@ -8,10 +8,7 @@ if errorlevel 1 (
 )
 
 echo Checking Redis (docker container ai-cos-redis)...
-docker start ai-cos-redis 2>nul
-if errorlevel 1 (
-    echo WARNING: could not start Redis container - run: docker run -d --name ai-cos-redis -p 6379:6379 redis:7-alpine
-)
+docker start ai-cos-redis >nul 2>&1
 
 echo Starting Celery Worker on Redis localhost:6379 ...
 cd /d "D:\Graduation Project\AI-COS-Pharmacy\backend"

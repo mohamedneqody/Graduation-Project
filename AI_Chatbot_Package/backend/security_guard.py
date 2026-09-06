@@ -68,5 +68,9 @@ class SecurityGuard:
             'blocked_reason': blocked_reason,
             'security_reply': security_reply,
             'sanitized_text': truncated,
-            'was_truncated': len(text) > len(truncated)
+            'was_truncated': len(text) > len(truncated),
+            'audit_details': {
+                'attack_type': blocked_reason,
+                'input_preview': truncated[:200],
+            } if is_flagged else None
         }

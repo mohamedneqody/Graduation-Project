@@ -1,0 +1,82 @@
+{
+  "name": "AI-COS Medical Emergency Escalation",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "emergency-alert",
+        "responseMode": "onReceived",
+        "options": {}
+      },
+      "name": "1. Emergency Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        250,
+        300
+      ],
+      "id": "e1100001-a1c0-4000-8000-000000000001",
+      "notesInFlow": true,
+      "notes": "يستقبل إشارة الطوارئ اللحظية من محرك EscalationEngine في الباك إند"
+    },
+    {
+      "parameters": {
+        "chatId": "6262223810",
+        "text": "=🚨 <b>إنذار سريري حرج — AI-COS Emergency Alert</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n👤 <b>المريض:</b> {{ $json.body.customer_name || 'زائر غير مسجل (Guest)' }}\n🆔 <b>المعرّف / الجلسة:</b> <code>{{ $json.body.customer_id || $json.body.session_id }}</code>\n⚠️ <b>درجة الخطورة:</b> 🔴 حالة طوارئ حرجة ({{ $json.body.priority }})\n💬 <b>نص الاستغاثة:</b>\n<i>\"{{ $json.body.user_message }}\"</i>\n\n⚡ <b>الإجراء الآلي المتخذ:</b>\n{{ $json.body.alert_message || 'تم توجيه المريض للإسعاف وتجميد التوصيات الدوائية فوراً.' }}\n\n👨‍⚕️ <b>الإجراء البشري المطلوب:</b> يرجى تدخل الصيدلي المناوب فوراً.\n🕒 <b>التوقيت:</b> {{ $json.body.timestamp }}",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML",
+          "replyMarkup": "inlineKeyboard",
+          "inlineKeyboard": {
+            "rows": [
+              {
+                "row": {
+                  "buttons": [
+                    {
+                      "text": "🚑 لوحة تحكم الأمان السريري",
+                      "url": "http://localhost:3000/admin/agentic-ai",
+                      "additionalFields": {}
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      },
+      "name": "2. Send Telegram Alert",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        500,
+        300
+      ],
+      "id": "e1100001-a1c0-4000-8000-000000000002",
+      "notesInFlow": true,
+      "notes": "إرسال إنذار فوري ومميز إلى تليجرام الصيدلي المناوب",
+      "credentials": {
+        "telegramApi": {
+          "id": "Z2Ee45Eyn9CFqyvM",
+          "name": "TEST"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "1. Emergency Webhook": {
+      "main": [
+        [
+          {
+            "node": "2. Send Telegram Alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  }
+}
