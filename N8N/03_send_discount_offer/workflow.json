@@ -1,0 +1,99 @@
+{
+  "name": "03 - AI-COS Marketing Discount Campaigns",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "send_discount_offer",
+        "responseMode": "onReceived",
+        "options": {}
+      },
+      "id": "e3a30003-0000-4000-8000-000000000001",
+      "name": "Webhook Trigger (send_discount_offer)",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        200,
+        260
+      ],
+      "webhookId": "send_discount_offer"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:8000/api/v1/agents/marketing/generate-campaign",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-Internal-Token",
+              "value": "dev-secret-key-12345-very-long-and-secure-32-chars"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"customer_name\": \"{{ $json.customer_name || \"عميلنا العزيز\" }}\",\n  \"drug_name\": \"{{ $json.drug_name || \"علاجك الدوري\" }}\",\n  \"discount_percentage\": {{ $json.discount_percentage || 15 }}\n}",
+        "options": {}
+      },
+      "id": "e3a30003-0000-4000-8000-000000000002",
+      "name": "AI Marketing Agent (Copy & Coupon)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        480,
+        260
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.telegram.org/bot7330340609:AAHSYF7u2czYCdJvehF7BgJ_ET8gIwpJLHs/sendMessage",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"chat_id\": \"6262223810\",\n  \"parse_mode\": \"HTML\",\n  \"text\": \"🎁 <b>عرض صحي خاص من صيدلية AI-COS</b>\\n\\nمرحباً بك 👋 تقديراً لالتزامك برحلتك العلاجية 💙\\n\\n🏷️ <b>كوبون خصم حصري:</b>\\n<code>{{ $json.coupon_code || \"AICOS15\" }}</code>\\n\\nخصم <b>{{ $json.discount_percentage || 15 }}%</b> على طلبك القادم لعلاجك 💊\\n\\n{{ $json.message_text || \"صحتك هي أولويتنا دائماً. استخدم الكود أثناء الدفع.\" }}\\n\\n✨ <i>العرض ساري لمدة 48 ساعة فقط.</i>\"\n}",
+        "options": {}
+      },
+      "id": "e3a30003-0000-4000-8000-000000000003",
+      "name": "Send Offer on Telegram",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        760,
+        260
+      ]
+    }
+  ],
+  "connections": {
+    "Webhook Trigger (send_discount_offer)": {
+      "main": [
+        [
+          {
+            "node": "AI Marketing Agent (Copy & Coupon)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Marketing Agent (Copy & Coupon)": {
+      "main": [
+        [
+          {
+            "node": "Send Offer on Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

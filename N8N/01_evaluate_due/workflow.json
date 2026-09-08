@@ -1,0 +1,129 @@
+{
+  "name": "01 - AI-COS Evaluate Due Reminders",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "evaluate_due",
+        "responseMode": "onReceived",
+        "options": {}
+      },
+      "id": "e1a10001-0000-4000-8000-000000000001",
+      "name": "Webhook Trigger (evaluate_due)",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        200,
+        300
+      ],
+      "webhookId": "evaluate_due"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 9 * * *"
+            }
+          ]
+        }
+      },
+      "id": "e1a10001-0000-4000-8000-000000000002",
+      "name": "Schedule Trigger (9 AM Daily)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        200,
+        100
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:8000/internal/cycles/recalculate",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-Internal-Token",
+              "value": "dev-secret-key-12345-very-long-and-secure-32-chars"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 30000
+        }
+      },
+      "id": "e1a10001-0000-4000-8000-000000000003",
+      "name": "0. Recalculate Adherence & Due Cycles",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        480,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.telegram.org/bot7330340609:AAHSYF7u2czYCdJvehF7BgJ_ET8gIwpJLHs/sendMessage",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"chat_id\": \"6262223810\",\n  \"parse_mode\": \"HTML\",\n  \"text\": \"🔄 <b>[AI-COS System Alert]</b>\\n\\nتم تشغيل دورة تقييم وتجديد الأدوية المستحقة بنجاح ⏱️\\n\\n📊 <b>الحالة:</b> مكتملة\\n🤖 <b>المحرك:</b> Adherence Cycle Recalculation Engine\\n🏥 <b>الصيدلية:</b> AI-COS Pharmacy Enterprise\\n\\n<i>تم تحديث طابور المراجعات والتذكيرات في قاعدة البيانات.</i>\"\n}",
+        "options": {}
+      },
+      "id": "e1a10001-0000-4000-8000-000000000004",
+      "name": "Notify Admin on Telegram",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        760,
+        200
+      ]
+    }
+  ],
+  "connections": {
+    "Webhook Trigger (evaluate_due)": {
+      "main": [
+        [
+          {
+            "node": "0. Recalculate Adherence & Due Cycles",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger (9 AM Daily)": {
+      "main": [
+        [
+          {
+            "node": "0. Recalculate Adherence & Due Cycles",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "0. Recalculate Adherence & Due Cycles": {
+      "main": [
+        [
+          {
+            "node": "Notify Admin on Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  }
+}
