@@ -60,6 +60,48 @@ if not INTERNAL_API_KEY:
 INFERENCE_GATE = threading.Semaphore(1)
 INFERENCE_GATE_RETRY_AFTER = "20"
 
+# ── Live health metrics (in-memory, single process) ─────────────────────
+import time as _time
+from collections import deque as _deque
+
+_METRICS_LOCK = threading.Lock()
+_METRICS = {"total_completed": 0, "busy_503": 0, "errors": 0,
+            "lines_detected": 0, "model_disagreements": 0}
+_LATENCIES_MS = _deque(maxlen=200)
+
+
+def _metrics_snapshot() -> dict:
+    with _METRICS_LOCK:
+        lats = sorted(_LATENCIES_MS)
+        n = len(lats)
+        m = dict(_METRICS)
+        m["latency_samples"] = n
+        m["p50_latency_ms"] = round(lats[int(n * 0.50)]) if n else None
+        m["p95_latency_ms"] = round(lats[min(int(n * 0.95), n - 1)]) if n else None
+        m["disagreement_rate"] = (
+            round(m["model_disagreements"] / m["total_completed"], 4)
+            if m["total_completed"] else 0.0
+        )
+        return m
+
+
+def _record_success(latency_ms: float, lines: int, disagreements: int) -> None:
+    with _METRICS_LOCK:
+        _METRICS["total_completed"] += 1
+        _METRICS["lines_detected"] += lines
+        _METRICS["model_disagreements"] += disagreements
+        _LATENCIES_MS.append(latency_ms)
+
+
+def _record_busy() -> None:
+    with _METRICS_LOCK:
+        _METRICS["busy_503"] += 1
+
+
+def _record_error() -> None:
+    with _METRICS_LOCK:
+        _METRICS["errors"] += 1
+
 STRENGTH_PATTERN = re.compile(
     r"\b\d+(?:\.\d+)?(?:\s*/\s*\d+(?:\.\d+)?)?\s*(?:mg|g|gm|mcg|μg|iu|ml|%)\b",
     re.IGNORECASE,
@@ -105,12 +147,14 @@ def infer_text(
         raise HTTPException(status_code=403, detail="Forbidden: Invalid internal secret")
 
     if not INFERENCE_GATE.acquire(blocking=False):
+        _record_busy()
         raise HTTPException(
             status_code=503,
             detail={"code": "OCR_BUSY", "message_ar": "محرك القراءة مشغول بصورة أخرى — أعد المحاولة بعد 20 ثانية."},
             headers={"Retry-After": INFERENCE_GATE_RETRY_AFTER},
         )
 
+    _t0 = _time.perf_counter()
     try:
         image_bytes = file.file.read()
         sha256_received = hashlib.sha256(image_bytes).hexdigest()
@@ -121,6 +165,8 @@ def infer_text(
         result = local_ocr_engine.process_prescription(image, raw_bytes=image_bytes)
         
         formatted_meds = []
+        _lines_n = len(result.get("medications", []))
+        _disagree_n = sum(1 for m in result.get("medications", []) if m.get("model_disagreement"))
         for m in result.get("medications", []):
             # v4.1: the old clean_drug_name() suffix-stripping ("ette", "inna", ...)
             # was removed — it mutated genuine drug names (e.g. Cerazette -> Ceraz)
@@ -181,6 +227,7 @@ def infer_text(
         ).encode("utf-8")
         crops_manifest_sha256 = hashlib.sha256(manifest_json_bytes).hexdigest()
 
+        _record_success((_time.perf_counter() - _t0) * 1000.0, _lines_n, _disagree_n)
         return {
             "image_fingerprint": result.get("image_fingerprint", {
                 "sha256": sha256_received,
@@ -206,10 +253,19 @@ def infer_text(
             }
         }
     except Exception as e:
+        _record_error()
         print(f"Error in local OCR inference: {e}")
         raise HTTPException(status_code=500, detail=str(e))
     finally:
         INFERENCE_GATE.release()
+
+@app.get("/metrics")
+def metrics(x_internal_secret: str = Header(None)):
+    """Internal: live health snapshot for the admin vision-health badge."""
+    if x_internal_secret != INTERNAL_API_KEY:
+        raise HTTPException(status_code=403, detail="Forbidden: Invalid internal secret")
+    return _metrics_snapshot()
+
 
 if __name__ == "__main__":
     print("Starting AI OCR Internal Vision Server (TrOCR) on port 9202 (Bound to 127.0.0.1 only)...")
