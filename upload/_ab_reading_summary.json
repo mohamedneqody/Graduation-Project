@@ -1,0 +1,31 @@
+{
+ "protocol": "A/B متماثل تماماً — نفس 120 قصاصة موسومة (seed=7)، نفس المعالجة، نفس صيغة CER",
+ "dataset": "messy_rx_dataset_v8/line_crops (1794 قصاصة موسومة) — عينة عشوائية 120",
+ "old_model": {
+  "model_dir": "_old_model_ab/trocr-finetuned-final",
+  "n": 120,
+  "mean_cer": 0.4415,
+  "pass_cer_le_0.15": 3,
+  "exact_matches": 0,
+  "device": "cpu"
+ },
+ "deployed_model": {
+  "model_dir": "trocr-finetuned-final",
+  "n": 120,
+  "mean_cer": 0.2654,
+  "pass_cer_le_0.15": 64,
+  "exact_matches": 54,
+  "device": "cpu"
+ },
+ "verdict": {
+  "cer_reduction_relative": 0.399,
+  "usable_lines_multiplier": 21.3,
+  "exact_matches_old": 0,
+  "exact_matches_new": 54
+ },
+ "honest_notes_ar": [
+  "التحسن مصدره إعادة التدريب (النقطة المنشورة) — جلسة اليوم لم تحسن القراءة بل بنيت إثباتها وصمامات السلامة والسرعة",
+  "متوسط CER 0.2654 يعني خطأ حرف لكل ~4 — لهذا توجد طبقات الأصفر/الأحمر والصيدلي: العلاج العلاجي النهائي هو المنظومة لا القارئ وحده",
+  "القياس على قصاصات معزولة (Protocol B-style) — أرقام الصفحة الكاملة تشمل أخطاء التقطيع وهي أعلى"
+ ]
+}

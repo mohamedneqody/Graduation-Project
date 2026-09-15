@@ -1,0 +1,732 @@
+{
+ "summary": {
+  "model_dir": "trocr-finetuned-final",
+  "n": 120,
+  "mean_cer": 0.2654,
+  "pass_cer_le_0.15": 64,
+  "exact_matches": 54,
+  "device": "cpu"
+ },
+ "details": [
+  {
+   "gt": "Cataflam 50mg",
+   "read": "Cataflam 50mg",
+   "cer": 0.0,
+   "conf": 0.771
+  },
+  {
+   "gt": "Feroglobin",
+   "read": "Zavixin 10mg",
+   "cer": 0.8182,
+   "conf": 0.451
+  },
+  {
+   "gt": "vanvilda 50 mg 30 tabs",
+   "read": "vanvilda 50 mg 30 tabs",
+   "cer": 0.0,
+   "conf": 0.664
+  },
+  {
+   "gt": "Omega Life 3",
+   "read": "hisatrup 1mg",
+   "cer": 0.8333,
+   "conf": 0.64
+  },
+  {
+   "gt": "Brufen 400mg",
+   "read": "Brufen 400mg",
+   "cer": 0.0,
+   "conf": 0.999
+  },
+  {
+   "gt": "vanvilda plus 50/500 mg 30 tabs",
+   "read": "vanvilda 50/500 mg 30 tabs",
+   "cer": 0.0877,
+   "conf": 0.722
+  },
+  {
+   "gt": "thyroxine 50mcg 100 tab",
+   "read": "trypsoxir 10mg 10 tabs",
+   "cer": 0.4222,
+   "conf": 0.843
+  },
+  {
+   "gt": "tavixinor 750 mg 5 f.c. tabs",
+   "read": "tavixinor 750 mg 5 f.c. tabs",
+   "cer": 0.0,
+   "conf": 0.992
+  },
+  {
+   "gt": "skivalorine 2.5mg/5ml syrup 150ml",
+   "read": "vannie 30mg/5ml",
+   "cer": 0.5417,
+   "conf": 0.538
+  },
+  {
+   "gt": "rhipgic 5 mg 30 f.c. tabs",
+   "read": "thimepro d3ine syrup",
+   "cer": 0.6889,
+   "conf": 0.67
+  },
+  {
+   "gt": "sekem laxi herbs 15 filter bags",
+   "read": "sekem laxi herbs 15 filter bags",
+   "cer": 0.0,
+   "conf": 0.778
+  },
+  {
+   "gt": "Cataflam E2E Test 50mg",
+   "read": "Diaman eye drops",
+   "cer": 0.6316,
+   "conf": 0.585
+  },
+  {
+   "gt": "sekem laxi herbs 15 filter bags",
+   "read": "santabiota 15 f.c. tabs",
+   "cer": 0.5926,
+   "conf": 0.739
+  },
+  {
+   "gt": "tussin syrup 100 ml",
+   "read": "pussin syrup 100 ml",
+   "cer": 0.0526,
+   "conf": 0.563
+  },
+  {
+   "gt": "astin 10 mg 20 f.c. tabs",
+   "read": "xithrobiotic drops",
+   "cer": 0.7619,
+   "conf": 0.753
+  },
+  {
+   "gt": "thyroxine 50mcg 100 tab",
+   "read": "thyroxine eye drops",
+   "cer": 0.4762,
+   "conf": 0.898
+  },
+  {
+   "gt": "Norvasc 5mg",
+   "read": "Norvasc 5mg",
+   "cer": 0.0,
+   "conf": 0.999
+  },
+  {
+   "gt": "protectopril 8 mg 30 tabs",
+   "read": "vancoph 1mg 30 tabs",
+   "cer": 0.3636,
+   "conf": 0.595
+  },
+  {
+   "gt": "Augmentin 1g",
+   "read": "ximalact 250mg",
+   "cer": 0.7692,
+   "conf": 0.501
+  },
+  {
+   "gt": "zinobacilly oral drops 10 ml",
+   "read": "royal syrup",
+   "cer": 0.7436,
+   "conf": 0.631
+  },
+  {
+   "gt": "linkocetamol 10 sachets pwd. for oral susp",
+   "read": "linkocetamol 10 serve",
+   "cer": 0.3968,
+   "conf": 0.3
+  },
+  {
+   "gt": "whey protein isolate powder 544 gm (1.2 lbs) (now)",
+   "read": "whey protein isolate powder 544 gm 14 serve",
+   "cer": 0.1828,
+   "conf": 0.272
+  },
+  {
+   "gt": "wideprex 400 mg 5 caps",
+   "read": "fanenzym 20mg",
+   "cer": 0.7143,
+   "conf": 0.611
+  },
+  {
+   "gt": "whey protein powder 900 gm 30 serve",
+   "read": "whey protein powder 900 gm 30 serve",
+   "cer": 0.0,
+   "conf": 0.893
+  },
+  {
+   "gt": "astin 10 mg 20 f.c. tabs",
+   "read": "tin 10 mg 20 f.c.tabs",
+   "cer": 0.0667,
+   "conf": 0.897
+  },
+  {
+   "gt": "telfast decongestant 60/120mg 10 ext. rel. tabs",
+   "read": "telfast decongestant 60/120mg 10 serve",
+   "cer": 0.2,
+   "conf": 0.483
+  },
+  {
+   "gt": "Cal-D-Vita",
+   "read": "Cal-D-Vita",
+   "cer": 0.0,
+   "conf": 0.989
+  },
+  {
+   "gt": "tussin syrup 100 ml",
+   "read": "tussin syrup 100 ml",
+   "cer": 0.0,
+   "conf": 0.977
+  },
+  {
+   "gt": "whey protein isolate powder vanilla 816 gm (1.8 lbs) (now)",
+   "read": "whey protein powder 2100 gm (1.8 lbs) (now)",
+   "cer": 0.2079,
+   "conf": 0.835
+  },
+  {
+   "gt": "tavixinor 500 mg 5 f.c. tabs",
+   "read": "tavixinor 750 mg 5 f.c. tabs",
+   "cer": 0.0357,
+   "conf": 0.869
+  },
+  {
+   "gt": "stopadol night 20 f.c.tabs",
+   "read": "stopadol night 20 f.c.tabs",
+   "cer": 0.0,
+   "conf": 0.987
+  },
+  {
+   "gt": "Amaryl 2mg",
+   "read": "Amaryl 2mg",
+   "cer": 0.0,
+   "conf": 0.999
+  },
+  {
+   "gt": "whey protein powder 420 gm 14 serve",
+   "read": "sinopril 2mg",
+   "cer": 0.7021,
+   "conf": 0.473
+  },
+  {
+   "gt": "zathrotrue 500 mg 6 f.c. tabs",
+   "read": "Zathrotrue 500 mg 6 caps",
+   "cer": 0.1321,
+   "conf": 0.644
+  },
+  {
+   "gt": "royal ginger 12 filter bags",
+   "read": "zakio 120mg",
+   "cer": 0.6842,
+   "conf": 0.599
+  },
+  {
+   "gt": "stopadol night 30 f.c.tabs",
+   "read": "stopadol night 30 caps",
+   "cer": 0.125,
+   "conf": 0.758
+  },
+  {
+   "gt": "ximalact 250 mg 30 caps",
+   "read": "ximalact 250mg",
+   "cer": 0.2432,
+   "conf": 0.719
+  },
+  {
+   "gt": "whey protein powder 420 gm 14 serve",
+   "read": "wideprex 400mg",
+   "cer": 0.6327,
+   "conf": 0.639
+  },
+  {
+   "gt": "zakio 120 ml syrup",
+   "read": "zakio 120 ml syrup",
+   "cer": 0.0,
+   "conf": 0.913
+  },
+  {
+   "gt": "Zinnat 500mg",
+   "read": "Zinnat 500mg",
+   "cer": 0.0,
+   "conf": 0.989
+  },
+  {
+   "gt": "thyroxine 100mcg 100 tab",
+   "read": "thyroxine 100mcg 100 tab",
+   "cer": 0.0,
+   "conf": 0.995
+  },
+  {
+   "gt": "Panadol Extra",
+   "read": "Panadol Extra",
+   "cer": 0.0,
+   "conf": 0.999
+  },
+  {
+   "gt": "stopadol 650 mg 30 ext. rel. tabs",
+   "read": "stopadol 650 mg 30 ext. rel. tabs",
+   "cer": 0.0,
+   "conf": 0.999
+  },
+  {
+   "gt": "Rani 150mg",
+   "read": "Rani 150mg",
+   "cer": 0.0,
+   "conf": 0.993
+  },
+  {
+   "gt": "Cal-D-Vita",
+   "read": "Cal-D-Vita",
+   "cer": 0.0,
+   "conf": 0.999
+  },
+  {
+   "gt": "whey protein powder 420 gm 14 serve",
+   "read": "whey protein powder 420 gm 14 serve",
+   "cer": 0.0,
+   "conf": 0.999
+  },
+  {
+   "gt": "santabiota oral drops 15 ml",
+   "read": "santabiota oral drops 15 ml",
+   "cer": 0.0,
+   "conf": 0.921
+  },
+  {
+   "gt": "pantomedra 40 mg 28 e.c. tabs",
+   "read": "rhumaquick 50 mg 20 tabs",
+   "cer": 0.4717,
+   "conf": 0.629
+  },
+  {
+   "gt": "septazole forte 800/160mg 10 tabs",
+   "read": "vanvilda plus 50/1000 mg 30 tabs",
+   "cer": 0.4769,
+   "conf": 0.773
+  },
+  {
+   "gt": "tavixinor 500 mg 5 f.c. tabs",
+   "read": "tavixinor 500 mg 5 f.c. tabs",
+   "cer": 0.0,
+   "conf": 0.999
+  },
+  {
+   "gt": "Amlopres 5mg",
+   "read": "Amlopres 5mg",
+   "cer": 0.0,
+   "conf": 0.986
+  },
+  {
+   "gt": "protectopril 8 mg 30 tabs",
+   "read": "vancolon syrup 20 i.v. tabs",
+   "cer": 0.5769,
+   "conf": 0.665
+  },
+  {
+   "gt": "Amoclan 1g",
+   "read": "Amoclan 1g",
+   "cer": 0.0,
+   "conf": 0.974
+  },
+  {
+   "gt": "Norvasc 5mg",
+   "read": "Norvasc 5mg",
+   "cer": 0.0,
+   "conf": 0.999
+  },
+  {
+   "gt": "wideprex 100mg/5ml susp. 60ml",
+   "read": "wideprex 100mg/5ml susp. 60ml",
+   "cer": 0.0,
+   "conf": 0.927
+  },
+  {
+   "gt": "astin 10 mg 20 f.c. tabs",
+   "read": "astin 10 mg 20 f.c. tabs",
+   "cer": 0.0,
+   "conf": 0.989
+  },
+  {
+   "gt": "histonic syrup 120 ml",
+   "read": "rhipgic syrup 120 ml",
+   "cer": 0.1707,
+   "conf": 0.742
+  },
+  {
+   "gt": "rhipgic 5 mg 30 f.c. tabs",
+   "read": "rhipgic 5 mg 30 f.c. tabs",
+   "cer": 0.0,
+   "conf": 0.984
+  },
+  {
+   "gt": "stopadol 650 mg 30 ext. rel. tabs",
+   "read": "royal ginger 12 ext. rel. tabs",
+   "cer": 0.3333,
+   "conf": 0.722
+  },
+  {
+   "gt": "telfast decongestant 60/120mg 10 ext. rel. tabs",
+   "read": "roflex massage gel 50flex bags",
+   "cer": 0.7662,
+   "conf": 0.62
+  },
+  {
+   "gt": "whey protein isolate powder vanilla 816 gm (1.8 lbs) (now)",
+   "read": "whey protein isolate powder vanilla 816 gm (1.8 lbs) (now)",
+   "cer": 0.0,
+   "conf": 0.958
+  },
+  {
+   "gt": "Cataflam E2E Test 50mg",
+   "read": "Cataflam E2E Test 50mg",
+   "cer": 0.0,
+   "conf": 0.835
+  },
+  {
+   "gt": "zamcillus probiotic drops 10 ml",
+   "read": "zamcillus 20mcg 100 ml",
+   "cer": 0.3585,
+   "conf": 0.804
+  },
+  {
+   "gt": "whey protein powder 2100 gm 70 serve",
+   "read": "whey protein powder 2100 gm 70 serve",
+   "cer": 0.0,
+   "conf": 0.995
+  },
+  {
+   "gt": "whey protein isolate powder chocolate 816 gm (1.8 lbs) (now)",
+   "read": "whey protein isolate powder 544 gm (1.8 lbs) (now)",
+   "cer": 0.1455,
+   "conf": 0.968
+  },
+  {
+   "gt": "santabiota oral drops 15 ml",
+   "read": "Galvilda plus 50/5 ml",
+   "cer": 0.5833,
+   "conf": 0.63
+  },
+  {
+   "gt": "zma 90 veg. caps. (now)",
+   "read": "zinnat 500mg",
+   "cer": 0.8857,
+   "conf": 0.313
+  },
+  {
+   "gt": "protectopril 8 mg 30 tabs",
+   "read": "Omega gel 50gm",
+   "cer": 0.7436,
+   "conf": 0.605
+  },
+  {
+   "gt": "Augmentin 1g",
+   "read": "Augmentin 1g",
+   "cer": 0.0,
+   "conf": 0.991
+  },
+  {
+   "gt": "Rani 150mg",
+   "read": "Concor 5mg",
+   "cer": 0.5,
+   "conf": 0.899
+  },
+  {
+   "gt": "Glucomin 500mg",
+   "read": "Glucomin 500mg",
+   "cer": 0.0,
+   "conf": 0.921
+  },
+  {
+   "gt": "vancolon 1000mg i.v. vial",
+   "read": "vancolon 1000mg i.v. vial",
+   "cer": 0.0,
+   "conf": 0.997
+  },
+  {
+   "gt": "elballerge 30mg/5ml susp. 100 ml",
+   "read": "uballerge 30mg/5ml susp. 100 ml",
+   "cer": 0.0476,
+   "conf": 0.662
+  },
+  {
+   "gt": "hisatrup 1mg/ml syrup 120 ml",
+   "read": "hisatrup 1mg/ml syrup 120 ml",
+   "cer": 0.0,
+   "conf": 0.985
+  },
+  {
+   "gt": "royal ginger 12 filter bags",
+   "read": "Galvus Met 50/1000mg",
+   "cer": 0.8723,
+   "conf": 0.369
+  },
+  {
+   "gt": "Omega Life 3",
+   "read": "Omlatrup 1mg",
+   "cer": 0.6667,
+   "conf": 0.751
+  },
+  {
+   "gt": "Cal-D-Vita",
+   "read": "Cal-D-Vita",
+   "cer": 0.0,
+   "conf": 0.982
+  },
+  {
+   "gt": "Comtrex",
+   "read": "Comtrex",
+   "cer": 0.0,
+   "conf": 0.999
+  },
+  {
+   "gt": "Lipitor 20mg",
+   "read": "Lipitor 20mg",
+   "cer": 0.0,
+   "conf": 0.999
+  },
+  {
+   "gt": "protectopril 8 mg 30 tabs",
+   "read": "potalous 10mg 30 tabs",
+   "cer": 0.3478,
+   "conf": 0.654
+  },
+  {
+   "gt": "mave tec syrup 120 ml",
+   "read": "Zinnat 500mg",
+   "cer": 0.697,
+   "conf": 0.706
+  },
+  {
+   "gt": "roflex massage gel 50gm",
+   "read": "roflex massage gel 50gm",
+   "cer": 0.0,
+   "conf": 0.999
+  },
+  {
+   "gt": "zma 90 veg. caps. (now)",
+   "read": "zma 90 veg. caps. (now)",
+   "cer": 0.0,
+   "conf": 0.942
+  },
+  {
+   "gt": "ivyroegy syrup 120ml",
+   "read": "Norniex syrup 120 ml",
+   "cer": 0.3,
+   "conf": 0.357
+  },
+  {
+   "gt": "vanvilda 50 mg 30 tabs",
+   "read": "Zinc acid 20 tabs",
+   "cer": 0.5385,
+   "conf": 0.523
+  },
+  {
+   "gt": "targozym 20 tabs",
+   "read": "targozym 20 tabs",
+   "cer": 0.0,
+   "conf": 0.999
+  },
+  {
+   "gt": "whey protein isolate powder chocolate 816 gm (1.8 lbs) (now)",
+   "read": "whey protein powder chocolate 816 gm (1.8 lbs) (now)",
+   "cer": 0.0714,
+   "conf": 0.836
+  },
+  {
+   "gt": "stopadol cold & flu 20 caps",
+   "read": "stopadol cold & flu 20 caps",
+   "cer": 0.0,
+   "conf": 0.993
+  },
+  {
+   "gt": "Galvus Met 50/1000mg",
+   "read": "Galvus 10mg",
+   "cer": 0.2903,
+   "conf": 0.728
+  },
+  {
+   "gt": "thyroxine 50mcg 100 tab",
+   "read": "ximaler 5mg",
+   "cer": 0.5882,
+   "conf": 0.475
+  },
+  {
+   "gt": "Concor 5mg",
+   "read": "Crestor 500mg",
+   "cer": 0.3913,
+   "conf": 0.671
+  },
+  {
+   "gt": "Glucomin 500mg",
+   "read": "Glucomin 500mg",
+   "cer": 0.0,
+   "conf": 0.928
+  },
+  {
+   "gt": "Augmentin 1g",
+   "read": "Nexium",
+   "cer": 0.7778,
+   "conf": 0.382
+  },
+  {
+   "gt": "Cataflam E2E Test 50mg",
+   "read": "Cataflam E2E Test 50mg",
+   "cer": 0.0,
+   "conf": 0.999
+  },
+  {
+   "gt": "Amaryl 2mg",
+   "read": "Zinnatrup 1mg",
+   "cer": 0.5652,
+   "conf": 0.676
+  },
+  {
+   "gt": "volitracin 500 mg 7 f.c. tabs",
+   "read": "wideprex 400mg",
+   "cer": 0.6744,
+   "conf": 0.892
+  },
+  {
+   "gt": "tinifloxacin 20 tab",
+   "read": "tinifloxacin 20 tab",
+   "cer": 0.0,
+   "conf": 0.975
+  },
+  {
+   "gt": "stopadol cold & flu 20 caps",
+   "read": "sona drink &5mg 10 caps",
+   "cer": 0.44,
+   "conf": 0.567
+  },
+  {
+   "gt": "Cataflam 50mg",
+   "read": "Cataflam 50mg",
+   "cer": 0.0,
+   "conf": 0.999
+  },
+  {
+   "gt": "vancolon 1000mg i.v. vial",
+   "read": "vanc acid 20mg i.v. vial",
+   "cer": 0.2653,
+   "conf": 0.777
+  },
+  {
+   "gt": "thyroxine 100mcg 100 tab",
+   "read": "thyroxine 100mcg 100 tab",
+   "cer": 0.0,
+   "conf": 0.916
+  },
+  {
+   "gt": "stopadol night 30 f.c.tabs",
+   "read": "sona drink 30 caps",
+   "cer": 0.5,
+   "conf": 0.513
+  },
+  {
+   "gt": "septazole forte 800/160mg 10 tabs",
+   "read": "sona eye drops 10mg",
+   "cer": 0.6923,
+   "conf": 0.528
+  },
+  {
+   "gt": "vanvilda plus 50/1000 mg 30 tabs",
+   "read": "wideprex 400mg 30 tabs",
+   "cer": 0.4074,
+   "conf": 0.594
+  },
+  {
+   "gt": "tiapair 20 tabs",
+   "read": "Rani 150mg",
+   "cer": 0.84,
+   "conf": 0.649
+  },
+  {
+   "gt": "sekem laxi herbs 15 filter bags",
+   "read": "sekem laxi herbs 20 tablets",
+   "cer": 0.2759,
+   "conf": 0.588
+  },
+  {
+   "gt": "astin 20 mg 20 f.c.tabs",
+   "read": "tin 20 mg 20 f.c.tabs",
+   "cer": 0.0455,
+   "conf": 0.886
+  },
+  {
+   "gt": "ramatrizine 5 mg 30 f.c.tabs",
+   "read": "ramatrizine 5 mg 30 f.c.tabs",
+   "cer": 0.0,
+   "conf": 0.999
+  },
+  {
+   "gt": "wideprex 100mg/5ml susp. 60ml",
+   "read": "ivyroegy syrup 120ml",
+   "cer": 0.5102,
+   "conf": 0.629
+  },
+  {
+   "gt": "sona drink 10 sachets",
+   "read": "sona drink 10 sachets",
+   "cer": 0.0,
+   "conf": 0.998
+  },
+  {
+   "gt": "Glucophage 500mg",
+   "read": "Glucophage 500mg",
+   "cer": 0.0,
+   "conf": 0.978
+  },
+  {
+   "gt": "whey protein isolate powder vanilla 816 gm (1.8 lbs) (now)",
+   "read": "whey protein isolate powder vanilla 816 gm (1.8 lbs) (now)",
+   "cer": 0.0,
+   "conf": 0.983
+  },
+  {
+   "gt": "alerid 10 mg 30 f.c.tabs",
+   "read": "Zinc 10mg 10 caps",
+   "cer": 0.6098,
+   "conf": 0.646
+  },
+  {
+   "gt": "wideprex 100mg/5ml susp. 60ml",
+   "read": "wideprex 100mg/5ml susp. 60ml",
+   "cer": 0.0,
+   "conf": 0.97
+  },
+  {
+   "gt": "Cataflam E2E Test 50mg",
+   "read": "Aml",
+   "cer": 0.84,
+   "conf": 0.498
+  },
+  {
+   "gt": "valulit syrup 120ml",
+   "read": "valulit syrup 120ml",
+   "cer": 0.0,
+   "conf": 0.998
+  },
+  {
+   "gt": "Motilium 10mg",
+   "read": "Motilium 10mg",
+   "cer": 0.0,
+   "conf": 0.993
+  },
+  {
+   "gt": "ursodol 250 mg 10 caps",
+   "read": "ral ginger 12mg",
+   "cer": 0.6757,
+   "conf": 0.323
+  },
+  {
+   "gt": "histonic syrup 120 ml",
+   "read": "histonic syrup 120 ml",
+   "cer": 0.0,
+   "conf": 0.999
+  },
+  {
+   "gt": "Rani 150mg",
+   "read": "Bi Alcofan",
+   "cer": 0.8,
+   "conf": 0.814
+  }
+ ]
+}
