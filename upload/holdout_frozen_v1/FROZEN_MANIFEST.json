@@ -1,0 +1,10 @@
+{
+ "purpose": "FROZEN HOLDOUT — محظور نهائياً على أي تدريب. المقياس الصادق الوحيد",
+ "generated": "2026-09-15",
+ "generator_seed": 91001,
+ "generator": "generate_messy_prescriptions_v3.py",
+ "catalog_sha256_20": "1a86bde88abfda1b0e57",
+ "pages": 12,
+ "line_crops": 40,
+ "rule": "لا يدخل أي تدريب مستقبلي — التقييم فقط (Protocol A/B)"
+}
