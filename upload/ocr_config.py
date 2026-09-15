@@ -36,12 +36,14 @@ class OCRSettings:
     # Model encoder grid is fixed at 384x384; we letterbox instead of squashing.
     trocr_input_size: int = _env_int("TROCR_INPUT_SIZE", 384)
     # PREPROCESSING MUST MATCH THE DEPLOYED CHECKPOINT'S TRAINING.
-    # The current trocr-finetuned-final was trained on SQUASHED 384x384 crops:
-    # enabling letterbox at inference without retraining collapses its accuracy
-    # (measured: exact 95% -> 2% on its own dataset). Default therefore False;
-    # flip TROCR_LETTERBOX=1 ONLY after retraining with the aligned
-    # finetune_trocr.py (which reads this same flag for consistency).
-    trocr_letterbox: bool = _env_bool("TROCR_LETTERBOX", True)
+    # The deployed trocr-finetuned-final was trained on SQUASHED 384x384 crops
+    # (verified 2026-09-15 against training_args + collapse experiments):
+    #   letterbox=True  → CER collapse (95% exact → 2% on training crops)
+    #   letterbox=False → matches training; required for real accuracy
+    # A stale True default here silently degraded every production read until
+    # the 120-crop A/B exposed it (0.2654 leaked@True vs 0.0000 leaked@False).
+    # Flip to True ONLY after retraining with letterbox-aligned finetune_trocr.py.
+    trocr_letterbox: bool = _env_bool("TROCR_LETTERBOX", False)
     # GPU micro-batch for decoding crops (keeps activations bounded on 4GB VRAM).
     trocr_batch_size: int = min(_env_int("TROCR_BATCH_SIZE", 8), 16)
     trocr_num_beams: int = _env_int("TROCR_NUM_BEAMS", 2)

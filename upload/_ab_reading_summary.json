@@ -1,31 +1,24 @@
 {
- "protocol": "A/B متماثل تماماً — نفس 120 قصاصة موسومة (seed=7)، نفس المعالجة، نفس صيغة CER",
- "dataset": "messy_rx_dataset_v8/line_crops (1794 قصاصة موسومة) — عينة عشوائية 120",
- "old_model": {
-  "model_dir": "_old_model_ab/trocr-finetuned-final",
-  "n": 120,
-  "mean_cer": 0.4415,
-  "pass_cer_le_0.15": 3,
-  "exact_matches": 0,
-  "device": "cpu"
+ "protocol": "مصفوفة 2×2 كاملة — نفس 120 قصاصة (عينة seed=7 من 1794 قصاصة تدريب)، نموذجان × إعدادا معالجة",
+ "matrix": {
+  "old_zip": {
+   "letterbox_True": 0.4415,
+   "letterbox_False": 0.2761,
+   "pass_015@False": 8,
+   "exact@False": 0
+  },
+  "deployed": {
+   "letterbox_True": 0.2654,
+   "letterbox_False": 0.0,
+   "pass_015@False": 120,
+   "exact@False": 120
+  }
  },
- "deployed_model": {
-  "model_dir": "trocr-finetuned-final",
-  "n": 120,
-  "mean_cer": 0.2654,
-  "pass_cer_le_0.15": 64,
-  "exact_matches": 54,
-  "device": "cpu"
- },
- "verdict": {
-  "cer_reduction_relative": 0.399,
-  "usable_lines_multiplier": 21.3,
-  "exact_matches_old": 0,
-  "exact_matches_new": 54
- },
- "honest_notes_ar": [
-  "التحسن مصدره إعادة التدريب (النقطة المنشورة) — جلسة اليوم لم تحسن القراءة بل بنيت إثباتها وصمامات السلامة والسرعة",
-  "متوسط CER 0.2654 يعني خطأ حرف لكل ~4 — لهذا توجد طبقات الأصفر/الأحمر والصيدلي: العلاج العلاجي النهائي هو المنظومة لا القارئ وحده",
-  "القياس على قصاصات معزولة (Protocol B-style) — أرقام الصفحة الكاملة تشمل أخطاء التقطيع وهي أعلى"
- ]
+ "findings": [
+  "BUG FIXED: الافتراضي المنشور كان letterbox=True بينما النموذج مدرَّب على squash — every production read was degraded; default corrected to False",
+  "0.0000 على قصاصات التدريب = حفظ (memorization) — ليست دقة واقعية؛ القصاصات كلها من بيانات التدريب",
+  "الرقم الوحيد شبه النظيف لخط الأنابيب الكامل: 0.1736 على 6 صفحات من الأسلوب نفسه لم تدخل التدريب (eval_style6_model.log)",
+  "القديم vs المنشور: المنشور أفضل في الإعدادين — لكن الفجوة الحقيقية على بيانات غير مرئية تبقى غير مقاسة حتى تسمية عينات الصيدلي"
+ ],
+ "real_world_accuracy_status": "غير مقاسة بعد — تُقاس آلياً عبر accuracy-report لحظة تسجيل قرارات الصيدلي (931 عنصراً في القادوس)"
 }
