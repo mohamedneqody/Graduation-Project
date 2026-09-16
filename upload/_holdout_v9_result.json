@@ -1,0 +1,211 @@
+{
+ "model": "_v9_candidate (TrOCR-Large trained on 1507 pro crops)",
+ "protocol": "holdout_frozen_v1 — نفس بروتوكول قياس 0.2827 للقديم",
+ "n": 40,
+ "mean_cer_unseen": 0.0152,
+ "pass_cer_le_0.15": 40,
+ "pass_cer_le_0.30": 40,
+ "exact_matches": 30,
+ "details": [
+  {
+   "gt": "1. Crestor 10mg - 2 tabs BID",
+   "read": "1. Crestor 10mg - 2 tabs BID",
+   "cer": 0.0
+  },
+  {
+   "gt": "2. tavixinor 500 mg 5 f.c. tabs - 1 sachet OD",
+   "read": "2. tavixinor 500 mg 5 f.c. tabs - 1 sachet OD",
+   "cer": 0.0
+  },
+  {
+   "gt": "3. eltroxin 100 mcg 100 tabs - 1 tab q6h PRN",
+   "read": "3. eltroxin 100 mcg 100 tabs - 1 tab q6h PRN",
+   "cer": 0.0
+  },
+  {
+   "gt": "4. whey protein isolate powder 544 gm (1.2 lbs) (now) - 1 tab q6h PRN",
+   "read": "4. whey protein isolate powder 544 gm (1.2 lbs) (now) - 1",
+   "cer": 0.0952
+  },
+  {
+   "gt": "1. sunnymerop 1 gm i.v. vial - 1 tab at night",
+   "read": "1. drymerop 1 gm i.v. vial - 1 tab at night",
+   "cer": 0.0682
+  },
+  {
+   "gt": "2. mave tec syrup 120 ml - 1 tab TID",
+   "read": "2. mave tec syrup 120 ml - 1 tab TID",
+   "cer": 0.0
+  },
+  {
+   "gt": "3. sona drink 10 sachets - 1 cap OD",
+   "read": "3. sona drink 10 sachets - 1 cap OD",
+   "cer": 0.0
+  },
+  {
+   "gt": "4. vanvilda plus 50/500 mg 30 tabs - 1 tab TID",
+   "read": "4. vanvilda plus 50/500 mg 30 tabs - 1 tab TID",
+   "cer": 0.0
+  },
+  {
+   "gt": "1. ivyroegy syrup 120ml - 1 tab at night",
+   "read": "1. ivymoegy syrup 120ml - 1 tab at night",
+   "cer": 0.025
+  },
+  {
+   "gt": "2. Motilium 10mg - 5 ml BID",
+   "read": "2. Motilium 10mg - 5 ml BID",
+   "cer": 0.0
+  },
+  {
+   "gt": "3. toujeo solostar 300 i.u./ml 1.5 ml 5 pens - 1 sachet OD",
+   "read": "3. toujeo solostar 300 i.u./ml 1.5 ml 5 pens - 1",
+   "cer": 0.0943
+  },
+  {
+   "gt": "1. Capoten 25mg - 2 caps OD",
+   "read": "1. Capoten 25mg - 2 caps OD",
+   "cer": 0.0
+  },
+  {
+   "gt": "2. roflex massage gel 50gm - 2 tabs BID",
+   "read": "2. roflex massage gel 50gm - 2 tabs BID",
+   "cer": 0.0
+  },
+  {
+   "gt": "1. zamcillus probiotic drops 10 ml - 1 cap TID",
+   "read": "1. zamcillus probiotic drops 10 ml - 1 cap TID",
+   "cer": 0.0
+  },
+  {
+   "gt": "2. sona drink 10 sachets - 2 puffs PRN",
+   "read": "2. sona drink 10 sachets - 2 puffs PRN",
+   "cer": 0.0
+  },
+  {
+   "gt": "3. linkocetamol 10 sachets pwd. for oral susp - 1 tab TID",
+   "read": "3. linkocetamol 10 sachets.ml. for oral tabs - 1 tab TID",
+   "cer": 0.115
+  },
+  {
+   "gt": "4. volitracin 500 mg 7 f.c. tabs - 1 tab BID with meals",
+   "read": "4. volitracin 50 mg 7 f.c. tabs - 1 tab BID with meals",
+   "cer": 0.0092
+  },
+  {
+   "gt": "1. septazole forte 800/160mg 10 tabs - 1 cap TID",
+   "read": "1. septazole forte 800/160mg 10 tabs - 1 cap TID",
+   "cer": 0.0
+  },
+  {
+   "gt": "2. Bio Vit-C 1000mg - 1 tab OD",
+   "read": "2. Bio Vit-C 1000mg - 1 tab OD",
+   "cer": 0.0
+  },
+  {
+   "gt": "3. Glucomin 500mg - 1 tab q6h PRN",
+   "read": "3. Glucomin 500mg - 1 tab q6h PRN",
+   "cer": 0.0
+  },
+  {
+   "gt": "1. protectopril 8 mg 30 tabs - 1 tab at night",
+   "read": "1. protectopril 8 mg 30 tabs - 1 tab at night",
+   "cer": 0.0
+  },
+  {
+   "gt": "2. ursodol 250 mg 10 caps - 1 tab OD",
+   "read": "2. ursodol 250 mg 10 caps - 1 tab OD",
+   "cer": 0.0
+  },
+  {
+   "gt": "3. pantomedra 40 mg 28 e.c. tabs - 1 cap OD",
+   "read": "3. pantomedra 40 mg 28 e.c. tabs - 1 cap OD",
+   "cer": 0.0
+  },
+  {
+   "gt": "1. Diovan 80mg - 1 cap OD",
+   "read": "1. Diovan 8mg - 1 cap OD",
+   "cer": 0.0204
+  },
+  {
+   "gt": "2. ursodol 250 mg 10 caps - 1 tab BID with meals",
+   "read": "2. ursodol 250 mg 10 caps - 1 tab BID with meals",
+   "cer": 0.0
+  },
+  {
+   "gt": "3. allergyl 4 mg 20 tabs - 1 tab BID with meals",
+   "read": "3. allergyl 4 mg 20 tabs - 1 tab BID with meals",
+   "cer": 0.0
+  },
+  {
+   "gt": "4. wideprex 100mg/5ml susp. 60ml - 1 tab BID with meals",
+   "read": "4. wideprex 100mg/5ml susp. com - 1 tab BID with meals",
+   "cer": 0.0459
+  },
+  {
+   "gt": "1. centravita solvo plus 20 tablets - 1 tab BID",
+   "read": "1. centravita solvo plus 20 tablets - 1 tab BID",
+   "cer": 0.0
+  },
+  {
+   "gt": "2. protectopril 8 mg 30 tabs - 1 drop TID",
+   "read": "2. protectopril 8 mg 30 tabs - 1 drop TID",
+   "cer": 0.0
+  },
+  {
+   "gt": "3. Bio Vit-C 1000mg - 1 tab q6h PRN",
+   "read": "3. Bio Vit-C 1000mg - 1 tab q6h PRN",
+   "cer": 0.0
+  },
+  {
+   "gt": "4. santabiota oral drops 15 ml - 1 drop TID",
+   "read": "4. santabiota oral drops 15 ml - 1 drop TID",
+   "cer": 0.0
+  },
+  {
+   "gt": "1. zathrotrue 500 mg 6 f.c. tabs - 10 ml TID",
+   "read": "1. zathrotrue 500 mg 6 f.c. tabs - 10 ml TID",
+   "cer": 0.0
+  },
+  {
+   "gt": "2. Norvasc 5mg - 1 cap TID",
+   "read": "2. Norvasc 5mg - 1 cap TID",
+   "cer": 0.0
+  },
+  {
+   "gt": "3. timbestatin 10/20 mg 14 f.c.tab - 2 caps OD",
+   "read": "3. timbestatin 10/20 mg 14 f.c.tab - 2 caps OD",
+   "cer": 0.0
+  },
+  {
+   "gt": "4. zinobacilly oral drops 10 ml - 1 sachet BID",
+   "read": "4. zinobacilly oral drops 10 ml - 1 sachet BID",
+   "cer": 0.0
+  },
+  {
+   "gt": "1. Zyrtec 10mg - 1 sachet BID",
+   "read": "1. Zyrtec 10mg - 1 sachet BID",
+   "cer": 0.0
+  },
+  {
+   "gt": "2. Bio Vit-C 1000mg - 2 caps OD",
+   "read": "2. Bio Vit-C 1000mg - 2 tabs OD",
+   "cer": 0.0645
+  },
+  {
+   "gt": "1. eltroxin 50mcg 100 tabs - 1 cap TID",
+   "read": "1. eltroxin 50mcg 100 tabs - 1 cap TID",
+   "cer": 0.0
+  },
+  {
+   "gt": "2. whey protein isolate powder chocolate 816 gm (1.8 lbs) (now) - 2 caps OD",
+   "read": "2. whey protein isolate powder chocolate 816 gm (1.8 lbs) (now) -",
+   "cer": 0.0714
+  },
+  {
+   "gt": "3. ursodol 250 mg 10 caps - 1 cap TID",
+   "read": "3. ursodol 250 mg 10 caps - 1 cap TID",
+   "cer": 0.0
+  }
+ ]
+}
