@@ -1,0 +1,112 @@
+[
+ {
+  "file": "real_01.jpg",
+  "lines": 5,
+  "mean_conf": 0.628,
+  "high_conf(>=0.85)": 0,
+  "disagreements": 0,
+  "illegible": 0,
+  "latency_s": 91.2,
+  "reads": [
+   "protectoprilous 1 tab BID with meals",
+   "thyroxine protect 50mg - 1 tab BID with meals",
+   "potenzym 20 tablets -"
+  ]
+ },
+ {
+  "file": "real_02.jpg",
+  "lines": 5,
+  "mean_conf": 0.664,
+  "high_conf(>=0.85)": 1,
+  "disagreements": 0,
+  "illegible": 1,
+  "latency_s": 88.0,
+  "reads": [
+   "Bi Alcofan Supply - 1 tab BID",
+   "whey protein isolate powder chocolate 816 gm ",
+   "xithrobiotic ophthalmic sol. 2.5 ml - 1 tab B"
+  ]
+ },
+ {
+  "file": "real_03.jpg",
+  "lines": 5,
+  "mean_conf": 0.683,
+  "high_conf(>=0.85)": 1,
+  "disagreements": 0,
+  "illegible": 0,
+  "latency_s": 85.4,
+  "reads": [
+   "protectoprilus4.25mg 30 tabs - 1 tab BID",
+   "Crestor 10mg - 1 tab BID with meals",
+   "wideprex 400 mg 5 caps -"
+  ]
+ },
+ {
+  "file": "prescription_hard_01.jpg",
+  "lines": 2,
+  "mean_conf": 0.649,
+  "high_conf(>=0.85)": 0,
+  "disagreements": 0,
+  "illegible": 0,
+  "latency_s": 61.2,
+  "reads": [
+   "septazole forte 800/160mg 10 tabs - 1 tab BID",
+   "ursodol 20mg 10 caps. tabs - 1 tab BID"
+  ]
+ },
+ {
+  "file": "prescription_hard_03.jpg",
+  "lines": 3,
+  "mean_conf": 0.603,
+  "high_conf(>=0.85)": 1,
+  "disagreements": 1,
+  "illegible": 1,
+  "latency_s": 62.3,
+  "reads": [
+   "Ohio'sroxipril 1 tab BID with meals",
+   "Thimepro d3 30ml drops - 1 tab OD",
+   "vanvilda 50mg 30 tabs - 1 tab BID with meals"
+  ]
+ },
+ {
+  "file": "prescription_hard_09.jpg",
+  "lines": 2,
+  "mean_conf": 0.632,
+  "high_conf(>=0.85)": 0,
+  "disagreements": 0,
+  "illegible": 0,
+  "latency_s": 41.9,
+  "reads": [
+   "santink 10mg - 1 tab BID with meals",
+   "ursodol 50 mg 10 caps - 1 tab BID with meals"
+  ]
+ },
+ {
+  "file": "nearmiss_01.jpg",
+  "lines": 5,
+  "mean_conf": 0.682,
+  "high_conf(>=0.85)": 0,
+  "disagreements": 0,
+  "illegible": 0,
+  "latency_s": 88.5,
+  "reads": [
+   "Biotechnology - 1 tab BID with meals",
+   "protectopuls - 1 tab BID with meals",
+   "centravita solvo 20mg - 1 tab BID with meals"
+  ]
+ },
+ {
+  "file": "nearmiss_02.jpg",
+  "lines": 5,
+  "mean_conf": 0.585,
+  "high_conf(>=0.85)": 0,
+  "disagreements": 0,
+  "illegible": 1,
+  "latency_s": 89.5,
+  "reads": [
+   "protectopril 2 mg 30 tabs - 1 tab BID with me",
+   "Webprex 400 mg 5 caps - 1 tab BID with meals",
+   "vanvilda 500mg 30 tabs - 1 tab BID with meals"
+  ]
+ }
+]
