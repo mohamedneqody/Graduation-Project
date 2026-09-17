@@ -44,8 +44,10 @@ class OCRSettings:
     # the 120-crop A/B exposed it (0.2654 leaked@True vs 0.0000 leaked@False).
     # Flip to True ONLY after retraining with letterbox-aligned finetune_trocr.py.
     trocr_letterbox: bool = _env_bool("TROCR_LETTERBOX", False)
-    # GPU micro-batch for decoding crops (keeps activations bounded on 4GB VRAM).
-    trocr_batch_size: int = min(_env_int("TROCR_BATCH_SIZE", 8), 16)
+    # GPU micro-batch for decoding crops. 2026-09-17: measured on T1200 4GB —
+    # batch=16 (with Florence on CPU) saves 8-20% per page with byte-identical
+    # outputs; batch=16 is the new default.
+    trocr_batch_size: int = min(_env_int("TROCR_BATCH_SIZE", 16), 16)
     trocr_num_beams: int = _env_int("TROCR_NUM_BEAMS", 2)
     trocr_repetition_penalty: float = _env_float("TROCR_REPETITION_PENALTY", 1.3)
     trocr_min_content_h: int = _env_int("TROCR_MIN_CONTENT_H", 110)
@@ -58,6 +60,9 @@ class OCRSettings:
     florence_max_new_tokens: int = _env_int("FLORENCE_MAX_NEW_TOKENS", 512)
     # Florence device driver: keep "cpu" to reserve VRAM for TrOCR (default), or
     # "cuda" for faster page pass if VRAM headroom exists.
+    # 2026-09-17: measured on T1200 4GB — TrOCR-Large alone peaks ~2.4GB, so
+    # cuda Florence fits ONLY with a small canvas. With Florence-Large the safe
+    # split is: TrOCR on GPU + Florence on CPU (the classic two-device design).
     florence_device: str = os.environ.get("FLORENCE_DEVICE", "cpu").strip().lower()
 
     # ---- Geometric correction (before segmentation) -------------------------

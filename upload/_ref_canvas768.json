@@ -1,0 +1,41 @@
+[
+ {
+  "file": "nearmiss_01.jpg",
+  "lines": 5,
+  "conf": 0.7,
+  "latency_s": 78.4,
+  "reads": [
+   "Biotechnology - 1 tab BID with meals",
+   "potenzym 20 tablets -",
+   "centravita solvo 20 tablets -",
+   "Panatrizine 10 mg 30 f.c.tabs -",
+   "Rhumaquick 50 mg 20 tabs - 1 tab BID"
+  ]
+ },
+ {
+  "file": "real_01.jpg",
+  "lines": 5,
+  "conf": 0.723,
+  "latency_s": 65.0,
+  "reads": [
+   "racecasec 100 mg 10 caps -",
+   "thyroxine 100mcg 100 tab -",
+   "potenzym 20 tablets -",
+   "centravita solopus 20 tabs - 1 tab BID with meals",
+   "ramatrizine 5 mg 30 f.c.tabs -"
+  ]
+ },
+ {
+  "file": "real_02.jpg",
+  "lines": 5,
+  "conf": 0.61,
+  "latency_s": 78.0,
+  "reads": [
+   "Rixinquick 50 mg 20 disp. tabs",
+   "whey protein isolate powder chocolate 816 gm (1.8 lbs) (now) -",
+   "xithrobiotic ophthalmic sol. 2.5 ml - 1 tab BID with meals",
+   "whey protein powder 900 gm 30 serve -",
+   "Etroxin 100mcg 100 tabs - 1 tab BID with meals"
+  ]
+ }
+]

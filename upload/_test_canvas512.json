@@ -1,0 +1,20 @@
+[
+ {
+  "file": "nearmiss_01.jpg",
+  "lines": 5,
+  "conf": 0.7,
+  "latency_s": 82.9
+ },
+ {
+  "file": "real_01.jpg",
+  "lines": 5,
+  "conf": 0.723,
+  "latency_s": 62.2
+ },
+ {
+  "file": "real_02.jpg",
+  "lines": 5,
+  "conf": 0.61,
+  "latency_s": 72.0
+ }
+]
