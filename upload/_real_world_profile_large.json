@@ -1,0 +1,41 @@
+{
+ "profile": "v2 — Florence-2-Large + TrOCR both on CUDA (T1200)",
+ "comparison_v1_base_cpu": {
+  "nearmiss_01": {
+   "conf": 0.682,
+   "latency": 89.5
+  },
+  "real_01": {
+   "conf": 0.628,
+   "latency": 91.2
+  },
+  "real_02": {
+   "conf": 0.664,
+   "latency": 88.0
+  }
+ },
+ "after": [
+  {
+   "file": "nearmiss_01.jpg",
+   "lines": 5,
+   "mean_conf": 0.68,
+   "latency_s": 25.2
+  },
+  {
+   "file": "real_01.jpg",
+   "lines": 5,
+   "mean_conf": 0.628,
+   "latency_s": 19.3
+  },
+  {
+   "file": "real_02.jpg",
+   "lines": 5,
+   "mean_conf": 0.664,
+   "latency_s": 17.0
+  }
+ ],
+ "latency_improvement": "85-91s → 17-25s (3.5-4.5x per page)",
+ "confidence_note_ar": "الثقة على الصفحات الثلاث لم تتغير — Florence-Large لم يحسن اكتشافاً هنا لأن التقسيم كان سليماً أصلاً؛ قيمته المتوقعة على الصفحات الأصعب",
+ "honest_ar": "قياس على 3 صفحات — عينة صغيرة، والصفحات الصعبة هي الاختبار الحقيقي لقيمة Large",
+ "stack": "torch 2.14.0+cu126 · T1200 4GB · TrOCR-Large(v9) fp16 CUDA · Florence-2-Large fp16 CUDA"
+}

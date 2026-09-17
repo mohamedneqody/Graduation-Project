@@ -89,7 +89,7 @@ class PrescriptionOCREngine:
             print(f"[OCR Engine] Warning: Drugs database not found at '{self.drugs_db_path}'")
 
         # 5. Florence-2 Vision & Layout Engine
-        self.florence_model_id = "microsoft/Florence-2-base-ft"
+        self.florence_model_id = os.environ.get("FLORENCE_MODEL_ID", "microsoft/Florence-2-large")
         self.florence_processor = None
         self.florence_model = None
 
