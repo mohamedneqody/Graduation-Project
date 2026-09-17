@@ -117,6 +117,32 @@ INSTRUCTION_PATTERN = re.compile(
     re.IGNORECASE
 )
 
+QUANTITY_TAIL_PATTERN = re.compile(
+    r"[\s\-–—*xX×]+\s*(\d{1,3})\s*(?:\(\s*\d{1,3}\s*\))?\s*$"
+)
+
+
+def extract_quantity_tail(text: str) -> tuple[int | None, str]:
+    """Extracts a trailing dose/quantity ('Amaryl 2mg - 2' → 2) and returns
+    (quantity, cleaned_text) with the tail removed so the remaining name can
+    exact-match the catalog. Guards: the bare number must be the LAST token,
+    must not be part of a strength (already stripped), and must be ≤ 300
+    (a plausible unit count, not a page number > 300)."""
+    t = (text or "").strip()
+    m = QUANTITY_TAIL_PATTERN.search(t)
+    if m:
+        qty = int(m.group(1))
+        if qty <= 300:
+            cleaned = QUANTITY_TAIL_PATTERN.sub(" ", t).strip(" -–—*	")
+            cleaned = re.sub(r"\s{2,}", " ", cleaned).strip()
+            return qty, cleaned
+    # لا كمية — لكن الشرطة/النجمة الطرفية العائمة ('Crestor 10mg -') ضجيج OCR
+    # يكسر المطابقة التامة: تُنظف دائماً (بدون لمس الأسماء المنتهية بـ x)
+    cleaned = re.sub(r"[\s\-–—*]+$", "", t).strip()
+    cleaned = re.sub(r"\s{2,}", " ", cleaned)
+    return None, cleaned
+
+
 def extract_structured_fields(text: str) -> tuple[str | None, str | None, str | None]:
     """Extract only visible strength/form/instructions tokens; never infer missing values."""
     strength_matches = STRENGTH_PATTERN.findall(text or "")
@@ -174,16 +200,18 @@ def infer_text(
             # catalog matching with LASA/strength guards lives in the backend layer.
             raw_name = (m.get("raw_name") or "").strip()
             strength, dosage_form, instructions = extract_structured_fields(raw_name)
+            quantity, clean_name = extract_quantity_tail(raw_name)
             formatted_meds.append({
                 "line_number": m.get("line_number"),
-                "raw_name": raw_name,
+                "raw_name": clean_name,
+                "raw_name_original": raw_name,
                 "trocr_text": m.get("trocr_text"),
                 "florence_text": m.get("florence_text"),
                 "trocr_confidence": m.get("trocr_confidence", 0.0),
                 "florence_confidence": m.get("florence_confidence", 0.0),
                 "strength": strength,
                 "dosage_form": dosage_form,
-                "quantity": None,
+                "quantity": quantity,
                 "duration": None,
                 "instructions": instructions,
                 "ocr_confidence": m.get("ocr_confidence", 0.0),
