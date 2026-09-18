@@ -1,0 +1,7 @@
+{
+ "purpose": "V10 TRAINING DATA",
+ "pages": 500,
+ "line_crops": 1482,
+ "seeds": "50001+",
+ "holdout_seeds": "91001+ محجوزة وليست هنا"
+}
