@@ -354,7 +354,11 @@ def ask_difficulty():
 # ============== تشغيل التوليد (متسلسل بدقة البذور) ==============
 records, all_crops = [], []
 DIFFS = ["easy", "medium", "hard"]
-for i in range(1, GEN_PAGES + 1):
+_GEN_DONE = os.path.exists(os.path.join(GEN_OUT, "line_ground_truth.json"))
+if _GEN_DONE:
+    print("data already generated — skipping ✓")
+    all_crops = json.load(open(os.path.join(GEN_OUT, "line_ground_truth.json"), encoding="utf-8"))
+for i in range(1 if not _GEN_DONE else 0, GEN_PAGES + 1 if not _GEN_DONE else 0):
     random.seed(GEN_SEED + i)
     fake.seed_instance(GEN_SEED + i)
     rec = render_prescription(i, DIFFS[i % 3])
@@ -363,14 +367,17 @@ for i in range(1, GEN_PAGES + 1):
     if i % 250 == 0:
         print("  " + str(i) + "/" + str(GEN_PAGES))
 
-json.dump(records, open(os.path.join(GEN_OUT, "ground_truth.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=2)
-json.dump(all_crops, open(os.path.join(GEN_OUT, "line_ground_truth.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=2)
+if not _GEN_DONE:
+    json.dump(records, open(os.path.join(GEN_OUT, "ground_truth.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=2)
+    json.dump(all_crops, open(os.path.join(GEN_OUT, "line_ground_truth.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=2)
 print("generated: " + str(len(records)) + " pages / " + str(len(all_crops)) + " crops")
 
 # ============== 2) الـholdout المجمد من Drive ==============
 print("=== 2/5 الـholdout من Drive ===")
-from google.colab import drive
-drive.mount("/content/drive")
+import os as _os
+if not _os.path.exists("/content/drive/MyDrive"):
+    from google.colab import drive
+    drive.mount("/content/drive")
 MD = "/content/drive/MyDrive"
 HOLD_ZIP = MD + "/upload_v9_eval_frozen.zip"
 HOLD_DIR = BASE + "/holdout_frozen"
