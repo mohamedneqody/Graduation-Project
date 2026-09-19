@@ -40,6 +40,9 @@ print("gen folder:", sorted(os.listdir(GEN)))
 for zp, dest in [("upload_pro_train.zip", BASE + "/data_v11/pro"),
                  ("upload_v9_eval_frozen.zip", BASE + "/data_v11/holdout"),
                  ("upload_v9_model.zip", BASE + "/data_v11/v9model")]:
+    if not os.path.exists(MD + "/" + zp):
+        print("⚠️ اختياري — تخطي:", zp)
+        continue
     with zipfile.ZipFile(MD + "/" + zp) as z:
         z.extractall(dest)
     print("extracted:", zp)
