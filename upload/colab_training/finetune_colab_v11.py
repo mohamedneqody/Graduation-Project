@@ -24,8 +24,10 @@ MODEL_OUT = BASE + "/trocr_v11_finetuned"
 EPOCHS = 6
 
 # ── 0) Drive + حصر المسارات ──────────────────────────────────
-from google.colab import drive
-drive.mount('/content/drive')
+import os as _os
+from google.colab import drive as _drive_mod
+if not _os.path.exists("/content/drive/MyDrive"):
+    _drive_mod.mount('/content/drive')
 MD = BASE + "/drive/MyDrive"
 
 # ── 1) تجهيز مجلد التوليد (من فولدر zero_upload الموجود في Drive) ──
