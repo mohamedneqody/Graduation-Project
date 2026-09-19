@@ -1,0 +1,12 @@
+{
+ "florence_patch": "get_seq_length() compat for transformers 4.46",
+ "before": {
+  "centravita_conf": 0.712,
+  "florence_verification": "broken (skipped)"
+ },
+ "after": {
+  "centravita_conf": 0.813,
+  "florence_verification": "ACTIVE (patched)"
+ },
+ "note_ar": "القراءات تحسنت: racecasec/thyroxine/potenzym/ramatrizine صحيحة الآن — والتحقق النشط رجع"
+}
