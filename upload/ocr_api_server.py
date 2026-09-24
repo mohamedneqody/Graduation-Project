@@ -121,8 +121,33 @@ QUANTITY_TAIL_PATTERN = re.compile(
     r"[\s\-–—*xX×]+\s*(\d{1,3})\s*(?:\(\s*\d{1,3}\s*\))?\s*$"
 )
 
+# ── INSTRUCTION TAIL STRIPPER ──
+# TrOCR always appends hallucinated dosing tails like
+#   "- 1 tab BID with meals", "- 1 tab q6h PRN", "- 5 ml BID"
+# These must be stripped from raw_name before catalog matching, otherwise
+# the fuzzy score drops ~25% and correct drugs end up yellow/red.
+INSTRUCTION_TAIL_PATTERN = re.compile(
+    r"\s*[\-–—]\s*\d+\s*(?:tab|cap|ml|puff|sachet|drop)s?\s*"
+    r"(?:od|bid|bd|tid|qid|tds|sos|prn|hs|q\d+h|"
+    r"daily|at\s+night|with\s+meals?|after\s+meals?|before\s+meals?|"
+    r"after\s+food|before\s+food|morning|evening|night|"
+    r"once\s+daily|twice\s+daily|twice\s+a\s+day|thrice\s+a\s+day|"
+    r"every\s+\d+\s+hours?)?"
+    r"(?:\s+(?:with\s+meals?|after\s+meals?|before\s+meals?|prn|"
+    r"after\s+food|before\s+food))*"
+    r"\s*$",
+    re.IGNORECASE,
+)
 
-def extract_quantity_tail(text: str) -> tuple[int | None, str]:
+
+def strip_instruction_tail(text: str) -> str:
+    """Remove TrOCR-hallucinated instruction suffix from drug name.
+    'Etroxin 100mcg 100 tabs - 1 tab BID with meals' → 'Etroxin 100mcg 100 tabs'
+    """
+    return INSTRUCTION_TAIL_PATTERN.sub("", text).strip()
+
+
+def extract_quantity_tail(text: str) -> tuple[str | None, str]:
     """Extracts a trailing dose/quantity ('Amaryl 2mg - 2' → 2) and returns
     (quantity, cleaned_text) with the tail removed so the remaining name can
     exact-match the catalog. Guards: the bare number must be the LAST token,
@@ -135,7 +160,7 @@ def extract_quantity_tail(text: str) -> tuple[int | None, str]:
         if qty <= 300:
             cleaned = QUANTITY_TAIL_PATTERN.sub(" ", t).strip(" -–—*	")
             cleaned = re.sub(r"\s{2,}", " ", cleaned).strip()
-            return qty, cleaned
+            return str(qty), cleaned
     # لا كمية — لكن الشرطة/النجمة الطرفية العائمة ('Crestor 10mg -') ضجيج OCR
     # يكسر المطابقة التامة: تُنظف دائماً (بدون لمس الأسماء المنتهية بـ x)
     cleaned = re.sub(r"[\s\-–—*]+$", "", t).strip()
@@ -201,6 +226,9 @@ def infer_text(
             raw_name = (m.get("raw_name") or "").strip()
             strength, dosage_form, instructions = extract_structured_fields(raw_name)
             quantity, clean_name = extract_quantity_tail(raw_name)
+            # Strip TrOCR hallucinated instruction tails BEFORE sending to backend
+            # "Etroxin 100mcg 100 tabs - 1 tab BID with meals" → "Etroxin 100mcg 100 tabs"
+            clean_name = strip_instruction_tail(clean_name)
             formatted_meds.append({
                 "line_number": m.get("line_number"),
                 "raw_name": clean_name,
@@ -285,6 +313,11 @@ def infer_text(
         print(f"Error in local OCR inference: {e}")
         raise HTTPException(status_code=500, detail=str(e))
     finally:
+        import gc
+        import torch
+        gc.collect()
+        if torch.cuda.is_available():
+            torch.cuda.empty_cache()
         INFERENCE_GATE.release()
 
 @app.get("/metrics")

@@ -1,0 +1,168 @@
+## 7. القائمة الموحدة للمشكلات والثغرات المرصودة (مرتبة حسب الخطورة)
+
+### 🔴 أولاً: المشكلات والثغرات الحرجة (CRITICAL)
+
+#### 1. ثغرة تنفيذ كود عن بعد غير مصرح به في Next.js على بيئة Windows
+* **المسار:** [`frontend/package.json`](file:///d:/Graduation%20Project/AI-COS-Pharmacy/frontend/package.json) (`next: 16.3.0`)
+* **المعرفات الاستشارية:** `GHSA-p293-qw3h-jr36` و `GHSA-2xp9-vwfh-vxw4`
+* **الدليل الفعلي:** نتيجة `npm audit`:
+  ```text
+  next 16.0.0 - 16.3.2 | Severity: critical
+  Next.js: Unauthenticated Remote Code Execution on windows-hosted servers
+  Next.js: Unauthenticated Remote Code Execution in Image Optimization API when AVIF files are used
+  ```
+* **الأثر المحتمل:** بما أن خادم التطوير والإنتاج الحالي يعمل على نظام Windows (`win32`)، يمكن لمهاجم استغلال معالجة المسارات لتنفيذ أوامر برمجية على الخادم دون مصادقة.
+* **الحل الموصى به:** ترقية حزمة `next` إلى إصدار آمن معالج (`16.3.5+` أو أحدث).
+
+#### 2. عطل منطقي يمنع إتمام الشراء (Checkout Blocker) لمستخدمي ميزة "إعادة التعبئة السريعة"
+* **المسارات:** [`frontend/src/app/(storefront)/profile/page.tsx:342-353, 794, 870`](file:///d:/Graduation%20Project/AI-COS-Pharmacy/frontend/src/app/%28storefront%29/profile/page.tsx#L342-L353) و [`frontend/src/app/checkout/page.tsx:81-85`](file:///d:/Graduation%20Project/AI-COS-Pharmacy/frontend/src/app/checkout/page.tsx#L81-L85)
+* **الدليل الفعلي:**
+  في `profile/page.tsx`:
+  ```typescript
+  const handleQuickRefill = (drugName: string, price: number) => {
+    const slug = drugName.trim().replace(/\s+/g, '-').toLowerCase();
+    addItemToCart({
+      id: `refill-${slug}`, // ❌ استبدال معرف UUID الحقيقي بنص slug زائف
+      name: drugName,
+      price: price || 35,
+      quantity: 1,
+      ...
+    });
+  }
+  ```
+  في `checkout/page.tsx`:
+  ```typescript
+  const items = cartItems.map(item => ({
+    drug_id: item.id, // ❌ يرسل 'refill-concor-5mg'
+    quantity: item.quantity
+  }));
+  ```
+  في `backend/app/domains/order/schemas.py:7`:
+  ```python
+  class OrderItemCreate(BaseModel):
+      drug_id: UUID  # ✅ يتطلب UUID صالح
+  ```
+* **الأثر المحتمل:** عند قيام المريض بالضغط على "إعادة التعبئة السريعة" والتوجه للدفع، يفشل الطلب قطعياً مع خطأ `HTTP 422 Unprocessable Entity` (`Input should be a valid UUID`)، مما يعطل مسار المبيعات الرئيسي للمرضى المزمنين.
+* **الحل الموصى به:** تمرير `therapy.drug_id` أو `med.drug_id` الحقيقي كـ `id` في السلة بدلاً من `refill-${slug}`.
+
+---
+
+### 🟠 ثانياً: المشكلات والثغرات العالية الخطورة (HIGH)
+
+#### 1. تسريب مخزون المستودع والتسعير بالكامل للعامة بدون تسجيل دخول
+* **المسار:** [`backend/app/domains/inventory/router.py:18-44`](file:///d:/Graduation%20Project/AI-COS-Pharmacy/backend/app/domains/inventory/router.py#L18-L44)
+* **المسارات المستهدفة:** `GET /api/v1/inventory` و `GET /api/v1/inventory/`
+* **الدليل الفعلي:**
+  الكود يعتمد المصادقة الاختيارية:
+  ```python
+  @router.get("")
+  async def get_inventory(
+      current_user = Depends(get_current_user_optional),
+      ...
+  ):
+      if current_user is None:
+          target_tenant_id = settings.DEFAULT_STOREFRONT_TENANT_ID
+  ```
+  الاستدعاء الحي بدون أي توكن:
+  `curl.exe -s http://127.0.0.1:8000/api/v1/inventory`
+  أرجع **HTTP 200** وقائمة بـ **116 عنصراً مخزنياً** تفصح عن:
+  `stock_level`, `inventory_id`, `drug_id`, `price`, `tenant_id`.
+* **الأثر المحتمل:** إفشاء أسرار العمل وحجم مخزون المستودع للمنافسين وزوار الإنترنت دون حسيب.
+* **الحل الموصى به:** حصر المسار بصلاحيات الإدارة حصراً: `Depends(require_role("admin", "pharmacist", "super_admin"))`.
+
+#### 2. وجود 183 ثغرة أمنية معروفة في حزم الباك إند (`pip-audit`)
+* **المسار:** بيئة بايثون وحزم الباك إند
+* **الدليل الفعلي:** تشغيل `python -m pip_audit --format=json` الفعلي:
+  - `aiohttp (3.13.3)`: 48 ثغرة (RCE في `CookieJar.load()`, NTLM leak).
+  - `gitpython (3.1.50)`: 26 ثغرة (RCE وحقن إعدادات).
+  - `pillow (12.2.0)`: 25 ثغرة.
+  - `starlette (0.38.6)`: 14 ثغرة (نواة تشغيل FastAPI).
+  - `pip (25.3)`: 10 ثغرات.
+  - `cryptography (49.0.0)`: ثغرتان (توقيت هجوم Bleichenbacher).
+  - `weasyprint (69.0)`: ثغرة قراءة وتسريب بيانات الاعتماد.
+* **الأثر المحتمل:** مخاطر سلاسل التوريد وإمكانية استغلال ثغرات المكتبات لاختراق الخادم أو إحداث هجمات حجب الخدمة (DoS).
+* **الحل الموصى به:** تحديث الحزم المصابة وإصلاح ملف `requirements.txt` بتثبيت الإصدارات الآمنة.
+
+#### 3. إنشاء مكونات React داخل حلقة التقديم (Component Creation During Render)
+* **المسار:** [`frontend/src/app/admin/procurement/page.tsx:263-277, 279-307, 702, 707`](file:///d:/Graduation%20Project/AI-COS-Pharmacy/frontend/src/app/admin/procurement/page.tsx#L263-L307)
+* **الدليل الفعلي:** نتيجة فحص `npm run lint`:
+  ```text
+  702:23 error Error: Cannot create components during render (StatusBadge)
+  707:18 error Error: Cannot create components during render (LifecycleStepper)
+  ```
+* **الأثر المحتمل:** في React 19، إعادة تعريف دوال المكونات داخل المكون الأب يؤدي لإعادة بنائها مع كل تغيير للحالة (Re-render)، متسبباً في وميض الصفحة وفقدان تركيز حقول الإدخال، وكسر الحالة الداخلية.
+* **الحل الموصى به:** نقل `StatusBadge` و `LifecycleStepper` إلى خارج دالة `ProcurementPage` واستقبال المتغيرات عبر الـ Props.
+
+---
+
+### 🟡 ثالثاً: المشكلات والثغرات المتوسطة (MEDIUM)
+
+#### 1. انحراف توصيف العقد (Contract Drift) في سجل أدوات الوكلاء
+* **المسار:** [`backend/app/domains/runtime/router.py:40`](file:///d:/Graduation%20Project/AI-COS-Pharmacy/backend/app/domains/runtime/router.py#L40)
+* **الدليل الفعلي:**
+  في `runtime/router.py`:
+  ```python
+  {
+      "name": "finance_clv",
+      "endpoint": "/api/v1/agents/finance/clv",
+      "params": ["customer_name", "proposed_discount_pct"], # ❌ معامل ملغى
+  }
+  ```
+  في المقابل، تم حذف `proposed_discount_pct` تماماً من كود الوكيل المالي [`agents/finance.py`](file:///d:/Graduation%20Project/AI-COS-Pharmacy/backend/app/domains/agents/finance.py) حيث يقوم المدير المالي بتوليد الخصم آلياً.
+* **الأثر المحتمل:** أي نظام أتمتة خارجي في n8n يستكشف الأدوات عبر `/runtime/tools` سيرسل معاملاً مهملاً وغير متوافق مع المنطق الداخلي.
+* **الحل الموصى به:** تحديث قائمة المعاملات في السجل لتعكس دالة `evaluate_financial_decision` الفعلية.
+
+#### 2. ثغرات مكتبات الفرونت إند في `js-yaml` و `sharp`
+* **المسار:** [`frontend/package.json`](file:///d:/Graduation%20Project/AI-COS-Pharmacy/frontend/package.json)
+* **الدليل الفعلي:** تقرير `npm audit`:
+  - `js-yaml 4.0.0 - 4.3.1` (High - GHSA-2883-xcg3-v3hh): عدم تقييد استهلاك المعالج عند دمج المفاتيح.
+  - `sharp <0.35.4` (High - GHSA-rgj7-g3m4-5g8c): ثغرات في مكتبة `libheif`.
+* **الأثر المحتمل:** استهلاك موارد السيرفر أو التسبب في انهيار عمليات معالجة الصور ومستندات YAML.
+* **الحل الموصى به:** تشغيل `npm audit fix`.
+
+#### 3. عدم توافق مكتبات الاختبارات غير المتزامنة (`pytest-asyncio` vs `pytest 8.2`)
+* **المسارات:** `tests/test_customer.py`, `tests/test_events_chain.py`, `tests/test_settings.py`
+* **الدليل الفعلي:**
+  ```text
+  AttributeError: 'FixtureDef' object has no attribute 'unittest'
+  pytest_asyncio/plugin.py:321
+  ```
+  تسبب في تسجيل **8 أخطاء إعداد (Setup Errors)** عند تشغيل كامل حزمة الاختبارات.
+* **الأثر المحتمل:** تعطل مسار الفحص الآلي المستمر (CI/CD) لاختبارات التكامل، مما يعيق التحقق السريع للمطورين.
+* **الحل الموصى به:** ترقية حزمة `pytest-asyncio` إلى إصدار متوافق مع `pytest 8.2+` (`pytest-asyncio>=0.23.7`).
+
+---
+
+### 🟢 رابعاً: المشكلات منخفضة الخطورة والتحسينات (LOW & COSMETIC)
+
+#### 1. وجود زر معاينة ميت (Dead Button) في جدول الطلبات
+* **المسار:** [`frontend/src/app/admin/orders/page.tsx:328-330`](file:///d:/Graduation%20Project/AI-COS-Pharmacy/frontend/src/app/admin/orders/page.tsx#L328-L330)
+* **الدليل الفعلي:**
+  ```tsx
+  <button className="text-outline hover:text-primary transition-colors p-1 rounded-full hover:bg-primary/10">
+    <span className="material-symbols-outlined text-[18px]">visibility</span>
+  </button>
+  ```
+  الزر لا يحتوي على أي خاصية `onClick` ولا يؤدي لأي فعل بصري أو برمجي عند الضغط عليه.
+* **الأثر المحتمل:** تجربة مستخدم مربكة للمشرف عند محاولة معاينة الطلب.
+* **الحل الموصى به:** ربط الزر بمودال تفاصيل الطلب أو تحويله إلى رابط فعال.
+
+#### 2. السقوط على صورة فوتوغرافية ثابتة عشوائية كبديل
+* **المسارات:** [`frontend/src/hooks/useMedicineDetails.ts:15`](file:///d:/Graduation%20Project/AI-COS-Pharmacy/frontend/src/hooks/useMedicineDetails.ts#L15) و [`frontend/src/components/ui/MedicineDetailsModal.tsx:62`](file:///d:/Graduation%20Project/AI-COS-Pharmacy/frontend/src/components/ui/MedicineDetailsModal.tsx#L62)
+* **الدليل الفعلي:**
+  `const imageUrl = product?.image_url || '/images/image_6.jpg';`
+* **الأثر المحتمل:** عرض صورة علبة دواء حقيقية لا تطابق الدواء المعروض في حال عدم وجود صورة له.
+* **الحل الموصى به:** استبدالها بـ `<MedicinePlaceholder category={product?.category} />`.
+
+#### 3. حروف اقتباس غير مرمزة في JSX (Unescaped Entities)
+* **المسارات:** [`frontend/src/app/admin/agentic-ai/components/Phase2.tsx:1068`](file:///d:/Graduation%20Project/AI-COS-Pharmacy/frontend/src/app/admin/agentic-ai/components/Phase2.tsx#L1068) و [`frontend/src/app/admin/system-architecture/page.tsx:561`](file:///d:/Graduation%20Project/AI-COS-Pharmacy/frontend/src/app/admin/system-architecture/page.tsx#L561)
+* **الدليل الفعلي:** تسجيل 3 أخطاء في ESLint بخصوص `react/no-unescaped-entities`.
+* **الحل الموصى به:** استبدال الاقتباسات بـ `&quot;` و `&apos;`.
+
+#### 4. استخدام وسوم `<img>` تقليدية بدلاً من مكون `<Image />`
+* **المسارات:** `PrescriptionModal.tsx`, `MedicineDetailsModal.tsx`, `CartDrawer.tsx`
+* **الدليل الفعلي:** 55 تحذيراً في ESLint عن تأخر محتمل في مقياس LCP.
+* **الحل الموصى به:** استبدال الوسوم بمكون `next/image`.
+
+---
+

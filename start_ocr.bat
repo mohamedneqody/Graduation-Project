@@ -14,6 +14,12 @@ if %errorlevel%==0 (
 echo [%time%] Starting OCR Server on port 9202...
 cd /d "D:\Graduation Project\upload"
 call "D:\Graduation Project\venv\Scripts\activate.bat"
+set "INTERNAL_OCR_SECRET="
+for /f "tokens=1,* delims==" %%A in ('findstr /b /c:"INTERNAL_OCR_SECRET=" "D:\Graduation Project\AI-COS-Pharmacy\backend\.env"') do set "INTERNAL_OCR_SECRET=%%B"
+if not defined INTERNAL_OCR_SECRET (
+    echo [%time%] ERROR: INTERNAL_OCR_SECRET is missing from the active backend .env
+    exit /b 1
+)
 set HF_HOME=D:\huggingface_cache
 set TRANSFORMERS_CACHE=D:\huggingface_cache
 set TORCH_HOME=D:\huggingface_cache

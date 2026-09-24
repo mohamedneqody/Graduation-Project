@@ -22,7 +22,7 @@
     {
       "parameters": {
         "chatId": "6262223810",
-        "text": "=🚨 <b>إنذار سريري حرج — AI-COS Emergency Alert</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n👤 <b>المريض:</b> {{ $json.body.customer_name || 'زائر غير مسجل (Guest)' }}\n🆔 <b>المعرّف / الجلسة:</b> <code>{{ $json.body.customer_id || $json.body.session_id }}</code>\n⚠️ <b>درجة الخطورة:</b> 🔴 حالة طوارئ حرجة ({{ $json.body.priority }})\n💬 <b>نص الاستغاثة:</b>\n<i>\"{{ $json.body.user_message }}\"</i>\n\n⚡ <b>الإجراء الآلي المتخذ:</b>\n{{ $json.body.alert_message || 'تم توجيه المريض للإسعاف وتجميد التوصيات الدوائية فوراً.' }}\n\n👨‍⚕️ <b>الإجراء البشري المطلوب:</b> يرجى تدخل الصيدلي المناوب فوراً.\n🕒 <b>التوقيت:</b> {{ $json.body.timestamp }}",
+        "text": "=🚨 <b>إنذار سريري حرج — AI-COS Emergency Alert</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n👤 <b>المريض:</b> {{ ($json.body.customer_name || 'زائر غير مسجل (Guest)').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;') }}\n🆔 <b>المعرّف / الجلسة:</b> <code>{{ $json.body.customer_id || $json.body.session_id }}</code>\n⚠️ <b>درجة الخطورة:</b> 🔴 حالة طوارئ حرجة ({{ $json.body.priority }})\n💬 <b>نص الاستغاثة:</b>\n<i>\"{{ ($json.body.user_message || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\"/g, '&quot;') }}\"</i>\n\n⚡ <b>الإجراء الآلي المتخذ:</b>\n{{ ($json.body.alert_message || 'تم توجيه المريض للإسعاف وتجميد التوصيات الدوائية فوراً.').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;') }}\n\n👨‍⚕️ <b>الإجراء البشري المطلوب:</b> يرجى تدخل الصيدلي المناوب فوراً.\n🕒 <b>التوقيت:</b> {{ $json.body.timestamp }}\n🔑 <b>معرف الحدث:</b> <code>{{ $json.body.event_id || 'N/A' }}</code>",
         "additionalFields": {
           "appendAttribution": false,
           "parse_mode": "HTML",
@@ -53,7 +53,7 @@
       ],
       "id": "e1100001-a1c0-4000-8000-000000000002",
       "notesInFlow": true,
-      "notes": "إرسال إنذار فوري ومميز إلى تليجرام الصيدلي المناوب",
+      "notes": "إرسال إنذار فوري ومميز إلى تليجرام الصيدلي المناوب مع حماية من حقن الـ HTML",
       "credentials": {
         "telegramApi": {
           "id": "Z2Ee45Eyn9CFqyvM",

@@ -47,3 +47,11 @@ backups/
 *.log
 scratch/
 .env*
+
+# secrets & PII dumps — never publish
+اتصال محلي/بيانات_الاتصال_والروابط.txt
+اتصال محلي/supabase/seed.sql
+*.tmp_admin_token.txt
+
+# large training archives — stay in Drive, not git
+upload/colab_training/*.zip

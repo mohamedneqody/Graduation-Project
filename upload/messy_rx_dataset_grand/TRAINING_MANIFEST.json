@@ -1,8 +1,0 @@
-{
- "purpose": "GRAND TRAINING DATA",
- "pages": 2000,
- "line_crops": 5974,
- "catalog": "116 brands + 1000 generics (expanded)",
- "seeds": "60001+",
- "holdout_seeds": "91001+ محجوزة"
-}

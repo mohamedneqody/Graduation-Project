@@ -1,8 +1,9 @@
-from fastapi import APIRouter, Depends, UploadFile, File, HTTPException, status
+from fastapi import APIRouter, Depends, UploadFile, File, HTTPException, Request, status
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
+from app.core.rate_limit import limiter
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
 
 from app.database.session import get_db
 from app.dependencies.auth import get_current_user
@@ -11,18 +12,21 @@ from app.models.drug import Drug
 from app.models.prescription import Prescription, PrescriptionAnalysis, PrescriptionItem
 from app.domains.files.service import handle_file_upload
 from .schemas import PrescriptionCreateResponse, PrescriptionAnalysisSchema, PharmacistReviewRequest
-from .vision import GeminiVisionProvider
+from .vision import LocalTrOCRVisionProvider
+
+# Add a provider selection block inside the endpoint
+
 from .matching import match_medication, normalize_text
 from app.models.tracking import AuditLog
 
 router = APIRouter(prefix="/api/v1/prescriptions", tags=["Prescriptions"])
 
-@router.get("/test_route")
-async def test_prescriptions_route():
-    return {"message": "Prescriptions router is alive"}
 
+@router.post("")
 @router.post("/", response_model=PrescriptionCreateResponse, status_code=status.HTTP_201_CREATED)
+@limiter.limit("10/minute")
 async def upload_prescription(
+    request: Request,
     file: UploadFile = File(...),
     current_user: Customer = Depends(get_current_user),
     db: AsyncSession = Depends(get_db)
@@ -43,8 +47,10 @@ async def upload_prescription(
     await db.refresh(new_prescription)
     return PrescriptionCreateResponse(prescription_id=new_prescription.id)
 
-@router.post("/{id}/analyze", response_model=PrescriptionAnalysisSchema)
+@router.post("/{id}/analyze")
+@limiter.limit("10/minute")
 async def analyze_prescription(
+    request: Request,
     id: uuid.UUID,
     current_user: Customer = Depends(get_current_user),
     db: AsyncSession = Depends(get_db)
@@ -52,6 +58,8 @@ async def analyze_prescription(
     presc_result = await db.execute(select(Prescription).where(Prescription.id == id))
     prescription = presc_result.scalars().first()
     if not prescription:
+        raise HTTPException(status_code=404, detail="Prescription not found")
+    if prescription.uploaded_by != current_user.auth_user_id and current_user.role not in ("admin", "super_admin", "pharmacist"):
         raise HTTPException(status_code=404, detail="Prescription not found")
         
     file_path = f"uploads/{prescription.file_id}"
@@ -62,14 +70,20 @@ async def analyze_prescription(
     with open(file_path, "rb") as f:
         file_bytes = f.read()
 
+    import hashlib
+    sha256_ocr_input = hashlib.sha256(file_bytes).hexdigest()
+
     drugs_res = await db.execute(select(Drug))
     all_drugs = drugs_res.scalars().all()
     
-    vision_provider = GeminiVisionProvider()
-    
+    # 100% Offline On-Premise Enforcement:
+    # Prescription vision analysis is strictly handled by local OCR (Florence-2 + TrOCR).
+    # Zero cloud egress, ensuring patient PHI never leaves the local pharmacy network.
+    vision_provider = LocalTrOCRVisionProvider()
+        
     analysis = PrescriptionAnalysis(
         prescription_id=prescription.id,
-        provider="gemini",
+        provider="local_trocr",
         model=vision_provider.model,
         schema_version="v1",
         status="pending"
@@ -77,74 +91,147 @@ async def analyze_prescription(
     db.add(analysis)
     await db.flush()
     
+    # Catch any error so it doesn't cause a CORS failure on the frontend
     try:
         vision_output, metadata = await vision_provider.analyze_image(file_bytes, "image/jpeg")
-        analysis.status = "succeeded"
-        analysis.raw_response = vision_output.model_dump()
-        analysis.model_version = metadata.model_version
-        analysis.prompt_version = metadata.prompt_version
-        analysis.request_id = metadata.request_id
-        analysis.latency_ms = metadata.latency_ms
-        analysis.token_usage = metadata.token_usage
-        
-        items = []
-        for med in vision_output.medications:
-            match_result = match_medication(med, all_drugs)
-            match_status = "needs_review"
-            final_score = match_result["final_score"]
-            candidate_margin = match_result["candidate_margin"]
-            
-            if med.is_illegible:
-                match_status = "illegible"
-            elif not match_result["candidates"]:
-                match_status = "not_found"
-            elif final_score >= 0.90 and candidate_margin is not None and candidate_margin >= 0.10:
-                match_status = "matched"
-                
-            item = PrescriptionItem(
-                analysis_id=analysis.id,
-                raw_name=med.raw_name,
-                normalized_name=normalize_text(med.raw_name),
-                strength=med.strength,
-                dosage_form=med.dosage_form,
-                quantity=med.quantity,
-                duration=med.duration,
-                instructions=med.instructions,
-                ocr_confidence=med.ocr_confidence,
-                is_illegible=med.is_illegible,
-                match_status=match_status,
-                matched_drug_id=match_result["matched_drug_id"] if match_status == "matched" else None,
-                match_confidence=final_score,
-                candidate_margin=candidate_margin,
-                candidates=match_result["candidates"],
-                pharmacist_decision="pending"
-            )
-            db.add(item)
-            items.append(item)
-            
-        prescription.status = "analyzed"
-        
-        # Audit Log
-        audit = AuditLog(
-            tenant_id=current_user.tenant_id,
-            action="prescription_analyzed",
-            entity_type="prescription_analysis",
-            entity_id=str(analysis.id),
-            actor_id=current_user.customer_id,
-            new_values={"provider": "gemini", "status": "succeeded"}
-        )
-        db.add(audit)
-        
-        await db.commit()
-        await db.refresh(analysis)
-        analysis.items = items
-        return analysis
-
     except Exception as e:
-        analysis.status = "failed"
-        analysis.error_message = str(e)
-        await db.commit()
-        raise HTTPException(status_code=500, detail=f"Vision API Error: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail="OCR processing failed. Please try again later.")
+    
+    fingerprint = vision_output.image_fingerprint.model_dump() if vision_output.image_fingerprint else {}
+    checkpoint_2 = vision_output.pipeline_hashes.get("checkpoint_2_ocr_receive") or fingerprint.get("sha256")
+    checkpoint_3 = vision_output.pipeline_hashes.get("checkpoint_3_trocr_input")
+    if checkpoint_2 != sha256_ocr_input or checkpoint_3 != sha256_ocr_input:
+        raise HTTPException(
+            status_code=502,
+            detail="OCR integrity check failed; image bytes changed between pipeline stages.",
+        )
+
+    analysis.status = "succeeded"
+    analysis.raw_response = vision_output.model_dump()
+    analysis.model_version = metadata.model_version
+    analysis.prompt_version = metadata.prompt_version
+    analysis.request_id = metadata.request_id
+    analysis.latency_ms = metadata.latency_ms
+    analysis.token_usage = metadata.token_usage
+    await db.commit()
+    
+    from app.domains.prescriptions.matching import match_medication, normalize_text
+    
+    items = []
+    for med in vision_output.medications:
+        # 1. Reject entries where visual evidence is false (fail-closed)
+        if not getattr(med, "visual_evidence_ok", True):
+            continue
+        # 2. Reject short fragments
+        if getattr(med, "is_fragment_too_short", False):
+            continue
+
+        # Skip items with no usable name (OCR noise/blank lines)
+        usable_name = (med.raw_name or "").strip()
+        if not usable_name or len(usable_name) <= 2:
+            continue
+        
+        match_result = match_medication(med, all_drugs)
+        
+        final_score = match_result.get("final_score", 0.0)
+        candidate_margin = match_result.get("candidate_margin", 0.0)
+        match_status = match_result.get("match_status", "needs_review")
+
+        # Disagreement between Florence-2 and TrOCR is a clinical stop condition (caps at 0.70 -> Yellow)
+        if getattr(med, "model_disagreement", False):
+            final_score = min(final_score, 0.70)
+            match_status = "needs_review"
+            for candidate in match_result.get("candidates", []):
+                candidate["model_disagreement"] = True
+                candidate["match_reason"] = "model_disagreement"
+        
+        if getattr(med, "is_illegible", False):
+            match_status = "illegible"
+
+        # A NOT-FOUND line with weak or contradicted OCR evidence is a
+        # MISREADING, not a confirmed unavailable drug. Presenting it to the
+        # customer as "written in the prescription but out of stock" asserts a
+        # reading we cannot back. Fail-safe: route it to the pharmacist review
+        # queue (the crop image is attached for manual identification).
+        if match_status == "not_found" and (
+            getattr(med, "model_disagreement", False)
+            or getattr(med, "ocr_confidence", 0.0) < 0.85
+        ):
+            match_status = "needs_review"
+
+        item = PrescriptionItem(
+            analysis_id=analysis.id,
+            raw_name=med.raw_name,
+            normalized_name=normalize_text(med.raw_name),
+            strength=med.strength,
+            dosage_form=med.dosage_form,
+            quantity=med.quantity,
+            duration=med.duration,
+            instructions=med.instructions,
+            ocr_confidence=med.ocr_confidence,
+            is_illegible=med.is_illegible,
+            match_status=match_status,
+            matched_drug_id=match_result.get("matched_drug_id") if match_status == "matched" else None,
+            match_confidence=final_score,
+            candidate_margin=candidate_margin,
+            candidates=match_result.get("candidates", []),
+            cropped_image=med.cropped_image,
+        )
+        db.add(item)
+        items.append(item)
+        
+    await db.commit()
+    
+    audit = AuditLog(tenant_id=current_user.tenant_id, action_type="prescription_analyzed", target_entity=f"prescription:{prescription.id}", actor_id=str(current_user.customer_id))
+    db.add(audit)
+    await db.commit()
+    
+    fingerprint = fingerprint or {
+        "sha256": sha256_ocr_input,
+        "top_left_visible_text": "N/A",
+        "clinic_name_guess": "Unknown",
+        "patient_name_guess": "Unknown",
+        "approximate_image_orientation": "portrait",
+        "number_of_handwritten_lines_visible": len(items)
+    }
+
+    return {
+        "image_fingerprint": fingerprint,
+        "pipeline_hashes": {
+            "checkpoint_1_stored_file": sha256_ocr_input,
+            "checkpoint_1_ocr_input": sha256_ocr_input,
+            "checkpoint_2_ocr_receive": checkpoint_2,
+            "checkpoint_3_trocr_input": checkpoint_3,
+        },
+        "analysis_id": analysis.id,
+        "status": "succeeded",
+        "provider": analysis.provider,
+        "model": analysis.model,
+        "items": [
+            {
+                "id": str(it.id),
+                # PrescriptionModal reads raw_name (not raw_text)
+                "raw_name": it.raw_name,
+                "raw_text": it.raw_name,   # keep backward compat
+                "strength": it.strength,
+                "dosage_form": it.dosage_form,
+                "instructions": it.instructions,
+                "ocr_confidence": it.ocr_confidence,
+                "is_illegible": it.is_illegible,
+                # PrescriptionModal reads match_status (not status)
+                "match_status": it.match_status,
+                "status": it.match_status,  # keep backward compat
+                "matched_drug_id": str(it.matched_drug_id) if it.matched_drug_id else None,
+                "drug_id": str(it.matched_drug_id) if it.matched_drug_id else None,
+                "match_confidence": it.match_confidence,
+                "score": it.match_confidence,
+                "candidates": it.candidates or [],
+                "cropped_image": it.cropped_image,
+            } for it in items
+        ]
+    }
 
 @router.get("/{id}/analysis", response_model=PrescriptionAnalysisSchema)
 async def get_latest_analysis(
@@ -152,9 +239,11 @@ async def get_latest_analysis(
     current_user: Customer = Depends(get_current_user),
     db: AsyncSession = Depends(get_db)
 ):
-    presc_res = await db.execute(select(Prescription).where(Prescription.id == id))
+    presc_res = await db.execute(select(Prescription).where(Prescription.id == id, Prescription.tenant_id == current_user.tenant_id))
     prescription = presc_res.scalars().first()
     if not prescription:
+        raise HTTPException(status_code=404, detail="Prescription not found")
+    if prescription.uploaded_by != current_user.auth_user_id and current_user.role not in ("admin", "super_admin", "pharmacist"):
         raise HTTPException(status_code=404, detail="Prescription not found")
 
     analysis_res = await db.execute(
@@ -172,13 +261,7 @@ async def get_latest_analysis(
     analysis.items = items_res.scalars().all()
     
     # Audit log view
-    audit = AuditLog(
-        tenant_id=current_user.tenant_id,
-        action="prescription_viewed",
-        entity_type="prescription",
-        entity_id=str(id),
-        actor_id=current_user.customer_id
-    )
+    audit = AuditLog(tenant_id=current_user.tenant_id, action_type="prescription_viewed", target_entity=f"prescription:{id}", actor_id=str(current_user.customer_id))
     db.add(audit)
     await db.commit()
     
@@ -195,7 +278,17 @@ async def review_item(
     if current_user.role not in ["admin", "pharmacist"]:
         raise HTTPException(status_code=403, detail="Only pharmacists can review")
         
-    item_res = await db.execute(select(PrescriptionItem).where(PrescriptionItem.id == item_id))
+    # Enforce tenant scoping and parent association
+    item_res = await db.execute(
+        select(PrescriptionItem)
+        .join(PrescriptionAnalysis, PrescriptionItem.analysis_id == PrescriptionAnalysis.id)
+        .join(Prescription, PrescriptionAnalysis.prescription_id == Prescription.id)
+        .where(
+            PrescriptionItem.id == item_id,
+            Prescription.id == id,
+            Prescription.tenant_id == current_user.tenant_id
+        )
+    )
     item = item_res.scalars().first()
     if not item:
         raise HTTPException(status_code=404, detail="Item not found")
@@ -213,16 +306,9 @@ async def review_item(
         
     item.pharmacist_decision = request.decision
     item.reviewed_by = current_user.auth_user_id
-    item.reviewed_at = datetime.utcnow()
+    item.reviewed_at = datetime.now(timezone.utc)
     
-    audit = AuditLog(
-        tenant_id=current_user.tenant_id,
-        action="pharmacist_reviewed_item",
-        entity_type="prescription_item",
-        entity_id=str(item.id),
-        actor_id=current_user.customer_id,
-        new_values={"decision": request.decision, "selected_drug_id": str(request.selected_drug_id)}
-    )
+    audit = AuditLog(tenant_id=current_user.tenant_id, action_type="pharmacist_reviewed_item", target_entity=f"prescription_item:{item.id}", actor_id=str(current_user.customer_id))
     db.add(audit)
     await db.commit()
     return {"message": "Review recorded"}
@@ -233,10 +319,12 @@ async def finalize_prescription(
     current_user: Customer = Depends(get_current_user),
     db: AsyncSession = Depends(get_db)
 ):
-    presc_res = await db.execute(select(Prescription).where(Prescription.id == id))
+    presc_res = await db.execute(select(Prescription).where(Prescription.id == id, Prescription.tenant_id == current_user.tenant_id))
     prescription = presc_res.scalars().first()
     
     if not prescription:
+        raise HTTPException(status_code=404, detail="Prescription not found")
+    if prescription.uploaded_by != current_user.auth_user_id and current_user.role not in ("admin", "super_admin", "pharmacist"):
         raise HTTPException(status_code=404, detail="Prescription not found")
         
     if prescription.status == "finalized":
@@ -286,24 +374,20 @@ async def finalize_prescription(
     
     prescription.status = "finalized"
     
-    audit = AuditLog(
-        tenant_id=current_user.tenant_id,
-        action="prescription_finalized",
-        entity_type="prescription",
-        entity_id=str(prescription.id),
-        actor_id=current_user.customer_id,
-        new_values={"order_id": str(order_out.order_id)}
-    )
+    audit = AuditLog(tenant_id=current_user.tenant_id, action_type="prescription_finalized", target_entity=f"prescription:{prescription.id}", actor_id=str(current_user.customer_id))
     db.add(audit)
     await db.commit()
     
     return order_out
 
-async def execute_prescription_retention_cleanup(db: AsyncSession) -> dict:
-    from datetime import datetime, timedelta
-    cutoff = datetime.utcnow() - timedelta(days=30)
+async def execute_prescription_retention_cleanup(db: AsyncSession, tenant_id=None) -> dict:
+    from datetime import timedelta
+    cutoff = datetime.now(timezone.utc) - timedelta(days=30)
     
-    presc_res = await db.execute(select(Prescription).where(Prescription.created_at < cutoff))
+    query = select(Prescription).where(Prescription.created_at < cutoff)
+    if tenant_id:
+        query = query.where(Prescription.tenant_id == tenant_id)
+    presc_res = await db.execute(query)
     old_prescriptions = presc_res.scalars().all()
     
     count = 0
@@ -339,8 +423,13 @@ async def execute_prescription_retention_cleanup(db: AsyncSession) -> dict:
     return {"message": f"Deleted {count} old prescriptions as per 30-day retention policy."}
 
 @router.delete("/cleanup-retention")
-async def cleanup_retention(db: AsyncSession = Depends(get_db)):
-    return await execute_prescription_retention_cleanup(db)
+async def cleanup_retention(
+    current_user: Customer = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db)
+):
+    if current_user.role not in ["admin", "super_admin"]:
+        raise HTTPException(status_code=403, detail="Only admins can trigger retention cleanup")
+    return await execute_prescription_retention_cleanup(db, tenant_id=current_user.tenant_id if current_user.role != "super_admin" else None)
 
 @router.delete("/{id}")
 async def delete_prescription(
@@ -351,7 +440,7 @@ async def delete_prescription(
     if current_user.role not in ["admin", "pharmacist"]:
         raise HTTPException(status_code=403, detail="Only pharmacists can delete")
         
-    presc_res = await db.execute(select(Prescription).where(Prescription.id == id))
+    presc_res = await db.execute(select(Prescription).where(Prescription.id == id, Prescription.tenant_id == current_user.tenant_id))
     prescription = presc_res.scalars().first()
     
     if not prescription:
@@ -378,13 +467,7 @@ async def delete_prescription(
     await db.flush()  # Flush analysis deletions first
         
     # Log deletion before actually deleting the entity
-    audit = AuditLog(
-        tenant_id=current_user.tenant_id,
-        action="prescription_deleted",
-        entity_type="prescription",
-        entity_id=str(id),
-        actor_id=current_user.customer_id
-    )
+    audit = AuditLog(tenant_id=current_user.tenant_id, action_type="prescription_deleted", target_entity=f"prescription:{id}", actor_id=str(current_user.customer_id))
     db.add(audit)
     
     await db.delete(prescription)

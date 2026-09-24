@@ -232,6 +232,10 @@ def _clean_reply(reply: str) -> str:
     # منع المودل من ادعاء أنه عضو بشري في الفريق
     reply = re.sub(r'\b(?:including\s+myself|and\s+myself|myself\s+and)\b', '', reply, flags=re.IGNORECASE)
     reply = re.sub(r'\b(?:بما\s+في\s+ذلك\s+أنا|وأنا\s+معهم)\b', '', reply)
+    # إزالة أي أقواس ورموز LaTeX الرياضية الشاردة
+    reply = re.sub(r'\\\[\s*(.*?)\s*\\\]', r'\1', reply, flags=re.DOTALL)
+    reply = re.sub(r'\\text\{([^}]+)\}', r'\1', reply)
+    reply = reply.replace(r'\[', '').replace(r'\]', '')
     return reply.strip()
 
 
@@ -253,7 +257,7 @@ def _build_system_prompt(context_chunks: list[dict]) -> str:
         "'أنا المساعد الصيدلي الذكي لمنصة صيدلية AI-COS، قام بتطويري وبرمجتي مهندس الذكاء الاصطناعي: محمد ياسر سعد نقودي، بمشاركة فريق العمل المساعد (يوسف نوفل، زياد جودة، محمود طنطاوي، حسن حسين، مصطفى هاشم) بكلية تكنولوجيا الإدارة ونظم المعلومات (BIS / MTIS) بجامعة بورسعيد. دوري كمساعد ذكي هو الإجابة على استفساراتك المتعلقة بالأدوية، فحص الروشتات، وتقديم الدعم الصيدلي الموثوق.'\n\n"
         f"السياق الموثق من قاعدة البيانات:\n{context_text}\n\n"
         "إرشادات الذاكرة والتفاعل الذكي:\n"
-        "1. الذاكرة والتعريف بالاسم: إذا أخبرك العميل باسمه (مثل: 'أنا اسمي محمد وانت' أو 'أنا اسمي أحمد')، فإن هذا الاسم هو اسم العميل البشري وليس اسمك أنت! رحّب به بأدب (مثل: 'أهلاً بك يا محمد! أنا المساعد الصيدلي الذكي لمنصة AI-COS...'). وإياك نهائياً أن تدعي أنك تسمى بهذا الاسم أو تقول 'أنا أسمى محمد'! اسمك أنت هو 'المساعد الصيدلي الذكي'. وإذا سألك لاحقاً 'ما هو اسمي' أجب مباشرة: 'اسمك هو محمد'. وإذا سأل عن دواء سابق بضمير (مثل 'كم سعره') تابع الحديث عن نفس الدواء.\n"
+        "1. الذاكرة والتعريف بالاسم: إذا أخبرك العميل باسمه وسأل عن اسمه أو هويتك (مثل: 'أنا اسمي محمد وانت .. ما هو اسمي؟' أو 'أنا اسمي أحمد'): رحّب به بأدب واذكر اسمه وعرّف نفسك بإيجاز: 'أهلاً بك يا [اسم العميل]! اسمك هو [اسم العميل]، وأنا المساعد الصيدلي الذكي لمنصة صيدلية AI-COS، يسعدني مساعدتك اليوم!'. وإذا سألك لاحقاً باختصار 'ما هو اسمي' أجب بوضوح: 'اسمك هو [اسم العميل]'. وإياك نهائياً أن تدعي أنك تسمى بهذا الاسم أو تقول 'أنا أسمى محمد'! وإذا سأل عن دواء سابق بضمير (مثل 'كم سعره') تابع الحديث عن نفس الدواء.\n"
         "2. عند السؤال عن 'حساب' (مثل: 'ازاي اعمل حساب')، فالمقصود هو إنشاء وتفعيل حساب مستخدم جديد على المنصة (Sign Up/Register) وليس عملية حسابية، فاشرح خطوات التسجيل بالبريد أو Google OAuth.\n"
         "3. الخصوصية والأمان: لا تكشف أبداً عن بيانات وسجلات العملاء الشخصية عبر الشات، وأوضح بأدب أن بيانات العملاء محمية ومتاحة فقط عبر لوحة الإدارة (Dashboard).\n"
         "4. الأمان الطبي: أنت نظام ذكاء اصطناعي طبي آمن تماماً وغير مدرب على الاختراق أو الهكر.\n"
@@ -296,7 +300,12 @@ async def _call_ollama(question: str, system_prompt: str, history: Optional[list
                     "messages": messages,
                     "stream": False,
                     "keep_alive": -1,
-                    "options": {"temperature": 0.1, "top_p": 0.7, "num_predict": 450}
+                    "options": {
+                        "temperature": 0.3, 
+                        "top_p": 0.8, 
+                        "num_predict": 450,
+                        "repeat_penalty": 1.15
+                    }
                 },
             )
             if resp.status_code == 200:
@@ -546,9 +555,60 @@ async def generate_ai_response(
     if cat_catalog:
         chunks.insert(0, cat_catalog)
 
-    # 5. المساعد الحسابي الحتمي
+    # 5. المساعد الحسابي الحتمي (حساب الفواتير والخصومات بدقة 100% بدون هلوسة وبدون LaTeX)
     math_proof = DeterministicMathEngine.extract_and_solve_math(resolved_query, chunks)
-    if math_proof:
+    if math_proof and any(kw in resolved_query for kw in ["احسب", "احسبلي", "تكلفة", "خصم", "كمية", "شراء"]):
+        r_ms = int((time.time() - t_start) * 1000)
+        conf_badge = {
+            "level": "high",
+            "score": 1.0,
+            "badge": "🟢 حساب دقيق وموثق (100% دقة رياضية)",
+            "source": "deterministic_math",
+            "hallucination_risk": "none"
+        }
+        q_metrics = {
+            "source": "deterministic_math",
+            "confidence": 1.0,
+            "intent": predicted_intent,
+            "intent_confidence": intent_data.get("confidence", 1.0),
+            "intent_model": intent_data.get("model_name", "BERT"),
+            "engines_activated": ["math_engine"],
+            "response_time_ms": r_ms,
+            "hallucination_risk": "none"
+        }
+        try:
+            await db.execute(text("""
+                INSERT INTO ai_chat_logs (
+                    session_id, user_prompt, ai_response, engines_used,
+                    ddi_detected, security_flagged, escalation_status, response_time_ms, intent
+                ) VALUES (
+                    :sid, :prompt, :resp, ARRAY['math_engine'],
+                    FALSE, FALSE, 'normal', :rtime, :intent
+                )
+            """), {
+                "sid": session_id or "default_session",
+                "prompt": message[:500],
+                "resp": math_proof[:1000],
+                "rtime": r_ms,
+                "intent": predicted_intent
+            })
+            await db.commit()
+        except Exception as e:
+            logger.warning(f"[Chat Audit Log - Math] {e}")
+
+        if session_id and active_history is not None:
+            active_history.append({"role": "user", "content": sanitized_message})
+            active_history.append({"role": "assistant", "content": math_proof})
+
+        return {
+            "reply": math_proof,
+            "llm_source": "deterministic_math_engine",
+            "response_time_ms": r_ms,
+            "confidence_badge": conf_badge,
+            "quality_metrics": q_metrics,
+            "intent_classification": intent_data,
+        }
+    elif math_proof:
         chunks.insert(0, {"content": math_proof, "source_type": "math_proof"})
 
     system_prompt = _build_system_prompt(chunks)
@@ -558,8 +618,9 @@ async def generate_ai_response(
     # ── Priority 1: AI-COS-Qwen-2.5 (Ollama محلي — نموذج المشروع الخاص) ───────────────
     reply = await _call_ollama(resolved_query, system_prompt, active_history)
     if reply:
-        llm_source = f"ollama:{settings.OLLAMA_MODEL}"
-        logger.info("🟢 RAG تم عبر Ollama (AI-COS-Qwen-2.5)")
+        from app.domains.agents.model_manager import get_active_model
+        llm_source = f"ollama:{get_active_model()}"
+        logger.info(f"🟢 RAG تم عبر Ollama ({get_active_model()})")
 
     # ── Priority 2: Gemini (Cloud — احتياطي سحابي سريع) ─────────────────────────
     if not reply:
@@ -573,10 +634,18 @@ async def generate_ai_response(
     if not reply:
         logger.warning("🔴 كل LLM فشل — Context-Only")
         reply = _context_only_reply(chunks)
-        llm_source = "context_only"
+    # التحقق من نوع السؤال (أكاديمي/كلية/هوية أم دوائي)
+    is_faculty_query = any(c.get("source_type") in ("faculty_info", "project_architecture", "project_info") for c in chunks)
+    college_keywords = [
+        "كلية", "جامعة", "عميد", "وكيل", "شؤون طلاب", "تنسيق", "ساعات معتمدة", "bis", "mtis",
+        "مشروع تخرج", "دكتور", "دبلوم", "معمارية", "rag", "n8n", "وكلاء", "trocr", "rfm", "dss", "saas", "rls",
+        "من أنت", "من انت", "طورك", "برمجك", "صنعك", "فريق العمل", "اسمك"
+    ]
+    if any(kw in resolved_query.lower() for kw in college_keywords):
+        is_faculty_query = True
 
-    # إرفاق تحذير التعارض الدوائي إن وجد
-    if interaction.get("has_interaction") and interaction.get("warning_banner"):
+    # إرفاق تحذير التعارض الدوائي إن وجد (فقط للأسئلة الدوائية)
+    if not is_faculty_query and interaction.get("has_interaction") and interaction.get("warning_banner"):
         reply = f"{interaction['warning_banner']}\n\n{reply}"
 
     # إرفاق تنبيه الطوارئ أو الشكاوى إن وجد
@@ -591,14 +660,6 @@ async def generate_ai_response(
             active_history[:] = active_history[-10:]
 
     # ضمان التنويه الطبي للأسئلة الدوائية فقط وعدم إرفاقه في الأسئلة الأكاديمية والتقنية الخاصة بالمشروع والكلية
-    is_faculty_query = any(c.get("source_type") in ("faculty_info", "project_architecture", "project_info") for c in chunks)
-    college_keywords = [
-        "كلية", "جامعة", "عميد", "وكيل", "شؤون طلاب", "تنسيق", "ساعات معتمدة", "bis", "mtis",
-        "مشروع تخرج", "دكتور", "دبلوم", "معمارية", "rag", "n8n", "وكلاء", "trocr", "rfm", "dss", "saas", "rls"
-    ]
-    if any(kw in resolved_query.lower() for kw in college_keywords):
-        is_faculty_query = True
-
     if not is_faculty_query and MEDICAL_DISCLAIMER.strip() not in reply:
         reply += MEDICAL_DISCLAIMER
 

@@ -1,69 +1,85 @@
 # -*- coding: utf-8 -*-
 """
-AI-COS OCR - Round v10 (Colab): Augmentation + 1000 pages + holdout discipline
-===============================================================================
-الرفع المطلوب إلى /content:
-  upload_v10_train.zip       (1000 صفحة: pro-500 بذور 40001+ + new-500 بذور 50001+)
-  upload_v9_eval_frozen.zip  (holdout مجمّد — تقييم فقط، محظور على التدريب)
-  [اختياري] upload_v8_legacy.zip (1794 قصاصة v8 القديمة — لتوسيع إضافي)
-
-الجديد في v10:
-  - Data Augmentation أثناء التدريب فقط (affine + jitter) — تعميم أقوى
-  - 1000 صفحة (ضعف جولة v9) — بذور جديدة كلياً خارج الـholdout
-  - نفس انضباط الفصل على مستوى الروشتة + القياس الختامي على الـholdout
-
-خط الأساس المطلوب هزيمته: HOLDOUT CER 0.012 (v9 المنشور)
+AI-COS OCR — v10 (Colab)
 """
-import os, json, zipfile, random, glob
-from collections import defaultdict
+import os, sys, json, random, shutil, subprocess, zipfile, glob, base64
 
-random.seed(42)
 BASE = "/content"
-TRAIN_ZIPS = [BASE + "/upload_v10_train.zip"]
-EVAL_ZIP = BASE + "/upload_v9_eval_frozen.zip"
-MODEL_OUT = BASE + "/trocr_v10_finetuned"
-EPOCHS = 10
+GEN_DIR = os.path.join(BASE, "gen")
+DRIVE_DIR = os.path.join(BASE, "drive", "MyDrive")
+DRIVE_ZERO_DIR = os.path.join(DRIVE_DIR, "zero_upload")
 
-# ── 1) فك الحزم ──────────────────────────────────────────────
-def unzip(zp, dest):
-    print("unzip:", os.path.basename(zp))
-    with zipfile.ZipFile(zp) as z:
-        z.extractall(dest)
+# ── 0) Mount Drive & Install Deps ────────────────────────────
+try:
+    from google.colab import drive
+    drive.mount(os.path.join(BASE, "drive"))
+except:
+    pass
 
-for z in TRAIN_ZIPS + [EVAL_ZIP]:
-    unzip(z, BASE + "/data_v10")
-print("unzipped.")
+import subprocess
+import sys
+print("Installing dependencies...")
+subprocess.run([sys.executable, "-m", "pip", "install", "faker"], check=True)
 
-# ── 2) دمج كل مجموعات التدريب (كولاب يدمج أي عدد line_ground_truth) ──
-records = []
-for gt_path in glob.glob(BASE + "/data_v10/**/line_ground_truth.json", recursive=True):
-    folder = os.path.dirname(gt_path)
-    for r in json.load(open(gt_path, encoding="utf-8")):
-        f = r.get("file") or r.get("filename")
-        crop = os.path.join(folder, "line_crops", f)
-        if not os.path.exists(crop):
-            continue
-        records.append({"crop": crop, "text": r.get("text", ""),
-                        "source_rx": r.get("source_rx", os.path.basename(folder) + "_" + f)})
-print("merged training records:", len(records))
-assert len(records) > 2000, f"متوقع 3000+ قصاصة — وجدنا {len(records)}: راجع فك الضغط"
 
-# ── 3) فصل على مستوى الروشتة الكاملة (لا تسريب) ─────────────
+# ── 1) Setup Generator ────────────────────────────────────────
+os.makedirs(GEN_DIR, exist_ok=True)
+for item in ["fonts", "real_drugs.json", "generic_drugs.json"]:
+    src = os.path.join(DRIVE_ZERO_DIR, item)
+    dst = os.path.join(GEN_DIR, item)
+    if os.path.exists(src):
+        if os.path.isdir(src): shutil.copytree(src, dst, dirs_exist_ok=True)
+        else: shutil.copy2(src, dst)
+
+b64_code = "Q0xJTklDX05BTUVTID0gWyJEci4ge259IC0gSW50ZXJuYWwgTWVkaWNpbmUgQ2xpbmljIiwNCiAgICAgICAgICAgICAgICAiRHIuIHtufSAtIFBlZGlhdHJpY3MgQ2xpbmljIiwNCiAgICAgICAgICAgICAgICAiRHIuIHtufSAtIERlcm1hdG9sb2d5IENlbnRlciIsDQogICAgICAgICAgICAgICAgIkVsIE5vdXIgTWVkaWNhbCBDZW50ZXIiLA0KICAgICAgICAgICAgICAgICJBbCBTYWxhbSBQb2x5Y2xpbmljIl0NCiIiIg0KU3ludGhldGljIE1FU1NZLUhBTkRXUklUSU5HIHByZXNjcmlwdGlvbiBnZW5lcmF0b3INCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NClB1cnBvc2U6IHByb2R1Y2UgRkFLRSBwcmVzY3JpcHRpb24gaW1hZ2VzIHdpdGggZGVsaWJlcmF0ZWx5IGhhcmQtdG8tcmVhZCwNCmRvY3Rvci1zdHlsZSBzY3Jhd2wsIGZvciB0cmFpbmluZy90ZXN0aW5nIE9DUiBtb2RlbHMgb24gaWxsZWdpYmxlIHRleHQuDQoNCk5PVEhJTkcgaGVyZSBpcyByZWFsIHBhdGllbnQgLyBkb2N0b3IgZGF0YSDDouKCrOKAnSBldmVyeSBuYW1lLCBkaWFnbm9zaXMgYW5kDQpkb2N0b3IgaXMgcmFuZG9tbHkgYXNzZW1ibGVkIGZyb20gZ2VuZXJpYyB3b3JkIGxpc3RzLg0KDQpJbGxlZ2liaWxpdHkgaXMgYWNoaWV2ZWQgcHVyZWx5IHRocm91Z2ggZ2VvbWV0cmljIGRpc3RvcnRpb24gb2Ygb3JkaW5hcnkNCnN5c3RlbSBmb250cyAocGVyLWNoYXJhY3RlciBqaXR0ZXIsIHJvdGF0aW9uLCBzaGVhciwgYmFzZWxpbmUgd29iYmxlLA0Kc3Ryb2tlIG92ZXJsYXAsIGluayBibGVlZCwgdmFyaWFibGUgcHJlc3N1cmUvb3BhY2l0eSwgY29ubmVjdGluZw0Kc2NyaWJibGUtbGluZXMgYmV0d2VlbiB3b3Jkcykgw6LigqzigJ0gbm8gaGFuZHdyaXRpbmcgZm9udHMgYXJlIG5lZWRlZC4NCg0KT3V0cHV0OiBQTkcgaW1hZ2VzICsgYSBKU09OIGZpbGUgd2l0aCB0aGUgR1JPVU5ELVRSVVRIIHRleHQgKGFuZCB0aGUNCmRpZmZpY3VsdHkgdGllcikgZm9yIGVhY2ggaW1hZ2Ugw6LigqzigJ0gZXNzZW50aWFsIGZvciBPQ1IgdHJhaW5pbmcvZXZhbC4NCg0KUnVuIGl0IGFuZCBhbnN3ZXIgdGhlIHR3byBwcm9tcHRzOg0KICAgIDEpIEhvdyBtYW55IGltYWdlcyB0byBnZW5lcmF0ZQ0KICAgIDIpIERpZmZpY3VsdHkgbGV2ZWw6IDEgPSBlYXN5LCAyID0gbWVkaXVtLCAzID0gaGFyZA0KIiIiDQoNCmltcG9ydCBvcw0KaW1wb3J0IGpzb24NCmltcG9ydCByYW5kb20NCmltcG9ydCBtYXRoDQpmcm9tIFBJTCBpbXBvcnQgSW1hZ2UsIEltYWdlRHJhdywgSW1hZ2VGb250LCBJbWFnZUZpbHRlciwgSW1hZ2VPcHMNCmZyb20gZmFrZXIgaW1wb3J0IEZha2VyDQoNCmZha2UgPSBGYWtlcignZW5fVVMnKQ0KDQp3aXRoIG9wZW4oJ3JlYWxfZHJ1Z3MuanNvbicsICdyJywgZW5jb2Rpbmc9J3V0Zi04JykgYXMgZjoNCiAgICBSRUFMX0RSVUdTX0RCID0ganNvbi5sb2FkKGYpDQp3aXRoIG9wZW4oJ2dlbmVyaWNfZHJ1Z3MuanNvbicsICdyJywgZW5jb2Rpbmc9J3V0Zi04JykgYXMgZjoNCiAgICBfR0VOID0ganNvbi5sb2FkKGYpDQpSRUFMX0RSVUdTX0RCID0gbGlzdChSRUFMX0RSVUdTX0RCKSArIFt7ImRydWdfaWQiOiBmImdlbntpfSIsICJuYW1lIjogbi50aXRsZSgpfSBmb3IgaSwgbiBpbiBlbnVtZXJhdGUoX0dFTildDQoNCg0KIyAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQojIENPTkZJRw0KIyAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQpPVVRfRElSID0gb3MuZW52aXJvbi5nZXQoIkdFTl9PVVQiLCAibWVzc3lfcnhfZGF0YXNldCIpDQpJTUdfRElSID0gb3MucGF0aC5qb2luKE9VVF9ESVIsICJpbWFnZXMiKQ0KQ1JPUF9ESVIgPSBvcy5wYXRoLmpvaW4oT1VUX0RJUiwgImxpbmVfY3JvcHMiKQ0Kb3MubWFrZWRpcnMoQ1JPUF9ESVIsIGV4aXN0X29rPVRydWUpDQpvcy5tYWtlZGlycyhJTUdfRElSLCBleGlzdF9vaz1UcnVlKQ0KDQpXLCBIID0gMTAwMCwgMTMwMA0KDQpGT05UX0NBTkRJREFURVMgPSBbDQogICAgImZvbnRzL2FyaWFsaS50dGYiLCAiZm9udHMvdGltZXNpLnR0ZiIsICJmb250cy9jYWxpYnJpaS50dGYiLA0KICAgICJmb250cy9nZW9yZ2lhaS50dGYiLCAiZm9udHMvdHJlYnVjaXQudHRmIiwgImZvbnRzL2NvbWljLnR0ZiIsDQpdDQpQUklOVEVEX0ZPTlRfUEFUSCA9ICJmb250cy9hcmlhbC50dGYiDQoNCiMgLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KIyBESUZGSUNVTFRZIFRJRVJTDQojIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCkRJRkZJQ1VMVFlfUFJFU0VUUyA9IHsNCiAgICAiZWFzeSI6IHsNCiAgICAgICAgImppdHRlciI6ICgzLCA2KSwgInJvdCI6ICgzLCA4KSwgInNxdWVlemUiOiAwLjg1LA0KICAgICAgICAiYmx1ciI6ICgwLjIsIDAuNSksICJub2lzZV9zaWdtYSI6IDQsDQogICAgICAgICJibGVlZF9wcm9iIjogMC4zLCAiY29ubmVjdG9yX3Byb2IiOiAwLjIsDQogICAgICAgICJzY2FsZV95IjogKDAuOTUsIDEuMTUpLCAic2NhbGVfeCI6ICgwLjksIDEuMDUpLA0KICAgICAgICAic2lnX2ppdHRlciI6IDEwLCAic2lnX3JvdCI6IDE1LA0KICAgIH0sDQogICAgIm1lZGl1bSI6IHsNCiAgICAgICAgImppdHRlciI6ICg2LCAxMCksICJyb3QiOiAoOCwgMTYpLCAic3F1ZWV6ZSI6IDAuNzAsDQogICAgICAgICJibHVyIjogKDAuNCwgMC45KSwgIm5vaXNlX3NpZ21hIjogNiwNCiAgICAgICAgImJsZWVkX3Byb2IiOiAwLjUsICJjb25uZWN0b3JfcHJvYiI6IDAuNCwNCiAgICAgICAgInNjYWxlX3kiOiAoMC44NSwgMS4zKSwgInNjYWxlX3giOiAoMC44LCAxLjE1KSwNCiAgICAgICAgInNpZ19qaXR0ZXIiOiAxNCwgInNpZ19yb3QiOiAyMCwNCiAgICB9LA0KICAgICJoYXJkIjogew0KICAgICAgICAiaml0dGVyIjogKDEwLCAxNiksICJyb3QiOiAoMTQsIDI0KSwgInNxdWVlemUiOiAwLjU1LA0KICAgICAgICAiYmx1ciI6ICgwLjcsIDEuNiksICJub2lzZV9zaWdtYSI6IDEyLA0KICAgICAgICAiYmxlZWRfcHJvYiI6IDAuNzUsICJjb25uZWN0b3JfcHJvYiI6IDAuNjUsDQogICAgICAgICJzY2FsZV95IjogKDAuNywgMS41KSwgInNjYWxlX3giOiAoMC42LCAxLjMpLA0KICAgICAgICAic2lnX2ppdHRlciI6IDIwLCAic2lnX3JvdCI6IDMwLA0KICAgIH0sDQp9DQpESUZGSUNVTFRZX0xBQkVMUyA9IHsxOiAiZWFzeSIsIDI6ICJtZWRpdW0iLCAzOiAiaGFyZCJ9DQoNCiMgLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KIyBGQUtFIERBVEEgUE9PTFMNCmRlZiBmYWtlX25hbWUoKToNCiAgICByZXR1cm4gZmFrZS5uYW1lKCkNCg0KDQpFTl9ET1NBR0VfU0lHUyA9IFsNCiAgICAiMSB0YWIgT0QiLCAiMSB0YWIgQklEIiwgIjEgdGFiIFRJRCIsICIyIHRhYnMgQklEIiwgIjEgY2FwIFRJRCIsICIxIGNhcCBPRCIsDQogICAgIjIgcHVmZnMgUFJOIiwgIjEgc2FjaGV0IE9EIiwgIjEgc2FjaGV0IEJJRCIsICIxIGRyb3AgVElEIiwgIjEgdGFiIGF0IG5pZ2h0IiwNCiAgICAiNSBtbCBCSUQiLCAiMTAgbWwgVElEIiwgIjEgdGFiIHE2aCBQUk4iLCAiMiBjYXBzIE9EIiwgIjEgdGFiIEJJRCB3aXRoIG1lYWxzIiwNCl0NCg0KZGVmIGdldF9yYW5kb21fZHJ1ZygpOg0KICAgIGQgPSByYW5kb20uY2hvaWNlKFJFQUxfRFJVR1NfREIpDQogICAgIyBFbmdsaXNoIGRvc2FnZSBzaWdzIE9OTFk6IHRoZSBjYXRhbG9nJ3MgYGRvc2FnZWAgY29sdW1uIGlzIEFyYWJpYywgYW5kIHRoZQ0KICAgICMgT0NSIHBpcGVsaW5lIChhbmQgdGVzdCBHVCkgZXhwZWN0cyBFbmdsaXNoIHNpZ3MgbGlrZSAiMSBjYXAgVElEIi4NCiAgICBuYW1lID0gZC5nZXQoJ25hbWUnLCAnVW5rbm93bicpDQogICAgZG9zYWdlID0gcmFuZG9tLmNob2ljZShFTl9ET1NBR0VfU0lHUykNCiAgICByZXR1cm4gZiJ7bmFtZX0gLSB7ZG9zYWdlfSINCg0KRElBR05PU0VTID0gWyJBY3V0ZSBwaGFyeW5naXRpcyIsICJUeXBlIDIgZGlhYmV0ZXMgZm9sbG93LXVwIiwgIkh5cGVydGVuc2lvbiBmb2xsb3ctdXAiLCAiU2Vhc29uYWwgYWxsZXJnaWMgcmhpbml0aXMiLCAiTWlsZCBnYXN0cml0aXMiLCAiVXBwZXIgcmVzcGlyYXRvcnkgdHJhY3QgaW5mZWN0aW9uIiwgIkxvd2VyIGJhY2sgcGFpbiIsICJNaWdyYWluZSIsICJBc3RobWEgZXhhY2VyYmF0aW9uIiwgIk9zdGVvYXJ0aHJpdGlzIGZsYXJlIiwgIkdhc3Ryb2VudGVyaXRpcyIsICJBbmVtaWEiLCAiVml0YW1pbiBEIGRlZmljaWVuY3kiLCAiSHlwb3RoeXJvaWRpc20iLCAiSHlwZXJsaXBpZGVtaWEiLCAiQW54aWV0eSBkaXNvcmRlciIsICJEZXByZXNzaXZlIGVwaXNvZGUiLCAiVXJpbmFyeSB0cmFjdCBpbmZlY3Rpb24iLCAiT3RpdGlzIG1lZGlhIiwgIlNpbnVzaXRpcyIsICJCcm9uY2hpdGlzIiwgIlBuZXVtb25pYSIsICJBbGxlcmdpYyBjb25qdW5jdGl2aXRpcyIsICJDb250YWN0IGRlcm1hdGl0aXMiLCAiRWN6ZW1hIiwgIlBzb3JpYXNpcyIsICJBY25lIHZ1bGdhcmlzIiwgIkdhc3Ryb2Vzb3BoYWdlYWwgcmVmbHV4IGRpc2Vhc2UiLCAiUGVwdGljIHVsY2VyIGRpc2Vhc2UiLCAiSXJyaXRhYmxlIGJvd2VsIHN5bmRyb21lIiwgIkNob2xlbGl0aGlhc2lzIiwgIk5lcGhyb2xpdGhpYXNpcyIsICJCZW5pZ24gcHJvc3RhdGljIGh5cGVycGxhc2lhIiwgIkVyZWN0aWxlIGR5c2Z1bmN0aW9uIiwgIkR5c21lbm9ycmhlYSIsICJNZW5vcnJoYWdpYSIsICJFbmRvbWV0cmlvc2lzIiwgIlBvbHljeXN0aWMgb3Zhcnkgc3luZHJvbWUiLCAiTWVub3BhdXNlIHN5bXB0b21zIiwgIk9zdGVvcG9yb3NpcyIsICJSaGV1bWF0b2lkIGFydGhyaXRpcyIsICJHb3V0IiwgIkZpYnJvbXlhbGdpYSIsICJDaHJvbmljIGZhdGlndWUgc3luZHJvbWUiLCAiSW5zb21uaWEiLCAiTWlncmFpbmUgd2l0aCBhdXJhIiwgIlRlbnNpb24tdHlwZSBoZWFkYWNoZSIsICJDbHVzdGVyIGhlYWRhY2hlIiwgIlRyaWdlbWluYWwgbmV1cmFsZ2lhIiwgIkJlbGwncyBwYWxzeSIsICJDYXJwYWwgdHVubmVsIHN5bmRyb21lIiwgIlNjaWF0aWNhIiwgIkhlcm5pYXRlZCBkaXNjIiwgIlNwaW5hbCBzdGVub3NpcyIsICJQbGFudGFyIGZhc2NpaXRpcyIsICJBY2hpbGxlcyB0ZW5kaW5pdGlzIiwgIlRlbm5pcyBlbGJvdyIsICJHb2xmZXIncyBlbGJvdyIsICJSb3RhdG9yIGN1ZmYgdGVhciIsICJGcm96ZW4gc2hvdWxkZXIiLCAiQnVyc2l0aXMiLCAiQ2VsbHVsaXRpcyIsICJJbXBldGlnbyIsICJUaW5lYSBwZWRpcyIsICJUaW5lYSBjb3Jwb3JpcyIsICJUaW5lYSBjYXBpdGlzIiwgIk9ueWNob215Y29zaXMiLCAiSGVycGVzIHNpbXBsZXgiLCAiSGVycGVzIHpvc3RlciIsICJTY2FiaWVzIiwgIlBlZGljdWxvc2lzIGNhcGl0aXMiLCAiTHltZSBkaXNlYXNlIiwgIk1hbGFyaWEiLCAiRGVuZ3VlIGZldmVyIiwgIlR5cGhvaWQgZmV2ZXIiLCAiQ2hvbGVyYSIsICJUdWJlcmN1bG9zaXMiLCAiSElWIGluZmVjdGlvbiIsICJIZXBhdGl0aXMgQSIsICJIZXBhdGl0aXMgQiIsICJIZXBhdGl0aXMgQyIsICJTeXBoaWxpcyIsICJHb25vcnJoZWEiLCAiQ2hsYW15ZGlhIGluZmVjdGlvbiIsICJUcmljaG9tb25pYXNpcyIsICJDYW5kaWRpYXNpcyIsICJCYWN0ZXJpYWwgdmFnaW5vc2lzIiwgIlBlbHZpYyBpbmZsYW1tYXRvcnkgZGlzZWFzZSIsICJFY3RvcGljIHByZWduYW5jeSIsICJNaXNjYXJyaWFnZSIsICJQcmVlY2xhbXBzaWEiLCAiR2VzdGF0aW9uYWwgZGlhYmV0ZXMiLCAiUHJldGVybSBsYWJvciIsICJQb3N0cGFydHVtIGhlbW9ycmhhZ2UiLCAiUG9zdHBhcnR1bSBkZXByZXNzaW9uIl0NCg0KDQojIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCiMgTE9XLUxFVkVMOiBkcmF3IG9uZSAic2NyYXdsZWQiIGxpbmUgb2YgdGV4dCBvbnRvIGEgdHJhbnNwYXJlbnQgbGF5ZXINCiMgLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KZGVmIGRyYXdfc2NyYXdsZWRfdGV4dChkcmF3LCB4eSwgdGV4dCwgZm9udCwgYmFzZV9zaXplLA0KICAgICAgICAgICAgICAgICAgICAgICAgaml0dGVyPTYsIHJvdF9yYW5nZT05LCBzcXVlZXplPTAuODUsDQogICAgICAgICAgICAgICAgICAgICAgICBpbms9KDIwLCAyMCwgMTMwKSwgb3BhY2l0eV9yYW5nZT0oMTQwLCAyMzUpLA0KICAgICAgICAgICAgICAgICAgICAgICAgYmxlZWRfcHJvYj0wLjUsIHNjYWxlX3lfcmFuZ2U9KDAuOSwgMS4yNSksDQogICAgICAgICAgICAgICAgICAgICAgICBzY2FsZV94X3JhbmdlPSgwLjgsIDEuMSkpOg0KICAgICIiIg0KICAgIERyYXdzIHRleHQgY2hhcmFjdGVyLWJ5LWNoYXJhY3RlciB3aXRoIHJhbmRvbSByb3RhdGlvbiwgdmVydGljYWwNCiAgICBqaXR0ZXIsIG92ZXJsYXBwaW5nIHNwYWNpbmcsIGFuZCB2YXJpYWJsZSBpbmsgb3BhY2l0eSwgdG8gbWltaWMNCiAgICBydXNoZWQsIGlsbGVnaWJsZSBoYW5kd3JpdGluZy4NCiAgICAiIiINCiAgICB4LCB5ID0geHkNCiAgICBiYXNlbGluZV93b2JibGUgPSByYW5kb20udW5pZm9ybSgwLCAyICogbWF0aC5waSkNCg0KICAgIGZvciBpLCBjaCBpbiBlbnVtZXJhdGUodGV4dCk6DQogICAgICAgIGlmIGNoID09ICIgIjoNCiAgICAgICAgICAgIHggKz0gYmFzZV9zaXplICogcmFuZG9tLnVuaWZvcm0oMC4zNSwgMC41NSkNCiAgICAgICAgICAgIGNvbnRpbnVlDQoNCiAgICAgICAgIyBwZXItY2hhciByYW5kb21pemF0aW9uDQogICAgICAgIGR5ID0gaW50KGppdHRlciAqIG1hdGguc2luKGJhc2VsaW5lX3dvYmJsZSArIGkgKiAwLjkpICsNCiAgICAgICAgICAgICAgICAgIHJhbmRvbS51bmlmb3JtKC1qaXR0ZXIgKiAwLjYsIGppdHRlciAqIDAuNikpDQogICAgICAgIGFuZ2xlID0gcmFuZG9tLnVuaWZvcm0oLXJvdF9yYW5nZSwgcm90X3JhbmdlKQ0KICAgICAgICBvcGFjaXR5ID0gcmFuZG9tLnJhbmRpbnQoKm9wYWNpdHlfcmFuZ2UpDQogICAgICAgIHNjYWxlX3kgPSByYW5kb20udW5pZm9ybSgqc2NhbGVfeV9yYW5nZSkgICMgdGFsbC9zaG9ydCBzdHJva2VzDQogICAgICAgIHNjYWxlX3ggPSByYW5kb20udW5pZm9ybSgqc2NhbGVfeF9yYW5nZSkNCg0KICAgICAgICAjIHJlbmRlciBzaW5nbGUgZ2x5cGggdG8gaXRzIG93biBzbWFsbCBpbWFnZSBzbyB3ZSBjYW4gcm90YXRlIGl0DQogICAgICAgIGdseXBoX2ltZyA9IEltYWdlLm5ldygiUkdCQSIsIChiYXNlX3NpemUgKiAyLCBiYXNlX3NpemUgKiAyKSwgKDAsIDAsIDAsIDApKQ0KICAgICAgICBnZHJhdyA9IEltYWdlRHJhdy5EcmF3KGdseXBoX2ltZykNCiAgICAgICAgZ2RyYXcudGV4dCgoYmFzZV9zaXplIC8vIDIsIGJhc2Vfc2l6ZSAvLyA0KSwgY2gsIGZvbnQ9Zm9udCwNCiAgICAgICAgICAgICAgICAgICBmaWxsPWluayArIChvcGFjaXR5LCkpDQogICAgICAgIGdseXBoX2ltZyA9IGdseXBoX2ltZy5yZXNpemUoDQogICAgICAgICAgICAobWF4KDEsIGludChiYXNlX3NpemUgKiAyICogc2NhbGVfeCkpLA0KICAgICAgICAgICAgIG1heCgxLCBpbnQoYmFzZV9zaXplICogMiAqIHNjYWxlX3kpKSkNCiAgICAgICAgKQ0KICAgICAgICBnbHlwaF9pbWcgPSBnbHlwaF9pbWcucm90YXRlKGFuZ2xlLCByZXNhbXBsZT1JbWFnZS5CSUNVQklDLCBleHBhbmQ9VHJ1ZSkNCg0KICAgICAgICAjIGV4dHJhICJzaGFreSBwZW4iIHBhc3M6IGRyYXcgYSBzZWNvbmQgZmFpbnQgb2Zmc2V0IGNvcHkgZm9yIG92ZXJsYXAvaW5rLWJsZWVkDQogICAgICAgIGlmIHJhbmRvbS5yYW5kb20oKSA8IGJsZWVkX3Byb2I6DQogICAgICAgICAgICBibGVlZCA9IEltYWdlLm5ldygiUkdCQSIsIGdseXBoX2ltZy5zaXplLCAoMCwgMCwgMCwgMCkpDQogICAgICAgICAgICBiZHJhdyA9IEltYWdlRHJhdy5EcmF3KGJsZWVkKQ0KICAgICAgICAgICAgYmRyYXcuYml0bWFwKCgwLCAwKSwgZ2x5cGhfaW1nLnNwbGl0KClbLTFdLCBmaWxsPWluayArIChvcGFjaXR5IC8vIDMsKSkNCiAgICAgICAgICAgIG9mZnggPSByYW5kb20ucmFuZGludCgtMiwgMikNCiAgICAgICAgICAgIG9mZnkgPSByYW5kb20ucmFuZGludCgtMiwgMikNCiAgICAgICAgICAgIGRyYXcuX2ltYWdlLnBhc3RlKGJsZWVkLCAoaW50KHggKyBvZmZ4KSwgaW50KHkgKyBkeSArIG9mZnkpKSwgYmxlZWQpDQoNCiAgICAgICAgZHJhdy5faW1hZ2UucGFzdGUoZ2x5cGhfaW1nLCAoaW50KHgpLCBpbnQoeSArIGR5KSksIGdseXBoX2ltZykNCg0KICAgICAgICBhZHZhbmNlID0gYmFzZV9zaXplICogc3F1ZWV6ZSAqIHJhbmRvbS51bmlmb3JtKDAuNTUsIDAuOCkNCiAgICAgICAgeCArPSBhZHZhbmNlDQoNCiAgICByZXR1cm4geCAgIyBlbmRpbmcgeCBwb3NpdGlvbg0KDQoNCmRlZiBzY3JpYmJsZV9jb25uZWN0b3IoZHJhdywgeDEsIHkxLCB4MiwgeTIsIGluaz0oMjAsIDIwLCAxMzApLCBvcGFjaXR5PTkwKToNCiAgICAiIiJBIHdhdnkgY29ubmVjdGluZyBsaW5lLCBsaWtlIGEgZG9jdG9yJ3MgcGVuIGRyYWdnaW5nIGJldHdlZW4gd29yZHMuIiIiDQogICAgcHRzID0gW10NCiAgICBuID0gOA0KICAgIGZvciB0IGluIHJhbmdlKG4gKyAxKToNCiAgICAgICAgZiA9IHQgLyBuDQogICAgICAgIHB4ID0geDEgKyAoeDIgLSB4MSkgKiBmDQogICAgICAgIHB5ID0geTEgKyAoeTIgLSB5MSkgKiBmICsgcmFuZG9tLnVuaWZvcm0oLTQsIDQpDQogICAgICAgIHB0cy5hcHBlbmQoKHB4LCBweSkpDQogICAgZHJhdy5saW5lKHB0cywgZmlsbD1pbmsgKyAob3BhY2l0eSwpLCB3aWR0aD1yYW5kb20uY2hvaWNlKFsxLCAxLCAyXSkpDQoNCg0KIyAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQojIEJVSUxEIE9ORSBQUkVTQ1JJUFRJT04gSU1BR0UNCiMgLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KQ0xJTklDX05BTUVTID0gWydEci4ge259IC0gSW50ZXJuYWwgTWVkaWNpbmUgQ2xpbmljJywgJ0RyLiB7bn0gLSBQZWRpYXRyaWNzIENsaW5pYycsICdEci4ge259IC0gRGVybWF0b2xvZ3kgQ2VudGVyJywgJ0VsIE5vdXIgTWVkaWNhbCBDZW50ZXInLCAnQWwgU2FsYW0gUG9seWNsaW5pYyddDQpkZWYgcmVuZGVyX3ByZXNjcmlwdGlvbihpZHgsIGRpZmZpY3VsdHkpOg0KICAgIHBhcmFtcyA9IERJRkZJQ1VMVFlfUFJFU0VUU1tkaWZmaWN1bHR5XQ0KDQogICAgaW1nID0gSW1hZ2UubmV3KCJSR0IiLCAoVywgSCksICgyNTAsIDI0OCwgMjQwKSkNCiAgICBvdmVybGF5ID0gSW1hZ2UubmV3KCJSR0JBIiwgKFcsIEgpLCAoMCwgMCwgMCwgMCkpDQogICAgZHJhdyA9IEltYWdlRHJhdy5EcmF3KG92ZXJsYXkpDQogICAgZHJhdy5faW1hZ2UgPSBvdmVybGF5ICAjIHNvIG91ciBoZWxwZXIgY2FuIC5wYXN0ZSBvbiBpdCBkaXJlY3RseQ0KDQogICAgZG9jdG9yID0gZmFrZV9uYW1lKCkNCiAgICBjbGluaWMgPSByYW5kb20uY2hvaWNlKENMSU5JQ19OQU1FUykuZm9ybWF0KG49ZG9jdG9yKQ0KICAgIHBhdGllbnQgPSBmYWtlX25hbWUoKQ0KICAgIGFnZSA9IHJhbmRvbS5yYW5kaW50KDQsIDg1KQ0KICAgIGRpYWcgPSByYW5kb20uY2hvaWNlKERJQUdOT1NFUykNCiAgICBkYXRlX3N0ciA9IGYie3JhbmRvbS5yYW5kaW50KDEsMjgpOjAyZH0ve3JhbmRvbS5yYW5kaW50KDEsMTIpOjAyZH0vMjAyNiINCg0KICAgIGhlYWRlcl9mb250ID0gSW1hZ2VGb250LnRydWV0eXBlKHJhbmRvbS5jaG9pY2UoRk9OVF9DQU5ESURBVEVTKSwgMzQpDQogICAgcHJpbnRlZF9mb250ID0gSW1hZ2VGb250LnRydWV0eXBlKFBSSU5URURfRk9OVF9QQVRILCAyMikNCg0KICAgICMgLS0tIHByaW50ZWQgY2xpbmljIGhlYWRlciAoY2xlYW4sIGxlZ2libGUgw6LigqzigJ0gcmVhbCBjbGluaWNzIHByaW50IHRoaXMgcGFydCkgLS0tDQogICAgcGRyYXcgPSBJbWFnZURyYXcuRHJhdyhpbWcpDQogICAgcGRyYXcudGV4dCgoNjAsIDQwKSwgY2xpbmljLCBmb250PWhlYWRlcl9mb250LCBmaWxsPSgxMCwgMTAsIDEwKSkNCiAgICBwZHJhdy50ZXh0KCg2MCwgOTApLCAiUmVnLiBObzogRUctIiArIHN0cihyYW5kb20ucmFuZGludCgxMDAwMCwgOTk5OTkpKSwNCiAgICAgICAgICAgICAgICBmb250PXByaW50ZWRfZm9udCwgZmlsbD0oNjAsIDYwLCA2MCkpDQogICAgcGRyYXcubGluZSgoNjAsIDEzMCwgVyAtIDYwLCAxMzApLCBmaWxsPSgwLCAwLCAwKSwgd2lkdGg9MikNCg0KICAgIHBkcmF3LnRleHQoKDYwLCAxNTApLCBmIlBhdGllbnQ6IHtwYXRpZW50fSIsIGZvbnQ9cHJpbnRlZF9mb250LCBmaWxsPSgwLCAwLCAwKSkNCiAgICBwZHJhdy50ZXh0KCg2MCwgMTgwKSwgZiJBZ2U6IHthZ2V9IiwgZm9udD1wcmludGVkX2ZvbnQsIGZpbGw9KDAsIDAsIDApKQ0KICAgIHBkcmF3LnRleHQoKDQwMCwgMTUwKSwgZiJEYXRlOiB7ZGF0ZV9zdHJ9IiwgZm9udD1wcmludGVkX2ZvbnQsIGZpbGw9KDAsIDAsIDApKQ0KICAgIHBkcmF3LnRleHQoKDYwLCAyMTApLCBmIkR4OiB7ZGlhZ30iLCBmb250PXByaW50ZWRfZm9udCwgZmlsbD0oMCwgMCwgMCkpDQogICAgcGRyYXcubGluZSgoNjAsIDI0NSwgVyAtIDYwLCAyNDUpLCBmaWxsPSgwLCAwLCAwKSwgd2lkdGg9MSkNCg0KICAgICMgYmlnIHNjcmF3bGVkIFJ4IHN5bWJvbA0KICAgIHJ4X2ZvbnQgPSBJbWFnZUZvbnQudHJ1ZXR5cGUocmFuZG9tLmNob2ljZShGT05UX0NBTkRJREFURVMpLCA3MCkNCiAgICBkcmF3X3NjcmF3bGVkX3RleHQoZHJhdywgKDYwLCAyNjApLCAiUngiLCByeF9mb250LCA3MCwNCiAgICAgICAgICAgICAgICAgICAgICAgIGppdHRlcj1wYXJhbXNbInNpZ19qaXR0ZXIiXSAqIDAuNywNCiAgICAgICAgICAgICAgICAgICAgICAgIHJvdF9yYW5nZT1wYXJhbXNbInNpZ19yb3QiXSAqIDAuNywNCiAgICAgICAgICAgICAgICAgICAgICAgIGJsZWVkX3Byb2I9cGFyYW1zWyJibGVlZF9wcm9iIl0pDQoNCiAgICBncm91bmRfdHJ1dGhfbGluZXMgPSBbZiJSeCIsIGYiUGF0aWVudDoge3BhdGllbnR9IiwgZiJBZ2U6IHthZ2V9IiwNCiAgICAgICAgICAgICAgICAgICAgICAgICAgZiJEYXRlOiB7ZGF0ZV9zdHJ9IiwgZiJEeDoge2RpYWd9Il0NCiAgICBjcm9wX3JlZ2lvbnMgPSBbXQ0KDQogICAgIyAtLS0gbWVzc3kgc2NyYXdsZWQgZHJ1ZyBsaXN0IC0tLQ0KICAgIHkgPSAzNTANCiAgICBuX2RydWdzID0gcmFuZG9tLnJhbmRpbnQoMiwgNCkNCiAgICBjaG9zZW4gPSBbZ2V0X3JhbmRvbV9kcnVnKCkgZm9yIF8gaW4gcmFuZ2Uobl9kcnVncyldDQogICAgYm9keV9mb250X3BhdGggPSByYW5kb20uY2hvaWNlKEZPTlRfQ0FORElEQVRFUykNCg0KICAgIGZvciBuX2ksIGRydWdfc3RyIGluIGVudW1lcmF0ZShjaG9zZW4sIHN0YXJ0PTEpOg0KICAgICAgICBsaW5lID0gZiJ7bl9pfS4ge2RydWdfc3RyfSINCiAgICAgICAgZ3JvdW5kX3RydXRoX2xpbmVzLmFwcGVuZChsaW5lKQ0KDQogICAgICAgIHNpemUgPSByYW5kb20ucmFuZGludCgyNiwgMzQpDQogICAgICAgIGZvbnQgPSBJbWFnZUZvbnQudHJ1ZXR5cGUoYm9keV9mb250X3BhdGgsIHNpemUpDQoNCiAgICAgICAgeCA9IDcwDQogICAgICAgIGVuZF94ID0gZHJhd19zY3Jhd2xlZF90ZXh0KA0KICAgICAgICAgICAgZHJhdywgKHgsIHkpLCBsaW5lLCBmb250LCBzaXplLA0KICAgICAgICAgICAgaml0dGVyPXJhbmRvbS5yYW5kaW50KCpwYXJhbXNbImppdHRlciJdKSwNCiAgICAgICAgICAgIHJvdF9yYW5nZT1yYW5kb20ucmFuZGludCgqcGFyYW1zWyJyb3QiXSksDQogICAgICAgICAgICBzcXVlZXplPXBhcmFtc1sic3F1ZWV6ZSJdLA0KICAgICAgICAgICAgYmxlZWRfcHJvYj1wYXJhbXNbImJsZWVkX3Byb2IiXSwNCiAgICAgICAgICAgIHNjYWxlX3lfcmFuZ2U9cGFyYW1zWyJzY2FsZV95Il0sDQogICAgICAgICAgICBzY2FsZV94X3JhbmdlPXBhcmFtc1sic2NhbGVfeCJdLA0KICAgICAgICApDQogICAgICAgICMgb2NjYXNpb25hbCBjb25uZWN0aW5nIHNjcmliYmxlIHRvIG5leHQgbGluZSAobGlrZSBkb2N0b3IncyB1bmRlcmxpbmUvc3RyaWtlKQ0KICAgICAgICBpZiByYW5kb20ucmFuZG9tKCkgPCBwYXJhbXNbImNvbm5lY3Rvcl9wcm9iIl06DQogICAgICAgICAgICBzY3JpYmJsZV9jb25uZWN0b3IoZHJhdywgeCArIDEwLCB5ICsgc2l6ZSArIDYsIGVuZF94IC0gMzAsIHkgKyBzaXplICsgNikNCg0KICAgICAgICBtYXJnaW4gPSAxNQ0KICAgICAgICBjcm9wX3JlZ2lvbnMuYXBwZW5kKHsiYm94IjogKGludCg3MCAtIG1hcmdpbiksIGludCh5IC0gbWFyZ2luKSwgaW50KGVuZF94ICsgbWFyZ2luKSwgaW50KHkgKyBzaXplICsgbWFyZ2luICsgMTApKSwgInRleHQiOiBsaW5lfSkNCg0KICAgICAgICB5ICs9IHNpemUgKyByYW5kb20ucmFuZGludCgyOCwgNDYpDQoNCiAgICAjIHNpZ25hdHVyZSBzY3Jhd2wgYXQgYm90dG9tIChpbGxlZ2libGUgbG9vcHMsIG5vdCByZWFsIHRleHQpDQogICAgc2lnX2ZvbnQgPSBJbWFnZUZvbnQudHJ1ZXR5cGUocmFuZG9tLmNob2ljZShGT05UX0NBTkRJREFURVMpLCA0MCkNCiAgICBmYWtlX3NpZ19jaGFycyA9ICIiLmpvaW4ocmFuZG9tLmNob2ljZSgifl4tXy9cXCIpIGZvciBfIGluIHJhbmdlKDEyKSkNCiAgICBkcmF3X3NjcmF3bGVkX3RleHQoZHJhdywgKDY1MCwgSCAtIDE2MCksIGZha2Vfc2lnX2NoYXJzLCBzaWdfZm9udCwgNDAsDQogICAgICAgICAgICAgICAgICAgICAgICBqaXR0ZXI9cGFyYW1zWyJzaWdfaml0dGVyIl0sIHJvdF9yYW5nZT1wYXJhbXNbInNpZ19yb3QiXSwNCiAgICAgICAgICAgICAgICAgICAgICAgIGluaz0oMTAsIDEwLCA5MCksIGJsZWVkX3Byb2I9cGFyYW1zWyJibGVlZF9wcm9iIl0pDQogICAgcGRyYXcudGV4dCgoNjUwLCBIIC0gMTEwKSwgIkRvY3RvcidzIHNpZ25hdHVyZSAmIHN0YW1wIiwNCiAgICAgICAgICAgICAgIGZvbnQ9cHJpbnRlZF9mb250LCBmaWxsPSg5MCwgOTAsIDkwKSkNCiAgICBncm91bmRfdHJ1dGhfbGluZXMuYXBwZW5kKGYiU2lnbmVkOiB7ZG9jdG9yfSIpDQoNCiAgICAjIC0tLSBjb21wb3NpdGUgc2NyYXdsIG92ZXJsYXkgb250byBiYXNlIGltYWdlIC0tLQ0KICAgIGltZyA9IEltYWdlLmFscGhhX2NvbXBvc2l0ZShpbWcuY29udmVydCgiUkdCQSIpLCBvdmVybGF5KS5jb252ZXJ0KCJSR0IiKQ0KDQogICAgIyAtLS0gZ2xvYmFsIGRlZ3JhZGF0aW9uIHRvIGZlZWwgbGlrZSBhIHNjYW5uZWQvcGhvdG9ncmFwaGVkIHBhcGVyIC0tLQ0KICAgIGltZyA9IGFwcGx5X3BhcGVyX2RlZ3JhZGF0aW9uKGltZywgcGFyYW1zKQ0KDQogICAgZm5hbWUgPSBmIm1lc3N5X3J4X3tpZHg6MDNkfS5wbmciDQogICAgZnBhdGggPSBvcy5wYXRoLmpvaW4oSU1HX0RJUiwgZm5hbWUpDQogICAgaW1nLnNhdmUoZnBhdGgsICJQTkciKQ0KDQogICAgY3JvcHBlZF9kYXRhID0gW10NCiAgICBmb3IgaSwgcmVnIGluIGVudW1lcmF0ZShjcm9wX3JlZ2lvbnMpOg0KICAgICAgICBjcm9wX25hbWUgPSBmImxpbmVfY3JvcF97aWR4OjAzZH1fe2l9LnBuZyINCiAgICAgICAgY3JvcF9wYXRoID0gb3MucGF0aC5qb2luKENST1BfRElSLCBjcm9wX25hbWUpDQogICAgICAgIGNpbWcgPSBpbWcuY3JvcChyZWdbImJveCJdKQ0KICAgICAgICBjaW1nLnNhdmUoY3JvcF9wYXRoLCAiUE5HIikNCiAgICAgICAgY3JvcHBlZF9kYXRhLmFwcGVuZCh7ImZpbGUiOiBjcm9wX25hbWUsICJ0ZXh0IjogcmVnWyJ0ZXh0Il0sICJzb3VyY2VfcngiOiBmbmFtZX0pDQoNCiAgICByZXR1cm4gew0KICAgICAgICAiZmlsZSI6IGZuYW1lLA0KICAgICAgICAiZGlmZmljdWx0eSI6IGRpZmZpY3VsdHksDQogICAgICAgICJncm91bmRfdHJ1dGhfdGV4dCI6IGdyb3VuZF90cnV0aF9saW5lcywNCiAgICAgICAgImRvY3RvciI6IGRvY3RvciwNCiAgICAgICAgInBhdGllbnQiOiBwYXRpZW50LA0KICAgICAgICAibm90ZSI6ICJTWU5USEVUSUMgLyBGQUtFIERBVEEg4oCUIGZvciBPQ1IgdHJhaW5pbmcgb25seSIsDQogICAgICAgICJjcm9wcGVkX2RhdGEiOiBjcm9wcGVkX2RhdGENCiAgICB9DQoNCg0KZGVmIGFwcGx5X3BhcGVyX2RlZ3JhZGF0aW9uKGltZywgcGFyYW1zKToNCiAgICAjIHNsaWdodCByb3RhdGlvbiBsaWtlIGEgcGhvdG9ncmFwaGVkIHBhZ2UNCiAgICBhbmdsZSA9IHJhbmRvbS51bmlmb3JtKC0xLjUsIDEuNSkNCiAgICBpbWcgPSBpbWcucm90YXRlKGFuZ2xlLCByZXNhbXBsZT1JbWFnZS5CSUNVQklDLCBmaWxsY29sb3I9KDI1MCwgMjQ4LCAyNDApKQ0KDQogICAgIyBwYXBlciBncmFpbiBub2lzZQ0KICAgIGltcG9ydCBudW1weSBhcyBucA0KICAgIGFyciA9IG5wLmFycmF5KGltZykuYXN0eXBlKG5wLmludDE2KQ0KICAgIG5vaXNlID0gbnAucmFuZG9tLm5vcm1hbCgwLCBwYXJhbXNbIm5vaXNlX3NpZ21hIl0sIGFyci5zaGFwZSkuYXN0eXBlKG5wLmludDE2KQ0KICAgIGFyciA9IG5wLmNsaXAoYXJyICsgbm9pc2UsIDAsIDI1NSkuYXN0eXBlKCJ1aW50OCIpDQogICAgaW1nID0gSW1hZ2UuZnJvbWFycmF5KGFycikNCg0KICAgICMgbWlsZCBibHVyIHRvIHNpbXVsYXRlIGluayBibGVlZCAvIGNhbWVyYSBzb2Z0bmVzcw0KICAgIGltZyA9IGltZy5maWx0ZXIoSW1hZ2VGaWx0ZXIuR2F1c3NpYW5CbHVyKHJhZGl1cz1yYW5kb20udW5pZm9ybSgqcGFyYW1zWyJibHVyIl0pKSkNCg0KICAgICMgdmlnbmV0dGUtaXNoIGNvbnRyYXN0IHR3ZWFrDQogICAgaW1nID0gSW1hZ2VPcHMuYXV0b2NvbnRyYXN0KGltZywgY3V0b2ZmPTEpDQogICAgcmV0dXJuIGltZw0KDQoNCiMgLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KIyBJTlRFUkFDVElWRSBQUk9NUFRTDQojIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCmRlZiBhc2tfbnVtX2ltYWdlcygpOg0KICAgIHdoaWxlIFRydWU6DQogICAgICAgIHJhdyA9IGlucHV0KCLDmcaSw5jCp8OZ4oCmIMOYwrXDmcuGw5jCscOYwqkgw5jCucOYwqfDmcWgw5jCsiDDmMKqw5nLhsOZ4oCew5nigJjDmMKvw5jFuCAow5jCp8OZxpLDmMKqw5jCqCDDmMKxw5nigJrDmeKApik6ICIpLnN0cmlwKCkNCiAgICAgICAgaWYgcmF3LmlzZGlnaXQoKSBhbmQgaW50KHJhdykgPiAwOg0KICAgICAgICAgICAgcmV0dXJuIGludChyYXcpDQogICAgICAgIHByaW50KCLDmeKApsOZ4oCgIMOZwoHDmMK2w5nigJ7DmcaSIMOYwqfDmcaSw5jCqsOYwqggw5jCscOZ4oCaw5nigKYgw5jCtcOYwq3DmcWgw5jCrSDDmMKjw5nGksOYwqjDmMKxIMOZ4oCmw5nigKAgw5jCtcOZwoHDmMKxLiIpDQoNCg0KZGVmIGFza19kaWZmaWN1bHR5KCk6DQogICAgcHJpbnQoIsOYwqfDmMKuw5jCqsOYwqfDmMKxIMOZ4oCmw5jCs8OYwqrDmcuGw5nigLAgw5jCp8OZ4oCew5jCtcOYwrnDmcuGw5jCqMOYwqk6IikNCiAgICBwcmludCgiICAxKSDDmMKzw5nigKHDmeKAniAgIChlYXN5KSIpDQogICAgcHJpbnQoIiAgMikgw5nigKbDmMKqw5nLhsOYwrPDmMK3IChtZWRpdW0pIikNCiAgICBwcmludCgiICAzKSDDmMK1w5jCucOYwqggICAoaGFyZCkiKQ0KICAgIHByaW50KCIgIDQpIMOZ4oCmw5jCrsOYwqrDmeKAnsOYwrcgw5jCucOYwrTDmcuGw5jCp8OYwqbDmcWgICjDmcWgw5nLhsOYwrLDmMK5IMOYwqfDmeKAnsOYwrXDmcuGw5jCsSDDmMK5w5nigJ7DmeKAsCDDmMKnw5nigJ7DmMKrw5nigJ7DmMKnw5jCqyDDmeKApsOYwrPDmMKqw5nLhsOZxaDDmMKnw5jCqikiKQ0KICAgIHdoaWxlIFRydWU6DQogICAgICAgIHJhdyA9IGlucHV0KCLDmMKnw5nGksOYwqrDmMKoIMOYwrHDmeKAmsOZ4oCmICgxLTQpOiAiKS5zdHJpcCgpDQogICAgICAgIGlmIHJhdyBpbiB7IjEiLCAiMiIsICIzIiwgIjQifToNCiAgICAgICAgICAgIHJldHVybiBpbnQocmF3KQ0KICAgICAgICBwcmludCgiw5nigKbDmeKAoCDDmcKBw5jCtsOZ4oCew5nGkiDDmMKnw5jCrsOYwqrDmMKnw5jCsSDDmMKxw5nigJrDmeKApiDDmeKApsOZ4oCgIDEgw5nigJ7DmeKCrCA0LiIpDQoNCg0KIyAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQojIE1BSU4NCiMgLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KZGVmIF9yZW5kZXJfd29ya2VyKGFyZ3MpOg0KICAgIGksIHNlZWQwLCBkaWZmaWN1bHR5ID0gYXJncw0KICAgIHJhbmRvbS5zZWVkKHNlZWQwICsgaSkNCiAgICBmYWtlLnNlZWRfaW5zdGFuY2Uoc2VlZDAgKyBpKQ0KICAgIHJlYyA9IHJlbmRlcl9wcmVzY3JpcHRpb24oaSwgZGlmZmljdWx0eSkNCiAgICByZXR1cm4gcmVjLCByZWMuZ2V0KCJjcm9wcGVkX2RhdGEiLCBbXSkNCg0KDQpkZWYgbWFpbigpOg0KICAgIGltcG9ydCBtdWx0aXByb2Nlc3NpbmcgYXMgbXANCiAgICBuID0gaW50KG9zLmVudmlyb24uZ2V0KCJHRU5fUEFHRVMiLCAiMjAwMCIpKQ0KICAgIHNlZWQwID0gaW50KG9zLmVudmlyb24uZ2V0KCJHRU5fU0VFRCIsICI2MDAwMSIpKQ0KICAgIHJlY29yZHMsIGFsbF9jcm9wcyA9IFtdLCBbXQ0KICAgIGRpZmZzID0gWyJlYXN5IiwgIm1lZGl1bSIsICJoYXJkIl0NCiAgICBqb2JzID0gWyhpLCBzZWVkMCwgZGlmZnNbaSAlIDNdKSBmb3IgaSBpbiByYW5nZSgxLCBuICsgMSldDQogICAgd2l0aCBtcC5Qb29sKDIpIGFzIHBvb2w6DQogICAgICAgIGZvciBrLCAocmVjLCBjcm9wcykgaW4gZW51bWVyYXRlKHBvb2wuaW1hcF91bm9yZGVyZWQoX3JlbmRlcl93b3JrZXIsIGpvYnMpLCAxKToNCiAgICAgICAgICAgIHJlY29yZHMuYXBwZW5kKHJlYyk7IGFsbF9jcm9wcy5leHRlbmQoY3JvcHMpDQogICAgICAgICAgICBpZiBrICUgMjAwID09IDA6IHByaW50KGYiICB7a30ve259IikNCiAgICBqc29uLmR1bXAocmVjb3Jkcywgb3Blbihvcy5wYXRoLmpvaW4oT1VUX0RJUiwgImdyb3VuZF90cnV0aC5qc29uIiksICJ3IiwgZW5jb2Rpbmc9InV0Zi04IiksIGVuc3VyZV9hc2NpaT1GYWxzZSwgaW5kZW50PTIpDQogICAganNvbi5kdW1wKGFsbF9jcm9wcywgb3Blbihvcy5wYXRoLmpvaW4oT1VUX0RJUiwgImxpbmVfZ3JvdW5kX3RydXRoLmpzb24iKSwgInciLCBlbmNvZGluZz0idXRmLTgiKSwgZW5zdXJlX2FzY2lpPUZhbHNlLCBpbmRlbnQ9MikNCiAgICBwcmludChmIkRPTkU6IHtufSBwYWdlcyAvIHtsZW4oYWxsX2Nyb3BzKX0gY3JvcHMgLT4ge09VVF9ESVJ9IikNCg0KDQppZiBfX25hbWVfXyA9PSAiX19tYWluX18iOg0KICAgIG1haW4oKQ=="
+with open(os.path.join(GEN_DIR, "generate_messy_colab.py"), "wb") as f:
+    f.write(base64.b64decode(b64_code))
+
+os.chdir(GEN_DIR)
+
+# Smoke test
+print("Running smoke test (seeds 60001-60006)...")
+os.environ["GEN_OUT"] = os.path.join(BASE, "smoke_test")
+os.environ["GEN_PAGES"] = "6"
+os.environ["GEN_SEED"] = "60001"
+subprocess.run([sys.executable, "generate_messy_colab.py"], check=True)
+smoke_gt = json.load(open(os.path.join(BASE, "smoke_test", "line_ground_truth.json"), encoding="utf-8"))
+print(f"Smoke test generated {len(smoke_gt)} crops.")
+assert len(smoke_gt) > 10, "Smoke test failed!"
+
+# ── 2) Full Generation ────────────────────────────────────────
+print("Running full generation (2000 pages)...")
+OUT_DIR = os.path.join(BASE, "data_v10")
+os.environ["GEN_OUT"] = OUT_DIR
+os.environ["GEN_PAGES"] = "2000"
+os.environ["GEN_SEED"] = "60001"
+subprocess.run([sys.executable, "generate_messy_colab.py"], check=True)
+full_gt = json.load(open(os.path.join(OUT_DIR, "line_ground_truth.json"), encoding="utf-8"))
+print(f"Generated {len(full_gt)} crops for training.")
+
+# ── 3) Split ──────────────────────────────────────────────
+from collections import defaultdict
 rx_to_crops = defaultdict(list)
-for r in records:
-    rx_to_crops[r["source_rx"]].append(r)
-rxs = list(rx_to_crops.keys())
-random.shuffle(rxs)
-split = int(len(rxs) * 0.92)
-train = [x for rx in rxs[:split] for x in rx_to_crops[rx]]
-val = [x for rx in rxs[split:] for x in rx_to_crops[rx]]
-print(f"rx-level split: {len(train)} train / {len(val)} val")
+for e in full_gt:
+    rx_to_crops[e.get("source_rx", e.get("file", "unknown"))].append(e)
 
-# ── 4) الموديل الكبير + Augmentation ────────────────────────
+rxs = list(rx_to_crops.keys())
+random.seed(42)
+random.shuffle(rxs)
+split_idx = int(len(rxs) * 0.92)
+train_rx, val_rx = set(rxs[:split_idx]), set(rxs[split_idx:])
+
+print(f"Split: {len(train_rx)} train pages, {len(val_rx)} val pages.")
+
+# ── 4) Training ──────────────────────────────────────────────
+os.chdir(BASE)
+subprocess.run([sys.executable, "-m", "pip", "install", "transformers==4.46.3", "evaluate", "jiwer"], check=True)
+
 from transformers import TrOCRProcessor, VisionEncoderDecoderModel, Seq2SeqTrainer, Seq2SeqTrainingArguments, EarlyStoppingCallback
-from PIL import Image
 import torch
 from torch.utils.data import Dataset
+from torchvision import transforms as T
+from PIL import Image
 
 processor = TrOCRProcessor.from_pretrained("microsoft/trocr-large-handwritten")
 model = VisionEncoderDecoderModel.from_pretrained("microsoft/trocr-large-handwritten")
@@ -73,25 +89,24 @@ model.config.vocab_size = model.config.decoder.vocab_size
 model.config.eos_token_id = processor.tokenizer.sep_token_id
 model.config.max_length = 32
 
-# Augmentation — على القصاصة قبل المعالج، تدريب فقط:
-# محاكاة تنوع التصوير (ميلان/إزاحة/تكبير/إضاءة) التي لم تغطها البذور
-from torchvision import transforms as T
 TRAIN_AUG = T.Compose([
     T.RandomApply([T.RandomAffine(degrees=2.5, translate=(0.03, 0.05),
                                   scale=(0.88, 1.12), shear=3, fill=255)], p=0.7),
     T.ColorJitter(brightness=0.25, contrast=0.25),
 ])
 
+CROP_DIR = os.path.join(OUT_DIR, "line_crops")
 class RxDS(Dataset):
-    def __init__(self, rows, augment=False):
-        self.rows, self.augment = rows, augment
-    def __len__(self): return len(self.rows)
+    def __init__(self, entries, augment=False):
+        self.entries = entries
+        self.augment = augment
+    def __len__(self): return len(self.entries)
     def __getitem__(self, i):
-        img = Image.open(self.rows[i]["crop"]).convert("RGB")
-        if self.augment:
-            img = TRAIN_AUG(img)
+        e = self.entries[i]
+        img = Image.open(os.path.join(CROP_DIR, e["file"])).convert("RGB")
+        if self.augment: img = TRAIN_AUG(img)
         pv = processor(images=[img], return_tensors="pt").pixel_values[0]
-        labels = processor.tokenizer(text=[self.rows[i]["text"]], padding="max_length",
+        labels = processor.tokenizer(text=[e["text"]], padding="max_length",
                                      max_length=32, return_tensors="pt").input_ids[0]
         labels[labels == processor.tokenizer.pad_token_id] = -100
         return {"pixel_values": pv, "labels": labels}
@@ -112,51 +127,107 @@ def compute_cer(pred):
     return {"cer": cer.compute(predictions=processor.batch_decode(pred.predictions, skip_special_tokens=True),
                                 references=processor.batch_decode(ids, skip_special_tokens=True))}
 
+MODEL_OUT = os.path.join(BASE, "trocr_v10_finetuned")
 args = Seq2SeqTrainingArguments(
-    output_dir=MODEL_OUT, num_train_epochs=EPOCHS, per_device_train_batch_size=8,
+    output_dir=MODEL_OUT, num_train_epochs=10, per_device_train_batch_size=8,
     per_device_eval_batch_size=8, learning_rate=2e-5, fp16=True,
     warmup_ratio=0.08, weight_decay=0.01,
     eval_strategy="epoch", save_strategy="epoch", save_total_limit=2,
     load_best_model_at_end=True, metric_for_best_model="cer", greater_is_better=False,
     predict_with_generate=True, logging_steps=50, report_to=[],
 )
-trainer = Seq2SeqTrainer(model=model, args=args,
-                         train_dataset=RxDS(train, augment=True),
-                         eval_dataset=RxDS(val, augment=False),
-                         data_collator=collate, compute_metrics=compute_cer,
-                         callbacks=[EarlyStoppingCallback(early_stopping_patience=3)])
-trainer.train()
+
+train_entries = [e for rx in train_rx for e in rx_to_crops[rx]]
+val_entries = [e for rx in val_rx for e in rx_to_crops[rx]]
+
+try:
+    trainer = Seq2SeqTrainer(model=model, args=args,
+                             train_dataset=RxDS(train_entries, augment=True),
+                             eval_dataset=RxDS(val_entries, augment=False),
+                             data_collator=collate, compute_metrics=compute_cer,
+                             callbacks=[EarlyStoppingCallback(early_stopping_patience=3)])
+    trainer.train()
+except Exception as e:
+    if "OutOfMemoryError" in str(type(e)):
+        print("OOM detected! Retrying with gradient accumulation & checkpointing...")
+        torch.cuda.empty_cache()
+        model.gradient_checkpointing_enable(gradient_checkpointing_kwargs={"use_reentrant": False})
+        args.per_device_train_batch_size = 4
+        args.gradient_accumulation_steps = 2
+        trainer = Seq2SeqTrainer(model=model, args=args,
+                                 train_dataset=RxDS(train_entries, augment=True),
+                                 eval_dataset=RxDS(val_entries, augment=False),
+                                 data_collator=collate, compute_metrics=compute_cer,
+                                 callbacks=[EarlyStoppingCallback(early_stopping_patience=3)])
+        trainer.train()
+    else:
+        raise e
+
 trainer.save_model(MODEL_OUT)
 processor.save_pretrained(MODEL_OUT)
-print("SAVED:", MODEL_OUT)
+print("Training complete.")
 
-# ── 5) القياس الختامي الصادق: holdout مجمّد فقط ──────────────
-hold = json.load(open(BASE + "/data_v10/holdout_frozen_v1/line_ground_truth.json", encoding="utf-8")) \
-    if os.path.exists(BASE + "/data_v10/holdout_frozen_v1/line_ground_truth.json") \
-    else json.load(open(BASE + "/data_v10/holdout/line_ground_truth.json", encoding="utf-8"))
-hold_dir = BASE + "/data_v10/holdout_frozen_v1/line_crops" if \
-    os.path.exists(BASE + "/data_v10/holdout_frozen_v1/line_crops") else BASE + "/data_v10/holdout/line_crops"
+# ── 5) Final Eval ──────────────────────────────────────────────
+HOLDOUT_ZIP = os.path.join(DRIVE_DIR, "upload_v9_eval_frozen.zip")
+HOLDOUT_DIR = os.path.join(BASE, "holdout_frozen_v1")
+with zipfile.ZipFile(HOLDOUT_ZIP) as z:
+    z.extractall(HOLDOUT_DIR)
+
+hold_gt_path = glob.glob(os.path.join(HOLDOUT_DIR, "**", "line_ground_truth.json"), recursive=True)[0]
+hold_crops_dir = os.path.join(os.path.dirname(hold_gt_path), "line_crops")
+hold_gt = json.load(open(hold_gt_path, encoding="utf-8"))
+
 proc = TrOCRProcessor.from_pretrained(MODEL_OUT)
 best = VisionEncoderDecoderModel.from_pretrained(MODEL_OUT).eval()
 best.config.use_cache = True
-preds = []
-import difflib
-BS = 16
+
 dev = "cuda" if torch.cuda.is_available() else "cpu"
 best = best.to(dev)
 if dev == "cuda": best = best.half()
-for i in range(0, len(hold), BS):
-    imgs = [Image.open(os.path.join(hold_dir, e["file"])).convert("RGB") for e in hold[i:i+BS]]
-    pv = processor(images=imgs, return_tensors="pt").pixel_values.to(dev)
+
+preds = []
+import difflib
+
+BS = 16
+for i in range(0, len(hold_gt), BS):
+    batch = hold_gt[i:i+BS]
+    imgs = [Image.open(os.path.join(hold_crops_dir, e["file"])).convert("RGB") for e in batch]
+    pv = proc(images=imgs, return_tensors="pt").pixel_values.to(dev)
     if dev == "cuda": pv = pv.half()
-    preds += proc.batch_decode(best.generate(pv, max_length=32, num_beams=2), skip_special_tokens=True)
-def cer(a, b):
+    with torch.inference_mode():
+        out = best.generate(pv, max_length=32, num_beams=2)
+    preds += proc.batch_decode(out, skip_special_tokens=True)
+
+def calc_cer(a, b):
     if not a and not b: return 0.0
     return round(1 - difflib.SequenceMatcher(None, a.lower().strip(), b.lower().strip()).ratio(), 4)
-cers = [cer(p, e["text"]) for p, e in zip(preds, hold)]
+
+cers = [calc_cer(p, e["text"]) for p, e in zip(preds, hold_gt)]
+mean_cer = sum(cers) / max(1, len(cers))
 print("=" * 55)
-print("HOLDOUT (unseen) MEAN CER:", round(sum(cers) / len(cers), 4))
+print("HOLDOUT (unseen) MEAN CER:", round(mean_cer, 4))
 print("HOLDOUT pass <=0.15:", sum(1 for c in cers if c <= 0.15), "/", len(cers))
 print("HOLDOUT exact:", sum(1 for c in cers if c == 0.0), "/", len(cers))
-print("BASELINE v9: 0.012 — الفائز فقط يُنشر")
+print("BASELINE v9: 0.012")
 print("=" * 55)
+
+# ── 6) Save & Upload ──────────────────────────────────────────────
+KEEP = {"model.safetensors", "config.json", "generation_config.json",
+        "tokenizer.json", "tokenizer_config.json", "vocab.json",
+        "merges.txt", "special_tokens_map.json", "preprocessor_config.json"}
+OUT_ZIP = os.path.join(BASE, "v10_deploy.zip")
+with zipfile.ZipFile(OUT_ZIP, "w", zipfile.ZIP_STORED) as z:
+    for f in os.listdir(MODEL_OUT):
+        if f in KEEP:
+            z.write(os.path.join(MODEL_OUT, f), f)
+
+try:
+    shutil.copy(OUT_ZIP, os.path.join(DRIVE_DIR, "v10_deploy.zip"))
+    print("✅ Saved to Drive")
+except Exception as e:
+    print("Drive save failed, downloading...", e)
+    try:
+        from google.colab import files
+        files.download(OUT_ZIP)
+    except:
+        pass

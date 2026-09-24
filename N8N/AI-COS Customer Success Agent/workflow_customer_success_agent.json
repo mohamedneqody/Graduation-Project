@@ -1,0 +1,202 @@
+{
+  "name": "AI-COS: Customer Success Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "aicos-customer-success",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "c1",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        304
+      ],
+      "webhookId": "b1cf0938-678f-40df-8ed2-2685e7cc52f0"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "{{ \"SELECT c.customer_id::text, c.full_name, cc.last_purchase_date, cc.avg_cycle_days, COUNT(DISTINCT o.order_id) as order_count FROM customers c LEFT JOIN customer_cycles cc ON cc.customer_id=c.customer_id LEFT JOIN orders o ON o.customer_id=c.customer_id WHERE c.full_name ILIKE '%\" + $('Webhook').first().json.body.customer_name + \"%' GROUP BY c.customer_id,c.full_name,cc.last_purchase_date,cc.avg_cycle_days LIMIT 1\" }}",
+        "options": {}
+      },
+      "id": "c2",
+      "name": "Get Cycles",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        272,
+        304
+      ],
+      "credentials": {
+        "postgres": {
+          "id": "SwX8vKQ2HWC6ZSmX",
+          "name": "AI-COS Supabase Postgres"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "\nconst wb=$('Webhook').first().json.body||{};\nconst name=wb.customer_name||'Unknown';\nconst rows=$('Get Cycles').all().filter(r=>r.json&&r.json.customer_id);\nif(!rows.length){\n  return [{json:{error:true,message:'Customer not found: '+name,\n    churn_probability:0,recommended_action:'not_found',retention_recommendation:'Customer not found in database.',chronic_drugs:[],llm_source:'system'}}];\n}\nconst r=rows[0].json;\nconst avg=parseFloat(r.avg_cycle_days)||30;\nconst oc=parseInt(r.order_count)||0;\nlet ds=0,cp=0.05;\nif(r.last_purchase_date){\n  ds=Math.floor((Date.now()-new Date(r.last_purchase_date).getTime())/(1000*60*60*24));\n  if(ds>avg)cp=Math.min(0.95,(ds-avg)/avg);\n}\nconst prompt='Customer retention for '+r.full_name+'. Last purchase: '+ds+' days ago (avg cycle: '+Math.round(avg)+' days). Churn probability: '+(cp*100).toFixed(0)+'%. Orders: '+oc+'. Suggest a 2-sentence retention action plan.';\nreturn [{json:{customer_id:r.customer_id,full_name:r.full_name,order_count:oc,last_purchase_days_ago:ds,avg_cycle_days:Math.round(avg),churn_probability:parseFloat(cp.toFixed(2)),high_risk:cp>0.7,ollama_prompt:prompt,error:false}}];\n"
+      },
+      "id": "c3",
+      "name": "Calc Churn",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        544,
+        304
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:11434/api/generate",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\"model\":\"AI-COS-LFM-Q4:latest\",\"prompt\":{{ JSON.stringify($json.error ? \"skip\" : $json.ollama_prompt) }},\"stream\":false,\"keep_alive\":-1,\"options\":{\"temperature\":0.3}}",
+        "options": {
+          "timeout": 90000
+        }
+      },
+      "id": "c4",
+      "name": "Ask Ollama",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        832,
+        304
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "\nconst calc=$('Calc Churn').first().json;\nif(calc.error)return [{json:calc}];\nconst rec=$('Ask Ollama').first().json.response||'';\nlet action='monitor';\nif(calc.churn_probability>=0.7)action='urgent_intervention';\nelse if(calc.churn_probability>=0.4)action='send_offer';\nelse if(calc.churn_probability>=0.2)action='send_reminder';\nreturn [{json:{\n  customer_name:calc.full_name,order_count:calc.order_count,last_purchase_days_ago:calc.last_purchase_days_ago,\n  avg_cycle_days:calc.avg_cycle_days,churn_probability:calc.churn_probability,\n  risk_level:calc.churn_probability>=0.7?'high':calc.churn_probability>=0.4?'medium':'low',\n  recommended_action:action,retention_recommendation:rec.trim(),chronic_drugs:[],llm_source:'ollama:AI-COS-LFM-Q4'\n}}];\n"
+      },
+      "id": "c5",
+      "name": "Build Response",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1104,
+        304
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "6262223810",
+        "text": "={{ '⭐ CS | '+$json.customer_name+' | Churn Risk: '+($json.churn_probability*100).toFixed(0)+'%\\nAction: '+$json.recommended_action.replace('_',' ').toUpperCase()+'\\n💡 '+$json.retention_recommendation.slice(0,200) }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "id": "c6",
+      "name": "Alert Admin",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1392,
+        304
+      ],
+      "webhookId": "57e0d695-bdb5-4927-b0ea-d62746552913",
+      "credentials": {
+        "telegramApi": {
+          "id": "ntDvdegoGPkjWfXU",
+          "name": "مشروع تخرج"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $('Build Response').first().json }}",
+        "options": {}
+      },
+      "id": "c7",
+      "name": "Respond",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        1648,
+        304
+      ]
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Get Cycles",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Cycles": {
+      "main": [
+        [
+          {
+            "node": "Calc Churn",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calc Churn": {
+      "main": [
+        [
+          {
+            "node": "Ask Ollama",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ask Ollama": {
+      "main": [
+        [
+          {
+            "node": "Build Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Response": {
+      "main": [
+        [
+          {
+            "node": "Alert Admin",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Alert Admin": {
+      "main": [
+        [
+          {
+            "node": "Respond",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "instanceId": "67759659ff19a6d8d0a373387e2c30c462b5296cebb74994c5d58fe5daad1960"
+  }
+}

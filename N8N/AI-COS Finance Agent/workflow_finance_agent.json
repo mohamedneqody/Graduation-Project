@@ -1,0 +1,199 @@
+{
+  "name": "AI-COS: Finance Agent",
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "aicos-finance-clv",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "f1",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        304
+      ],
+      "webhookId": "d25269c0-6ee3-47fa-b781-1823ae78cccb"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "={{ \"SELECT c.customer_id::text, c.full_name, c.created_at, COUNT(DISTINCT o.order_id) as order_count, COALESCE(SUM(oi.price * oi.quantity),0) as total_spent FROM customers c LEFT JOIN orders o ON o.customer_id=c.customer_id LEFT JOIN order_items oi ON oi.order_id=o.order_id WHERE c.full_name ILIKE '%\" + $('Webhook').first().json.body.customer_name + \"%' GROUP BY c.customer_id,c.full_name,c.created_at LIMIT 1\" }}",
+        "options": {}
+      },
+      "id": "f2",
+      "name": "Get Customer Data",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        260,
+        304
+      ],
+      "onError": "continueRegularOutput",
+      "credentials": {
+        "postgres": {
+          "id": "SwX8vKQ2HWC6ZSmX",
+          "name": "AI-COS Supabase Postgres"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const wb=$('Webhook').first().json.body||{};\nconst name=wb.customer_name||'Unknown';\nconst disc=parseInt(wb.proposed_discount_pct)||10;\nconst rows=$('Get Customer Data').all().filter(r=>r.json&&r.json.customer_id);\nif(!rows.length){\n  return [{json:{error:true,message:'Customer not found: '+name,\n    clv:0,recommendation:'reject',financial_rationale:'Customer not found in database.',llm_source:'system'}}];\n}\nconst r=rows[0].json;\nconst oc=parseInt(r.order_count)||0;\nconst ts=parseFloat(r.total_spent)||0;\nconst ao=oc>0?ts/oc:0;\nconst yr=Math.max((Date.now()-new Date(r.created_at).getTime())/(365.25*24*3600*1000),0.1);\nconst clv=Math.round(ao*oc);\nconst prompt='Pharmacy finance decision for '+r.full_name+': CLV='+clv+' EGP, avg_order='+Math.round(ao)+' EGP, total_orders='+oc+', proposed_discount='+disc+'%. Answer ONLY: DECISION: [approve/reduce/reject] | REASON: [one sentence]';\nreturn [{json:{customer_id:r.customer_id,full_name:r.full_name,clv,avg_order:Math.round(ao),order_count:oc,years_as_customer:parseFloat(yr.toFixed(1)),discount_pct:disc,ollama_prompt:prompt,error:false}}];\n"
+      },
+      "id": "f3",
+      "name": "Calculate CLV",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        540,
+        304
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:11434/api/generate",
+        "sendBody": true,
+        "contentType": "json",
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"AI-COS-LFM-Q4:latest\",\n  \"prompt\": {{ JSON.stringify($json.error ? \"skip\" : $json.ollama_prompt) }},\n  \"stream\": false,\n  \"keep_alive\": -1,\n  \"options\": {\n    \"temperature\": 0.2\n  }\n}",
+        "options": {
+          "timeout": 90000
+        }
+      },
+      "id": "f4",
+      "name": "Ask Ollama",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        820,
+        304
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const calc=$('Calculate CLV').first().json;\nif(calc.error)return [{json:calc}];\nconst raw=$('Ask Ollama').first().json.response||'';\nconst dm=raw.match(/DECISION:\\s*(approve|reduce|reject)/i);\nconst rm=raw.match(/REASON:\\s*(.+?)(?:\\n|$)/i);\nreturn [{json:{\n  customer_name:calc.full_name,\n  clv:calc.clv,\n  avg_order_value:calc.avg_order,\n  order_count:calc.order_count,\n  years_as_customer:calc.years_as_customer,\n  proposed_discount_pct:calc.discount_pct,\n  recommendation:dm?dm[1].toLowerCase():'reduce',\n  financial_rationale:rm?rm[1].trim():raw.slice(0,250).trim(),\n  llm_source:'ollama:AI-COS-LFM-Q4'\n}}];\n"
+      },
+      "id": "f5",
+      "name": "Parse Response",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1100,
+        304
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "6262223810",
+        "text": "={{ '💰 Finance | ' + $json.customer_name + ' | CLV: ' + $json.clv + ' EGP | Decision: ' + $json.recommendation.toUpperCase() + '\\nReason: ' + $json.financial_rationale }}",
+        "additionalFields": {}
+      },
+      "id": "f6",
+      "name": "Notify Admin",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1380,
+        304
+      ],
+      "onError": "continueRegularOutput",
+      "credentials": {
+        "telegramApi": {
+          "id": "ntDvdegoGPkjWfXU",
+          "name": "مشروع تخرج"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $('Parse Response').first().json }}"
+      },
+      "id": "f7",
+      "name": "Respond",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        1640,
+        304
+      ]
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Get Customer Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Customer Data": {
+      "main": [
+        [
+          {
+            "node": "Calculate CLV",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calculate CLV": {
+      "main": [
+        [
+          {
+            "node": "Ask Ollama",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ask Ollama": {
+      "main": [
+        [
+          {
+            "node": "Parse Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Response": {
+      "main": [
+        [
+          {
+            "node": "Notify Admin",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notify Admin": {
+      "main": [
+        [
+          {
+            "node": "Respond",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true
+}

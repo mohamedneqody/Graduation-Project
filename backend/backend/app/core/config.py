@@ -7,6 +7,12 @@ class Settings(BaseSettings):
     SUPABASE_JWT_SECRET: str = ""
     REDIS_URL: str = "redis://localhost:6379/0"
 
+    # Prescription OCR is an internal, loopback-only service.  It deliberately
+    # has no cloud fallback because prescription images may contain PHI.
+    LOCAL_OCR_URL: str = "http://127.0.0.1:9202"
+    INTERNAL_OCR_SECRET: str = ""
+    LOCAL_OCR_TIMEOUT: float = 90.0
+
     # ── LLM config (RAG Bot & Marketing) — 3-Tier Fallback ───────────────────
     # Priority 1: Gemini API (Cloud — الأسرع)
     GEMINI_API_KEY: str = ""

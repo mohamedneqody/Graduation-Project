@@ -60,10 +60,18 @@ class InteractionGuard:
             return {"has_interaction": False, "detected_drugs": [d["name"] for d in mentioned_drugs]}
 
         # فحص التعارض بين أزواج الأدوية
+        q_lower = query.lower()
         for i in range(len(mentioned_drugs)):
             for j in range(i + 1, len(mentioned_drugs)):
                 da = mentioned_drugs[i]
                 db_item = mentioned_drugs[j]
+
+                # شرط سريري أساسي: يجب أن يكون أحد الدواءين على الأقل مذكوراً في سؤال العميل الحالي
+                # لمنع تكرار التحذير القديم إذا انتقل المستخدم لسؤال آخر (مثل من أنت أو أسئلة الكلية)
+                da_in_q = (da["name"].lower() in q_lower or da["name"].lower().split()[0] in q_lower)
+                db_in_q = (db_item["name"].lower() in q_lower or db_item["name"].lower().split()[0] in q_lower)
+                if not (da_in_q or db_in_q):
+                    continue
 
                 # ترتيب الـ UUIDs ليتوافق مع قيد قاعدة البيانات ck_interaction_pair_order
                 id_a, id_b = (da["drug_id"], db_item["drug_id"]) if str(da["drug_id"]) < str(db_item["drug_id"]) else (db_item["drug_id"], da["drug_id"])

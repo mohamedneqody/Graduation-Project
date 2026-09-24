@@ -691,16 +691,32 @@ class PrescriptionOCREngine:
             if not alt["text"]:
                 continue
             f_ref = florence_texts[i] if i < len(florence_texts) else ""
+            
+            # Compute catalog scores for both readings
+            base_cat = _catalog_score(decoded[i]["text"], catalog_names)
+            alt_cat = _catalog_score(alt["text"], catalog_names)
+            
             if f_ref:
                 base_agree = agreement_ratio(decoded[i]["text"], f_ref)
                 alt_agree = agreement_ratio(alt["text"], f_ref)
                 if alt_agree <= base_agree:
-                    print(f"[OCR Engine] Left-margin retry REJECTED for line {i + 1}: "
-                          f"{alt['text']!r} agrees {alt_agree:.2f} with Florence {f_ref!r} "
-                          f"(current reading agrees {base_agree:.2f})")
-                    continue
-            base_ev = decoded[i]["confidence"] * (0.5 + 0.5 * _catalog_score(decoded[i]["text"], catalog_names))
-            alt_ev = alt["confidence"] * (0.5 + 0.5 * _catalog_score(alt["text"], catalog_names))
+                    # CATALOG-DECISIVE OVERRIDE:
+                    # Florence itself may have misread the line (e.g. "Rx ProfectoprilPlus4" for "Bi Aleropril").
+                    # If the retry candidate matches the drug catalog MUCH better (alt_cat >> base_cat),
+                    # trust the catalog evidence over Florence agreement.
+                    # Threshold: alt must score >= 0.75 in catalog AND be 0.35+ better than current.
+                    if alt_cat >= 0.75 and (alt_cat - base_cat) >= 0.35:
+                        print(f"[OCR Engine] Left-margin retry CATALOG-OVERRIDE for line {i + 1}: "
+                              f"{alt['text']!r} has strong catalog score {alt_cat:.2f} vs "
+                              f"current {base_cat:.2f} (Florence agree: {alt_agree:.2f} vs {base_agree:.2f})")
+                        # Fall through to evidence comparison below
+                    else:
+                        print(f"[OCR Engine] Left-margin retry REJECTED for line {i + 1}: "
+                              f"{alt['text']!r} agrees {alt_agree:.2f} with Florence {f_ref!r} "
+                              f"(current reading agrees {base_agree:.2f})")
+                        continue
+            base_ev = decoded[i]["confidence"] * (0.5 + 0.5 * base_cat)
+            alt_ev = alt["confidence"] * (0.5 + 0.5 * alt_cat)
             # Switch only on a clear win, never on noise-level differences.
             if alt_ev > base_ev * 1.05:
                 out[i] = alt
@@ -742,12 +758,20 @@ class PrescriptionOCREngine:
             if not alt["text"]:
                 continue
             f_ref = florence_texts[i] if i < len(florence_texts) else ""
+            base_cat = _catalog_score(decoded[i]["text"], catalog_names)
+            alt_cat = _catalog_score(alt["text"], catalog_names)
             if f_ref:
                 base_agree = agreement_ratio(decoded[i]["text"], f_ref)
                 alt_agree = agreement_ratio(alt["text"], f_ref)
                 if alt_agree <= base_agree:
-                    continue
-            if evidence(alt) > evidence(decoded[i]) * 1.05:
+                    # Allow catalog-decisive override (same logic as left-margin retry)
+                    if alt_cat >= 0.75 and (alt_cat - base_cat) >= 0.35:
+                        pass  # fall through to evidence check
+                    else:
+                        continue
+            base_ev = decoded[i]["confidence"] * (0.5 + 0.5 * base_cat)
+            alt_ev = alt["confidence"] * (0.5 + 0.5 * alt_cat)
+            if alt_ev > base_ev * 1.05:
                 out[i] = alt
                 print(f"[OCR Engine] Florence-box retry upgraded line {i + 1}: "
                       f"{decoded[i]['text']!r} -> {alt['text']!r} (conf {decoded[i]['confidence']:.3f} -> {alt['confidence']:.3f})")

@@ -1,0 +1,266 @@
+{
+  "name": "AI-COS: Analytics Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "aicos-analytics",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "a1",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        304
+      ],
+      "webhookId": "dc01f602-e069-4660-ad1a-d23eaf4e2956"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 6 * * *"
+            }
+          ]
+        }
+      },
+      "id": "a0",
+      "name": "Daily 6AM",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        480
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT COUNT(*) as total_orders, COALESCE(SUM(oi.price*oi.quantity),0) as revenue FROM orders o LEFT JOIN order_items oi ON oi.order_id=o.order_id WHERE o.order_date>=NOW()-INTERVAL '7 days'",
+        "options": {}
+      },
+      "id": "a2",
+      "name": "Orders Revenue",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        288,
+        304
+      ],
+      "credentials": {
+        "postgres": {
+          "id": "SwX8vKQ2HWC6ZSmX",
+          "name": "AI-COS Supabase Postgres"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT COUNT(*) as total_cycles, COUNT(*) FILTER (WHERE last_purchase_date+(avg_cycle_days*INTERVAL '1 day')<NOW()) as at_risk FROM customer_cycles",
+        "options": {}
+      },
+      "id": "a3",
+      "name": "Churn Risk",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        560,
+        304
+      ],
+      "credentials": {
+        "postgres": {
+          "id": "SwX8vKQ2HWC6ZSmX",
+          "name": "AI-COS Supabase Postgres"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "\nconst ord=$('Orders Revenue').first().json;\nconst chrn=$('Churn Risk').first().json;\nlet period='this week';\ntry{period=$('Webhook').first().json.body.period||period;}catch(e){}\nconst to=parseInt(ord.total_orders)||0;\nconst rev=parseFloat(ord.revenue)||0;\nconst tc=parseInt(chrn.total_cycles)||1;\nconst ar=parseInt(chrn.at_risk)||0;\nconst cr=(ar/tc*100).toFixed(1);\nreturn [{json:{period,total_orders:to,revenue:parseFloat(rev.toFixed(2)),\n  churn_risk_customers:ar,churn_rate:parseFloat(cr)/100,reminder_conversion_rate:0,reminders_sent:0,\n  ollama_prompt:'Pharmacy analytics for '+period+': orders='+to+', revenue='+rev.toFixed(0)+' EGP, churn_risk='+ar+'/'+tc+' ('+cr+'%). Write 3-sentence executive summary: performance, main risk, recommendation.'\n}}];\n"
+      },
+      "id": "a4",
+      "name": "Merge Prompt",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        848,
+        304
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:11434/api/generate",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\"model\":\"AI-COS-LFM-Q4:latest\",\"prompt\":{{ JSON.stringify($json.ollama_prompt) }},\"stream\":false,\"keep_alive\":-1,\"options\":{\"temperature\":0.3}}",
+        "options": {
+          "timeout": 90000
+        }
+      },
+      "id": "a5",
+      "name": "Ask Ollama",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1120,
+        304
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "\nconst kpis=$('Merge Prompt').first().json;\nconst report=$('Ask Ollama').first().json.response||'';\nreturn [{json:{period:kpis.period,total_orders:kpis.total_orders,\n  revenue:kpis.revenue,churn_risk_customers:kpis.churn_risk_customers,\n  reminder_conversion_rate:kpis.reminder_conversion_rate,reminders_sent:kpis.reminders_sent,\n  executive_summary:report.trim(),llm_source:'ollama:AI-COS-LFM-Q4'\n}}];\n"
+      },
+      "id": "a6",
+      "name": "Build Report",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1408,
+        304
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "6262223810",
+        "text": "={{ '📊 Analytics '+$json.period+' | Orders: '+$json.total_orders+' | Rev: '+$json.revenue+' EGP | Churn Risk: '+$json.churn_risk_customers+'\\n\\n💡 '+$json.executive_summary.slice(0,300) }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "id": "a7",
+      "name": "Send Report",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1680,
+        304
+      ],
+      "webhookId": "23c9f22c-807a-4fdd-ac1a-eaac15105297",
+      "credentials": {
+        "telegramApi": {
+          "id": "ntDvdegoGPkjWfXU",
+          "name": "مشروع تخرج"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $('Build Report').first().json }}",
+        "options": {}
+      },
+      "id": "a8",
+      "name": "Respond",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        1968,
+        304
+      ]
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Orders Revenue",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Daily 6AM": {
+      "main": [
+        [
+          {
+            "node": "Orders Revenue",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Orders Revenue": {
+      "main": [
+        [
+          {
+            "node": "Churn Risk",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Churn Risk": {
+      "main": [
+        [
+          {
+            "node": "Merge Prompt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge Prompt": {
+      "main": [
+        [
+          {
+            "node": "Ask Ollama",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ask Ollama": {
+      "main": [
+        [
+          {
+            "node": "Build Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Report": {
+      "main": [
+        [
+          {
+            "node": "Send Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Report": {
+      "main": [
+        [
+          {
+            "node": "Respond",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "instanceId": "67759659ff19a6d8d0a373387e2c30c462b5296cebb74994c5d58fe5daad1960"
+  }
+}
