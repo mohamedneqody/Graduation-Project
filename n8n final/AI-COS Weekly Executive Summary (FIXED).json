@@ -1,0 +1,178 @@
+{
+  "name": "AI-COS Weekly Executive Summary (FIXED)",
+  "active": false,
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 8 * * 1"
+            }
+          ]
+        }
+      },
+      "name": "Schedule Trigger (Mondays 8 AM)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [
+        200,
+        300
+      ],
+      "id": "sched-weekly-fix01"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "weekly_summary",
+        "options": {}
+      },
+      "name": "Webhook Trigger (weekly_summary)",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        200,
+        500
+      ],
+      "id": "wh-weekly-fix01",
+      "webhookId": "weekly-summary-fix01"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.headers['x-internal-token'] || $json.headers['X-Internal-Token'] }}",
+              "value2": "={{ $env.INTERNAL_SERVICE_KEY }}"
+            }
+          ]
+        }
+      },
+      "name": "Verify Internal Token (IF)",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        420,
+        500
+      ],
+      "id": "if-verify-weekly-fix01"
+    },
+    {
+      "parameters": {},
+      "name": "Rejected (403 silently)",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        640,
+        640
+      ],
+      "id": "noop-reject-weekly-fix01"
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "http://host.docker.internal:8000/api/v1/business-value/internal/weekly-digest",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-Internal-Token",
+              "value": "={{ $env.INTERNAL_SERVICE_KEY }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Fetch Real ROI Digest (internal)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        860,
+        400
+      ],
+      "id": "http-digest-fix01"
+    },
+    {
+      "parameters": {
+        "chatId": "6262223810",
+        "text": "=📊 <b>[AI-COS Executive Weekly Digest]</b>\n\nتقرير الأداء الأسبوعي لإدارة صيدلية AI-COS 🏥\n\n💰 <b>الوفر المالي التقديري (CDSS ROI):</b> {{ $json.estimated_savings_formatted }}\n🛡️ <b>الطلبات المحظورة لحماية المريض:</b> {{ $json.blocked_orders_count }}\n📦 <b>إجمالي الطلبات المعالجة:</b> {{ $json.total_orders_analyzed }}\n📈 <b>معدل الأمان السريري:</b> {{ $json.safety_rate }}\n\n(منع التكرار العلاجي والتعارضات الدوائية قبل وصولها للمريض)\n\n🎯 <i>أرقام حية من قاعدة الإنتاج — صادرة آلياً عن نظام الحوكمة ودعم القرار الطبي.</i>",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "name": "Send Real Digest to Board",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1080,
+        400
+      ],
+      "id": "tg-digest-fix01",
+      "credentials": {
+        "telegramApi": {
+          "id": "ntDvdegoGPkjWfXU",
+          "name": "مشروع تخرج"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Schedule Trigger (Mondays 8 AM)": {
+      "main": [
+        [
+          {
+            "node": "Fetch Real ROI Digest (internal)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook Trigger (weekly_summary)": {
+      "main": [
+        [
+          {
+            "node": "Verify Internal Token (IF)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Verify Internal Token (IF)": {
+      "main": [
+        [
+          {
+            "node": "Fetch Real ROI Digest (internal)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Rejected (403 silently)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Real ROI Digest (internal)": {
+      "main": [
+        [
+          {
+            "node": "Send Real Digest to Board",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "instanceId": "67759659ff19a6d8d0a373387e2c30c462b5296cebb74994c5d58fe5daad1960"
+  }
+}

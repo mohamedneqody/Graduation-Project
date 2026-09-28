@@ -1,0 +1,229 @@
+{
+  "name": "AI-COS - send_discount_offer",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "send_discount_offer",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "wh-send_discount_offer-001",
+      "name": "Webhook (send_discount_offer)",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        160,
+        288
+      ],
+      "webhookId": "send_discount_offer"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.headers['x-internal-token'] || $json.headers['X-Internal-Token'] }}",
+              "value2": "={{ $env.INTERNAL_SERVICE_KEY }}"
+            }
+          ]
+        }
+      },
+      "id": "if-send_discount_offer-002",
+      "name": "Verify Internal Token",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        400,
+        288
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "{\"status\": \"error\", \"message\": \"403 Forbidden: Invalid or missing X-Internal-Token\"}",
+        "options": {
+          "responseCode": 403
+        }
+      },
+      "id": "resp-err-send_discount_offer-003",
+      "name": "Respond Unauthorized",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        656,
+        432
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const body = $input.first().json.body || {};\nconst name = body.customer_name || 'عميلنا العزيز';\nconst discount = body.discount || '15%';\nconst coupon = body.coupon_code || 'CARE15';\nconst msg = `🎁 <b>عرض خاص وكوبون خصم — AI-COS</b>\\nمرحباً <b>${name}</b> 🎉\\nتقديراً لالتزامك، نقدم لك خصم <b>${discount}</b> على طلبك القادم.\\nكود الخصم: <code>${coupon}</code>`;\nreturn [{ json: { ...body, message: msg } }];"
+      },
+      "id": "code-send_discount_offer-004",
+      "name": "Prepare Discount Offer Message",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        656,
+        192
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "6262223810",
+        "text": "={{ $json.message }}",
+        "additionalFields": {
+          "parse_mode": "HTML"
+        }
+      },
+      "id": "tg-send_discount_offer-005",
+      "name": "Send Telegram",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        864,
+        192
+      ],
+      "webhookId": "aba03147-614d-427b-9ed3-a7a4129d5a5f",
+      "credentials": {
+        "telegramApi": {
+          "id": "ntDvdegoGPkjWfXU",
+          "name": "مشروع تخرج"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "{\"status\": \"sent\", \"workflow\": \"send_discount_offer\", \"message\": \"تم إرسال عرض الخصم والكوبون بنجاح عبر تيليجرام.\"}",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "id": "resp-ok-send_discount_offer-006",
+      "name": "Respond OK",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        1024,
+        192
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:8000/api/v1/agents/automation/callback",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-Internal-Token",
+              "value": "={{ $env.INTERNAL_SERVICE_KEY }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "=={{ JSON.stringify({ run_id: $('Webhook (send_discount_offer)').first().json.body?.run_id || 'auto_' + $now.toMillis(), status: 'delivered', detail: 'discount offer sent via telegram' }) }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1216,
+        192
+      ],
+      "id": "2dec85bc-d4f3-4356-8bfd-5e757b766824",
+      "name": "Callback Delivered → AI-COS"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook (send_discount_offer)": {
+      "main": [
+        [
+          {
+            "node": "Verify Internal Token",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Verify Internal Token": {
+      "main": [
+        [
+          {
+            "node": "Prepare Discount Offer Message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respond Unauthorized",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Discount Offer Message": {
+      "main": [
+        [
+          {
+            "node": "Send Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Telegram": {
+      "main": [
+        [
+          {
+            "node": "Respond OK",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Respond OK": {
+      "main": [
+        [
+          {
+            "node": "Callback Delivered → AI-COS",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Callback Delivered → AI-COS": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "ff46777f-8d32-4e87-bc4a-605efe5a6737",
+  "meta": {
+    "instanceId": "67759659ff19a6d8d0a373387e2c30c462b5296cebb74994c5d58fe5daad1960"
+  },
+  "nodeGroups": [],
+  "id": "AIcosDiscount002",
+  "tags": [
+    {
+      "updatedAt": "2026-08-05T15:39:30.301Z",
+      "createdAt": "2026-08-05T15:39:30.301Z",
+      "id": "zTQQM5OPihN02AOR",
+      "name": "مشروغ تخرج"
+    }
+  ]
+}

@@ -1,0 +1,182 @@
+{
+  "name": "AI-COS Governance SLA Monitor",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 4
+            }
+          ]
+        }
+      },
+      "name": "Schedule Trigger (Every 4 Hours)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1632,
+        576
+      ],
+      "id": "47169e89-0756-454c-82ef-5a348bde6202"
+    },
+    {
+      "parameters": {
+        "url": "http://host.docker.internal:8000/internal/governance/pending?limit=100",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-Internal-Token",
+              "value": "={{ $env.INTERNAL_SERVICE_KEY }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "1. Pull Pending Reminders",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        -1408,
+        576
+      ],
+      "id": "6908c2ee-cff8-4203-af49-096b33af0d14",
+      "notesInFlow": true,
+      "notes": "جلب التذكيرات المعلقة عبر نقطة الحوكمة الداخلية"
+    },
+    {
+      "parameters": {
+        "jsCode": "\nconst items = $input.all();\nconst breached = [];\nconst now = new Date().getTime();\n\nfor (const item of items) {\n  const data = item.json;\n  if (data.decision === 'human_review') {\n    const createdTime = data.created_at ? new Date(data.created_at).getTime() : now;\n    const hoursElapsed = Math.round((now - createdTime) / (1000 * 60 * 60));\n    \n    if (hoursElapsed >= 24) {\n      breached.push({\n        json: {\n          ...data,\n          hours_elapsed: hoursElapsed,\n          sla_breached: true\n        }\n      });\n    }\n  }\n}\n\nreturn breached;\n"
+      },
+      "name": "2. Filter SLA Breaches (>24h)",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1200,
+        576
+      ],
+      "id": "75277d2e-08aa-4af3-bed9-c3b6c87b8d48",
+      "notesInFlow": true,
+      "notes": "فلترة التذكيرات التي تجاوزت حد الـ 24 ساعة بدون مراجعة بشرية"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $json.sla_breached }}",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "name": "3. Is Breached?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        -976,
+        576
+      ],
+      "id": "9dfa3619-957c-4277-8da6-7589240ab07f"
+    },
+    {
+      "parameters": {
+        "chatId": "6262223810",
+        "text": "=⏳ <b>تنبيه خرق مدة المراجعة — SLA Breach Alert</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n👨‍⚕️ <b>د. الصيدلي المناوب:</b> يوجد تذكير معلق ينتظر قرارك الطبي العاجل!\n👤 <b>المريض:</b> {{ $json.customer_name }}\n💊 <b>الدواء:</b> {{ $json.drug_name }}\n📊 <b>نسبة ثقة الذكاء الاصطناعي:</b> {{ Math.round(($json.cycle_confidence || 0.72) * 100) }}%\n⏱️ <b>مدة الانتظار الحالية:</b> {{ $json.hours_elapsed }} ساعة (تجاوزت حد الـ 24 ساعة)\n\n🔗 <b>الإجراء الفوري:</b> يرجى فتح لوحة المراجعة البشرية للاعتماد أو الرفض.",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "name": "4. Send SLA Breach Telegram Alert",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -752,
+        512
+      ],
+      "id": "4e0020d3-2293-41b0-8ec2-01027009ba7f",
+      "notesInFlow": true,
+      "webhookId": "7d62d03e-c1dc-46c6-af76-eb26df30ec9c",
+      "credentials": {
+        "telegramApi": {
+          "id": "ntDvdegoGPkjWfXU",
+          "name": "مشروع تخرج"
+        }
+      },
+      "notes": "تنبيه حازم للصيدلي لتفادي تأخر استكمال خطة علاج المريض المزمن"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger (Every 4 Hours)": {
+      "main": [
+        [
+          {
+            "node": "1. Pull Pending Reminders",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "1. Pull Pending Reminders": {
+      "main": [
+        [
+          {
+            "node": "2. Filter SLA Breaches (>24h)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "2. Filter SLA Breaches (>24h)": {
+      "main": [
+        [
+          {
+            "node": "3. Is Breached?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "3. Is Breached?": {
+      "main": [
+        [
+          {
+            "node": "4. Send SLA Breach Telegram Alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false,
+    "timeSavedMode": "fixed",
+    "errorWorkflow": "YLX90juWgWUxaHHE",
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "versionId": "781266e1-9480-4895-8b7f-b80e84ae9a12",
+  "meta": {
+    "instanceId": "67759659ff19a6d8d0a373387e2c30c462b5296cebb74994c5d58fe5daad1960"
+  },
+  "nodeGroups": [],
+  "id": "zWNggcB1fRoc7VJN",
+  "tags": [
+    {
+      "updatedAt": "2026-08-05T15:39:30.301Z",
+      "createdAt": "2026-08-05T15:39:30.301Z",
+      "id": "zTQQM5OPihN02AOR",
+      "name": "مشروغ تخرج"
+    }
+  ]
+}

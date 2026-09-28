@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منظومة AI-COS Pharmacy — التحليل الهندسي والنظامي الشامل</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <style>
+        :root {
+            --primary: #0284c7;
+            --primary-dark: #0369a1;
+            --bg-page: #f8fafc;
+            --text-dark: #0f172a;
+            --border-ui: #e2e8f0;
+        }
+        @media print {
+            body { background: white !important; color: black !important; font-size: 10.5pt; }
+            .no-print { display: none !important; }
+            .mermaid { page-break-inside: avoid; border: 1px solid #ccc !important; box-shadow: none !important; }
+            pre, code { background: #f1f5f9 !important; color: #0f172a !important; border: 1px solid #e2e8f0; }
+            h1, h2, h3 { page-break-after: avoid; }
+            table { page-break-inside: avoid; }
+        }
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: var(--bg-page);
+            color: var(--text-dark);
+            line-height: 1.85;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 40px 32px;
+            background: #ffffff;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+            min-height: 100vh;
+        }
+        .header-bar {
+            background: linear-gradient(135deg, #0284c7 0%, #0f172a 100%);
+            color: white;
+            padding: 24px 32px;
+            border-radius: 12px;
+            margin-bottom: 36px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header-bar h1 { margin: 0; font-size: 24px; font-weight: 800; border: none; padding: 0; color: white; }
+        .print-btn {
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 10px 22px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Cairo', sans-serif;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 15px;
+            transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+        .print-btn:hover { background: #059669; transform: translateY(-1px); }
+        h1, h2, h3, h4 { color: #0f172a; font-weight: 800; }
+        h1 { border-bottom: 3px solid #0284c7; padding-bottom: 12px; margin-top: 44px; font-size: 28px; }
+        h2 { border-bottom: 2px solid #e2e8f0; padding-bottom: 8px; margin-top: 36px; color: #0369a1; font-size: 22px; }
+        h3 { margin-top: 28px; color: #0f766e; font-size: 18px; }
+        h4 { margin-top: 20px; color: #334155; font-size: 16px; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+            font-size: 14px;
+        }
+        th, td {
+            border: 1px solid #cbd5e1;
+            padding: 10px 14px;
+            text-align: right;
+        }
+        th {
+            background-color: #f1f5f9;
+            color: #0f172a;
+            font-weight: 700;
+        }
+        tr:nth-child(even) { background-color: #f8fafc; }
+        .mermaid {
+            background: #ffffff;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 24px;
+            margin: 28px 0;
+            text-align: center;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+            overflow-x: auto;
+            direction: ltr;
+        }
+        .mermaid svg {
+            max-width: 100% !important;
+            height: auto !important;
+            font-family: 'Cairo', sans-serif !important;
+        }
+        pre:not(.mermaid) {
+            background: #0f172a;
+            color: #f8fafc;
+            padding: 16px 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            direction: ltr;
+            text-align: left;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 13.5px;
+            line-height: 1.6;
+        }
+        code {
+            font-family: 'Fira Code', 'Consolas', monospace;
+            background: #e2e8f0;
+            color: #0f172a;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+        pre code { background: transparent; color: inherit; padding: 0; }
+        blockquote {
+            border-right: 4px solid #0284c7;
+            background: #f0f9ff;
+            margin: 20px 0;
+            padding: 14px 24px;
+            border-radius: 0 8px 8px 0;
+            color: #0369a1;
+            font-weight: 600;
+        }
+        hr { border: 0; border-top: 1px solid #e2e8f0; margin: 36px 0; }
+        ul, ol { padding-right: 24px; }
+        li { margin-bottom: 6px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header-bar no-print">
+            <div>
+                <h1>منظومة AI-COS Pharmacy — التقرير الهندسي والأكاديمي</h1>
+                <p style="margin:6px 0 0 0; opacity: 0.92; font-size: 14px;">عرض المعاينة المرئية لجميع المخططات، الجداول، والمعادلات الرياضية</p>
+            </div>
+            <button class="print-btn" onclick="window.print()">
+                <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+                طباعة / تصدير PDF
+            </button>
+        </div>
+        <div id="content">
+            <h1>🏛️ التقرير الهندسي والأكاديمي الشامل لتحليل وتصميم منظومة AI-COS Pharmacy</h1>
+<h2>(Comprehensive System Analysis &amp; Design Specification — From A to Z)</h2>
+<p><strong>البرنامج الأكاديمي:</strong> نظم معلومات الأعمال (Business Information Systems - BIS)<br>
+<strong>اسم المشروع:</strong> AI-COS Pharmacy (Artificial Intelligence Commerce Operating System for Pharmacy)<br>
+<strong>طبيعة المنظومة:</strong> نظام تشغيل تجاري وسريري متكامل (Enterprise Agentic OS &amp; Multi-Tenant SaaS)<br>
+<strong>العام الأكاديمي:</strong> 2026<br>
+<strong>مسار المشروع:</strong> إدارة التكنولوجيا المالية والذكاء الاصطناعي (FinTech &amp; Clinical AI Systems)</p>
+<hr>
+<h2>فهرس المحتويات (Table of Contents)</h2>
+<ol>
+<li><a href="#1-تحليل-الأعمال-ومجال-المشكلة-business-analysis--problem-domain">تحليل الأعمال ومجال المشكلة (Business Analysis &amp; Problem Domain)</a></li>
+<li>1.1 الملخص التنفيذي وهوية المشروع (System Identity)</li>
+<li>1.2 تحديات قطاع الصيدلة وسلاسل الإمداد (Industry Pain Points)</li>
+<li>1.3 مصفوفة أصحاب المصلحة (Stakeholder Analysis Matrix)</li>
+<li>1.4 دراسة الجدوى الاقتصادية والعائد الاستثماري (Financial ROI &amp; Working Capital)</li>
+<li><a href="#2-مواصفات-متطلبات-النظام-system-requirements-specification---srs">مواصفات متطلبات النظام (System Requirements Specification - SRS)</a></li>
+<li>2.1 المتطلبات الوظيفية الشاملة (FR-01 إلى FR-28)</li>
+<li>2.2 المتطلبات غير الوظيفية (NFRs)</li>
+<li><a href="#3-معمارية-وهندسة-نظم-المعلومات-information-systems-architecture--design">معمارية وهندسة نظم المعلومات (Information Systems Architecture &amp; Design)</a></li>
+<li>3.1 السياقات المحددة للتصميم الموجه بالمجال (DDD Bounded Contexts)</li>
+<li>3.2 النمط المعماري الهجين (Hybrid 3-Tier / Hexagonal Architecture)</li>
+<li>3.3 نموذج البيانات المؤسسي ومخطط العلاقات (Enterprise ERD)</li>
+<li>3.4 آلات الحالة ودورات الحياة التشغيلية (Core State Machines)</li>
+<li><a href="#4-النظم-السريرية-والذكاء-الاصطناعي-cdss--agentic-ai-subsystems">النظم السريرية والذكاء الاصطناعي (CDSS &amp; Agentic AI Subsystems)</a></li>
+<li>4.1 المعمارية الهجينة متعددة المستويات لنماذج الذكاء (Multi-Tier AI)</li>
+<li>4.2 مسار الرؤية البصرية ومعالجة الروشتات (Prescription OCR &amp; LASA Guard)</li>
+<li>4.3 أوركسترا الوكلاء الأذكياء التسعة (The 9 Enterprise Agents)</li>
+<li>4.4 نظام دعم القرار السريري (Clinical Decision Support System - CDSS)</li>
+<li>4.5 نماذج التعلم الآلي التنبؤية وقابلية التفسير (Machine Learning &amp; SHAP)</li>
+<li><a href="#5-الحوكمة-وإدارة-المخاطر-والرقابة-الداخلية-bis-governance--internal-controls">الحوكمة وإدارة المخاطر والرقابة الداخلية (BIS Governance &amp; Internal Controls)</a></li>
+<li>5.1 التوافق مع إطار COSO-ERM ومصفوفة المخاطر 5x5</li>
+<li>5.2 سجل التدقيق المشفر الخارجي (WORM Ledger &amp; Anti-Rogue DBA)</li>
+<li>5.3 الرقابة والتحليل الجنائي المالي (Forensic Accounting &amp; Benford's Law)</li>
+<li>5.4 فصل الصلاحيات والاعتماد المزدوج (SoD &amp; Maker-Checker)</li>
+<li><a href="#6-التكامل-الأتمتة-والواجهات-الأمامية-integration-automation--portals">التكامل، الأتمتة، والواجهات الأمامية (Integration, Automation &amp; Portals)</a></li>
+<li>6.1 الواجهة العامة والمتجر السريري (Storefront &amp; 2D Draggable Chatbot)</li>
+<li>6.2 لوحة التحكم والقيادة التنفيذية (The 19 Enterprise Admin Portals)</li>
+<li>6.3 خط أنابيب الأتمتة الخارجية والتليجرام (n8n Automation Pipeline)</li>
+<li><a href="#7-توكيد-الجودة-ومصفوفة-الاختبارات-quality-assurance--validation-matrix">توكيد الجودة ومصفوفة الاختبارات (Quality Assurance &amp; Validation Matrix)</a></li>
+</ol>
+<hr>
+<h1>1. تحليل الأعمال ومجال المشكلة (Business Analysis &amp; Problem Domain)</h1>
+<h3>1.1 الملخص التنفيذي وهوية المشروع (System Identity)</h3>
+<p>منظومة <strong>AI-COS Pharmacy</strong> (نظام تشغيل التجارة الصيدلانية المدعوم بالذكاء الاصطناعي) ليست مجرد متجر إلكتروني صيدلاني تقليدي لبيع الأدوية عبر الإنترنت (E-Commerce CRUD)، بل هي <strong>نظام تشغيل تجاري وسريري متكامل (Enterprise Agentic Operating System)</strong> مبني كمنصة سحابية متعددة المستأجرين (Multi-Tenant SaaS). </p>
+<p>يرتكز المشروع على العقيدة الأكاديمية لنظم معلومات الأعمال (<strong>BIS</strong>):</p>
+<blockquote>
+<p><strong>"الذكاء الاصطناعي في بيئة الأعمال لا يُقاس بجمال الخوارزمية، بل بقدرته على توليد قرار تشغيلي وسريري محوكم ينعكس في المركز المالي للمنشأة ويخضع للمساءلة الرقابية والقانونية."</strong></p>
+</blockquote>
+<p>تم بناء النظام كمعمارية قابلة للتخصيص للقطاعات المختلفة (<strong>Vertical Packs</strong>)، حيث تُعد الصيدلية (<code>pharmacy</code>) التطبيق الرائد فوق نواة أعمال محايدة تدير التدفقات النقدية، حوكمة الأسعار، الرقابة الجنائية، وسلاسل الإمداد.</p>
+<hr>
+<h3>1.2 تحديات قطاع الصيدلة وسلاسل الإمداد (Industry Pain Points)</h3>
+<p>يعالج النظام خمس معضلات حرجة تعاني منها الصيدليات وسلاسل الرعاية الصحية في مصر والشرق الأوسط:</p>
+<ol>
+<li><strong>أزمة نواقص الأدوية واضطراب التوريد (Drug Shortages &amp; P2P Friction):</strong></li>
+<li>اضطراب سلاسل التوريد يؤدي لنفاد متكرر في أدوية الأمراض المزمنة (الضغط، السكر، الأورام، والسيولة).</li>
+<li>غياب التنبؤ الاستباقي يضطر الصيدليات إما لتجميد سيولة ضخمة في مخزون راكد أو تفويت مبيعات حيوية.</li>
+<li>
+<p><em>حل AI-COS:</em> تطبيق نموذج كمية الطلب الاقتصادية الحركي (<code>calculate_wilson_eoq</code>) ورادار استخبارات السوق الحظي لمنشورات هيئة الدواء المصرية (EDA).</p>
+</li>
+<li>
+<p><strong>تسرب مرضى الأمراض المزمنة وهدر الروشتات (Medication Non-Adherence &amp; Churn):</strong></p>
+</li>
+<li>تشير الدراسات إلى أن نحو 40% من عدم الالتزام الدوائي يعود لعامل النسيان وصعوبة التجديد اليدوي، مما يتسبب في هجر ملايين الروشتات سنوياً.</li>
+<li>
+<p><em>حل AI-COS:</em> محرك التنبؤ بموعد إعادة الصرف (<code>predict_cycle</code>) مع فاصل ثقة غاوسي 95%، وتنبيهات أوتوماتيكية عبر الواتساب وتليجرام بنقرة واحدة عبر محرك الأتمتة n8n.</p>
+</li>
+<li>
+<p><strong>الأخطاء القاتلة في قراءة الروشتات والأدوية المتشابهة (LASA Errors):</strong></p>
+</li>
+<li>الروشتات المكتوبة بخط اليد تؤدي إلى أخطاء كارثية بسبب تشابه الأسماء صوتاً وشكلاً (Look-Alike Sound-Alike - LASA) مثل <code>Cataflam</code> و <code>Catapres</code>.</li>
+<li>
+<p><em>حل AI-COS:</em> محرك المطابقة البصرية الضبابية مع حارس LASA الإلزامي (<code>calculate_final_score</code>)، وفهرس الفونيتكس المسبق بـ <code>jellyfish.metaphone</code>، وطابور المراجعة البشري الإلزامي (Human-in-the-Loop).</p>
+</li>
+<li>
+<p><strong>تجميد رأس المال العامل واختناق السيولة النقدية (Working Capital Traps):</strong></p>
+</li>
+<li>معاناة الصيدليات من تمدد دورة التحول النقدي (Cash Conversion Cycle - CCC) وتراكم أدوية توشك على انتهاء الصلاحية.</li>
+<li>
+<p><em>حل AI-COS:</em> مراقبة لحظية لمؤشرات $DIO, DSO, DPO$ ونسبة السيولة السريعة في <code>get_working_capital_analysis</code>.</p>
+</li>
+<li>
+<p><strong>الامتثال الضريبي والتنظيمي (Regulatory &amp; Tax Compliance):</strong></p>
+</li>
+<li>متطلبات مصلحة الضرائب المصرية (ETA) للإيصال والفاتورة الإلكترونية v1.0 وضريبة القيمة المضافة 14% وتشفير TLV Base64، وحماية البيانات الشخصية وفق القانون 151 لسنة 2020.</li>
+<li><em>حل AI-COS:</em> وحدة <code>eta_invoice.py</code> مع توقيع CAdES-BES وQR TLV، وتجهيل الحسابات محاسبياً في <code>customer/router.py</code>.</li>
+</ol>
+<hr>
+<h3>1.3 مصفوفة أصحاب المصلحة (Stakeholder Analysis Matrix)</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">صاحب المصلحة (Stakeholder)</th>
+<th style="text-align: left;">الاهتمامات التشغيلية والسريرية</th>
+<th style="text-align: left;">القيمة المضافة من AI-COS Pharmacy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>المريض / العميل المزمن (Patient)</strong></td>
+<td style="text-align: left;">أمان الجرعات، منع التعارض، توفير بدائل رخيصة، وسهولة تكرار الروشتة.</td>
+<td style="text-align: left;">محرك البدائل الموفر حتى 53.6%، جدول التجديد بنقرة واحدة، وحماية الخصوصية بقناع PII محلي.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>الصيدلي الممارس (Pharmacist)</strong></td>
+<td style="text-align: left;">سرعة فرز الروشتات، منع صرف أدوية متعارضة، وعدم تحمل مسؤولية أخطاء الـ AI.</td>
+<td style="text-align: left;">طابور مراجعة الروشتات الإلزامي، حارس الجرعات المشدد، وكاشف التكرار الدوائي السام.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>مدير المستودع (Inventory Mgr)</strong></td>
+<td style="text-align: left;">منع نفاد الأصناف، تطبيق FEFO، وإصدار أوامر توريد بلا هدر.</td>
+<td style="text-align: left;">توليد آلي لأوامر الشراء بـ Wilson EOQ، دورة P2P متكاملة، واستلام فوري للمخزن.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>المدير المالي (CFO / Accountant)</strong></td>
+<td style="text-align: left;">تحقيق التوازن الدفتري، استخراج ميزان المراجعة، كشف التلاعب المالي، ومنع الخسائر.</td>
+<td style="text-align: left;">قيود مزدوجة آلية متوازنة 100%، كاشف الاحتيال بقانون بنفورد، وسقوف الخصم القسرية (Zero Margin Loss).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>مفتش الرقابة والضرائب (Auditors)</strong></td>
+<td style="text-align: left;">التحقق من مشروعية المبيعات، سلامة سلاسل التدقيق، وسحب التشغيلات المعيبة.</td>
+<td style="text-align: left;">سجل WORM الخارجي المشفر بـ SHA-256، الفاتورة الإلكترونية ETA TLV، وبروتوكول السحب الدوائي اللحظي.</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3>1.4 دراسة الجدوى الاقتصادية والعائد الاستثماري (Financial ROI &amp; Working Capital)</h3>
+<p>وفقاً لحسابات المحرك المالي الفعلي المستخرجة حياً من قاعدة البيانات في <code>get_ai_feasibility_and_uat</code>:
+- <strong>تكاليف الحوسبة الشهرية:</strong>
+  - استهلاك التوكنز السحابية (Gemini Flash API - 4.2M Tokens) = 420.00 ج.م.
+  - حوسبة السيرفر المحلي والكهرباء (Ollama Local GPU - 120W) = 950.00 ج.م.
+  - استضافة السحابة ومحرك الأتمتة (Supabase Pro + n8n Docker VPS) = 1,800.00 ج.م.
+  - حصة الصيانة الشهرية ومراقبة النماذج (MLOps) = 3,480.00 ج.م.
+  - <strong>إجمالي التكلفة التشغيلية الشهرية:</strong> <strong>6,650.00 ج.م</strong>.
+- <strong>العوائد المالية الشهرية المحمية والمحققة:</strong>
+  - استرداد مبيعات المرضى المزمنين (Churn Win-Back) = 32,308.00 ج.م.
+  - حماية الهامش من التخفيض العشوائي (Margin Protected) = 15,385.00 ج.م.
+  - تقليص هدر المخزون والصلاحيات بـ Wilson EOQ = 17,130.00 ج.م.
+  - تجنب تكاليف ومخاطر الأخطاء السريرية المحجوبة = 16,865.00 ج.م.
+  - <strong>إجمالي العائد الشهري المحمي:</strong> <strong>81,688.00 ج.م</strong>.
+- <strong>مؤشرات الأداء المالي التكنولوجي:</strong>
+  - <strong>صافي الأثر المالي الإيجابي:</strong> <strong>+75,038.00 ج.م شهرياً</strong>.
+  - <strong>مضاعف العائد على الاستثمار (ROI Multiplier):</strong> <strong>12.3x</strong>.
+  - <strong>فترة استرداد التكلفة (Payback Period):</strong> <strong>0.08 شهر (أقل من 3 أيام تشغيل)</strong>.
+- <strong>معادلة دورة التحول النقدي (Cash Conversion Cycle):</strong>
+  $$\text{CCC} = \text{DIO} (24.5\text{ days}) + \text{DSO} (2.0\text{ days}) - \text{DPO} (30.0\text{ days}) = -3.5 \text{ to } +15.0 \text{ days}$$
+  مما يعكس سيولة تشغيلية ممتازة ونسبة سريعة (Quick Ratio) $\ge 1.0$.</p>
+<hr>
+<h1>2. مواصفات متطلبات النظام (System Requirements Specification - SRS)</h1>
+<h3>2.1 المتطلبات الوظيفية الشاملة (Comprehensive Functional Requirements Matrix)</h3>
+<p>تم توثيق 28 متطلباً وظيفياً مصنفة وفق إطار MoSCoW مع ربطها بالأكواد الفعلية في النظام:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">المعرف</th>
+<th style="text-align: left;">المتطلب الوظيفي</th>
+<th style="text-align: left;">المدخلات (Inputs)</th>
+<th style="text-align: left;">منطق المعالجة في الكود (Processing Logic)</th>
+<th style="text-align: left;">القيود الرقابية (Controls &amp; Guards)</th>
+<th style="text-align: left;">المخرجات (Outputs)</th>
+<th style="text-align: left;">موضع الكود</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>FR-01</strong></td>
+<td style="text-align: left;">مصادقة آمنة متعددة الأنماط</td>
+<td style="text-align: left;">بريد/كلمة مرور أو OAuth</td>
+<td style="text-align: left;">توثيق عبر Supabase Auth وتوليد JWT مشفر</td>
+<td style="text-align: left;">مبدأ Zero-Knowledge: لا كلمات مرور في قاعدة التطبيق</td>
+<td style="text-align: left;">جلسة مستخدم مشفرة وRole</td>
+<td style="text-align: left;"><code>auth.py</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>FR-02</strong></td>
+<td style="text-align: left;">تتبع الجلسات والأحداث</td>
+<td style="text-align: left;">بيانات المتصفح والأجهزة</td>
+<td style="text-align: left;">تسجيل الجلسات في جدول <code>sessions</code> وحفظ الأحداث</td>
+<td style="text-align: left;">توقيع كل حدث بهاش SHA-256 متسلسل</td>
+<td style="text-align: left;">سجل أحداث سلوكي مشفر</td>
+<td style="text-align: left;"><code>tracking.py</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>FR-03</strong></td>
+<td style="text-align: left;">كتالوج الأدوية والمخزون</td>
+<td style="text-align: left;">استعلامات البحث والفلاتر</td>
+<td style="text-align: left;">استرجاع الأدوية النشطة مع عزل الحزمة الحالية <code>vertical</code></td>
+<td style="text-align: left;">فلترة الأصناف المجمدة أو المسحوبة</td>
+<td style="text-align: left;">قائمة الأدوية بالأسعار والجرعات</td>
+<td style="text-align: left;"><code>drug/service.py#L37</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>FR-04</strong></td>
+<td style="text-align: left;">محرك البدائل الصيدلانية</td>
+<td style="text-align: left;">معرف الدواء <code>drug_id</code></td>
+<td style="text-align: left;">استخراج المواد الفعالة بدقة مع مطابقة التركيز والأملاح</td>
+<td style="text-align: left;">عزل المخزون للمستأجر الفعال لمنع تسريب أرصدة الغير</td>
+<td style="text-align: left;">قائمة البدائل مع نسبة التوفير</td>
+<td style="text-align: left;"><code>drug/service.py#L335</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>FR-05</strong></td>
+<td style="text-align: left;">كاشف التكرار الدوائي بالسلة</td>
+<td style="text-align: left;">مصفوفة أرقام الأدوية بالسلة</td>
+<td style="text-align: left;">مطابقة المواد الفعالة عبر Inverted Index</td>
+<td style="text-align: left;">منع صرف دوائين يحملان نفس المادة الفعالة</td>
+<td style="text-align: left;">تحذير سريري أحمر ومنع الشراء</td>
+<td style="text-align: left;"><code>drug/service.py#L430</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>FR-06</strong></td>
+<td style="text-align: left;">فحص التفاعلات الدوائية (DDI)</td>
+<td style="text-align: left;">أدوية السلة الحالية</td>
+<td style="text-align: left;">استعلام جدول <code>drug_interactions</code> بقيد $A &lt; B$</td>
+<td style="text-align: left;">إيقاف الإتمام التلقائي إذا كانت الخطورة High</td>
+<td style="text-align: left;">حجب الطلب وتصعيده للصيدلي</td>
+<td style="text-align: left;"><code>order/service.py</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>FR-07</strong></td>
+<td style="text-align: left;">تجزئة وقراءة الروشتات (OCR)</td>
+<td style="text-align: left;">صورة الروشتة المرفوعة</td>
+<td style="text-align: left;">عزل ترويسة العيادة جغرافياً واستخراج النص بـ TrOCR/Gemini</td>
+<td style="text-align: left;">رفض النصوص المشوهة أو الأقل من 4 أحرف</td>
+<td style="text-align: left;">نصوص الأدوية والجرعات المقروءة</td>
+<td style="text-align: left;"><code>prescriptions/router.py</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>FR-08</strong></td>
+<td style="text-align: left;">مطابقة الأدوية وحارس LASA</td>
+<td style="text-align: left;">النص المقروء وكتالوج الأدوية</td>
+<td style="text-align: left;">خوارزمية RapidFuzz ومطابقة الفونيتكس بـ Metaphone</td>
+<td style="text-align: left;">كبح النتيجة دون 0.50 إذا كان تشابه الاسم &lt; 75%</td>
+<td style="text-align: left;">مرشحات الأدوية وهامش الأمان</td>
+<td style="text-align: left;"><code>matching.py#L77</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>FR-09</strong></td>
+<td style="text-align: left;">ذاكرة تصحيحات الروشتات</td>
+<td style="text-align: left;">تصحيح الصيدلي لاسم خاطئ</td>
+<td style="text-align: left;">حفظ الزوج وتطبيقه تلقائياً قبل المطابقة</td>
+<td style="text-align: left;">معالجة النصوص بـ <code>normalize_text</code> لمنع التكرار</td>
+<td style="text-align: left;">تجاوز البحث النصي في المرات القادمة</td>
+<td style="text-align: left;"><code>ocr_correction.py</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>FR-10</strong></td>
+<td style="text-align: left;">التنبؤ بموعد تكرار الجرعة</td>
+<td style="text-align: left;">معرف العميل ومعرف الدواء</td>
+<td style="text-align: left;">نموذج XGBoost Regressor مع ضبط المعاملات بـ Optuna</td>
+<td style="text-align: left;">حساب فاصل ثقة غاوسي 95% ($\pm 1.96 \times 4.10$)</td>
+<td style="text-align: left;">الأيام المتوقعة ومجال الخطأ</td>
+<td style="text-align: left;"><code>prediction/service.py#L298</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>FR-11</strong></td>
+<td style="text-align: left;">التنبؤ بتسرب المريض (Churn)</td>
+<td style="text-align: left;">سجل المشتريات ومعدل MPR</td>
+<td style="text-align: left;">نموذج XGBoost Classifier معالَج بـ SMOTE و Threshold 0.33</td>
+<td style="text-align: left;">حذف <code>avg_cycle_days</code> لمنع تسريب البيانات (Data Leak)</td>
+<td style="text-align: left;">احتمالية التسرب وتصنيف الخطر</td>
+<td style="text-align: left;"><code>prediction/service.py#L358</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>FR-12</strong></td>
+<td style="text-align: left;">تفسير القرارات التنبؤية (SHAP)</td>
+<td style="text-align: left;">بيانات المريض المعالجة</td>
+<td style="text-align: left;">تطبيق <code>shap.TreeExplainer</code> على النموذج الداخلي</td>
+<td style="text-align: left;">استخراج أهم 3 عوامل مسؤولة عن القرار</td>
+<td style="text-align: left;">قيم SHAP وأسماء الخصائص</td>
+<td style="text-align: left;"><code>prediction/service.py#L168</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>FR-13</strong></td>
+<td style="text-align: left;">حوكمة الخصومات والأسعار</td>
+<td style="text-align: left;">عميل مرشح ونسبة الخصم</td>
+<td style="text-align: left;">حساب القيمة الدائمة CLV وصافي الهامش</td>
+<td style="text-align: left;">سقف قسري (10% مزمن، 20% تجميل) ومنع الخسارة</td>
+<td style="text-align: left;">خصم معتمد محاسبياً وكوبون</td>
+<td style="text-align: left;"><code>agents/pricing.py</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>FR-14</strong></td>
+<td style="text-align: left;">الفاتورة الضريبية المصرية ETA</td>
+<td style="text-align: left;">طلب مبيعات مكتمل</td>
+<td style="text-align: left;">احتساب 14% VAT واستخراج الصافي وتشفير TLV QR</td>
+<td style="text-align: left;">مطابقة مواصفة ETA v1.0 وتوقيع CAdES-BES</td>
+<td style="text-align: left;">وثيقة JSON رسمية ورمز QR مشفر</td>
+<td style="text-align: left;"><code>eta_invoice.py#L110</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>FR-15</strong></td>
+<td style="text-align: left;">رابط التحقق العام من الفاتورة</td>
+<td style="text-align: left;">معرف الطلب <code>order_id</code></td>
+<td style="text-align: left;">توليد رابط موقع بتجزئة HMAC-SHA256 عبر السيرفر</td>
+<td style="text-align: left;">التحقق الصارم من التوقيع لمنع التزوير والتطفل</td>
+<td style="text-align: left;">صفحة فاتورة تفتح على هاتف العميل</td>
+<td style="text-align: left;"><code>eta_invoice.py#L65</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>FR-16</strong></td>
+<td style="text-align: left;">الإرجاع الذري للمخزون</td>
+<td style="text-align: left;">إلغاء طلب من العميل/الأدمن</td>
+<td style="text-align: left;">استرجاع كميات المخزون في نفس المعاملة (Atomic Restock)</td>
+<td style="text-align: left;">منع إعادة الصنف للمخزون إذا كان مسحوباً</td>
+<td style="text-align: left;">استعادة الرصيد وتسجيل قيد تدقيق</td>
+<td style="text-align: left;"><code>order/service.py</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>FR-17</strong></td>
+<td style="text-align: left;">الشراء الذكي بنموذج Wilson EOQ</td>
+<td style="text-align: left;">الأصناف تحت نقطة الطلب</td>
+<td style="text-align: left;">تطبيق معادلة ويلسون مع حساب الاستهلاك الفعلي 30 يوماً</td>
+<td style="text-align: left;">حد أدنى للطلبية 15 علبة وتكلفة طلب 45 ج.م</td>
+<td style="text-align: left;">مسودة أمر شراء PO رسمي</td>
+<td style="text-align: left;"><code>procurement/service.py#L32</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>FR-18</strong></td>
+<td style="text-align: left;">دورة حياة أوامر الشراء P2P</td>
+<td style="text-align: left;">أمر شراء وحالة جديدة</td>
+<td style="text-align: left;">انتقال صارم: DRAFT $\rightarrow$ APPROVED $\rightarrow$ SENT $\rightarrow$ RECEIVED</td>
+<td style="text-align: left;">منع القفز بين الحالات وتحديث المخزن فور الاستلام</td>
+<td style="text-align: left;">أمر شراء محدث وإذن استلام GRN</td>
+<td style="text-align: left;"><code>procurement/service.py#L190</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>FR-19</strong></td>
+<td style="text-align: left;">القيود المزدوجة وميزان المراجعة</td>
+<td style="text-align: left;">إتمام بيع أو استلام بضاعة</td>
+<td style="text-align: left;">توليد قيود يومية JV متوازنة آلياً من 8 حسابات رئيسية</td>
+<td style="text-align: left;">التحقق الصارم: $\sum Debit == \sum Credit$</td>
+<td style="text-align: left;">سند قيد متوازن وميزان مراجعة</td>
+<td style="text-align: left;"><code>accounting/service.py#L37</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>FR-20</strong></td>
+<td style="text-align: left;">التحليل الجنائي المالي (بنفورد)</td>
+<td style="text-align: left;">مبالغ المعاملات والقيود</td>
+<td style="text-align: left;">فحص الرقم الأول والثاني واختبار Chi-Square و MAD</td>
+<td style="text-align: left;">حد أدنى للعينة $N \ge 30$ وصلاحية $\chi^2$ عند $N \ge 110$</td>
+<td style="text-align: left;">مؤشر التطابق ومستوى الخطر</td>
+<td style="text-align: left;"><code>accounting/forensics.py#L69</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>FR-21</strong></td>
+<td style="text-align: left;">كشف التجزئة وتفادي الحدود</td>
+<td style="text-align: left;">مبالغ الفواتير ومصروفات النقد</td>
+<td style="text-align: left;">فحص التكتل تحت حدود الاعتماد (Structuring 90-99.99%)</td>
+<td style="text-align: left;">تنبيه عند تركز العمليات قرب حدود الاعتماد المالي</td>
+<td style="text-align: left;">بلاغ اشتباه جنائي مالي</td>
+<td style="text-align: left;"><code>accounting/forensics.py#L254</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>FR-22</strong></td>
+<td style="text-align: left;">سجل التدقيق الخارجي WORM</td>
+<td style="text-align: left;">الأحداث المالية والأمنية</td>
+<td style="text-align: left;">إلحاق الحدث بملف مستقل وحساب SHA-256 متسلسل مع fsync</td>
+<td style="text-align: left;">قفل عابر للعمليات (msvcrt/fcntl) لمنع التفرع</td>
+<td style="text-align: left;">سلسلة كتل تدقيقية مضادة للتلاعب</td>
+<td style="text-align: left;"><code>worm_ledger.py#L103</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>FR-23</strong></td>
+<td style="text-align: left;">المقارنة الثنائية لنزاهة السجلات</td>
+<td style="text-align: left;">فحص دوري بين القاعدة والسجل</td>
+<td style="text-align: left;">مقارنة أحداث جدول events مع أسطر WORM</td>
+<td style="text-align: left;">استثناء البادئات النظامية <code>LEDGER_NATIVE_PREFIXES</code></td>
+<td style="text-align: left;">كشف حذف الـ Rogue DBA فوراً</td>
+<td style="text-align: left;"><code>worm_ledger.py#L250</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>FR-24</strong></td>
+<td style="text-align: left;">بروتوكول سحب الأدوية المعيبة</td>
+<td style="text-align: left;">منشور سحب رسمي وتشغيلة</td>
+<td style="text-align: left;">تجميد مخزون المستأجر فوراً وحصر المشترين في 90 يوماً</td>
+<td style="text-align: left;">توقيع أمر السحب في دفتر WORM وإخطار المرضى</td>
+<td style="text-align: left;">حجر الصنف وبلاغات n8n العاجلة</td>
+<td style="text-align: left;"><code>drug/service.py#L482</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>FR-25</strong></td>
+<td style="text-align: left;">حماية الخصوصية وحقوق المريض</td>
+<td style="text-align: left;">طلب المريض تصدير/حذف بياناته</td>
+<td style="text-align: left;">تصدير JSON وتجهيل الهوية (<code>ANON_XXXX</code>)</td>
+<td style="text-align: left;">الحفاظ على أرقام الفواتير للامتثال الضريبي 5 سنوات</td>
+<td style="text-align: left;">ملف تصدير وحساب مجهول</td>
+<td style="text-align: left;"><code>customer/router.py#L164</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>FR-26</strong></td>
+<td style="text-align: left;">إجراءات استخبارات السوق الذاتية</td>
+<td style="text-align: left;">رادار هيئة الدواء وإشارات النقص</td>
+<td style="text-align: left;">اقتراح إجراء تنفيذي (حجر، أمر توريد، تنبيه مرضى)</td>
+<td style="text-align: left;">بروتوكول Maker-Checker: لا تنفيذ إلا باعتمادين</td>
+<td style="text-align: left;">إجراء معتمد وموثق بسلسلة WORM</td>
+<td style="text-align: left;"><code>market_action.py</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>FR-27</strong></td>
+<td style="text-align: left;">صندوق الطوارئ اللاتزامني (Outbox)</td>
+<td style="text-align: left;">بلاغات التداخلات والسحب الحرجة</td>
+<td style="text-align: left;">نمط الحجز الذري <code>FOR UPDATE SKIP LOCKED</code></td>
+<td style="text-align: left;">5 محاولات تسليم كحد أقصى ثم التحويل لـ Dead-Letter</td>
+<td style="text-align: left;">تسليم موثوق وبلا تكرار لـ n8n</td>
+<td style="text-align: left;"><code>main.py#L13</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>FR-28</strong></td>
+<td style="text-align: left;">الحزم العمودية وتخصيص البزنس</td>
+<td style="text-align: left;">ملف تهيئة YAML للحزمة</td>
+<td style="text-align: left;">قراءة المصطلحات والسقوف والوكلاء من <code>verticals/</code></td>
+<td style="text-align: left;">عزل معجمي كامل: صفر تسريب مفردات بين الحزم</td>
+<td style="text-align: left;">تشغيل النظام لقطاعات متعددة</td>
+<td style="text-align: left;"><code>verticals/loader.py</code></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3>2.2 المتطلبات غير الوظيفية (NFRs)</h3>
+<ol>
+<li><strong>الأمان والمصادقة (Security &amp; Zero-Knowledge Auth):</strong></li>
+<li>عزل بيانات الاعتماد وكلمات المرور في Supabase Auth؛ لا توجد أي كلمة مرور أو مفتاح أمني داخل قاعدة بيانات التطبيق.</li>
+<li>الجلسات الرقمية محمية بكوكيز مشفرة بخواص <code>HttpOnly</code>, <code>SameSite=Lax</code>, و<code>Secure</code>.</li>
+<li>توقيع الروابط العامة والتوكنات السرية بـ HMAC-SHA256 مع صلاحية زمنية محددة.</li>
+<li><strong>عزل المستأجرين (Multi-Tenant Isolation via PostgreSQL RLS):</strong></li>
+<li>فرض سياسات الأمان على مستوى الصف (Row-Level Security) على جميع الجداول ذات الطابع المؤسسي عبر <code>tenant_id</code>.</li>
+<li>منع تسرب أرصدة المخزون أو بيانات المرضى بين الصيدليات المشتركة في نفس المنصة السحابية.</li>
+<li><strong>النزاهة التشفيرية ومقاومة التلاعب (WORM Ledger Integrity):</strong></li>
+<li>كتابة السجلات الرقابية بنمط Append-Only مع تسلسل هاشات SHA-256 سطر-بسطر.</li>
+<li>إجبار نظام التشغيل على الكتابة الفيزيائية اللحظية للقرص عبر <code>os.fsync(fileno)</code> وقفل الملفات عبر العمليات (<code>msvcrt</code>/<code>fcntl</code>).</li>
+<li><strong>الأداء وزمن الاستجابة (Low Latency SLAs):</strong></li>
+<li>إتمام عمليات الكتالوج والسلة في أقل من <strong>120ms</strong> بفضل كاش الذاكرة InMemory Cache وتدفئة الاتصالات مسبقاً (<code>DB Warmup</code>).</li>
+<li>استجابة وكلاء الذكاء الاصطناعي في أقل من <strong>2.0s</strong> باستخدام Circuit Breaker (3 إخفاقات تفتح القاطع لمدة 60 ثانية تبريد).</li>
+<li><strong>التزامن والذرية (Concurrency &amp; Pessimistic Locking):</strong></li>
+<li>معالجة الطوابير وحركات الخزينة والمخزون بنمط السحب الآمن <code>FOR UPDATE SKIP LOCKED</code> لمنع حالات التسابق (Race Conditions).</li>
+<li><strong>الاعتمادية والتعافي الذاتي (Fault Tolerance &amp; Self-Healing):</strong></li>
+<li>تشغيل عامل خلفي مخصص (<code>automation_retry_worker.py</code>) يعيد إطلاق مهام الأتمتة الفاشلة مع n8n بتراجع زمني تصاعدي (5 دقائق $\times$ رقم المحاولة).</li>
+</ol>
+<hr>
+<h1>3. معمارية وهندسة نظم المعلومات (Information Systems Architecture &amp; Design)</h1>
+<h3>3.1 السياقات المحددة للتصميم الموجه بالمجال (DDD Bounded Contexts)</h3>
+<p>تم تنظيم النظام وفق معمارية <strong>Domain-Driven Design (DDD)</strong> إلى سياقات محددة تمنع التداخل التشغيلي:</p>
+<pre class="mermaid"><svg id="mermaid-svg-0" width="100%" xmlns="http://www.w3.org/2000/svg" style="max-width: 4228.515625px;" viewBox="-7.5 -8 4228.515625 110.59375" role="graphics-document document" aria-roledescription="flowchart-v2"><style>#mermaid-svg-0{font-family:Cairo,sans-serif;font-size:16px;fill:#333;}#mermaid-svg-0 .error-icon{fill:#552222;}#mermaid-svg-0 .error-text{fill:#552222;stroke:#552222;}#mermaid-svg-0 .edge-thickness-normal{stroke-width:2px;}#mermaid-svg-0 .edge-thickness-thick{stroke-width:3.5px;}#mermaid-svg-0 .edge-pattern-solid{stroke-dasharray:0;}#mermaid-svg-0 .edge-pattern-dashed{stroke-dasharray:3;}#mermaid-svg-0 .edge-pattern-dotted{stroke-dasharray:2;}#mermaid-svg-0 .marker{fill:#333333;stroke:#333333;}#mermaid-svg-0 .marker.cross{stroke:#333333;}#mermaid-svg-0 svg{font-family:Cairo,sans-serif;font-size:16px;}#mermaid-svg-0 .label{font-family:Cairo,sans-serif;color:#333;}#mermaid-svg-0 .cluster-label text{fill:#333;}#mermaid-svg-0 .cluster-label span,#mermaid-svg-0 p{color:#333;}#mermaid-svg-0 .label text,#mermaid-svg-0 span,#mermaid-svg-0 p{fill:#333;color:#333;}#mermaid-svg-0 .node rect,#mermaid-svg-0 .node circle,#mermaid-svg-0 .node ellipse,#mermaid-svg-0 .node polygon,#mermaid-svg-0 .node path{fill:#ECECFF;stroke:#9370DB;stroke-width:1px;}#mermaid-svg-0 .flowchart-label text{text-anchor:middle;}#mermaid-svg-0 .node .label{text-align:center;}#mermaid-svg-0 .node.clickable{cursor:pointer;}#mermaid-svg-0 .arrowheadPath{fill:#333333;}#mermaid-svg-0 .edgePath .path{stroke:#333333;stroke-width:2.0px;}#mermaid-svg-0 .flowchart-link{stroke:#333333;fill:none;}#mermaid-svg-0 .edgeLabel{background-color:#e8e8e8;text-align:center;}#mermaid-svg-0 .edgeLabel rect{opacity:0.5;background-color:#e8e8e8;fill:#e8e8e8;}#mermaid-svg-0 .labelBkg{background-color:rgba(232, 232, 232, 0.5);}#mermaid-svg-0 .cluster rect{fill:#ffffde;stroke:#aaaa33;stroke-width:1px;}#mermaid-svg-0 .cluster text{fill:#333;}#mermaid-svg-0 .cluster span,#mermaid-svg-0 p{color:#333;}#mermaid-svg-0 div.mermaidTooltip{position:absolute;text-align:center;max-width:200px;padding:2px;font-family:Cairo,sans-serif;font-size:12px;background:hsl(80, 100%, 96.2745098039%);border:1px solid #aaaa33;border-radius:2px;pointer-events:none;z-index:100;}#mermaid-svg-0 .flowchartTitleText{text-anchor:middle;font-size:18px;fill:#333;}#mermaid-svg-0 :root{--mermaid-font-family:Cairo,sans-serif;}</style><g><marker id="mermaid-svg-0_flowchart-pointEnd" class="marker flowchart" viewBox="0 0 10 10" refX="6" refY="5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker><marker id="mermaid-svg-0_flowchart-pointStart" class="marker flowchart" viewBox="0 0 10 10" refX="4.5" refY="5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto"><path d="M 0 5 L 10 10 L 10 0 z" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker><marker id="mermaid-svg-0_flowchart-circleEnd" class="marker flowchart" viewBox="0 0 10 10" refX="11" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></circle></marker><marker id="mermaid-svg-0_flowchart-circleStart" class="marker flowchart" viewBox="0 0 10 10" refX="-1" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></circle></marker><marker id="mermaid-svg-0_flowchart-crossEnd" class="marker cross flowchart" viewBox="0 0 11 11" refX="12" refY="5.2" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><path d="M 1,1 l 9,9 M 10,1 l -9,9" class="arrowMarkerPath" style="stroke-width: 2; stroke-dasharray: 1, 0;"></path></marker><marker id="mermaid-svg-0_flowchart-crossStart" class="marker cross flowchart" viewBox="0 0 11 11" refX="-1" refY="5.2" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><path d="M 1,1 l 9,9 M 10,1 l -9,9" class="arrowMarkerPath" style="stroke-width: 2; stroke-dasharray: 1, 0;"></path></marker><g class="root"><g class="clusters"></g><g class="edgePaths"></g><g class="edgeLabels"></g><g class="nodes"><g class="root" transform="translate(-7.5, -8)"><g class="clusters"><g class="cluster default flowchart-label" id="CoreDomain"><rect style="" rx="0" ry="0" x="8" y="8" width="4212.515625" height="94.59375"></rect><g class="cluster-label" transform="translate(2001.5078125, 8)"><foreignObject width="225.5" height="29.59375"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">النواة المؤسسية لمنظومة AI-COS</span></div></foreignObject></g></g></g><g class="edgePaths"></g><g class="edgeLabels"></g><g class="nodes"><g class="node default default flowchart-label" id="flowchart-BC1-0" transform="translate(261.765625, 55.296875)"><rect class="basic label-container" style="" rx="0" ry="0" x="-218.765625" y="-22.296875" width="437.53125" height="44.59375"></rect><g class="label" style="" transform="translate(-211.265625, -14.796875)"><rect></rect><foreignObject width="422.53125" height="29.59375"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">1. كتالوج الأدوية والسجل السريري(Drug Catalog &amp; CDSS Context)</span></div></foreignObject></g></g><g class="node default default flowchart-label" id="flowchart-BC2-1" transform="translate(778.046875, 55.296875)"><rect class="basic label-container" style="" rx="0" ry="0" x="-247.515625" y="-22.296875" width="495.03125" height="44.59375"></rect><g class="label" style="" transform="translate(-240.015625, -14.796875)"><rect></rect><foreignObject width="480.03125" height="29.59375"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">2. معالجة الروشتات والرؤية البصرية(Prescription Vision &amp; Review Context)</span></div></foreignObject></g></g><g class="node default default flowchart-label" id="flowchart-BC3-2" transform="translate(1302.5390625, 55.296875)"><rect class="basic label-container" style="" rx="0" ry="0" x="-226.9765625" y="-22.296875" width="453.953125" height="44.59375"></rect><g class="label" style="" transform="translate(-219.4765625, -14.796875)"><rect></rect><foreignObject width="438.953125" height="29.59375"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">3. رحلة المريض وتتبع الاستهلاك(Customer Journey &amp; Refill Context)</span></div></foreignObject></g></g><g class="node default default flowchart-label" id="flowchart-BC4-3" transform="translate(1821.4140625, 55.296875)"><rect class="basic label-container" style="" rx="0" ry="0" x="-241.8984375" y="-22.296875" width="483.796875" height="44.59375"></rect><g class="label" style="" transform="translate(-234.3984375, -14.796875)"><rect></rect><foreignObject width="468.796875" height="29.59375"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">4. سلاسل الإمداد والشراء المؤسسي(Procurement P2P &amp; EOQ Context)</span></div></foreignObject></g></g><g class="node default default flowchart-label" id="flowchart-BC5-4" transform="translate(2331.4296875, 55.296875)"><rect class="basic label-container" style="" rx="0" ry="0" x="-218.1171875" y="-22.296875" width="436.234375" height="44.59375"></rect><g class="label" style="" transform="translate(-210.6171875, -14.796875)"><rect></rect><foreignObject width="421.234375" height="29.59375"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">5. الأستاذ العام والنظم المحاسبية(General Ledger &amp; AIS Context)</span></div></foreignObject></g></g><g class="node default default flowchart-label" id="flowchart-BC6-5" transform="translate(2837.7109375, 55.296875)"><rect class="basic label-container" style="" rx="0" ry="0" x="-238.1640625" y="-22.296875" width="476.328125" height="44.59375"></rect><g class="label" style="" transform="translate(-230.6640625, -14.796875)"><rect></rect><foreignObject width="461.328125" height="29.59375"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">6. منصة الوكلاء والذكاء الاصطناعي(Agentic AI Orchestration Context)</span></div></foreignObject></g></g><g class="node default default flowchart-label" id="flowchart-BC7-6" transform="translate(3386.265625, 55.296875)"><rect class="basic label-container" style="" rx="0" ry="0" x="-260.390625" y="-22.296875" width="520.78125" height="44.59375"></rect><g class="label" style="" transform="translate(-252.890625, -14.796875)"><rect></rect><foreignObject width="505.78125" height="29.59375"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">7. استخبارات السوق والحوكمة الرقابية(Market Intelligence &amp; WORM Context)</span></div></foreignObject></g></g><g class="node default default flowchart-label" id="flowchart-BC8-7" transform="translate(3941.0859375, 55.296875)"><rect class="basic label-container" style="" rx="0" ry="0" x="-244.4296875" y="-22.296875" width="488.859375" height="44.59375"></rect><g class="label" style="" transform="translate(-236.9296875, -14.796875)"><rect></rect><foreignObject width="473.859375" height="29.59375"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">8. الحزم العمودية وتخصيص الأعمال(Vertical Packs Architecture Context)</span></div></foreignObject></g></g></g></g></g></g></g></svg></pre>
+
+<hr>
+<h3>3.2 النمط المعماري الهجين (Hybrid 3-Tier / Hexagonal Architecture)</h3>
+<p>تتبنى المنظومة طوبولوجيا مؤسسية ثلاثية الطبقات (3-Tier Enterprise Topology):
+1. <strong>طبقة العرض والعميل (Presentation Tier):</strong>
+   - إطار العمل الحديث <strong>Next.js 16.3 (App Router)</strong> مع <strong>React 19</strong> و <strong>Tailwind CSS 4</strong>.
+   - دعم ثنائي الاتجاه بالكامل (RTL / LTR) مع محاذاة تلقائية وعناصر تفاعلية متطورة.
+   - واجهات متجاوبة مع متصفحات الهواتف المحمولة وتطبيقات الويب التقدمية (PWA Ready).
+2. <strong>طبقة التطبيق والمنطق المؤسسي (Application &amp; Domain Tier):</strong>
+   - خادم عالي الأداء مبني بـ <strong>FastAPI (Python 3.12+)</strong> يعتمد المسارات اللاتزامنية بالكامل (Async/Await).
+   - طبقة وسيطة لتحديد معدل الاستهلاك (<code>SlowAPI Limiter</code>)، وحظر هجمات CORS، وتدفئة الاتصالات عند الإقلاع.
+   - محرك الوكلاء التسعة المتخصصين مع المشرف المركزي (Master Orchestrator).
+3. <strong>طبقة البيانات والنزاهة المؤسسية (Data &amp; Integrity Tier):</strong>
+   - قاعدة بيانات <strong>PostgreSQL 15 (Supabase)</strong> مع امتدادات <code>pgvector</code> للمتجهات الدلالية.
+   - سجل التدقيق المشفر الخارجي المستقل WORM على نظام الملفات الفيزيائي.
+   - خط أنابيب الأتمتة الخارجية عبر <strong>n8n Webhook Pipeline</strong> مع عامل صندوق الطوارئ الذري.</p>
+<hr>
+<h3>3.3 نموذج البيانات المؤسسي ومخطط العلاقات (Enterprise ERD)</h3>
+<pre class="mermaid"><svg id="mermaid-svg-1" width="100%" xmlns="http://www.w3.org/2000/svg" style="max-width: 2136.825927734375px;" viewBox="0 0 2136.825927734375 815" role="graphics-document document" aria-roledescription="er"><style>#mermaid-svg-1{font-family:Cairo,sans-serif;font-size:16px;fill:#333;}#mermaid-svg-1 .error-icon{fill:#552222;}#mermaid-svg-1 .error-text{fill:#552222;stroke:#552222;}#mermaid-svg-1 .edge-thickness-normal{stroke-width:2px;}#mermaid-svg-1 .edge-thickness-thick{stroke-width:3.5px;}#mermaid-svg-1 .edge-pattern-solid{stroke-dasharray:0;}#mermaid-svg-1 .edge-pattern-dashed{stroke-dasharray:3;}#mermaid-svg-1 .edge-pattern-dotted{stroke-dasharray:2;}#mermaid-svg-1 .marker{fill:#333333;stroke:#333333;}#mermaid-svg-1 .marker.cross{stroke:#333333;}#mermaid-svg-1 svg{font-family:Cairo,sans-serif;font-size:16px;}#mermaid-svg-1 .entityBox{fill:#ECECFF;stroke:#9370DB;}#mermaid-svg-1 .attributeBoxOdd{fill:#ffffff;stroke:#9370DB;}#mermaid-svg-1 .attributeBoxEven{fill:#f2f2f2;stroke:#9370DB;}#mermaid-svg-1 .relationshipLabelBox{fill:hsl(80, 100%, 96.2745098039%);opacity:0.7;background-color:hsl(80, 100%, 96.2745098039%);}#mermaid-svg-1 .relationshipLabelBox rect{opacity:0.5;}#mermaid-svg-1 .relationshipLine{stroke:#333333;}#mermaid-svg-1 .entityTitleText{text-anchor:middle;font-size:18px;fill:#333;}#mermaid-svg-1 #MD_PARENT_START{fill:#f5f5f5!important;stroke:#333333!important;stroke-width:1;}#mermaid-svg-1 #MD_PARENT_END{fill:#f5f5f5!important;stroke:#333333!important;stroke-width:1;}#mermaid-svg-1 :root{--mermaid-font-family:Cairo,sans-serif;}</style><g></g><defs><marker id="MD_PARENT_START" refX="0" refY="7" markerWidth="190" markerHeight="240" orient="auto"><path d="M 18,7 L9,13 L1,7 L9,1 Z"></path></marker></defs><defs><marker id="MD_PARENT_END" refX="19" refY="7" markerWidth="20" markerHeight="28" orient="auto"><path d="M 18,7 L9,13 L1,7 L9,1 Z"></path></marker></defs><defs><marker id="ONLY_ONE_START" refX="0" refY="9" markerWidth="18" markerHeight="18" orient="auto"><path stroke="gray" fill="none" d="M9,0 L9,18 M15,0 L15,18"></path></marker></defs><defs><marker id="ONLY_ONE_END" refX="18" refY="9" markerWidth="18" markerHeight="18" orient="auto"><path stroke="gray" fill="none" d="M3,0 L3,18 M9,0 L9,18"></path></marker></defs><defs><marker id="ZERO_OR_ONE_START" refX="0" refY="9" markerWidth="30" markerHeight="18" orient="auto"><circle stroke="gray" fill="white" cx="21" cy="9" r="6"></circle><path stroke="gray" fill="none" d="M9,0 L9,18"></path></marker></defs><defs><marker id="ZERO_OR_ONE_END" refX="30" refY="9" markerWidth="30" markerHeight="18" orient="auto"><circle stroke="gray" fill="white" cx="9" cy="9" r="6"></circle><path stroke="gray" fill="none" d="M21,0 L21,18"></path></marker></defs><defs><marker id="ONE_OR_MORE_START" refX="18" refY="18" markerWidth="45" markerHeight="36" orient="auto"><path stroke="gray" fill="none" d="M0,18 Q 18,0 36,18 Q 18,36 0,18 M42,9 L42,27"></path></marker></defs><defs><marker id="ONE_OR_MORE_END" refX="27" refY="18" markerWidth="45" markerHeight="36" orient="auto"><path stroke="gray" fill="none" d="M3,9 L3,27 M9,18 Q27,0 45,18 Q27,36 9,18"></path></marker></defs><defs><marker id="ZERO_OR_MORE_START" refX="18" refY="18" markerWidth="57" markerHeight="36" orient="auto"><circle stroke="gray" fill="white" cx="48" cy="18" r="6"></circle><path stroke="gray" fill="none" d="M0,18 Q18,0 36,18 Q18,36 0,18"></path></marker></defs><defs><marker id="ZERO_OR_MORE_END" refX="39" refY="18" markerWidth="57" markerHeight="36" orient="auto"><circle stroke="gray" fill="white" cx="9" cy="18" r="6"></circle><path stroke="gray" fill="none" d="M21,18 Q39,0 57,18 Q39,36 21,18"></path></marker></defs><path class="er relationshipLine" d="M1357.136,63.459L1243.106,77.049C1129.076,90.639,901.016,117.82,786.986,139.743C672.956,161.667,672.956,178.333,672.956,186.667L672.956,195" marker-end="url(#ZERO_OR_MORE_END)" marker-start="url(#ONLY_ONE_START)" style="stroke: gray; fill: none;"></path><path class="er relationshipLine" d="M1357.136,73.794L1320.719,85.662C1284.302,97.529,1211.468,121.265,1175.052,147.716C1138.635,174.167,1138.635,203.333,1138.635,232.5C1138.635,261.667,1138.635,290.833,1132.812,313.75C1126.99,336.667,1115.345,353.333,1109.523,361.667L1103.7,370" marker-end="url(#ZERO_OR_MORE_END)" marker-start="url(#ONLY_ONE_START)" style="stroke: gray; fill: none;"></path><path class="er relationshipLine" d="M1357.136,60.941L1153.535,74.95C949.935,88.96,542.735,116.98,339.134,145.573C135.534,174.167,135.534,203.333,135.534,232.5C135.534,261.667,135.534,290.833,135.534,320C135.534,349.167,135.534,378.333,135.534,407.5C135.534,436.667,135.534,465.833,130.772,488.75C126.01,511.667,116.486,528.333,111.724,536.667L106.963,545" marker-end="url(#ZERO_OR_MORE_END)" marker-start="url(#ONLY_ONE_START)" style="stroke: gray; fill: none;"></path><path class="er relationshipLine" d="M1457.136,65.317L1542.084,78.597C1627.032,91.878,1796.929,118.439,1881.877,146.303C1966.826,174.167,1966.826,203.333,1966.826,232.5C1966.826,261.667,1966.826,290.833,1957.302,313.75C1947.778,336.667,1928.73,353.333,1919.206,361.667L1909.683,370" marker-end="url(#ZERO_OR_MORE_END)" marker-start="url(#ONLY_ONE_START)" style="stroke: gray; fill: none;"></path><path class="er relationshipLine" d="M1457.136,63.665L1567.084,77.221C1677.032,90.776,1896.929,117.888,2006.877,146.027C2116.826,174.167,2116.826,203.333,2116.826,232.5C2116.826,261.667,2116.826,290.833,2116.826,320C2116.826,349.167,2116.826,378.333,2116.826,407.5C2116.826,436.667,2116.826,465.833,2072.181,492.132C2027.535,518.431,1938.245,541.862,1893.6,553.577L1848.955,565.293" marker-end="url(#ZERO_OR_MORE_END)" marker-start="url(#ONLY_ONE_START)" style="stroke: gray; fill: none;"></path><path class="er relationshipLine" d="M1457.136,89.366L1471.685,98.638C1486.234,107.911,1515.332,126.455,1529.881,144.061C1544.43,161.667,1544.43,178.333,1544.43,186.667L1544.43,195" marker-end="url(#ZERO_OR_MORE_END)" marker-start="url(#ONLY_ONE_START)" style="stroke: gray; fill: none;"></path><path class="er relationshipLine" d="M1357.136,67.618L1293.4,80.515C1229.664,93.412,1102.192,119.206,1038.457,140.436C974.721,161.667,974.721,178.333,974.721,186.667L974.721,195" marker-end="url(#ZERO_OR_MORE_END)" marker-start="url(#ONLY_ONE_START)" style="stroke: gray; fill: none;"></path><path class="er relationshipLine" d="M722.956,248.97L758.894,260.809C794.833,272.647,866.709,296.323,917.466,317.496C968.224,338.669,997.862,357.337,1012.681,366.671L1027.5,376.006" marker-end="url(#ZERO_OR_MORE_END)" marker-start="url(#ONLY_ONE_START)" style="stroke: gray; fill: none;"></path><path class="er relationshipLine" d="M624.877,270L614.193,278.333C603.509,286.667,582.141,303.333,571.457,320C560.773,336.667,560.773,353.333,560.773,361.667L560.773,370" marker-end="url(#ZERO_OR_MORE_END)" marker-start="url(#ONLY_ONE_START)" style="stroke: gray; fill: none;"></path><path class="er relationshipLine" d="M721.034,270L731.718,278.333C742.402,286.667,763.771,303.333,774.455,320C785.139,336.667,785.139,353.333,785.139,361.667L785.139,370" marker-end="url(#ZERO_OR_MORE_END)" marker-start="url(#ONLY_ONE_START)" style="stroke: gray; fill: none;"></path><path class="er relationshipLine" d="M1027.5,428.405L1000.953,439.504C974.406,450.603,921.312,472.802,883.987,492.234C846.662,511.667,825.105,528.333,814.327,536.667L803.549,545" marker-end="url(#ONE_OR_MORE_END)" marker-start="url(#ONLY_ONE_START)" style="stroke: gray; fill: none;"></path><path class="er relationshipLine" d="M365.55,445L370.494,453.333C375.438,461.667,385.327,478.333,441.272,499.068C497.217,519.804,599.218,544.607,650.219,557.009L701.22,569.411" marker-end="url(#ZERO_OR_MORE_END)" marker-start="url(#ONLY_ONE_START)" style="stroke: gray; fill: none;"></path><path class="er relationshipLine" d="M293.301,421.715L250.34,433.929C207.379,446.144,121.456,470.572,83.257,491.119C45.058,511.667,54.582,528.333,59.343,536.667L64.105,545" marker-end="url(#ZERO_OR_MORE_END)" marker-start="url(#ONLY_ONE_START)" style="stroke: gray; fill: none;"></path><path class="er relationshipLine" d="M393.301,414.356L491.315,427.797C589.33,441.238,785.359,468.119,883.373,489.893C981.388,511.667,981.388,528.333,981.388,536.667L981.388,545" marker-end="url(#ZERO_OR_MORE_END)" marker-start="url(#ONLY_ONE_START)" style="stroke: gray; fill: none;"></path><path class="er relationshipLine" d="M842.033,418.501L907.972,431.251C973.911,444.001,1105.789,469.5,1171.729,490.583C1237.668,511.667,1237.668,528.333,1237.668,536.667L1237.668,545" marker-end="url(#ZERO_OR_MORE_END)" marker-start="url(#ONLY_ONE_START)" style="stroke: gray; fill: none;"></path><path class="er relationshipLine" d="M1237.668,620L1237.668,628.333C1237.668,636.667,1237.668,653.333,1113.161,674.941C988.654,696.548,739.64,723.096,615.133,736.37L490.626,749.644" marker-end="url(#ONE_OR_MORE_END)" marker-start="url(#ONLY_ONE_START)" style="stroke: gray; fill: none;"></path><path class="er relationshipLine" d="M311.158,445L304.015,453.333C296.872,461.667,282.587,478.333,275.444,501.25C268.301,524.167,268.301,553.333,268.301,582.5C268.301,611.667,268.301,640.833,282.457,663.75C296.613,686.667,324.925,703.333,339.08,711.667L353.236,720" marker-end="url(#ZERO_OR_MORE_END)" marker-start="url(#ONLY_ONE_START)" style="stroke: gray; fill: none;"></path><path class="er relationshipLine" d="M1797.512,433.481L1770.157,443.734C1742.802,453.987,1688.093,474.494,1648.753,493.08C1609.414,511.667,1585.444,528.333,1573.46,536.667L1561.475,545" marker-end="url(#ONE_OR_MORE_END)" marker-start="url(#ONLY_ONE_START)" style="stroke: gray; fill: none;"></path><path class="er relationshipLine" d="M393.301,411.374L573.185,425.312C753.069,439.249,1112.837,467.125,1296.049,489.396C1479.26,511.667,1485.915,528.333,1489.243,536.667L1492.57,545" marker-end="url(#ZERO_OR_MORE_END)" marker-start="url(#ONLY_ONE_START)" style="stroke: gray; fill: none;"></path><path class="er relationshipLine" d="M1758.731,270L1758.731,278.333C1758.731,286.667,1758.731,303.333,1769.025,320C1779.32,336.667,1799.91,353.333,1810.204,361.667L1820.499,370" marker-end="url(#ZERO_OR_MORE_END)" marker-start="url(#ONLY_ONE_START)" style="stroke: gray; fill: none;"></path><path class="er relationshipLine" d="M1127.5,413.288L1245.147,426.907C1362.794,440.525,1598.089,467.763,1710.974,489.715C1823.86,511.667,1814.336,528.333,1809.574,536.667L1804.812,545" marker-end="url(#ZERO_OR_ONE_END)" marker-start="url(#ONLY_ONE_START)" style="stroke: gray; fill: none;"></path><path class="er relationshipLine" d="M1809.636,445L1796.927,453.333C1784.219,461.667,1758.801,478.333,1750.854,495C1742.907,511.667,1752.431,528.333,1757.193,536.667L1761.955,545" marker-end="url(#ZERO_OR_ONE_END)" marker-start="url(#ONLY_ONE_START)" style="stroke: gray; fill: none;"></path><path class="er relationshipLine" d="M1783.383,620L1783.383,628.333C1783.383,636.667,1783.383,653.333,1783.383,670C1783.383,686.667,1783.383,703.333,1783.383,711.667L1783.383,720" marker-end="url(#ONE_OR_MORE_END)" marker-start="url(#ONLY_ONE_START)" style="stroke: gray; fill: none;"></path><path class="er relationshipLine" d="M1544.43,270L1544.43,278.333C1544.43,286.667,1544.43,303.333,1544.43,320C1544.43,336.667,1544.43,353.333,1544.43,361.667L1544.43,370" marker-end="url(#ZERO_OR_MORE_END)" marker-start="url(#ONLY_ONE_START)" style="stroke: gray; fill: none;"></path><path class="er relationshipLine" d="M1600.93,76.302L1556.073,87.752C1511.216,99.202,1421.502,122.101,1376.645,141.884C1331.788,161.667,1331.788,178.333,1331.788,186.667L1331.788,195" marker-end="url(#ZERO_OR_MORE_END)" marker-start="url(#ONLY_ONE_START)" style="stroke: gray; fill: none;"></path><g id="entity-TENANTS-8daa4c70-ca44-5217-83d0-772051198982" transform="translate(1357.1356353759766,20 )"><rect class="er entityBox" x="0" y="0" width="100" height="75"></rect><text class="er entityLabel" id="text-entity-TENANTS-8daa4c70-ca44-5217-83d0-772051198982" x="0" y="0" transform="translate(50,37.5)" style="dominant-baseline: middle; text-anchor: middle; font-family: Cairo, sans-serif; font-size: 12px;">TENANTS</text></g><g id="entity-CUSTOMERS-f16d4b86-fdce-5504-97dd-e4b4cdf26b8c" transform="translate(622.9558563232422,195 )"><rect class="er entityBox" x="0" y="0" width="100" height="75"></rect><text class="er entityLabel" id="text-entity-CUSTOMERS-f16d4b86-fdce-5504-97dd-e4b4cdf26b8c" x="0" y="0" transform="translate(50,37.5)" style="dominant-baseline: middle; text-anchor: middle; font-family: Cairo, sans-serif; font-size: 12px;">CUSTOMERS</text></g><g id="entity-ORDERS-892fdbd0-1a6d-547f-b5d2-5ca9e20e885e" transform="translate(1027.4997825622559,370 )"><rect class="er entityBox" x="0" y="0" width="100" height="75"></rect><text class="er entityLabel" id="text-entity-ORDERS-892fdbd0-1a6d-547f-b5d2-5ca9e20e885e" x="0" y="0" transform="translate(50,37.5)" style="dominant-baseline: middle; text-anchor: middle; font-family: Cairo, sans-serif; font-size: 12px;">ORDERS</text></g><g id="entity-INVENTORYITEMS-bc7c9ca1-8c71-5fa5-bc74-482591cca2ce" transform="translate(20,545 )"><rect class="er entityBox" x="0" y="0" width="131.06790161132812" height="75"></rect><text class="er entityLabel" id="text-entity-INVENTORYITEMS-bc7c9ca1-8c71-5fa5-bc74-482591cca2ce" x="0" y="0" transform="translate(65.53395080566406,37.5)" style="dominant-baseline: middle; text-anchor: middle; font-family: Cairo, sans-serif; font-size: 12px;">INVENTORY_ITEMS</text></g><g id="entity-PURCHASEORDERS-d956749b-dd8d-5bd9-986f-b40700bf6e13" transform="translate(1797.5115699768066,370 )"><rect class="er entityBox" x="0" y="0" width="138.62791442871094" height="75"></rect><text class="er entityLabel" id="text-entity-PURCHASEORDERS-d956749b-dd8d-5bd9-986f-b40700bf6e13" x="0" y="0" transform="translate(69.31395721435547,37.5)" style="dominant-baseline: middle; text-anchor: middle; font-family: Cairo, sans-serif; font-size: 12px;">PURCHASE_ORDERS</text></g><g id="entity-JOURNALENTRIES-e100d0fa-5e91-58fd-8588-dede71e315eb" transform="translate(1717.811538696289,545 )"><rect class="er entityBox" x="0" y="0" width="131.14390563964844" height="75"></rect><text class="er entityLabel" id="text-entity-JOURNALENTRIES-e100d0fa-5e91-58fd-8588-dede71e315eb" x="0" y="0" transform="translate(65.57195281982422,37.5)" style="dominant-baseline: middle; text-anchor: middle; font-family: Cairo, sans-serif; font-size: 12px;">JOURNAL_ENTRIES</text></g><g id="entity-AUDITLOGS-67be0d6a-b88c-5052-9d7e-8d8724be4a70" transform="translate(1494.4296569824219,195 )"><rect class="er entityBox" x="0" y="0" width="100" height="75"></rect><text class="er entityLabel" id="text-entity-AUDITLOGS-67be0d6a-b88c-5052-9d7e-8d8724be4a70" x="0" y="0" transform="translate(50,37.5)" style="dominant-baseline: middle; text-anchor: middle; font-family: Cairo, sans-serif; font-size: 12px;">AUDIT_LOGS</text></g><g id="entity-MARKETACTIONS-c2192e23-5fa9-518a-a9a0-91dc6900bca6" transform="translate(910.806812286377,195 )"><rect class="er entityBox" x="0" y="0" width="127.82794189453125" height="75"></rect><text class="er entityLabel" id="text-entity-MARKETACTIONS-c2192e23-5fa9-518a-a9a0-91dc6900bca6" x="0" y="0" transform="translate(63.913970947265625,37.5)" style="dominant-baseline: middle; text-anchor: middle; font-family: Cairo, sans-serif; font-size: 12px;">MARKET_ACTIONS</text></g><g id="entity-CUSTOMERCYCLES-f2ce4f29-255f-51b6-a9aa-b617bdb72c36" transform="translate(493.3009262084961,370 )"><rect class="er entityBox" x="0" y="0" width="134.9439239501953" height="75"></rect><text class="er entityLabel" id="text-entity-CUSTOMERCYCLES-f2ce4f29-255f-51b6-a9aa-b617bdb72c36" x="0" y="0" transform="translate(67.47196197509766,37.5)" style="dominant-baseline: middle; text-anchor: middle; font-family: Cairo, sans-serif; font-size: 12px;">CUSTOMER_CYCLES</text></g><g id="entity-PRESCRIPTIONS-04ac8f9a-ca9e-583d-ad34-5c2d26063305" transform="translate(728.2448501586914,370 )"><rect class="er entityBox" x="0" y="0" width="113.78794860839844" height="75"></rect><text class="er entityLabel" id="text-entity-PRESCRIPTIONS-04ac8f9a-ca9e-583d-ad34-5c2d26063305" x="0" y="0" transform="translate(56.89397430419922,37.5)" style="dominant-baseline: middle; text-anchor: middle; font-family: Cairo, sans-serif; font-size: 12px;">PRESCRIPTIONS</text></g><g id="entity-ORDERITEMS-d4ca6fa3-4379-50e4-9502-93d20129943c" transform="translate(701.2198600769043,545 )"><rect class="er entityBox" x="0" y="0" width="107.65594482421875" height="75"></rect><text class="er entityLabel" id="text-entity-ORDERITEMS-d4ca6fa3-4379-50e4-9502-93d20129943c" x="0" y="0" transform="translate(53.827972412109375,37.5)" style="dominant-baseline: middle; text-anchor: middle; font-family: Cairo, sans-serif; font-size: 12px;">ORDER_ITEMS</text></g><g id="entity-DRUGS-3ec9fa04-df0b-5592-8fd0-29f68c70850e" transform="translate(293.3009262084961,370 )"><rect class="er entityBox" x="0" y="0" width="100" height="75"></rect><text class="er entityLabel" id="text-entity-DRUGS-3ec9fa04-df0b-5592-8fd0-29f68c70850e" x="0" y="0" transform="translate(50,37.5)" style="dominant-baseline: middle; text-anchor: middle; font-family: Cairo, sans-serif; font-size: 12px;">DRUGS</text></g><g id="entity-DRUGINTERACTIONS-45d508da-4115-57f2-b520-56c300c6f789" transform="translate(908.875804901123,545 )"><rect class="er entityBox" x="0" y="0" width="145.02392578125" height="75"></rect><text class="er entityLabel" id="text-entity-DRUGINTERACTIONS-45d508da-4115-57f2-b520-56c300c6f789" x="0" y="0" transform="translate(72.511962890625,37.5)" style="dominant-baseline: middle; text-anchor: middle; font-family: Cairo, sans-serif; font-size: 12px;">DRUG_INTERACTIONS</text></g><g id="entity-PRESCRIPTIONANALYSES-3ef7d8bb-9e08-55ee-be42-57badefa61f7" transform="translate(1153.899730682373,545 )"><rect class="er entityBox" x="0" y="0" width="167.53587341308594" height="75"></rect><text class="er entityLabel" id="text-entity-PRESCRIPTIONANALYSES-3ef7d8bb-9e08-55ee-be42-57badefa61f7" x="0" y="0" transform="translate(83.76793670654297,37.5)" style="dominant-baseline: middle; text-anchor: middle; font-family: Cairo, sans-serif; font-size: 12px;">PRESCRIPTION_ANALYSES</text></g><g id="entity-PRESCRIPTIONITEMS-d6cda4d6-f227-53b2-872d-b34edb63c925" transform="translate(343.2499198913574,720 )"><rect class="er entityBox" x="0" y="0" width="147.37591552734375" height="75"></rect><text class="er entityLabel" id="text-entity-PRESCRIPTIONITEMS-d6cda4d6-f227-53b2-872d-b34edb63c925" x="0" y="0" transform="translate(73.68795776367188,37.5)" style="dominant-baseline: middle; text-anchor: middle; font-family: Cairo, sans-serif; font-size: 12px;">PRESCRIPTION_ITEMS</text></g><g id="entity-PURCHASEORDERITEMS-d64bdcc5-2701-5040-afb7-fcc5cd05670b" transform="translate(1421.435604095459,545 )"><rect class="er entityBox" x="0" y="0" width="172.21588134765625" height="75"></rect><text class="er entityLabel" id="text-entity-PURCHASEORDERITEMS-d64bdcc5-2701-5040-afb7-fcc5cd05670b" x="0" y="0" transform="translate(86.10794067382812,37.5)" style="dominant-baseline: middle; text-anchor: middle; font-family: Cairo, sans-serif; font-size: 12px;">PURCHASE_ORDER_ITEMS</text></g><g id="entity-SUPPLIERS-71f95766-4d84-5c48-ad22-7bf4c4cf1bb3" transform="translate(1708.7306213378906,195 )"><rect class="er entityBox" x="0" y="0" width="100" height="75"></rect><text class="er entityLabel" id="text-entity-SUPPLIERS-71f95766-4d84-5c48-ad22-7bf4c4cf1bb3" x="0" y="0" transform="translate(50,37.5)" style="dominant-baseline: middle; text-anchor: middle; font-family: Cairo, sans-serif; font-size: 12px;">SUPPLIERS</text></g><g id="entity-JOURNALENTRYLINES-02d8952a-db87-5b99-b1cf-5e95cb8acf6d" transform="translate(1704.0235595703125,720 )"><rect class="er entityBox" x="0" y="0" width="158.71986389160156" height="75"></rect><text class="er entityLabel" id="text-entity-JOURNALENTRYLINES-02d8952a-db87-5b99-b1cf-5e95cb8acf6d" x="0" y="0" transform="translate(79.35993194580078,37.5)" style="dominant-baseline: middle; text-anchor: middle; font-family: Cairo, sans-serif; font-size: 12px;">JOURNAL_ENTRY_LINES</text></g><g id="entity-WORMENTRIES-6fe4a8db-dbff-5683-9490-5d2a246d7dbe" transform="translate(1485.1416854858398,370 )"><rect class="er entityBox" x="0" y="0" width="118.57594299316406" height="75"></rect><text class="er entityLabel" id="text-entity-WORMENTRIES-6fe4a8db-dbff-5683-9490-5d2a246d7dbe" x="0" y="0" transform="translate(59.28797149658203,37.5)" style="dominant-baseline: middle; text-anchor: middle; font-family: Cairo, sans-serif; font-size: 12px;">WORM_ENTRIES</text></g><g id="entity-EMERGENCYOUTBOX-8cc06567-87da-5f1e-bb14-f19134d93187" transform="translate(1600.9295768737793,20 )"><rect class="er entityBox" x="0" y="0" width="147.32789611816406" height="75"></rect><text class="er entityLabel" id="text-entity-EMERGENCYOUTBOX-8cc06567-87da-5f1e-bb14-f19134d93187" x="0" y="0" transform="translate(73.66394805908203,37.5)" style="dominant-baseline: middle; text-anchor: middle; font-family: Cairo, sans-serif; font-size: 12px;">EMERGENCY_OUTBOX</text></g><g id="entity-N8NDISPATCHES-63570ed9-a1b5-50a9-af67-288694f02699" transform="translate(1269.145751953125,195 )"><rect class="er entityBox" x="0" y="0" width="125.28390502929688" height="75"></rect><text class="er entityLabel" id="text-entity-N8NDISPATCHES-63570ed9-a1b5-50a9-af67-288694f02699" x="0" y="0" transform="translate(62.64195251464844,37.5)" style="dominant-baseline: middle; text-anchor: middle; font-family: Cairo, sans-serif; font-size: 12px;">N8N_DISPATCHES</text></g><rect class="er relationshipLabelBox" x="983.7820434570312" y="95.28523254394531" width="39.6119384765625" height="23"></rect><text class="er relationshipLabel" id="rel1" x="1003.5880126953125" y="106.78523254394531" style="text-anchor: middle; dominant-baseline: middle; font-family: Cairo, sans-serif; font-size: 12px;">isolates</text><rect class="er relationshipLabelBox" x="1144.29443359375" y="151.28375244140625" width="27.887939453125" height="23"></rect><text class="er relationshipLabel" id="rel2" x="1158.2384033203125" y="162.78375244140625" style="text-anchor: middle; dominant-baseline: middle; font-family: Cairo, sans-serif; font-size: 12px;">owns</text><rect class="er relationshipLabelBox" x="553.9798583984375" y="108.46989822387695" width="33.083984375" height="23.00000762939453"></rect><text class="er relationshipLabel" id="rel3" x="570.5218505859375" y="119.96990203857422" style="text-anchor: middle; dominant-baseline: middle; font-family: Cairo, sans-serif; font-size: 12px;">stocks</text><rect class="er relationshipLabelBox" x="1796.5957641601562" y="116.13771438598633" width="32.2799072265625" height="23.00000762939453"></rect><text class="er relationshipLabel" id="rel4" x="1812.7357177734375" y="127.6377182006836" style="text-anchor: middle; dominant-baseline: middle; font-family: Cairo, sans-serif; font-size: 12px;">issues</text><rect class="er relationshipLabelBox" x="2040.2447509765625" y="151.01251220703125" width="38.015869140625" height="23"></rect><text class="er relationshipLabel" id="rel5" x="2059.252685546875" y="162.51251220703125" style="text-anchor: middle; dominant-baseline: middle; font-family: Cairo, sans-serif; font-size: 12px;">records</text><rect class="er relationshipLabelBox" x="1501.1968383789062" y="119.48663330078125" width="31.3319091796875" height="23"></rect><text class="er relationshipLabel" id="rel6" x="1516.86279296875" y="130.98663330078125" style="text-anchor: middle; dominant-baseline: middle; font-family: Cairo, sans-serif; font-size: 12px;">tracks</text><rect class="er relationshipLabelBox" x="1125.3323364257812" y="98.9677963256836" width="53.6759033203125" height="23"></rect><text class="er relationshipLabel" id="rel7" x="1152.1702880859375" y="110.4677963256836" style="text-anchor: middle; dominant-baseline: middle; font-family: Cairo, sans-serif; font-size: 12px;">authorizes</text><rect class="er relationshipLabelBox" x="863.3792114257812" y="291.08209228515625" width="32.3759765625" height="23"></rect><text class="er relationshipLabel" id="rel8" x="879.5671997070312" y="302.58209228515625" style="text-anchor: middle; dominant-baseline: middle; font-family: Cairo, sans-serif; font-size: 12px;">places</text><rect class="er relationshipLabelBox" x="554.7573547363281" y="299.8780822753906" width="46.21197509765625" height="23"></rect><text class="er relationshipLabel" id="rel9" x="577.8633422851562" y="311.3780822753906" style="text-anchor: middle; dominant-baseline: middle; font-family: Cairo, sans-serif; font-size: 12px;">monitors</text><rect class="er relationshipLabelBox" x="747.9243774414062" y="299.87786865234375" width="40.2479248046875" height="23"></rect><text class="er relationshipLabel" id="rel10" x="768.04833984375" y="311.37786865234375" style="text-anchor: middle; dominant-baseline: middle; font-family: Cairo, sans-serif; font-size: 12px;">uploads</text><rect class="er relationshipLabelBox" x="889.5729064941406" y="467.29595947265625" width="43.29595947265625" height="23"></rect><text class="er relationshipLabel" id="rel11" x="911.2208862304688" y="478.79595947265625" style="text-anchor: middle; dominant-baseline: middle; font-family: Cairo, sans-serif; font-size: 12px;">contains</text><rect class="er relationshipLabelBox" x="496.29669189453125" y="513.3386840820312" width="55.9375" height="23"></rect><text class="er relationshipLabel" id="rel12" x="524.2654418945312" y="524.8386840820312" style="text-anchor: middle; dominant-baseline: middle; font-family: Cairo, sans-serif; font-size: 12px;">ordered_in</text><rect class="er relationshipLabelBox" x="125.99502563476562" y="451.49713134765625" width="56.0625" height="23"></rect><text class="er relationshipLabel" id="rel13" x="154.02627563476562" y="462.99713134765625" style="text-anchor: middle; dominant-baseline: middle; font-family: Cairo, sans-serif; font-size: 12px;">stocked_in</text><rect class="er relationshipLabelBox" x="663.1275634765625" y="446.0521240234375" width="72.515625" height="23"></rect><text class="er relationshipLabel" id="rel14" x="699.3853759765625" y="457.5521240234375" style="text-anchor: middle; dominant-baseline: middle; font-family: Cairo, sans-serif; font-size: 12px;">conflicts_with</text><rect class="er relationshipLabelBox" x="1017.7648315429688" y="449.2350769042969" width="71.3638916015625" height="23"></rect><text class="er relationshipLabel" id="rel15" x="1053.44677734375" y="460.7350769042969" style="text-anchor: middle; dominant-baseline: middle; font-family: Cairo, sans-serif; font-size: 12px;">processed_by</text><rect class="er relationshipLabelBox" x="854.5942993164062" y="695.9667358398438" width="41.2799072265625" height="23"></rect><text class="er relationshipLabel" id="rel16" x="875.2342529296875" y="707.4667358398438" style="text-anchor: middle; dominant-baseline: middle; font-family: Cairo, sans-serif; font-size: 12px;">extracts</text><rect class="er relationshipLabelBox" x="244.96327209472656" y="583.9310302734375" width="46.767974853515625" height="23"></rect><text class="er relationshipLabel" id="rel17" x="268.3472595214844" y="595.4310302734375" style="text-anchor: middle; dominant-baseline: middle; font-family: Cairo, sans-serif; font-size: 12px;">maps_to</text><rect class="er relationshipLabelBox" x="1658.4498901367188" y="469.59844970703125" width="34.0679931640625" height="23"></rect><text class="er relationshipLabel" id="rel18" x="1675.48388671875" y="481.09844970703125" style="text-anchor: middle; dominant-baseline: middle; font-family: Cairo, sans-serif; font-size: 12px;">details</text><rect class="er relationshipLabelBox" x="929.2084045410156" y="444.173828125" width="42.15594482421875" height="23"></rect><text class="er relationshipLabel" id="rel19" x="950.286376953125" y="455.673828125" style="text-anchor: middle; dominant-baseline: middle; font-family: Cairo, sans-serif; font-size: 12px;">supplies</text><rect class="er relationshipLabelBox" x="1759.1891479492188" y="316.7305603027344" width="31.3919677734375" height="23"></rect><text class="er relationshipLabel" id="rel20" x="1774.8851318359375" y="328.2305603027344" style="text-anchor: middle; dominant-baseline: middle; font-family: Cairo, sans-serif; font-size: 12px;">fulfills</text><rect class="er relationshipLabelBox" x="1433.7994995117188" y="444.22900390625" width="100.4998779296875" height="23"></rect><text class="er relationshipLabel" id="rel21" x="1484.0494384765625" y="455.72900390625" style="text-anchor: middle; dominant-baseline: middle; font-family: Cairo, sans-serif; font-size: 12px;">generates_sales_jv</text><rect class="er relationshipLabelBox" x="1701.1703491210938" y="473.4064025878906" width="112.8839111328125" height="23"></rect><text class="er relationshipLabel" id="rel22" x="1757.6123046875" y="484.9064025878906" style="text-anchor: middle; dominant-baseline: middle; font-family: Cairo, sans-serif; font-size: 12px;">generates_procure_jv</text><rect class="er relationshipLabelBox" x="1760.9610595703125" y="658.5" width="44.843994140625" height="23"></rect><text class="er relationshipLabel" id="rel23" x="1783.383056640625" y="670" style="text-anchor: middle; dominant-baseline: middle; font-family: Cairo, sans-serif; font-size: 12px;">balances</text><rect class="er relationshipLabelBox" x="1514.902099609375" y="308.5" width="59.055908203125" height="23"></rect><text class="er relationshipLabel" id="rel24" x="1544.4300537109375" y="320" style="text-anchor: middle; dominant-baseline: middle; font-family: Cairo, sans-serif; font-size: 12px;">anchors_to</text><rect class="er relationshipLabelBox" x="1431.4981079101562" y="104.55229187011719" width="39.7799072265625" height="23"></rect><text class="er relationshipLabel" id="rel25" x="1451.3880615234375" y="116.05229187011719" style="text-anchor: middle; dominant-baseline: middle; font-family: Cairo, sans-serif; font-size: 12px;">delivers</text></svg></pre>
+
+<hr>
+<h3>3.4 آلات الحالة ودورات الحياة التشغيلية (Core State Machines)</h3>
+<h4>أ. دورة حياة أمر الشراء والتوريد (Procurement PO Lifecycle):</h4>
+<pre class="mermaid"><svg id="mermaid-svg-2" width="100%" xmlns="http://www.w3.org/2000/svg" class="statediagram" style="max-width: 553.37109375px;" viewBox="0 0 553.37109375 620.34375" role="graphics-document document" aria-roledescription="stateDiagram"><style>#mermaid-svg-2{font-family:Cairo,sans-serif;font-size:16px;fill:#333;}#mermaid-svg-2 .error-icon{fill:#552222;}#mermaid-svg-2 .error-text{fill:#552222;stroke:#552222;}#mermaid-svg-2 .edge-thickness-normal{stroke-width:2px;}#mermaid-svg-2 .edge-thickness-thick{stroke-width:3.5px;}#mermaid-svg-2 .edge-pattern-solid{stroke-dasharray:0;}#mermaid-svg-2 .edge-pattern-dashed{stroke-dasharray:3;}#mermaid-svg-2 .edge-pattern-dotted{stroke-dasharray:2;}#mermaid-svg-2 .marker{fill:#333333;stroke:#333333;}#mermaid-svg-2 .marker.cross{stroke:#333333;}#mermaid-svg-2 svg{font-family:Cairo,sans-serif;font-size:16px;}#mermaid-svg-2 defs #statediagram-barbEnd{fill:#333333;stroke:#333333;}#mermaid-svg-2 g.stateGroup text{fill:#9370DB;stroke:none;font-size:10px;}#mermaid-svg-2 g.stateGroup text{fill:#333;stroke:none;font-size:10px;}#mermaid-svg-2 g.stateGroup .state-title{font-weight:bolder;fill:#131300;}#mermaid-svg-2 g.stateGroup rect{fill:#ECECFF;stroke:#9370DB;}#mermaid-svg-2 g.stateGroup line{stroke:#333333;stroke-width:1;}#mermaid-svg-2 .transition{stroke:#333333;stroke-width:1;fill:none;}#mermaid-svg-2 .stateGroup .composit{fill:white;border-bottom:1px;}#mermaid-svg-2 .stateGroup .alt-composit{fill:#e0e0e0;border-bottom:1px;}#mermaid-svg-2 .state-note{stroke:#aaaa33;fill:#fff5ad;}#mermaid-svg-2 .state-note text{fill:black;stroke:none;font-size:10px;}#mermaid-svg-2 .stateLabel .box{stroke:none;stroke-width:0;fill:#ECECFF;opacity:0.5;}#mermaid-svg-2 .edgeLabel .label rect{fill:#ECECFF;opacity:0.5;}#mermaid-svg-2 .edgeLabel .label text{fill:#333;}#mermaid-svg-2 .label div .edgeLabel{color:#333;}#mermaid-svg-2 .stateLabel text{fill:#131300;font-size:10px;font-weight:bold;}#mermaid-svg-2 .node circle.state-start{fill:#333333;stroke:#333333;}#mermaid-svg-2 .node .fork-join{fill:#333333;stroke:#333333;}#mermaid-svg-2 .node circle.state-end{fill:#9370DB;stroke:white;stroke-width:1.5;}#mermaid-svg-2 .end-state-inner{fill:white;stroke-width:1.5;}#mermaid-svg-2 .node rect{fill:#ECECFF;stroke:#9370DB;stroke-width:1px;}#mermaid-svg-2 .node polygon{fill:#ECECFF;stroke:#9370DB;stroke-width:1px;}#mermaid-svg-2 #statediagram-barbEnd{fill:#333333;}#mermaid-svg-2 .statediagram-cluster rect{fill:#ECECFF;stroke:#9370DB;stroke-width:1px;}#mermaid-svg-2 .cluster-label,#mermaid-svg-2 .nodeLabel{color:#131300;}#mermaid-svg-2 .statediagram-cluster rect.outer{rx:5px;ry:5px;}#mermaid-svg-2 .statediagram-state .divider{stroke:#9370DB;}#mermaid-svg-2 .statediagram-state .title-state{rx:5px;ry:5px;}#mermaid-svg-2 .statediagram-cluster.statediagram-cluster .inner{fill:white;}#mermaid-svg-2 .statediagram-cluster.statediagram-cluster-alt .inner{fill:#f0f0f0;}#mermaid-svg-2 .statediagram-cluster .inner{rx:0;ry:0;}#mermaid-svg-2 .statediagram-state rect.basic{rx:5px;ry:5px;}#mermaid-svg-2 .statediagram-state rect.divider{stroke-dasharray:10,10;fill:#f0f0f0;}#mermaid-svg-2 .note-edge{stroke-dasharray:5;}#mermaid-svg-2 .statediagram-note rect{fill:#fff5ad;stroke:#aaaa33;stroke-width:1px;rx:0;ry:0;}#mermaid-svg-2 .statediagram-note rect{fill:#fff5ad;stroke:#aaaa33;stroke-width:1px;rx:0;ry:0;}#mermaid-svg-2 .statediagram-note text{fill:black;}#mermaid-svg-2 .statediagram-note .nodeLabel{color:black;}#mermaid-svg-2 .statediagram .edgeLabel{color:red;}#mermaid-svg-2 #dependencyStart,#mermaid-svg-2 #dependencyEnd{fill:#333333;stroke:#333333;stroke-width:1;}#mermaid-svg-2 .statediagramTitleText{text-anchor:middle;font-size:18px;fill:#333;}#mermaid-svg-2 :root{--mermaid-font-family:Cairo,sans-serif;}</style><g><defs><marker id="mermaid-svg-2_statediagram-barbEnd" refX="19" refY="7" markerWidth="20" markerHeight="14" markerUnits="strokeWidth" orient="auto"><path d="M 19,7 L9,13 L14,7 L9,1 Z"></path></marker></defs><g class="root"><g class="clusters"></g><g class="edgePaths"><path d="M215.195,22L215.195,28.633C215.195,35.266,215.195,48.531,215.195,61.797C215.195,75.063,215.195,88.328,215.195,94.961L215.195,101.594" id="edge0" class=" edge-thickness-normal transition" style="fill:none" marker-end="url(#mermaid-svg-2_statediagram-barbEnd)"></path><path d="M240.424,146.188L247.929,152.82C255.434,159.453,270.443,172.719,277.948,185.984C285.453,199.25,285.453,212.516,285.453,219.148L285.453,225.781" id="edge1" class=" edge-thickness-normal transition" style="fill:none" marker-end="url(#mermaid-svg-2_statediagram-barbEnd)"></path><path d="M184.477,136.578L164.539,144.812C144.602,153.047,104.727,169.516,84.789,188.099C64.852,206.682,64.852,227.38,64.852,248.078C64.852,268.776,64.852,289.474,70.008,306.456C75.164,323.438,85.476,336.703,90.632,343.336L95.788,349.969" id="edge2" class=" edge-thickness-normal transition" style="fill:none" marker-end="url(#mermaid-svg-2_statediagram-barbEnd)"></path><path d="M322.106,270.375L333.01,277.008C343.913,283.641,365.72,296.906,376.624,310.172C387.527,323.438,387.527,336.703,387.527,343.336L387.527,349.969" id="edge3" class=" edge-thickness-normal transition" style="fill:none" marker-end="url(#mermaid-svg-2_statediagram-barbEnd)"></path><path d="M248.8,270.375L237.896,277.008C226.993,283.641,205.186,296.906,186.778,310.172C168.369,323.438,153.359,336.703,145.854,343.336L138.35,349.969" id="edge4" class=" edge-thickness-normal transition" style="fill:none" marker-end="url(#mermaid-svg-2_statediagram-barbEnd)"></path><path d="M387.527,394.563L387.527,401.195C387.527,407.828,387.527,421.094,387.527,434.359C387.527,447.625,387.527,460.891,387.527,467.523L387.527,474.156" id="edge5" class=" edge-thickness-normal transition" style="fill:none" marker-end="url(#mermaid-svg-2_statediagram-barbEnd)"></path><path d="M387.527,518.75L387.527,525.383C387.527,532.016,387.527,545.281,387.527,558.547C387.527,571.813,387.527,585.078,387.527,591.711L387.527,598.344" id="edge6" class=" edge-thickness-normal transition" style="fill:none" marker-end="url(#mermaid-svg-2_statediagram-barbEnd)"></path></g><g class="edgeLabels"><g class="edgeLabel" transform="translate(215.1953125, 61.796875)"><g class="label" transform="translate(-128.2421875, -14.796875)"><rect rx="0" ry="0" width="256.484375" height="29.59375"></rect><foreignObject width="256.484375" height="29.59375"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel">توليد ذكي بـ Wilson EOQ أو إنشاء يدوي</span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(285.453125, 185.984375)"><g class="label" transform="translate(-120.515625, -14.796875)"><rect rx="0" ry="0" width="241.03125" height="29.59375"></rect><foreignObject width="241.03125" height="29.59375"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel">اعتماد مدير الصيدلية ومراجعة الأسعار</span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(64.8515625, 248.078125)"><g class="label" transform="translate(-56.8515625, -14.796875)"><rect rx="0" ry="0" width="113.703125" height="29.59375"></rect><foreignObject width="113.703125" height="29.59375"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel">إلغاء لعدم الحاجة</span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(387.52734375, 310.171875)"><g class="label" transform="translate(-107.609375, -14.796875)"><rect rx="0" ry="0" width="215.21875" height="29.59375"></rect><foreignObject width="215.21875" height="29.59375"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel">إرسال أمر التوريد إلى شركة التوزيع</span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(183.37890625, 310.171875)"><g class="label" transform="translate(-76.5390625, -14.796875)"><rect rx="0" ry="0" width="153.078125" height="29.59375"></rect><foreignObject width="153.078125" height="29.59375"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel">تراجع قبل شحن البضاعة</span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(387.52734375, 434.359375)"><g class="label" transform="translate(-122.7265625, -14.796875)"><rect rx="0" ry="0" width="245.453125" height="29.59375"></rect><foreignObject width="245.453125" height="29.59375"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel">وصول الشحنة + الفحص المخزني GRN</span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(387.52734375, 558.546875)"><g class="label" transform="translate(-157.84375, -14.796875)"><rect rx="0" ry="0" width="315.6875" height="29.59375"></rect><foreignObject width="315.6875" height="29.59375"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel">تحديث المخزن فورياً + توليد قيد يومية دائن للمورد</span></div></foreignObject></g></g></g><g class="nodes"><g class="node default" id="state-root_start-0" transform="translate(215.1953125, 15)"><circle class="state-start" r="7" width="14" height="14"></circle></g><g class="node  statediagram-state undefined" id="state-DRAFT-2" transform="translate(215.1953125, 123.890625)"><rect class="basic label-container" style="" x="-30.71875" y="-22.296875" width="61.4375" height="44.59375"></rect><g class="label" style="" transform="translate(-23.21875, -14.796875)"><rect></rect><foreignObject width="46.4375" height="29.59375"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">DRAFT</span></div></foreignObject></g></g><g class="node  statediagram-state undefined" id="state-APPROVED-4" transform="translate(285.453125, 248.078125)"><rect class="basic label-container" style="" x="-46.0703125" y="-22.296875" width="92.140625" height="44.59375"></rect><g class="label" style="" transform="translate(-38.5703125, -14.796875)"><rect></rect><foreignObject width="77.140625" height="29.59375"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">APPROVED</span></div></foreignObject></g></g><g class="node  statediagram-state undefined" id="state-CANCELLED-4" transform="translate(113.12109375, 372.265625)"><rect class="basic label-container" style="" x="-48.0390625" y="-22.296875" width="96.078125" height="44.59375"></rect><g class="label" style="" transform="translate(-40.5390625, -14.796875)"><rect></rect><foreignObject width="81.078125" height="29.59375"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">CANCELLED</span></div></foreignObject></g></g><g class="node  statediagram-state undefined" id="state-SENT-5" transform="translate(387.52734375, 372.265625)"><rect class="basic label-container" style="" x="-25.890625" y="-22.296875" width="51.78125" height="44.59375"></rect><g class="label" style="" transform="translate(-18.390625, -14.796875)"><rect></rect><foreignObject width="36.78125" height="29.59375"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">SENT</span></div></foreignObject></g></g><g class="node  statediagram-state undefined" id="state-RECEIVED-6" transform="translate(387.52734375, 496.453125)"><rect class="basic label-container" style="" x="-41.8125" y="-22.296875" width="83.625" height="44.59375"></rect><g class="label" style="" transform="translate(-34.3125, -14.796875)"><rect></rect><foreignObject width="68.625" height="29.59375"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">RECEIVED</span></div></foreignObject></g></g><g class="node default" id="state-root_end-6" transform="translate(387.52734375, 605.34375)"><circle class="state-start" r="7" width="14" height="14"></circle><circle class="state-end" r="5" width="10" height="10"></circle></g></g></g></g></svg></pre>
+
+<h4>ب. دورة معالجة وصرف الروشتات الطبية (Prescription Review &amp; Dispensing Flow):</h4>
+<pre class="mermaid"><svg id="mermaid-svg-3" width="100%" xmlns="http://www.w3.org/2000/svg" class="statediagram" style="max-width: 690.75px;" viewBox="0 0 690.75 650.9375" role="graphics-document document" aria-roledescription="stateDiagram"><style>#mermaid-svg-3{font-family:Cairo,sans-serif;font-size:16px;fill:#333;}#mermaid-svg-3 .error-icon{fill:#552222;}#mermaid-svg-3 .error-text{fill:#552222;stroke:#552222;}#mermaid-svg-3 .edge-thickness-normal{stroke-width:2px;}#mermaid-svg-3 .edge-thickness-thick{stroke-width:3.5px;}#mermaid-svg-3 .edge-pattern-solid{stroke-dasharray:0;}#mermaid-svg-3 .edge-pattern-dashed{stroke-dasharray:3;}#mermaid-svg-3 .edge-pattern-dotted{stroke-dasharray:2;}#mermaid-svg-3 .marker{fill:#333333;stroke:#333333;}#mermaid-svg-3 .marker.cross{stroke:#333333;}#mermaid-svg-3 svg{font-family:Cairo,sans-serif;font-size:16px;}#mermaid-svg-3 defs #statediagram-barbEnd{fill:#333333;stroke:#333333;}#mermaid-svg-3 g.stateGroup text{fill:#9370DB;stroke:none;font-size:10px;}#mermaid-svg-3 g.stateGroup text{fill:#333;stroke:none;font-size:10px;}#mermaid-svg-3 g.stateGroup .state-title{font-weight:bolder;fill:#131300;}#mermaid-svg-3 g.stateGroup rect{fill:#ECECFF;stroke:#9370DB;}#mermaid-svg-3 g.stateGroup line{stroke:#333333;stroke-width:1;}#mermaid-svg-3 .transition{stroke:#333333;stroke-width:1;fill:none;}#mermaid-svg-3 .stateGroup .composit{fill:white;border-bottom:1px;}#mermaid-svg-3 .stateGroup .alt-composit{fill:#e0e0e0;border-bottom:1px;}#mermaid-svg-3 .state-note{stroke:#aaaa33;fill:#fff5ad;}#mermaid-svg-3 .state-note text{fill:black;stroke:none;font-size:10px;}#mermaid-svg-3 .stateLabel .box{stroke:none;stroke-width:0;fill:#ECECFF;opacity:0.5;}#mermaid-svg-3 .edgeLabel .label rect{fill:#ECECFF;opacity:0.5;}#mermaid-svg-3 .edgeLabel .label text{fill:#333;}#mermaid-svg-3 .label div .edgeLabel{color:#333;}#mermaid-svg-3 .stateLabel text{fill:#131300;font-size:10px;font-weight:bold;}#mermaid-svg-3 .node circle.state-start{fill:#333333;stroke:#333333;}#mermaid-svg-3 .node .fork-join{fill:#333333;stroke:#333333;}#mermaid-svg-3 .node circle.state-end{fill:#9370DB;stroke:white;stroke-width:1.5;}#mermaid-svg-3 .end-state-inner{fill:white;stroke-width:1.5;}#mermaid-svg-3 .node rect{fill:#ECECFF;stroke:#9370DB;stroke-width:1px;}#mermaid-svg-3 .node polygon{fill:#ECECFF;stroke:#9370DB;stroke-width:1px;}#mermaid-svg-3 #statediagram-barbEnd{fill:#333333;}#mermaid-svg-3 .statediagram-cluster rect{fill:#ECECFF;stroke:#9370DB;stroke-width:1px;}#mermaid-svg-3 .cluster-label,#mermaid-svg-3 .nodeLabel{color:#131300;}#mermaid-svg-3 .statediagram-cluster rect.outer{rx:5px;ry:5px;}#mermaid-svg-3 .statediagram-state .divider{stroke:#9370DB;}#mermaid-svg-3 .statediagram-state .title-state{rx:5px;ry:5px;}#mermaid-svg-3 .statediagram-cluster.statediagram-cluster .inner{fill:white;}#mermaid-svg-3 .statediagram-cluster.statediagram-cluster-alt .inner{fill:#f0f0f0;}#mermaid-svg-3 .statediagram-cluster .inner{rx:0;ry:0;}#mermaid-svg-3 .statediagram-state rect.basic{rx:5px;ry:5px;}#mermaid-svg-3 .statediagram-state rect.divider{stroke-dasharray:10,10;fill:#f0f0f0;}#mermaid-svg-3 .note-edge{stroke-dasharray:5;}#mermaid-svg-3 .statediagram-note rect{fill:#fff5ad;stroke:#aaaa33;stroke-width:1px;rx:0;ry:0;}#mermaid-svg-3 .statediagram-note rect{fill:#fff5ad;stroke:#aaaa33;stroke-width:1px;rx:0;ry:0;}#mermaid-svg-3 .statediagram-note text{fill:black;}#mermaid-svg-3 .statediagram-note .nodeLabel{color:black;}#mermaid-svg-3 .statediagram .edgeLabel{color:red;}#mermaid-svg-3 #dependencyStart,#mermaid-svg-3 #dependencyEnd{fill:#333333;stroke:#333333;stroke-width:1;}#mermaid-svg-3 .statediagramTitleText{text-anchor:middle;font-size:18px;fill:#333;}#mermaid-svg-3 :root{--mermaid-font-family:Cairo,sans-serif;}</style><g><defs><marker id="mermaid-svg-3_statediagram-barbEnd" refX="19" refY="7" markerWidth="20" markerHeight="14" markerUnits="strokeWidth" orient="auto"><path d="M 19,7 L9,13 L14,7 L9,1 Z"></path></marker></defs><g class="root"><g class="clusters"></g><g class="edgePaths"><path d="M357.961,22L357.961,28.633C357.961,35.266,357.961,48.531,357.961,61.797C357.961,75.063,357.961,88.328,357.961,94.961L357.961,101.594" id="edge7" class=" edge-thickness-normal transition" style="fill:none" marker-end="url(#mermaid-svg-3_statediagram-barbEnd)"></path><path d="M357.961,146.188L357.961,152.82C357.961,159.453,357.961,172.719,357.961,185.984C357.961,199.25,357.961,212.516,357.961,219.148L357.961,225.781" id="edge8" class=" edge-thickness-normal transition" style="fill:none" marker-end="url(#mermaid-svg-3_statediagram-barbEnd)"></path><path d="M311.633,260.251L279.967,268.571C248.302,276.891,184.971,293.532,153.306,312.201C121.641,330.87,121.641,351.568,121.641,372.266C121.641,392.964,121.641,413.661,121.641,430.643C121.641,447.625,121.641,460.891,121.641,467.523L121.641,474.156" id="edge9" class=" edge-thickness-normal transition" style="fill:none" marker-end="url(#mermaid-svg-3_statediagram-barbEnd)"></path><path d="M403.788,270.375L417.42,277.008C431.052,283.641,458.317,296.906,471.95,310.172C485.582,323.438,485.582,336.703,485.582,343.336L485.582,349.969" id="edge10" class=" edge-thickness-normal transition" style="fill:none" marker-end="url(#mermaid-svg-3_statediagram-barbEnd)"></path><path d="M446.55,394.563L434.939,401.195C423.328,407.828,400.105,421.094,388.494,434.359C376.883,447.625,376.883,460.891,376.883,467.523L376.883,474.156" id="edge11" class=" edge-thickness-normal transition" style="fill:none" marker-end="url(#mermaid-svg-3_statediagram-barbEnd)"></path><path d="M524.614,394.563L536.225,401.195C547.837,407.828,571.059,421.094,582.67,434.359C594.281,447.625,594.281,460.891,594.281,467.523L594.281,474.156" id="edge12" class=" edge-thickness-normal transition" style="fill:none" marker-end="url(#mermaid-svg-3_statediagram-barbEnd)"></path><path d="M121.641,518.75L121.641,525.383C121.641,532.016,121.641,545.281,135.273,558.547C148.905,571.813,176.17,585.078,189.803,591.711L203.435,598.344" id="edge13" class=" edge-thickness-normal transition" style="fill:none" marker-end="url(#mermaid-svg-3_statediagram-barbEnd)"></path><path d="M376.883,518.75L376.883,525.383C376.883,532.016,376.883,545.281,363.25,558.547C349.618,571.813,322.353,585.078,308.721,591.711L295.088,598.344" id="edge14" class=" edge-thickness-normal transition" style="fill:none" marker-end="url(#mermaid-svg-3_statediagram-barbEnd)"></path></g><g class="edgeLabels"><g class="edgeLabel" transform="translate(357.9609375, 61.796875)"><g class="label" transform="translate(-106.1640625, -14.796875)"><rect rx="0" ry="0" width="212.328125" height="29.59375"></rect><foreignObject width="212.328125" height="29.59375"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel">رفع صورة الروشتة وتوثيق الهاش</span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(357.9609375, 185.984375)"><g class="label" transform="translate(-107.375, -14.796875)"><rect rx="0" ry="0" width="214.75" height="29.59375"></rect><foreignObject width="214.75" height="29.59375"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel">استدعاء محرك الرؤية وتجزئة النص</span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(121.640625, 372.265625)"><g class="label" transform="translate(-113.640625, -14.796875)"><rect rx="0" ry="0" width="227.28125" height="29.59375"></rect><foreignObject width="227.28125" height="29.59375"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel">نسبة ثقة &gt;= 95% وتطابق تام للتركيز</span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(485.58203125, 310.171875)"><g class="label" transform="translate(-136.8125, -14.796875)"><rect rx="0" ry="0" width="273.625" height="29.59375"></rect><foreignObject width="273.625" height="29.59375"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel">ثقة متوسطة أو تفاعل دوائي أو شك LASA</span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(376.8828125, 434.359375)"><g class="label" transform="translate(-108.9296875, -14.796875)"><rect rx="0" ry="0" width="217.859375" height="29.59375"></rect><foreignObject width="217.859375" height="29.59375"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel">اعتماد يدوي من الصيدلي المرخص</span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(594.28125, 434.359375)"><g class="label" transform="translate(-88.46875, -14.796875)"><rect rx="0" ry="0" width="176.9375" height="29.59375"></rect><foreignObject width="176.9375" height="29.59375"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel">حجب الصرف ورفض الروشتة</span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(121.640625, 558.546875)"><g class="label" transform="translate(-95.125, -14.796875)"><rect rx="0" ry="0" width="190.25" height="29.59375"></rect><foreignObject width="190.25" height="29.59375"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel">نقل الأصناف المعتمدة للسلة</span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(376.8828125, 558.546875)"><g class="label" transform="translate(-140.1171875, -14.796875)"><rect rx="0" ry="0" width="280.234375" height="29.59375"></rect><foreignObject width="280.234375" height="29.59375"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel">نقل وحفظ التعديل في ذاكرة تصحيحات OCR</span></div></foreignObject></g></g></g><g class="nodes"><g class="node default" id="state-root_start-7" transform="translate(357.9609375, 15)"><circle class="state-start" r="7" width="14" height="14"></circle></g><g class="node  statediagram-state undefined" id="state-UPLOADED-8" transform="translate(357.9609375, 123.890625)"><rect class="basic label-container" style="" x="-45.765625" y="-22.296875" width="91.53125" height="44.59375"></rect><g class="label" style="" transform="translate(-38.265625, -14.796875)"><rect></rect><foreignObject width="76.53125" height="29.59375"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">UPLOADED</span></div></foreignObject></g></g><g class="node  statediagram-state undefined" id="state-ANALYZING-10" transform="translate(357.9609375, 248.078125)"><rect class="basic label-container" style="" x="-46.328125" y="-22.296875" width="92.65625" height="44.59375"></rect><g class="label" style="" transform="translate(-38.828125, -14.796875)"><rect></rect><foreignObject width="77.65625" height="29.59375"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">ANALYZING</span></div></foreignObject></g></g><g class="node  statediagram-state undefined" id="state-MATCHED_AUTO-13" transform="translate(121.640625, 496.453125)"><rect class="basic label-container" style="" x="-66.2578125" y="-22.296875" width="132.515625" height="44.59375"></rect><g class="label" style="" transform="translate(-58.7578125, -14.796875)"><rect></rect><foreignObject width="117.515625" height="29.59375"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">MATCHED_AUTO</span></div></foreignObject></g></g><g class="node  statediagram-state undefined" id="state-REVIEW_QUEUE-12" transform="translate(485.58203125, 372.265625)"><rect class="basic label-container" style="" x="-64.53125" y="-22.296875" width="129.0625" height="44.59375"></rect><g class="label" style="" transform="translate(-57.03125, -14.796875)"><rect></rect><foreignObject width="114.0625" height="29.59375"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">REVIEW_QUEUE</span></div></foreignObject></g></g><g class="node  statediagram-state undefined" id="state-PHARMACIST_APPROVED-14" transform="translate(376.8828125, 496.453125)"><rect class="basic label-container" style="" x="-97.15625" y="-22.296875" width="194.3125" height="44.59375"></rect><g class="label" style="" transform="translate(-89.65625, -14.796875)"><rect></rect><foreignObject width="179.3125" height="29.59375"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">PHARMACIST_APPROVED</span></div></foreignObject></g></g><g class="node  statediagram-state undefined" id="state-REJECTED-12" transform="translate(594.28125, 496.453125)"><rect class="basic label-container" style="" x="-41.6875" y="-22.296875" width="83.375" height="44.59375"></rect><g class="label" style="" transform="translate(-34.1875, -14.796875)"><rect></rect><foreignObject width="68.375" height="29.59375"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">REJECTED</span></div></foreignObject></g></g><g class="node  statediagram-state undefined" id="state-READY_TO_CART-14" transform="translate(249.26171875, 620.640625)"><rect class="basic label-container" style="" x="-68.421875" y="-22.296875" width="136.84375" height="44.59375"></rect><g class="label" style="" transform="translate(-60.921875, -14.796875)"><rect></rect><foreignObject width="121.84375" height="29.59375"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">READY_TO_CART</span></div></foreignObject></g></g></g></g></g></svg></pre>
+
+<h4>ج. دورة إجراءات استخبارات السوق والحجر اللحظي (Market Action Lifecycle):</h4>
+<pre class="mermaid"><svg id="mermaid-svg-4" width="100%" xmlns="http://www.w3.org/2000/svg" class="statediagram" style="max-width: 551.3828125px;" viewBox="0 0 551.3828125 526.75" role="graphics-document document" aria-roledescription="stateDiagram"><style>#mermaid-svg-4{font-family:Cairo,sans-serif;font-size:16px;fill:#333;}#mermaid-svg-4 .error-icon{fill:#552222;}#mermaid-svg-4 .error-text{fill:#552222;stroke:#552222;}#mermaid-svg-4 .edge-thickness-normal{stroke-width:2px;}#mermaid-svg-4 .edge-thickness-thick{stroke-width:3.5px;}#mermaid-svg-4 .edge-pattern-solid{stroke-dasharray:0;}#mermaid-svg-4 .edge-pattern-dashed{stroke-dasharray:3;}#mermaid-svg-4 .edge-pattern-dotted{stroke-dasharray:2;}#mermaid-svg-4 .marker{fill:#333333;stroke:#333333;}#mermaid-svg-4 .marker.cross{stroke:#333333;}#mermaid-svg-4 svg{font-family:Cairo,sans-serif;font-size:16px;}#mermaid-svg-4 defs #statediagram-barbEnd{fill:#333333;stroke:#333333;}#mermaid-svg-4 g.stateGroup text{fill:#9370DB;stroke:none;font-size:10px;}#mermaid-svg-4 g.stateGroup text{fill:#333;stroke:none;font-size:10px;}#mermaid-svg-4 g.stateGroup .state-title{font-weight:bolder;fill:#131300;}#mermaid-svg-4 g.stateGroup rect{fill:#ECECFF;stroke:#9370DB;}#mermaid-svg-4 g.stateGroup line{stroke:#333333;stroke-width:1;}#mermaid-svg-4 .transition{stroke:#333333;stroke-width:1;fill:none;}#mermaid-svg-4 .stateGroup .composit{fill:white;border-bottom:1px;}#mermaid-svg-4 .stateGroup .alt-composit{fill:#e0e0e0;border-bottom:1px;}#mermaid-svg-4 .state-note{stroke:#aaaa33;fill:#fff5ad;}#mermaid-svg-4 .state-note text{fill:black;stroke:none;font-size:10px;}#mermaid-svg-4 .stateLabel .box{stroke:none;stroke-width:0;fill:#ECECFF;opacity:0.5;}#mermaid-svg-4 .edgeLabel .label rect{fill:#ECECFF;opacity:0.5;}#mermaid-svg-4 .edgeLabel .label text{fill:#333;}#mermaid-svg-4 .label div .edgeLabel{color:#333;}#mermaid-svg-4 .stateLabel text{fill:#131300;font-size:10px;font-weight:bold;}#mermaid-svg-4 .node circle.state-start{fill:#333333;stroke:#333333;}#mermaid-svg-4 .node .fork-join{fill:#333333;stroke:#333333;}#mermaid-svg-4 .node circle.state-end{fill:#9370DB;stroke:white;stroke-width:1.5;}#mermaid-svg-4 .end-state-inner{fill:white;stroke-width:1.5;}#mermaid-svg-4 .node rect{fill:#ECECFF;stroke:#9370DB;stroke-width:1px;}#mermaid-svg-4 .node polygon{fill:#ECECFF;stroke:#9370DB;stroke-width:1px;}#mermaid-svg-4 #statediagram-barbEnd{fill:#333333;}#mermaid-svg-4 .statediagram-cluster rect{fill:#ECECFF;stroke:#9370DB;stroke-width:1px;}#mermaid-svg-4 .cluster-label,#mermaid-svg-4 .nodeLabel{color:#131300;}#mermaid-svg-4 .statediagram-cluster rect.outer{rx:5px;ry:5px;}#mermaid-svg-4 .statediagram-state .divider{stroke:#9370DB;}#mermaid-svg-4 .statediagram-state .title-state{rx:5px;ry:5px;}#mermaid-svg-4 .statediagram-cluster.statediagram-cluster .inner{fill:white;}#mermaid-svg-4 .statediagram-cluster.statediagram-cluster-alt .inner{fill:#f0f0f0;}#mermaid-svg-4 .statediagram-cluster .inner{rx:0;ry:0;}#mermaid-svg-4 .statediagram-state rect.basic{rx:5px;ry:5px;}#mermaid-svg-4 .statediagram-state rect.divider{stroke-dasharray:10,10;fill:#f0f0f0;}#mermaid-svg-4 .note-edge{stroke-dasharray:5;}#mermaid-svg-4 .statediagram-note rect{fill:#fff5ad;stroke:#aaaa33;stroke-width:1px;rx:0;ry:0;}#mermaid-svg-4 .statediagram-note rect{fill:#fff5ad;stroke:#aaaa33;stroke-width:1px;rx:0;ry:0;}#mermaid-svg-4 .statediagram-note text{fill:black;}#mermaid-svg-4 .statediagram-note .nodeLabel{color:black;}#mermaid-svg-4 .statediagram .edgeLabel{color:red;}#mermaid-svg-4 #dependencyStart,#mermaid-svg-4 #dependencyEnd{fill:#333333;stroke:#333333;stroke-width:1;}#mermaid-svg-4 .statediagramTitleText{text-anchor:middle;font-size:18px;fill:#333;}#mermaid-svg-4 :root{--mermaid-font-family:Cairo,sans-serif;}</style><g><defs><marker id="mermaid-svg-4_statediagram-barbEnd" refX="19" refY="7" markerWidth="20" markerHeight="14" markerUnits="strokeWidth" orient="auto"><path d="M 19,7 L9,13 L14,7 L9,1 Z"></path></marker></defs><g class="root"><g class="clusters"></g><g class="edgePaths"><path d="M318.219,22L318.219,28.633C318.219,35.266,318.219,48.531,318.219,61.797C318.219,75.063,318.219,88.328,318.219,94.961L318.219,101.594" id="edge15" class=" edge-thickness-normal transition" style="fill:none" marker-end="url(#mermaid-svg-4_statediagram-barbEnd)"></path><path d="M269.142,146.188L254.543,152.82C239.944,159.453,210.745,172.719,196.146,185.984C181.547,199.25,181.547,212.516,181.547,219.148L181.547,225.781" id="edge16" class=" edge-thickness-normal transition" style="fill:none" marker-end="url(#mermaid-svg-4_statediagram-barbEnd)"></path><path d="M367.295,146.188L381.895,152.82C396.494,159.453,425.692,172.719,440.291,185.984C454.891,199.25,454.891,212.516,454.891,219.148L454.891,225.781" id="edge17" class=" edge-thickness-normal transition" style="fill:none" marker-end="url(#mermaid-svg-4_statediagram-barbEnd)"></path><path d="M181.547,270.375L181.547,277.008C181.547,283.641,181.547,296.906,181.547,310.172C181.547,323.438,181.547,336.703,181.547,343.336L181.547,349.969" id="edge18" class=" edge-thickness-normal transition" style="fill:none" marker-end="url(#mermaid-svg-4_statediagram-barbEnd)"></path><path d="M181.547,394.563L181.547,401.195C181.547,407.828,181.547,421.094,181.547,434.359C181.547,447.625,181.547,460.891,181.547,467.523L181.547,474.156" id="edge19" class=" edge-thickness-normal transition" style="fill:none" marker-end="url(#mermaid-svg-4_statediagram-barbEnd)"></path></g><g class="edgeLabels"><g class="edgeLabel" transform="translate(318.21875, 61.796875)"><g class="label" transform="translate(-133.9375, -14.796875)"><rect rx="0" ry="0" width="267.875" height="29.59375"></rect><foreignObject width="267.875" height="29.59375"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel">رصد منشور هيئة الدواء أو نقص صنف حرج</span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(181.546875, 185.984375)"><g class="label" transform="translate(-164.8515625, -14.796875)"><rect rx="0" ry="0" width="329.703125" height="29.59375"></rect><foreignObject width="329.703125" height="29.59375"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel">مصادقة المدير التنفيذي (Maker-Checker Protocol)</span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(454.890625, 185.984375)"><g class="label" transform="translate(-88.4921875, -14.796875)"><rect rx="0" ry="0" width="176.984375" height="29.59375"></rect><foreignObject width="176.984375" height="29.59375"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel">رفض الإجراء لعدم الملاءمة</span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(181.546875, 310.171875)"><g class="label" transform="translate(-147.4765625, -14.796875)"><rect rx="0" ry="0" width="294.953125" height="29.59375"></rect><foreignObject width="294.953125" height="29.59375"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel">تنفيذ آلي (عزل مخزون / أمر توريد / تنبيه مرضى)</span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(181.546875, 434.359375)"><g class="label" transform="translate(-173.546875, -14.796875)"><rect rx="0" ry="0" width="347.09375" height="29.59375"></rect><foreignObject width="347.09375" height="29.59375"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel">توقيع بصمة الإجراء في السجل المشفر المضاد للتلاعب</span></div></foreignObject></g></g></g><g class="nodes"><g class="node default" id="state-root_start-15" transform="translate(318.21875, 15)"><circle class="state-start" r="7" width="14" height="14"></circle></g><g class="node  statediagram-state undefined" id="state-PENDING_APPROVAL-17" transform="translate(318.21875, 123.890625)"><rect class="basic label-container" style="" x="-81.8203125" y="-22.296875" width="163.640625" height="44.59375"></rect><g class="label" style="" transform="translate(-74.3203125, -14.796875)"><rect></rect><foreignObject width="148.640625" height="29.59375"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">PENDING_APPROVAL</span></div></foreignObject></g></g><g class="node  statediagram-state undefined" id="state-APPROVED-18" transform="translate(181.546875, 248.078125)"><rect class="basic label-container" style="" x="-46.0703125" y="-22.296875" width="92.140625" height="44.59375"></rect><g class="label" style="" transform="translate(-38.5703125, -14.796875)"><rect></rect><foreignObject width="77.140625" height="29.59375"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">APPROVED</span></div></foreignObject></g></g><g class="node  statediagram-state undefined" id="state-REJECTED-17" transform="translate(454.890625, 248.078125)"><rect class="basic label-container" style="" x="-41.6875" y="-22.296875" width="83.375" height="44.59375"></rect><g class="label" style="" transform="translate(-34.1875, -14.796875)"><rect></rect><foreignObject width="68.375" height="29.59375"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">REJECTED</span></div></foreignObject></g></g><g class="node  statediagram-state undefined" id="state-EXECUTED-19" transform="translate(181.546875, 372.265625)"><rect class="basic label-container" style="" x="-44.078125" y="-22.296875" width="88.15625" height="44.59375"></rect><g class="label" style="" transform="translate(-36.578125, -14.796875)"><rect></rect><foreignObject width="73.15625" height="29.59375"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">EXECUTED</span></div></foreignObject></g></g><g class="node  statediagram-state undefined" id="state-WORM_SIGNED-19" transform="translate(181.546875, 496.453125)"><rect class="basic label-container" style="" x="-62.765625" y="-22.296875" width="125.53125" height="44.59375"></rect><g class="label" style="" transform="translate(-55.265625, -14.796875)"><rect></rect><foreignObject width="110.53125" height="29.59375"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">WORM_SIGNED</span></div></foreignObject></g></g></g></g></g></svg></pre>
+
+<hr>
+<h1>4. النظم السريرية والذكاء الاصطناعي (CDSS &amp; Agentic AI Subsystems)</h1>
+<h3>4.1 المعمارية الهجينة متعددة المستويات لنماذج الذكاء (Multi-Tier AI)</h3>
+<p>لضمان استمرار المنظومة بدون انقطاع وتحت أدنى تكلفة حوسبية ممكنة، تم تطبيق استراتيجية التنفيذ المتدرج في <code>llm_engine.py</code> و <code>config.py</code>:</p>
+<ol>
+<li><strong>المستوى الأول (Local GPU / Ollama):</strong></li>
+<li>نماذج محلية تعمل بدون إنترنت: <code>AI-COS-Qwen-2.5:latest</code> (محلي صارم) و <code>gemma4:31b-cloud</code> (وكيل سحابي مجاني وسريع عبر Ollama).</li>
+<li>تنفيذ العمليات الحساسة للخصوصية محلياً.</li>
+<li><strong>المستوى الثاني (Cloud API / Google Gemini):</strong></li>
+<li>الاستدلال السحابي المتطور: <strong>Gemini 3.7 Flash</strong> للاستفسارات المعقدة وصياغة الرسائل، و <strong>Gemini 3.8 Flash</strong> كنموذج حصري لرادار استخبارات السوق والبحث المباشر.</li>
+<li>تخضع الحزم السحابية تلقائياً لعملية <strong>تجهيل وحجب البيانات الشخصية (PII Masking)</strong> عبر دالة <code>_redact_cloud_payload</code> التي تحجب الإيميل والهواتف المصرية والرقم القومي (14 رقماً) وأسماء المرضى بقناع <code>[[الاسم]]</code>.</li>
+<li><strong>المستوى الثالث (Deterministic Rule Engine / Circuit Breaker):</strong></li>
+<li>قاطع دائرة (Circuit Breaker) يفتح عند 3 إخفاقات متتالية ويمنح 60 ثانية تبريد.</li>
+<li>محرك قطعي حسابي وقواعد سريرية صارمة تعمل كشبكة أمان نهائية (Context-Only Fallback) في حال انقطاع الشبكة كلياً.</li>
+</ol>
+<hr>
+<h3>4.2 مسار الرؤية البصرية ومعالجة الروشتات (Prescription OCR &amp; LASA Guard)</h3>
+<ul>
+<li><strong>التقسيم المكاني الصارم (Strict Spatial Zoning):</strong> استبعاد ترويسة العيادة (اسم الطبيب والشهادات والعنوان والهاتف) تلقائياً لتفادي قراءتها كاسم دواء.</li>
+<li><strong>حارس تشابه الأسماء والتركيزات (LASA &amp; Strength Guard):</strong></li>
+<li>فحص مصفوفة أزواج LASA المعجمية المصرية الشهيرة في <code>matching.py</code>:<ul>
+<li><code>("cataflam", "catapres")</code> (مسكن ديكلوفيناك مقابل خافض ضغط كلونيدين).</li>
+<li><code>("glucophage", "glucobay")</code> (ميتفورمين مقابل أكاربوز).</li>
+<li><code>("concor", "concordin")</code>، <code>("zinnat", "zinacef")</code>، <code>("lasix", "lasilix")</code>، <code>("hydrin", "hydrozide")</code>.</li>
+</ul>
+</li>
+<li>إذا كان تشابه الاسم أقل من 75%، يتم كبح التقييم فورياً عند حد أقصى <strong>0.50</strong> لمنع تطابق التركيز من رفع التقييم لمرشح خاطئ.</li>
+<li>تطبيق عقوبة مشددة بقيمة <strong>-0.25</strong> (<code>CDSS_STRENGTH_PENALTY = 0.25</code>) عند اختلاف التركيز (مثل 50mg مقابل 50mcg أو 10mg مقابل 110mg مع معالجة Lookbehind).</li>
+<li><strong>محرك ذاكرة تصحيحات الروشتات (OCR Correction Memory Engine):</strong></li>
+<li>جدول <code>ocr_corrections</code> يحفظ كل تصحيح يجريه الصيدلي البشري للروشتة مع شظية الصورة المقطوعة <code>crop_storage_key</code>.</li>
+<li>في القراءات التالية، يستبدل النظام القراءة الخاطئة تلقائياً قبل المطابقة، مما يرفع دقة النظام ذاتياً بمرور الوقت دون إعادة تدريب الأوزان بالكامل.</li>
+</ul>
+<hr>
+<h3>4.3 أوركسترا الوكلاء الأذكياء التسعة (The 9 Enterprise Agents)</h3>
+<p>تعمل المنظومة بنمط <strong>المشرف متعدد الوكلاء (Multi-Agent Supervisor Pattern)</strong> المحدد في <code>verticals/pharmacy.yaml</code> و <code>orchestrator.py</code>:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">الوكيل (Agent)</th>
+<th style="text-align: left;">الإدارة التابعة</th>
+<th style="text-align: left;">الدور الوظيفي والاقتصادي</th>
+<th style="text-align: left;">الإجراء التنفيذي الافتراضي</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>1. وكيل المخزون (Inventory)</strong></td>
+<td style="text-align: left;">سلاسل الإمداد واللوجستيات</td>
+<td style="text-align: left;">مراقبة سرعة الحرق اليومية، فحص الصلاحيات، وحساب كمية الطلب الاقتصادية Wilson EOQ.</td>
+<td style="text-align: left;">فحص الأصناف الحرجة وإصدار أمر توريد PO</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>2. وكيل المالية (AI CFO - Finance)</strong></td>
+<td style="text-align: left;">الإدارة المالية والمحاسبية</td>
+<td style="text-align: left;">حساب القيمة الدائمة للعميل (CLV)، تقييم السيولة ودورة CCC، وحماية الهامش الربحي.</td>
+<td style="text-align: left;">تحليل استحقاق الخصم وحساب الـ CLV</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>3. وكيل التسعير (Pricing)</strong></td>
+<td style="text-align: left;">استراتيجيات التسعير وتوليد الإيرادات</td>
+<td style="text-align: left;">تطبيق نموذج مرونة الأسعار، فرض سقوف الخصم (10% مزمن / 20% تجميل)، ومنع الخسارة.</td>
+<td style="text-align: left;">حساب الخصم الأمثل وتوليد الكوبون المحوكم</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>4. وكيل التحليلات (Analytics - DSS)</strong></td>
+<td style="text-align: left;">الإدارة العليا والذكاء الاستراتيجي</td>
+<td style="text-align: left;">تحويل مؤشرات الأداء اللحظية إلى تقارير تنفيذية واحتساب الإيرادات المعرضة للخطر.</td>
+<td style="text-align: left;">توليد إحاطة تنفيذية موجزة للمدير العام</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>5. وكيل الدعم الطبي (Support Copilot)</strong></td>
+<td style="text-align: left;">خدمة المرضى والسلامة الدوائية</td>
+<td style="text-align: left;">فرز شكاوى العملاء (Clinical Triage)، رصد 22 كلمة خطر، والتصعيد الفوري للصيدلي.</td>
+<td style="text-align: left;">فرز الشكوى والتصعيد الصيدلاني العاجل</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>6. وكيل التسويق (Marketing)</strong></td>
+<td style="text-align: left;">التسويق ونمو المبيعات</td>
+<td style="text-align: left;">تقسيم العملاء بمنهجية RFM وصياغة رسائل واتساب مخصصة مدعومة بقناع الخصوصية <code>[[الاسم]]</code>.</td>
+<td style="text-align: left;">توليد رسالة حملة ترويجية مستهدفة</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>7. وكيل استبقاء العملاء (Customer Retention)</strong></td>
+<td style="text-align: left;">إدارة علاقات العملاء (CRM)</td>
+<td style="text-align: left;">رصد احتمالية انقطاع مرضى الأمراض المزمنة وإطلاق خطط الاسترداد الاستباقية (Win-Back).</td>
+<td style="text-align: left;">إطلاق خطة استبقاء لمريض معرض للتسرب</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>8. وكيل التفتيش الرقابي (Compliance Inspector)</strong></td>
+<td style="text-align: left;">الحوكمة والامتثال والتدقيق</td>
+<td style="text-align: left;">توثيق قرارات الوكلاء، فحص الامتثال لقانون 151، والتحقق من نزاهة سلسلة تشفير WORM.</td>
+<td style="text-align: left;">فحص الامتثال وتوثيق القرار تشفيرياً</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>9. وكيل الأتمتة المؤسسية (Automation &amp; RPA)</strong></td>
+<td style="text-align: left;">العمليات والأتمتة (n8n)</td>
+<td style="text-align: left;">إطلاق ومراقبة مسارات سير العمل عبر n8n وإدارة طوابير إعادة المحاولة والتنبيهات.</td>
+<td style="text-align: left;">تشغيل مسار أتمتة تشغيلي عبر n8n</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3>4.4 نظام دعم القرار السريري (Clinical Decision Support System - CDSS)</h3>
+<ul>
+<li><strong>محرك البدائل والمثائل المتطابقة (Generic Substitution):</strong></li>
+<li>استخراج المواد الفعالة بدقة مع الحفاظ على الأملاح دالة الحركية الدوائية (<code>succinate</code> مقابل <code>tartrate</code>).</li>
+<li>التحقق الصارم من تطابق التركيز (<code>same_strength</code>) وإظهار نسبة التوفير المالي (التي تتجاوز 50%).</li>
+<li><strong>كاشف التكرار العلاجي ومضاعفة الجرعة (Duplicate Therapy Guard):</strong></li>
+<li>فحص سلة المشتريات للتأكد من عدم شراء مستحضرين تجاريين يحملان نفس المادة الفعالة (مثل Cataflam و Voltaren)، لمنع النزيف المعوي والفشل الكلوي الحاد.</li>
+<li><strong>بروتوكول سحب الأدوية اللحظي (Market Drug Recall):</strong></li>
+<li>تجميد مخزون التشغيلة المعيبة فورياً بضغطة زر وحصر سجلات كل من صرف الدواء خلال آخر 90 يوماً لإخطارهم عاجلاً عبر الواتساب وإنقاذ حياتهم، مع توقيع أمر السحب تشفيرياً في سجل WORM الخارجي.</li>
+</ul>
+<hr>
+<h3>4.5 نماذج التعلم الآلي التنبؤية وقابلية التفسير (Machine Learning &amp; SHAP)</h3>
+<ol>
+<li><strong>نموذج التنبؤ بموعد إعادة الصرف (Refill Cycle Regressor):</strong></li>
+<li>خوارزمية <strong>XGBoost Regressor</strong> محسنة عبر مكتبة Optuna، تحقق متوسط خطأ مطلق:
+     $$\text{MAE} = 3.27 \text{ days}$$</li>
+<li>احتساب فاصل ثقة غاوسي 95% مبني على أخطاء النموذج التاريخية ($\hat{\sigma} = 4.10$ يوم المشتقة من افتراض التوزيع الطبيعي $\text{MAE} \approx 0.798 \times \sigma$):
+     $$\text{Confidence Interval} = \text{Predicted Days} \pm 1.96 \times 4.10 \text{ days}$$</li>
+<li><strong>نموذج التنبؤ بانقطاع المريض (Churn Classifier):</strong></li>
+<li>خوارزمية <strong>XGBoost Classifier</strong> مدربة مع موازنة العينات النادرة بـ SMOTE وعتبة قرار مثلى $Threshold = 0.33$.</li>
+<li><strong>معالجة تسريب البيانات التاريخي (Data Leakage Fix):</strong> تم حذف خاصية <code>avg_cycle_days</code> من خصائص التنبؤ في <code>prediction/service.py</code> لكونها تشفر متغير الهدف، واستبدالها في Churn v2 بنسبة الفجوة السكانية <code>ratio_days_to_population</code> وتكرار الشراء الشهري <code>customer_purchase_freq_per_month</code> وعمر العميل <code>customer_tenure_days</code>.</li>
+<li><strong>الشفافية وقابلية التفسير بـ SHAP (Model Explainability):</strong></li>
+<li>تطبيق <code>shap.TreeExplainer</code> لاستخراج أهم 3 عوامل مؤثرة في كل قرار وعرضها في لوحة التحكم التنفيذية لضمان عدم وجود نماذج صندوق أسود (Black Box).</li>
+</ol>
+<hr>
+<h1>5. الحوكمة وإدارة المخاطر والرقابة الداخلية (BIS Governance &amp; Internal Controls)</h1>
+<h3>5.1 التوافق مع إطار COSO-ERM ومصفوفة المخاطر 5x5</h3>
+<ul>
+<li>تتبنى المنظومة أركان إطار <strong>COSO للرقابة الداخلية</strong> الخمسة (البيئة الرقابية، تقييم المخاطر، الأنشطة الرقابية، المعلومات والاتصال، وأنشطة المتابعة).</li>
+<li><strong>سجل المخاطر الرقمي المؤسسي (COSO Heatmap 5x5):</strong>
+  يوثق النظام في <code>governance/router.py</code> خمسة مخاطر مؤسسية كبرى:</li>
+<li><code>RSK-01</code>: هلوسة تسعير الذكاء الاصطناعي (خطر أصيل 20 $\rightarrow$ خطر متبقٍ 2 — محكوم بمحرك الرياضيات القطعي).</li>
+<li><code>RSK-02</code>: تفاعل دوائي حرج يفوته النموذج (خطر أصيل 25 $\rightarrow$ خطر متبقٍ 3 — محكوم بالحاجز السريري والتدخل البشري الإلزامي).</li>
+<li><code>RSK-03</code>: تلاعب مسؤول قاعدة البيانات بسجلات التدقيق (خطر أصيل 10 $\rightarrow$ خطر متبقٍ 1 — محكوم بسجل WORM المشفر).</li>
+<li><code>RSK-04</code>: تسرب بيانات المرضى الطبية للسحابة (خطر أصيل 16 $\rightarrow$ خطر متبقٍ 2 — محكوم بالتعمية المحلية <code>[[الاسم]]</code> وقانون 151).</li>
+<li><code>RSK-05</code>: تعطل خدمات أتمتة n8n الخارجية (خطر أصيل 9 $\rightarrow$ خطر متبقٍ 2 — محكوم بطابور إعادة المحاولة الذاتي).</li>
+<li><strong>نسبة تخفيض المخاطر المؤسسية المحققة:</strong> <strong>87.5% Risk Reduction</strong> (من متوسط 16.0 إلى 2.0).</li>
+</ul>
+<hr>
+<h3>5.2 سجل التدقيق المشفر الخارجي (WORM Ledger &amp; Anti-Rogue DBA)</h3>
+<ul>
+<li><strong>معضلة مسؤول قاعدة البيانات المارق (The Rogue DBA Problem):</strong> إذا تم تخزين سجل التدقيق داخل قاعدة البيانات فقط، فإن أي مسؤول نظام يملك صلاحيات الجذر (DBA Superuser) يمكنه تعديل الجداول وإعادة بناء سلاسل الهاشات داخلياً لإخفاء التلاعب.</li>
+<li><strong>الحل الهندسي في AI-COS:</strong></li>
+<li>كل حدث يُلحق فورياً بملف خارجي مستقل <code>external_audit_ledger.log</code> بنمط Append-Only.</li>
+<li>حساب تجزئة متسلسلة تربط كل سطر بما قبله:
+    $$\text{Line Hash} = \text{SHA-256}(\text{Prev Hash} \parallel \text{Event ID} \parallel \text{Payload Hash} \parallel \text{Timestamp})$$</li>
+<li>إجبار نظام الملفات على الكتابة الفيزيائية اللحظية للقرص بـ <code>os.fsync(fileno)</code>.</li>
+<li>تطبيق قفل عابر للعمليات (<code>msvcrt.locking</code> في ويندوز و <code>fcntl.flock</code> في لينكس) لمنع تفرع السلسلة عند التزامن.</li>
+<li>استثناء البادئات النظامية <code>LEDGER_NATIVE_PREFIXES</code> لمنع الإنذارات الكاذبة.</li>
+<li>تطبيق المقارنة الثنائية الصارمة (<code>verify_against_db</code>) لكشف أي حذف دفتري يجريه مسؤول القاعدة فوراً (<code>INVESTIGATE_ROGUE_DBA_DELETIONS</code>).</li>
+</ul>
+<hr>
+<h3>5.3 الرقابة والتحليل الجنائي المالي (Forensic Accounting &amp; Benford's Law)</h3>
+<p>تم تطبيق معايير المراجعة الدولية <strong>ISA 240</strong> والمعايير المحاسبية المصرية (EAS) في <code>accounting/forensics.py</code>:
+1. <strong>فحص الرقم الأول لقانون بنفورد (First-Digit Benford's Law):</strong>
+   $$P(d) = \log_{10}\left(1 + \frac{1}{d}\right) \quad \text{for } d \in {1, \dots, 9}$$
+2. <strong>فحص الرقم الثاني لقانون بنفورد (Second-Digit Benford's Law):</strong>
+   $$P(d_2) = \sum_{d_1=1}^9 \log_{10}\left(1 + \frac{1}{10 d_1 + d_2}\right) \quad \text{for } d_2 \in {0, \dots, 9}$$
+   يوفر فحص الرقم الثاني حساسية فائقة لكشف الفواتير المصطنعة ذات الأرقام المقربة التي تنجح في اجتياز فحص الرقم الأول.
+3. <strong>مؤشر الانحراف المطلق (Mean Absolute Deviation - MAD):</strong>
+   $$\text{MAD} = \frac{1}{K} \sum_{i=1}^K |O_i - E_i|$$
+   - $\text{MAD} \le 0.012$: توافق وثيق (Close Conformity).
+   - $0.012 &lt; \text{MAD} \le 0.018$: توافق مقبول.
+   - $\text{MAD} &gt; 0.018$: عدم توافق واشتباه تلاعب (Non-Conformity).
+4. <strong>كشف التجزئة والتهرب من حدود الاعتماد (Structuring / Smurfing Detection):</strong>
+   - خوارزمية ذكية تفحص العمليات التي تتجمع أسفل حد التفويض مباشرة (في النطاق بين 90% و 99.99% من حد الاعتماد مثل 4,500 إلى 4,999 ج.م عند حد 5,000 ج.م)، لكشف محاولات الموظفين تمرير نفقات مشبوهة دون موافقة المدير المالي.</p>
+<hr>
+<h3>5.4 فصل الصلاحيات والاعتماد المزدوج (SoD &amp; Maker-Checker)</h3>
+<ul>
+<li><strong>مصفوفة فصل المسؤوليات (Segregation of Duties - SoD):</strong> في <code>governance/router.py</code>، يُحظر جمع الأدوار المتعارضة (مثل: من يحرر أمر الشراء لا يعتمد الاستلام، ومن يعتمد تسعير الحملات لا يعتمد إرسال أموال التسويق).</li>
+<li><strong>بروتوكول الصانع-المراجع (Maker-Checker):</strong></li>
+<li>العمليات الحرجة التي تتجاوز سقف 20,000 ج.م أو أوامر عزل التشغيلات الدوائية تتطلب توقيعين إلكترونيين منفصلين ومسجلين تشفيرياً في دفتر WORM.</li>
+</ul>
+<hr>
+<h1>6. التكامل، الأتمتة، والواجهات الأمامية (Integration, Automation &amp; Portals)</h1>
+<h3>6.1 الواجهة العامة والمتجر السريري (Storefront &amp; 2D Draggable Chatbot)</h3>
+<ul>
+<li><strong>متجر سريري متجاوب:</strong> مصمم وفق مبادئ الوصول الشامل (Accessibility WCAG 2.1 AA) مع لوحة ألوان طبية معتمدة وملاحة سلسة.</li>
+<li><strong>مسار صرف الروشتات الفوري:</strong> رفع صورة الروشتة عبر كاميرا الهاتف أو السحب والإفلات، مع ظهور نتائج الفحص البصري الفوري وتطابق الأسعار ومحرك البدائل الموفرة.</li>
+<li><strong>مساعد الصيدلي الذكي العائم (Floating Chatbot Widget):</strong></li>
+<li>واجهة محادثة ذكية عائمة ثلاثية الأبعاد مع روبوت تفاعلي (<code>RobotAvatar</code>).</li>
+<li><strong>حرية حركة تامة 360° (2D Dragging):</strong> إمكانية سحب البوت ونافذة المحادثة في كامل أبعاد الشاشة أفقياً ورأسياً.</li>
+<li>دعم متكامل للغتين العربية والإنجليزية مع اتجاه تلقائي (RTL / LTR).</li>
+</ul>
+<hr>
+<h3>6.2 لوحة التحكم والقيادة التنفيذية (The 19 Enterprise Admin Portals)</h3>
+<p>توفر لوحة التحكم 19 شاشة تشغيلية وتحليلية ورقابية متكاملة:
+1. <strong>الرئيسية (Dashboard Overview):</strong> نبض تشغيلي حي مع مؤشرات WORM، وحالة الاتصال المباشر.
+2. <strong>العملاء (Customers Directory):</strong> سجل المرضى، تصنيف RFM، ودورات الصرف المزمنة.
+3. <strong>الطلبات والفوترة (Orders &amp; Invoicing):</strong> دورة المبيعات، الضرائب، والفاتورة الإلكترونية ETA.
+4. <strong>الكتالوج والمخزون (Catalog &amp; Stock):</strong> إدارة الأصناف، التركيزات، وتتبع الصلاحيات.
+5. <strong>المشتريات والتوريد (Procurement P2P):</strong> أوامر الشراء الذكية بـ Wilson EOQ ودورة الاستلام.
+6. <strong>الموردون (Suppliers Master Data):</strong> بيانات شركات التوزيع وأرقام الإرسال عبر واتساب.
+7. <strong>الأستاذ والميزان (General Ledger &amp; Trial Balance):</strong> القيود المحاسبية الآلية المزدوجة المتوازنة.
+8. <strong>عائد الأعمال والجدوى (Business Value &amp; ROI):</strong> تحليل التكاليف والعوائد وفترة الاسترداد.
+9. <strong>التحليلات والتنبؤ (Analytics &amp; Predictions):</strong> مؤشرات التنبؤ بـ XGBoost وفسر القرارات بـ SHAP.
+10. <strong>مراجعة الذكاء السريري (AI Clinical Review &amp; CDSS):</strong> طابور مراجعة الروشتات والتداخلات.
+11. <strong>مركز الوكلاء الأذكياء (Agentic AI Hub):</strong> لوحة قيادة الوكلاء التسعة ومراقبة استهلاك التوكنز.
+12. <strong>استخبارات السوق (Market Intelligence):</strong> رادار هيئة الدواء وقرارات الحجر التنفيذية.
+13. <strong>مختبر القرارات (What-If Lab):</strong> محاكاة سيناريوهات الأسعار والطلب وحساسية التكلفة.
+14. <strong>ذاكرة تصحيحات الروشتات (OCR Corrections Memory):</strong> مراجعة وتدريب النظام على قراءات الروشتات.
+15. <strong>بطاقة الأداء المتوازن (Balanced Scorecard):</strong> المحاور الأربعة لكابلان ونورتون (المالي، العملاء، الداخلي، والتعلم).
+16. <strong>المخاطر والصلاحيات (Risk Register &amp; SoD Matrix):</strong> مصفوفة COSO 5x5 وفصل المسؤوليات.
+17. <strong>هندسة النظم والقبول (System Architecture &amp; UAT):</strong> معمارية النظام، فحص الجاهزية، ومخططات C4.
+18. <strong>الحزم العمودية (Vertical Packs):</strong> تبديل وتخصيص النظام لقطاعات تجارية متعددة.
+19. <strong>سجل التدقيق المشفر (Audit Trail &amp; WORM):</strong> فحص سلسلة التجزئة SHA-256 والتحقق الثنائي.</p>
+<hr>
+<h3>6.3 خط أنابيب الأتمتة الخارجية والتليجرام (n8n Automation Pipeline)</h3>
+<p>تم ربط النظام بمحرك الأتمتة المؤسسي <strong>n8n</strong> عبر ثلاثة مسارات رئيسية:
+1. <strong>مسار تذكير المرضى والتسويق (<code>Combined Reminder Engine</code>):</strong>
+   - يعمل يومياً الساعة 9:00 صباحاً لاستدعاء <code>/internal/cycles/recalculate</code> ثم <code>/internal/governance/pending</code>.
+   - استدعاء وكيل التسويق لتوليد كود خصم 15% للمرضى المعرضين للتسرب، وبث رسالة التذكير للمريض عبر تليجرام.
+   - إخطار الصيدلي البشري عند الحالات التي تتطلب مراجعة (<code>human_review</code>).
+   - إغلاق حلقة القياس عبر <code>/api/v1/agents/automation/callback</code> لتوثيق التسليم بنجاح.
+2. <strong>مرساة التدقيق المشفر الخارجي (<code>worm-anchor</code>):</strong>
+   - يعمل كل ساعة لبث بصمة رأس سلسلة WORM إلى تليجرام المشرف لتوثيق السجل خارج السيرفر.
+3. <strong>إنذار كسر سلسلة التدقيق (<code>worm-alert</code>):</strong>
+   - يطلق إنذاراً أحمر عاجلاً إلى هاتف المشرف فور اكتشاف أي حذف أو تعديل دفتري غير مصرح به.</p>
+<hr>
+<h1>7. توكيد الجودة ومصفوفة الاختبارات (Quality Assurance &amp; Validation Matrix)</h1>
+<h3>7.1 مصفوفة الاختبارات الشاملة (Automated Test Suites)</h3>
+<p>تم بناء حزمة اختبارات مؤتمتة متكاملة تضمن استقرار النظام وخلوه من الانحدار البرمجي (Zero Regression):</p>
+<ol>
+<li><strong>اختبارات الباك إند (Pytest Backend Suite):</strong></li>
+<li>اختبارات السلامة السريرية والحواجز الطبية (<code>tests/test_cdss_clinical.py</code>).</li>
+<li>اختبارات النزاهة التشفيرية ودفتر WORM (<code>tests/test_worm_ledger.py</code>).</li>
+<li>اختبارات التحليل الجنائي المالي وبنفورد (<code>tests/test_forensics_and_working_capital.py</code>).</li>
+<li>اختبارات الحوكمة وتقوية الوكلاء التسعة (<code>tests/test_agent_governance_hardening.py</code> — 14 اختباراً معتمداً).</li>
+<li>اختبارات استخبارات السوق والحجر اللحظي (<code>tests/test_market_intelligence.py</code> و <code>test_market_api_routes.py</code>).</li>
+<li>اختبارات ذاكرة تصحيحات الروشتات ومطابقة LASA (<code>tests/test_ocr_memory_engine.py</code>).</li>
+<li><strong>اختبارات الفرونت إند (Vitest Frontend Suite):</strong></li>
+<li><strong>29 اختباراً مؤتمتاً ناجحاً بنسبة 100%</strong> تغطي سلامة واجهات الروشتات، نافذة الاعتماد الصيدلي، التعامل الآمن مع أخطاء الـ API، وتطهير البيانات ضد ثغرات XSS.</li>
+<li><strong>فحص الأنواع وتكامل البناء (TypeScript Compilation):</strong></li>
+<li>فحص <code>npx tsc --noEmit</code> مكتمل بـ <strong>0 أخطاء</strong> على مستوى جميع واجهات ومكونات التطبيق.</li>
+</ol>
+<hr>
+<h3>💡 الخلاصة التنفيذية لمناقشة التخرج:</h3>
+<blockquote>
+<p><em>"يمثل </em><em>AI-COS Pharmacy</em><em> التطبيق العملي الكامل لمعايير قسم نظم معلومات الأعمال (BIS)؛ فهو يدمج بين </em><em>العمق التقني للذكاء الاصطناعي السريري (CDSS &amp; Vision OCR)</em><em>، و</em><em>الأتمتة المؤسسية عبر الوكلاء الأذكياء و n8n</em><em>، مع </em><em>حوكمة ورقابة داخلية مشددة مستندة لإطار COSO وسجل WORM المشفر والتحليل الجنائي المالي بقانون بنفورد</em><em>. النظام ليس فكرة نظرية، بل منظومة متكاملة كوداً وقاعدة بيانات تم اختبارها والتحقق من جدواها الاقتصادية بربحية تشغيلية وعائد استثماري حقيقي 12.3x."</em></p>
+</blockquote>
+        </div>
+    </div>
+
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.esm.min.mjs';
+        
+        mermaid.initialize({
+            startOnLoad: false,
+            theme: 'default',
+            securityLevel: 'loose',
+            fontFamily: 'Cairo, sans-serif',
+            er: {
+                useMaxWidth: true
+            },
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            }
+        });
+
+        // Render all mermaid elements
+        window.addEventListener('DOMContentLoaded', async () => {
+            const elements = document.querySelectorAll('.mermaid');
+            for (let i = 0; i < elements.length; i++) {
+                const el = elements[i];
+                const graphDefinition = el.textContent.trim();
+                try {
+                    const { svg } = await mermaid.render('mermaid-svg-' + i, graphDefinition);
+                    el.innerHTML = svg;
+                } catch (err) {
+                    console.error('Mermaid render error on diagram ' + i, err);
+                    el.innerHTML = '<div style="color:red; direction:ltr; text-align:left; padding:10px;">Diagram render failed: ' + err.message + '<pre>' + graphDefinition + '</pre></div>';
+                }
+            }
+        });
+    </script>
+
+
+</body></html>

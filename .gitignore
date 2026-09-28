@@ -55,3 +55,6 @@ scratch/
 
 # large training archives — stay in Drive, not git
 upload/colab_training/*.zip
+
+*.sqlite
+

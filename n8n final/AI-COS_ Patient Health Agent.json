@@ -1,0 +1,258 @@
+{
+  "name": "AI-COS: Patient Health Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "aicos-patient-health",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "ph1",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        304
+      ],
+      "webhookId": "9096b980-6105-497b-98f6-1c66f32702eb"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "{{ \"SELECT o.order_id::text, o.order_date::text, o.status, \" +\"COALESCE(SUM(oi.price * oi.quantity)::text, '0') as total_amount, \" +\"COALESCE(STRING_AGG(d.name, ', '), 'No drugs recorded') as drugs \" +\"FROM orders o \" +\"LEFT JOIN order_items oi ON oi.order_id = o.order_id \" +\"LEFT JOIN drugs d ON d.drug_id = oi.drug_id \" +\"LEFT JOIN customers c ON c.customer_id = o.customer_id \" +\"WHERE c.customer_id = '\" + ($(\\'Webhook\\').first().json.body.customer_id || '00000000-0000-0000-0000-000000000000') + \"' \" +\"GROUP BY o.order_id, o.order_date, o.status \" +\"ORDER BY o.order_date DESC LIMIT 5\" }}",
+        "options": {}
+      },
+      "id": "ph2",
+      "name": "Get Patient Orders",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        272,
+        304
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "postgres": {
+          "id": "SwX8vKQ2HWC6ZSmX",
+          "name": "AI-COS Supabase Postgres"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "{{ \"SELECT cc.last_purchase_date::text, cc.avg_cycle_days, d.name as drug_name, d.category \" +\"FROM customer_cycles cc \" +\"LEFT JOIN drugs d ON d.drug_id = cc.drug_id \" +\"WHERE cc.customer_id = '\" + ($(\\'Webhook\\').first().json.body.customer_id || '00000000-0000-0000-0000-000000000000') + \"'\" }}",
+        "options": {}
+      },
+      "id": "ph3",
+      "name": "Get Churn Data",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        544,
+        304
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "postgres": {
+          "id": "SwX8vKQ2HWC6ZSmX",
+          "name": "AI-COS Supabase Postgres"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "\nconst wb = $('Webhook').first().json.body || {};\nconst customerId = wb.customer_id || 'غير محدد';\nconst patientName = wb.customer_name || 'Patient';\nconst orderCount = parseInt(wb.order_count) || 0;\nconst condition = wb.chronic_condition || 'Not specified';\nconst daysSinceJoin = parseInt(wb.days_since_join) || 0;\n\nconst orders = $('Get Patient Orders').all().filter(r => r.json && r.json.order_id);\nconst cycles = $('Get Churn Data').all().filter(r => r.json && r.json.drug_name);\n\nconst recentDrugs = orders.slice(0,3).map(o => o.json.drugs || 'unknown').join('; ');\nconst chronicDrugs = cycles.map(c => c.json.drug_name).filter(Boolean).join(', ') || 'None recorded';\n\nlet refillAlert = 'لا يوجد موعد إعادة صرف حرج حالياً';\nif (cycles.length > 0) {\n  const cycle = cycles[0].json;\n  if (cycle.last_purchase_date && cycle.avg_cycle_days) {\n    const lastDate = new Date(cycle.last_purchase_date);\n    const avgDays = parseFloat(cycle.avg_cycle_days) || 30;\n    const nextDate = new Date(lastDate.getTime() + avgDays * 24 * 60 * 60 * 1000);\n    const daysLeft = Math.ceil((nextDate.getTime() - Date.now()) / (24 * 60 * 60 * 1000));\n    if (daysLeft <= 14 && daysLeft >= 0) {\n      refillAlert = `موعد إعادة صرف ${cycle.drug_name} خلال ${daysLeft} يوم`;\n    } else if (daysLeft < 0) {\n      refillAlert = `تنبيه: تأخر صرف ${cycle.drug_name} بـ ${Math.abs(daysLeft)} يوم`;\n    }\n  }\n} else if (orderCount > 0) {\n  refillAlert = 'ينصح بمتابعة صرف الجرعات بانتظام كل 30 يوماً.';\n}\n\nconst prompt = `You are a professional pharmacy clinical AI.\nPatient: ${patientName}\nCondition: ${condition}\nTotal orders: ${orderCount}\nRecent drugs: ${recentDrugs || 'None'}\nChronic drugs: ${chronicDrugs}\n\nProvide a short clinical health evaluation in EXACTLY 3 lines:\nINTERACTION_CHECK: [one concise Arabic sentence verifying medication safety and absence of conflicts]\nREFILL_ALERT: [one concise Arabic sentence about refill timing]\nAI_RECOMMENDATION: [one actionable Arabic clinical tip for this patient]`;\n\nreturn [{json:{\n  customer_id: customerId,\n  patient_name: patientName,\n  order_count: orderCount,\n  chronic_condition: condition,\n  recent_drugs: recentDrugs,\n  chronic_drugs: chronicDrugs,\n  refill_alert: refillAlert,\n  orders_found: orders.length,\n  cycles_found: cycles.length,\n  ollama_prompt: prompt\n}}];\n"
+      },
+      "id": "ph4",
+      "name": "Build Health Prompt",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        832,
+        304
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:11434/api/generate",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\"model\":\"AI-COS-LFM-Q4:latest\",\"prompt\":{{ JSON.stringify($json.ollama_prompt) }},\"stream\":false,\"keep_alive\":-1,\"options\":{\"temperature\":0.2}}",
+        "options": {
+          "timeout": 90000
+        }
+      },
+      "id": "ph5",
+      "name": "Ask Ollama",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1104,
+        304
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "\nconst data = $('Build Health Prompt').first().json;\nconst raw = $('Ask Ollama').first().json.response || '';\n\nconst get = (key) => {\n  const m = raw.match(new RegExp(key + ':\\\\s*(.+?)(?=\\\\n[A-Z_]+:|$)', 'si'));\n  return m ? m[1].trim() : null;\n};\n\nconst interactionCheck = get('INTERACTION_CHECK') || 'تم التحقق من الأدوية المسجلة ولا توجد تعارضات مسجلة.';\nconst refillAlertAI = get('REFILL_ALERT') || data.refill_alert;\nconst aiRec = get('AI_RECOMMENDATION') || 'احرص على أخذ الأدوية في مواعيدها المحددة ومراجعة الصيدلي دورياً.';\n\nreturn [{json:{\n  customer_id: data.customer_id,\n  patient_name: data.patient_name,\n  order_count: data.order_count,\n  chronic_condition: data.chronic_condition,\n  recent_drugs: data.recent_drugs,\n  chronic_drugs: data.chronic_drugs,\n  orders_found: data.orders_found,\n  cycles_found: data.cycles_found,\n  interaction_check: interactionCheck,\n  refill_alert: refillAlertAI,\n  ai_recommendation: aiRec,\n  llm_source: 'ollama:AI-COS-LFM-Q4'\n}}];\n"
+      },
+      "id": "ph6",
+      "name": "Parse Health Response",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1392,
+        304
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "6262223810",
+        "text": "={{ '🏥 <b>تقييم الذكاء الاصطناعي الصحي (AI-COS)</b>\\n\\n' + '👤 <b>المريض:</b> ' + $json.patient_name + '\\n' + '🆔 <b>معرّف المريض:</b> <code>' + $json.customer_id + '</code>\\n' + '📦 <b>إجمالي الطلبات:</b> ' + $json.order_count + '\\n' + '⚠️ <b>تنبيه الجرعات:</b> ' + $json.refill_alert + '\\n\\n' + '💡 <b>توصية الذكاء الاصطناعي:</b>\\n' + $json.ai_recommendation }}",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "id": "ph7",
+      "name": "Notify Admin",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1664,
+        304
+      ],
+      "webhookId": "d229fc4a-9b3a-4b1c-9a22-30bfb59e0272",
+      "credentials": {
+        "telegramApi": {
+          "id": "ntDvdegoGPkjWfXU",
+          "name": "مشروع تخرج"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $('Parse Health Response').first().json }}",
+        "options": {}
+      },
+      "id": "ph8",
+      "name": "Respond",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        1952,
+        304
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Get Patient Orders",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Patient Orders": {
+      "main": [
+        [
+          {
+            "node": "Get Churn Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Churn Data": {
+      "main": [
+        [
+          {
+            "node": "Build Health Prompt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Health Prompt": {
+      "main": [
+        [
+          {
+            "node": "Ask Ollama",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ask Ollama": {
+      "main": [
+        [
+          {
+            "node": "Parse Health Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Health Response": {
+      "main": [
+        [
+          {
+            "node": "Notify Admin",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notify Admin": {
+      "main": [
+        [
+          {
+            "node": "Respond",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "timeSavedMode": "fixed",
+    "errorWorkflow": "YLX90juWgWUxaHHE",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  },
+  "versionId": "40993cc6-8e54-429a-9ccd-61ec61ac4226",
+  "meta": {
+    "instanceId": "67759659ff19a6d8d0a373387e2c30c462b5296cebb74994c5d58fe5daad1960"
+  },
+  "nodeGroups": [],
+  "id": "h6V0iABymaF3COv7",
+  "tags": [
+    {
+      "updatedAt": "2026-08-05T15:39:30.301Z",
+      "createdAt": "2026-08-05T15:39:30.301Z",
+      "id": "zTQQM5OPihN02AOR",
+      "name": "مشروغ تخرج"
+    }
+  ]
+}

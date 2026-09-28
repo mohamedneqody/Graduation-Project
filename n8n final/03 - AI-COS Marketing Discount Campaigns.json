@@ -1,0 +1,118 @@
+{
+  "name": "03 - AI-COS Marketing Discount Campaigns",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "send_discount_offer",
+        "options": {}
+      },
+      "id": "2003b07f-7f69-4ff1-8106-8f5e3710d5c9",
+      "name": "Webhook Trigger (send_discount_offer)",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "webhookId": "send_discount_offer"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:8000/api/v1/agents/marketing/generate-campaign",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-Internal-Token",
+              "value": "{{ $env.INTERNAL_SERVICE_KEY }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"customer_name\": \"{{ $json.customer_name || \"عميلنا العزيز\" }}\",\n  \"drug_name\": \"{{ $json.drug_name || \"علاجك الدوري\" }}\",\n  \"discount_percentage\": {{ $json.discount_percentage || 15 }}\n}",
+        "options": {}
+      },
+      "id": "e60f0d7c-10e3-4d1f-bd46-29f0864aad81",
+      "name": "AI Marketing Agent (Copy & Coupon)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        288,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.telegram.org/bot7330340609:AAHSYF7u2czYCdJvehF7BgJ_ET8gIwpJLHs/sendMessage",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"chat_id\": \"6262223810\",\n  \"parse_mode\": \"HTML\",\n  \"text\": \"🎁 <b>عرض صحي خاص من صيدلية AI-COS</b>\\n\\nمرحباً بك 👋 تقديراً لالتزامك برحلتك العلاجية 💙\\n\\n🏷️ <b>كوبون خصم حصري:</b>\\n<code>{{ $json.coupon_code || \"AICOS15\" }}</code>\\n\\nخصم <b>{{ $json.discount_percentage || 15 }}%</b> على طلبك القادم لعلاجك 💊\\n\\n{{ $json.message_text || \"صحتك هي أولويتنا دائماً. استخدم الكود أثناء الدفع.\" }}\\n\\n✨ <i>العرض ساري لمدة 48 ساعة فقط.</i>\"\n}",
+        "options": {}
+      },
+      "id": "decddfde-5ef5-4f9f-892f-400fc6e3ba70",
+      "name": "Send Offer on Telegram",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        560,
+        0
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook Trigger (send_discount_offer)": {
+      "main": [
+        [
+          {
+            "node": "AI Marketing Agent (Copy & Coupon)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Marketing Agent (Copy & Coupon)": {
+      "main": [
+        [
+          {
+            "node": "Send Offer on Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false,
+    "timeSavedMode": "fixed",
+    "errorWorkflow": "YLX90juWgWUxaHHE",
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "versionId": "5d80c10e-b466-4d2f-a021-903bd4119a4b",
+  "meta": {
+    "instanceId": "67759659ff19a6d8d0a373387e2c30c462b5296cebb74994c5d58fe5daad1960"
+  },
+  "nodeGroups": [],
+  "id": "nvp7VjI0j5ZArRLt",
+  "tags": [
+    {
+      "updatedAt": "2026-08-05T15:39:30.301Z",
+      "createdAt": "2026-08-05T15:39:30.301Z",
+      "id": "zTQQM5OPihN02AOR",
+      "name": "مشروغ تخرج"
+    }
+  ]
+}

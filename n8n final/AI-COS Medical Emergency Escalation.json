@@ -1,0 +1,142 @@
+{
+  "name": "AI-COS Medical Emergency Escalation",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "emergency-alert",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "name": "1. Emergency Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        1120,
+        416
+      ],
+      "id": "4b61596b-9731-4d28-980f-fd08056ac33e",
+      "notesInFlow": true,
+      "webhookId": "a5f72cc6-2615-4558-a8ac-bcfc94379ddc",
+      "notes": "يستقبل إشارة الطوارئ اللحظية من محرك EscalationEngine في الباك إند"
+    },
+    {
+      "parameters": {
+        "chatId": "6262223810",
+        "text": "=🚨 <b>إنذار سريري حرج — AI-COS Emergency Alert</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n👤 <b>المريض:</b> {{ ($json.body.customer_name || 'زائر غير مسجل (Guest)').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;') }}\n🆔 <b>المعرّف / الجلسة:</b> <code>{{ $json.body.customer_id || $json.body.session_id }}</code>\n⚠️ <b>درجة الخطورة:</b> 🔴 حالة طوارئ حرجة ({{ $json.body.priority }})\n💬 <b>نص الاستغاثة:</b>\n<i>\"{{ ($json.body.user_message || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\"/g, '&quot;') }}\"</i>\n\n⚡ <b>الإجراء الآلي المتخذ:</b>\n{{ ($json.body.alert_message || 'تم توجيه المريض للإسعاف وتجميد التوصيات الدوائية فوراً.').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;') }}\n\n👨‍⚕️ <b>الإجراء البشري المطلوب:</b> يرجى تدخل الصيدلي المناوب فوراً.\n🕒 <b>التوقيت:</b> {{ $json.body.timestamp }}\n🔑 <b>معرف الحدث:</b> <code>{{ $json.body.event_id || 'N/A' }}</code>",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "name": "2. Send Telegram Alert",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1472,
+        416
+      ],
+      "id": "cad07612-1ced-4141-84fb-d19a1b3a690e",
+      "notesInFlow": true,
+      "webhookId": "c259c6cb-5488-4637-85f7-f105dd2dc538",
+      "credentials": {
+        "telegramApi": {
+          "id": "ntDvdegoGPkjWfXU",
+          "name": "مشروع تخرج"
+        }
+      },
+      "notes": "إرسال إنذار فوري ومميز إلى تليجرام الصيدلي المناوب مع حماية من حقن الـ HTML"
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.first();\nconst headers = (item && item.json && item.json.headers) ? item.json.headers : {};\nconst token = headers['x-internal-token'] || headers['X-Internal-Token'];\nconst expected = $env.INTERNAL_SERVICE_KEY;\n// Fail-closed: reject if env var is missing OR token doesn't match\nif (!expected || token !== expected) {\n  throw new Error('403 Forbidden: Invalid or missing X-Internal-Token header');\n}\nreturn $input.all();"
+      },
+      "name": "1.1 Verify Internal Token",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1296,
+        416
+      ],
+      "id": "51b38a94-5dbf-438e-bb15-b2a1b6c0e55a",
+      "notesInFlow": true,
+      "notes": "التحقق من الترويسة السرية X-Internal-Token — fail-closed: يرفض إذا كان المتغير البيئي غائباً أو الرمز خاطئاً"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\"status\": \"alert_sent\", \"event_id\": \"{{ $('1. Emergency Webhook').first().json.body.event_id || 'unknown' }}\"}",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "name": "3. Respond OK",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        1712,
+        416
+      ],
+      "id": "f687a832-7948-4300-831b-f351c6f89c64"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "1. Emergency Webhook": {
+      "main": [
+        [
+          {
+            "node": "1.1 Verify Internal Token",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "1.1 Verify Internal Token": {
+      "main": [
+        [
+          {
+            "node": "2. Send Telegram Alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "2. Send Telegram Alert": {
+      "main": [
+        [
+          {
+            "node": "3. Respond OK",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false,
+    "timeSavedMode": "fixed",
+    "errorWorkflow": "YLX90juWgWUxaHHE",
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "versionId": "190acfe9-6b76-467f-a7d6-ff3c4c24f070",
+  "meta": {
+    "instanceId": "67759659ff19a6d8d0a373387e2c30c462b5296cebb74994c5d58fe5daad1960"
+  },
+  "nodeGroups": [],
+  "id": "GWDKof1bYd2Cdi3v",
+  "tags": [
+    {
+      "updatedAt": "2026-08-05T15:39:30.301Z",
+      "createdAt": "2026-08-05T15:39:30.301Z",
+      "id": "zTQQM5OPihN02AOR",
+      "name": "مشروغ تخرج"
+    }
+  ]
+}

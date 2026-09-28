@@ -1,0 +1,222 @@
+{
+  "name": "AI-COS: Support Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "aicos-support",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "s1",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        304
+      ],
+      "webhookId": "7c242840-1b91-4910-91fd-e5bb84a5f348"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "{{ \"SELECT c.customer_id::text, c.full_name, COUNT(DISTINCT o.order_id) as order_count FROM customers c LEFT JOIN orders o ON o.customer_id=c.customer_id WHERE c.full_name ILIKE '%\" + $('Webhook').first().json.body.customer_name + \"%' GROUP BY c.customer_id,c.full_name LIMIT 1\" }}",
+        "options": {}
+      },
+      "id": "s2",
+      "name": "Get Customer",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        272,
+        304
+      ],
+      "credentials": {
+        "postgres": {
+          "id": "SwX8vKQ2HWC6ZSmX",
+          "name": "AI-COS Supabase Postgres"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "\nconst wb=$('Webhook').first().json.body||{};\nconst name=wb.customer_name||'Unknown';\nconst complaint=wb.complaint_text||'';\nconst rows=$('Get Customer').all().filter(r=>r.json&&r.json.customer_id);\nconst found=rows.length>0;\nconst oc=found?parseInt(rows[0].json.order_count)||0:0;\nconst fn=found?rows[0].json.full_name:name;\nconst prompt='Support ticket for pharmacy customer '+fn+' (past orders: '+oc+'). Complaint: \"'+complaint+'\". Classify: TYPE:[product_issue/delivery/billing/medical/general] | SEVERITY:[low/medium/high/critical] | RESOLUTION:[auto_reply/escalate_human] | REPLY:[short reply if auto_reply] | NOTE:[note if escalate]';\nreturn [{json:{full_name:fn,order_count:oc,complaint_text:complaint,customer_found:found,ollama_prompt:prompt}}];\n"
+      },
+      "id": "s3",
+      "name": "Build Prompt",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        544,
+        304
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:11434/api/generate",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\"model\":\"AI-COS-LFM-Q4:latest\",\"prompt\":{{ JSON.stringify($json.ollama_prompt) }},\"stream\":false,\"keep_alive\":-1,\"options\":{\"temperature\":0.15}}",
+        "options": {
+          "timeout": 90000
+        }
+      },
+      "id": "s4",
+      "name": "Ask Ollama",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        832,
+        304
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "\nconst d=$('Build Prompt').first().json;\nconst raw=$('Ask Ollama').first().json.response||'';\nconst get=k=>{const m=raw.match(new RegExp(k+':\\\\s*([^|\\\\n]+)','i'));return m?m[1].trim():'';};\nreturn [{json:{\n  customer_name:d.full_name,customer_found:d.customer_found,customer_order_count:d.order_count,\n  complaint_type:get('TYPE')||'general',severity:get('SEVERITY')||'medium',resolution:get('RESOLUTION')||'auto_reply',\n  auto_reply_text:get('REPLY')||null,escalation_note:get('NOTE')||null,llm_source:'ollama:AI-COS-LFM-Q4'\n}}];\n"
+      },
+      "id": "s5",
+      "name": "Parse Response",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1104,
+        304
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "6262223810",
+        "text": "={{ '🎧 Support | '+$json.customer_name+' | Type: '+$json.complaint_type+' | Severity: '+$json.severity.toUpperCase()+'\\nResolution: '+$json.resolution.replace('_',' ').toUpperCase() }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "id": "s6",
+      "name": "Notify Admin",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1392,
+        304
+      ],
+      "webhookId": "8fc619ae-827a-4997-8025-401e1842f602",
+      "credentials": {
+        "telegramApi": {
+          "id": "ntDvdegoGPkjWfXU",
+          "name": "مشروع تخرج"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $('Parse Response').first().json }}",
+        "options": {}
+      },
+      "id": "s7",
+      "name": "Respond",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        1648,
+        304
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Get Customer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Customer": {
+      "main": [
+        [
+          {
+            "node": "Build Prompt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Prompt": {
+      "main": [
+        [
+          {
+            "node": "Ask Ollama",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ask Ollama": {
+      "main": [
+        [
+          {
+            "node": "Parse Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Response": {
+      "main": [
+        [
+          {
+            "node": "Notify Admin",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notify Admin": {
+      "main": [
+        [
+          {
+            "node": "Respond",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "timeSavedMode": "fixed",
+    "errorWorkflow": "YLX90juWgWUxaHHE",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  },
+  "versionId": "4cc51eda-652d-4c14-8241-d0ba9724e7ad",
+  "meta": {
+    "instanceId": "67759659ff19a6d8d0a373387e2c30c462b5296cebb74994c5d58fe5daad1960"
+  },
+  "nodeGroups": [],
+  "id": "fsCIHwHnZPCl9VSW",
+  "tags": [
+    {
+      "updatedAt": "2026-08-05T15:39:30.301Z",
+      "createdAt": "2026-08-05T15:39:30.301Z",
+      "id": "zTQQM5OPihN02AOR",
+      "name": "مشروغ تخرج"
+    }
+  ]
+}

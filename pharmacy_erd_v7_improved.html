@@ -1,0 +1,1242 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>AI-COS Pharmacy — ERD تحسين 7 (2026/2027)</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #f6f8fb;
+    --panel: #ffffff;
+    --panel-alt: #eef2f7;
+    --border: #dbe3ec;
+    --text: #1e293b;
+    --text-dim: #64748b;
+    --accent: #0284c7;
+    --accent-soft: #e0f2fe;
+
+    --c-core: #0284c7; --c-core-bg: #e0f2fe;
+    --c-ocr: #059669;  --c-ocr-bg: #d1fae5;
+    --c-fin: #d97706;  --c-fin-bg: #fef3c7;
+    --c-ai: #7c3aed;   --c-ai-bg: #ede9fe;
+    --c-ops: #dc2626;  --c-ops-bg: #fee2e2;
+  }
+  body {
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* ── Header ── */
+  .header {
+    background: linear-gradient(135deg, #ffffff 0%, #eef4fa 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .header-title {
+    font-size: 19px;
+    font-weight: 700;
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .badge {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 10px;
+    border-radius: 20px;
+    background: var(--accent);
+    color: #fff;
+    letter-spacing: 0.5px;
+  }
+  .header-meta {
+    font-size: 12px;
+    color: var(--text-dim);
+    text-align: left;
+    direction: ltr;
+  }
+
+  /* ── Stats Bar ── */
+  .stats-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 10px 24px;
+    background: var(--panel);
+    border-bottom: 1px solid var(--border);
+  }
+  .stat-card {
+    background: var(--panel-alt);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 6px 14px;
+    text-align: center;
+    min-width: 90px;
+  }
+  .stat-num { font-size: 19px; font-weight: 700; color: var(--accent); }
+  .stat-label { font-size: 10.5px; color: var(--text-dim); margin-top: 1px; }
+
+  /* ── Tabs ── */
+  .tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 10px 24px 0;
+    background: var(--panel);
+    border-bottom: 1px solid var(--border);
+  }
+  .tab-btn {
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    border: 1px solid var(--border);
+    border-bottom: none;
+    background: var(--panel-alt);
+    color: var(--text-dim);
+    padding: 9px 16px 8px;
+    border-radius: 10px 10px 0 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    transition: background .15s, color .15s;
+  }
+  .tab-btn .dot { width: 9px; height: 9px; border-radius: 3px; flex-shrink: 0; }
+  .tab-btn:hover { background: var(--accent-soft); color: var(--text); }
+  .tab-btn.active {
+    background: var(--bg);
+    color: var(--text);
+    border-color: var(--border);
+    position: relative;
+    top: 1px;
+  }
+  .tab-count {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--text-dim);
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0 6px;
+  }
+
+  /* ── Controls ── */
+  .controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 8px 24px;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    font-size: 12px;
+    color: var(--text-dim);
+  }
+  .controls .hint { display: flex; align-items: center; gap: 6px; }
+  .controls .btns { display: flex; gap: 8px; }
+  .controls button {
+    font-family: inherit;
+    font-size: 12px;
+    border: 1px solid var(--border);
+    background: var(--panel);
+    color: var(--text);
+    padding: 5px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  .controls button:hover { background: var(--accent-soft); border-color: var(--accent); }
+
+  /* ── Panes / ERD Containers ── */
+  .pane { display: none; }
+  .pane.active { display: block; }
+
+  .pane-desc {
+    padding: 10px 24px 0;
+    font-size: 12.5px;
+    color: var(--text-dim);
+    background: var(--bg);
+  }
+
+  .erd-container {
+    padding: 10px;
+    overflow: auto;
+    height: calc(100vh - 300px);
+    background: var(--bg);
+  }
+  .erd-wrap { display: flex; justify-content: center; align-items: flex-start; min-height: 100%; }
+  .erd-wrap svg { background: transparent !important; }
+
+  .loading-msg {
+    padding: 60px 20px;
+    text-align: center;
+    color: var(--text-dim);
+    font-size: 13px;
+  }
+
+  /* ── Mermaid Light Theme Base (overridden per-entity by JS) ── */
+  .erd-wrap svg.erDiagram text { fill: var(--text) !important; }
+  .erd-wrap svg.erDiagram .entityLabel { fill: var(--accent) !important; font-weight: 700; }
+  .erd-wrap svg.erDiagram path, .erd-wrap svg.erDiagram line { stroke: #94a3b8 !important; }
+  .erd-wrap svg.erDiagram .relationshipLabel { fill: var(--text-dim) !important; font-size: 12px !important; font-weight: 600; }
+  .erd-wrap svg.erDiagram .entityLabel { font-size: 15px !important; }
+  .erd-wrap svg.erDiagram .er.attributeBoxOdd text,
+  .erd-wrap svg.erDiagram .er.attributeBoxEven text,
+  .erd-wrap svg.erDiagram text.er.entityLabel ~ text,
+  .erd-wrap svg.erDiagram [id^="entity-"] text { font-size: 13px !important; }
+  .erd-wrap svg.erDiagram .relationshipLabelBox { fill: var(--bg) !important; fill-opacity: 0.9 !important; }
+  .erd-wrap svg.erDiagram .divider path { stroke-opacity: 0.35; }
+  .erd-wrap svg.erDiagram .er.entityBox { fill: #ffffff !important; stroke: #cbd5e1 !important; }
+  .erd-wrap svg.erDiagram .er.attributeBoxOdd { fill: #ffffff !important; }
+  .erd-wrap svg.erDiagram .er.attributeBoxEven { fill: #f1f5f9 !important; }
+  .erd-wrap svg.erDiagram .row-rect-odd path,
+  .erd-wrap svg.erDiagram .row-rect-odd rect,
+  .erd-wrap svg.erDiagram .row-rect-even path,
+  .erd-wrap svg.erDiagram .row-rect-even rect { stroke: none !important; }
+
+  /* ── Footer ── */
+  .footer {
+    text-align: center;
+    padding: 14px;
+    background: var(--panel);
+    border-top: 1px solid var(--border);
+    font-size: 11.5px;
+    color: var(--text-dim);
+    direction: rtl;
+  }
+  .footer span { color: var(--accent); font-weight: 600; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-title">
+    💊 AI-COS Pharmacy — مخطط قاعدة البيانات
+    <span class="badge">تحسين 7 — 2026/2027</span>
+  </div>
+  <div class="header-meta">
+    Supabase PostgreSQL · الجداول الكاملة<br>
+    تاريخ الإصدار: سبتمبر 2026
+  </div>
+</div>
+
+<div class="stats-bar">
+  <div class="stat-card"><div class="stat-num">624</div><div class="stat-label">أعمدة إجمالية</div></div>
+  <div class="stat-card"><div class="stat-num">90</div><div class="stat-label">علاقات (Foreign Keys)</div></div>
+  <div class="stat-card"><div class="stat-num">+4</div><div class="stat-label">جداول جديدة في تحسين 7</div></div>
+  <div class="stat-card"><div class="stat-num">37</div><div class="stat-label">إجمالي الجداول</div></div>
+</div>
+
+<div class="tabs" id="tabs">
+  <button class="tab-btn active" data-tab="core"><span class="dot" style="background:#0284c7"></span> Core <span class="tab-count">20</span></button>
+  <button class="tab-btn" data-tab="ocr"><span class="dot" style="background:#059669"></span> OCR / Prescription <span class="tab-count">5</span></button>
+  <button class="tab-btn" data-tab="fin"><span class="dot" style="background:#d97706"></span> Finance / Procurement <span class="tab-count">6</span></button>
+  <button class="tab-btn" data-tab="ai"><span class="dot" style="background:#7c3aed"></span> AI / Analytics <span class="tab-count">4</span></button>
+  <button class="tab-btn" data-tab="ops"><span class="dot" style="background:#dc2626"></span> Operational / Support <span class="tab-count">2</span></button>
+  <button class="tab-btn" data-tab="overview"><span class="dot" style="background:linear-gradient(90deg,#0284c7,#7c3aed)"></span> 🗺️ نظرة شاملة (الكل)</button>
+</div>
+
+<div class="controls">
+  <div class="hint">🔍 تكبير/تصغير: استخدم Ctrl + عجلة الماوس، أو الأزرار التالية</div>
+  <div class="btns">
+    <button id="zoomOut">تصغير −</button>
+    <button id="zoomReset">إعادة ضبط</button>
+    <button id="zoomIn">تكبير +</button>
+  </div>
+</div>
+
+<div id="panes">
+  <div class="pane active" data-pane="core">
+    <div class="pane-desc">الجداول الأساسية الموجودة منذ v5: المستأجرين، العملاء، الجلسات، الطلبات، الأدوية، الإشعارات، والتحليلات الأساسية.</div>
+    <div class="erd-container"><div class="erd-wrap"><div class="loading-msg">جارٍ الرسم…</div></div></div>
+  </div>
+  <div class="pane" data-pane="ocr">
+    <div class="pane-desc">منظومة قراءة الروشتات بالـ OCR ومطابقتها مع قاعدة الأدوية، وتصحيحات القراءة المتعلّمة من التجارب السابقة.</div>
+    <div class="erd-container"><div class="erd-wrap"><div class="loading-msg">جارٍ الرسم…</div></div></div>
+  </div>
+  <div class="pane" data-pane="fin">
+    <div class="pane-desc">أوامر الشراء والموردين (إضافة تحسين 7) وسلسلة التوريد، القيود المحاسبية، ومحاكاة السيناريوهات التسعيرية.</div>
+    <div class="erd-container"><div class="erd-wrap"><div class="loading-msg">جارٍ الرسم…</div></div></div>
+  </div>
+  <div class="pane" data-pane="ai">
+    <div class="pane-desc">سجلات محادثات الذكاء الاصطناعي، تشغيلات الأتمتة (n8n)، وكوبونات الخصم، وسلسلة حوكمة إجراءات ذكاء السوق (موافقة/رفض/تنفيذ).</div>
+    <div class="erd-container"><div class="erd-wrap"><div class="loading-msg">جارٍ الرسم…</div></div></div>
+  </div>
+  <div class="pane" data-pane="ops">
+    <div class="pane-desc">جدولان: صندوق الرسائل الطارئة غير المرسلة + دورة حياة الشكاوى (open → resolved) بقياس مدة الاستجابة — إضافة تحسين 7.</div>
+    <div class="erd-container"><div class="erd-wrap"><div class="loading-msg">جارٍ الرسم…</div></div></div>
+  </div>
+  <div class="pane" data-pane="overview">
+    <div class="pane-desc">كل الـ37 جدول في مخطط واحد — مفيد للنظرة الشاملة، لكن للتفاصيل يُفضَّل استخدام تبويبات الأقسام أعلاه.</div>
+    <div class="erd-container"><div class="erd-wrap"><div class="loading-msg">جارٍ الرسم…</div></div></div>
+  </div>
+</div>
+
+<div class="footer">
+  AI-COS Pharmacy Platform — <span>ERD تحسين 7</span> — مشروع التخرج 2026/2027 — كلية تكنولوجيا الاداره ونظم معلومات - جامعه بورسعيد
+</div>
+
+<script type="module">
+import mermaid from 'https://esm.sh/mermaid@11/dist/mermaid.esm.min.mjs';
+await document.fonts.ready;
+
+mermaid.initialize({
+  startOnLoad: false,
+  theme: 'base',
+  fontFamily: '"Segoe UI", Tahoma, sans-serif',
+  themeVariables: {
+    darkMode: false,
+    fontSize: '14px',
+    fontFamily: '"Segoe UI", Tahoma, sans-serif',
+    lineColor: '#94a3b8',
+    textColor: '#1e293b',
+    primaryColor: '#ffffff',
+    primaryTextColor: '#0284c7',
+    primaryBorderColor: '#cbd5e1',
+    secondaryColor: '#f1f5f9',
+    tertiaryColor: '#eef2f7',
+  },
+  er: {
+    diagramPadding: 16,
+    layoutDirection: 'TB',
+    minEntityWidth: 160,
+    minEntityHeight: 40,
+    entityPadding: 12,
+    useMaxWidth: false,
+    fontSize: 14,
+  }
+});
+
+/* ── Category color mapping ── */
+const CATEGORY_COLORS = {
+  core: '#0284c7', ocr: '#059669', fin: '#d97706', ai: '#7c3aed', ops: '#dc2626',
+};
+const ENTITY_CATEGORY = {
+  TENANTS: 'core', TENANT_SETTINGS: 'core', CUSTOMERS: 'core', SESSIONS: 'core',
+  EVENTS: 'core', ORDERS: 'core', ORDER_ITEMS: 'core', DRUGS: 'core',
+  DRUG_INTERACTIONS: 'core', DRUG_AFFINITIES: 'core', CUSTOMER_CYCLES: 'core',
+  NOTIFICATIONS: 'core', AUDIT_LOGS: 'core', PENDING_REMINDERS: 'core',
+  INVENTORY_ITEMS: 'core', AB_TESTS: 'core', AB_TEST_RESULTS: 'core',
+  KNOWLEDGE_CHUNKS: 'core', CONTACT_MESSAGES: 'core',
+  PRESCRIPTIONS: 'ocr', PRESCRIPTION_ANALYSES: 'ocr', PRESCRIPTION_ITEMS: 'ocr',
+  OCR_CORRECTIONS: 'ocr', OCR_CORRECTION_EXAMPLES: 'ocr',
+  PURCHASE_ORDERS: 'fin', PURCHASE_ORDER_ITEMS: 'fin', JOURNAL_ENTRIES: 'fin',
+  JOURNAL_ENTRY_LINES: 'fin', SIMULATION_RUNS: 'fin',
+  AI_CHAT_LOGS: 'ai', AUTOMATION_RUNS: 'ai', COUPONS: 'ai',
+  MARKET_INTELLIGENCE_ACTIONS: 'ai',
+  SUPPLIERS: 'fin',
+  COMPLAINTS: 'ops',
+  PLATFORM_SETTINGS: 'core',
+};
+
+/* ── Per-domain diagram sources (stub entities used for cross-domain FK context) ── */
+const DIAGRAMS = {
+
+  core: `erDiagram
+  TENANTS ||--o{ CUSTOMERS : "owns"
+  TENANTS ||--o{ ORDERS : "scopes"
+  TENANTS ||--o{ NOTIFICATIONS : "scopes"
+  TENANTS ||--o{ AUDIT_LOGS : "scopes"
+  TENANTS ||--o{ TENANT_SETTINGS : "configures"
+  TENANTS ||--o{ AB_TESTS : "runs"
+  TENANTS ||--o{ INVENTORY_ITEMS : "stocks"
+  TENANTS ||--o{ KNOWLEDGE_CHUNKS : "owns"
+  CUSTOMERS ||--o{ SESSIONS : "opens"
+  CUSTOMERS ||--o{ ORDERS : "places"
+  CUSTOMERS ||--o{ NOTIFICATIONS : "receives"
+  CUSTOMERS ||--o{ AUDIT_LOGS : "triggers"
+  CUSTOMERS ||--o{ CUSTOMER_CYCLES : "has"
+  CUSTOMERS ||--o{ PENDING_REMINDERS : "flagged_for"
+  CUSTOMERS ||--o{ CONTACT_MESSAGES : "sends"
+  SESSIONS ||--o{ EVENTS : "logs"
+  ORDERS ||--o{ ORDER_ITEMS : "contains"
+  DRUGS ||--o{ ORDER_ITEMS : "sold_as"
+  DRUGS ||--o{ DRUG_INTERACTIONS : "involved_in"
+  DRUGS ||--o{ DRUG_AFFINITIES : "pairs_with"
+  DRUGS ||--o{ CUSTOMER_CYCLES : "tracked_by"
+  DRUGS ||--o{ PENDING_REMINDERS : "target"
+  DRUGS ||--o{ INVENTORY_ITEMS : "stocked_as"
+  NOTIFICATIONS ||--o{ AB_TEST_RESULTS : "measured_by"
+  AB_TESTS ||--o{ AB_TEST_RESULTS : "tracks"
+
+  TENANTS { uuid tenant_id PK
+    varchar name
+    varchar subdomain
+    varchar vertical
+    boolean is_active
+    timestamp created_at }
+  TENANT_SETTINGS { uuid id PK
+    uuid tenant_id FK
+    boolean ai_review_mode
+    boolean enterprise_notifications
+    boolean cloud_ocr_allowed }
+  CUSTOMERS { uuid customer_id PK
+    uuid auth_user_id
+    uuid tenant_id FK
+    varchar email
+    varchar full_name
+    varchar phone
+    varchar age_group
+    varchar preferred_channel
+    varchar preferred_language
+    varchar role
+    boolean is_active
+    timestamp created_at
+    timestamp last_login_at }
+  SESSIONS { uuid session_id PK
+    uuid tenant_id
+    uuid customer_id FK
+    varchar device_info
+    timestamp created_at }
+  EVENTS { uuid event_id PK
+    uuid session_id FK
+    varchar event_type
+    jsonb payload
+    timestamp timestamp
+    varchar payload_hash
+    varchar prev_hash
+    uuid actor_id
+    inet source_ip
+    bigint event_seq }
+  ORDERS { uuid order_id PK
+    uuid tenant_id FK
+    uuid customer_id FK
+    timestamp order_date
+    varchar status
+    varchar shipping_name
+    varchar shipping_phone
+    text shipping_address
+    varchar payment_method }
+  ORDER_ITEMS { uuid order_item_id PK
+    uuid order_id FK
+    uuid drug_id FK
+    int quantity
+    numeric price }
+  DRUGS { uuid drug_id PK
+    varchar name
+    varchar category
+    boolean is_chronic
+    numeric base_price
+    int default_cycle_days
+    varchar active_ingredient
+    varchar dosage
+    varchar warnings
+    varchar data_source
+    varchar vertical
+    boolean is_verified }
+  DRUG_INTERACTIONS { uuid interaction_id PK
+    uuid drug_id_a FK
+    uuid drug_id_b FK
+    varchar severity
+    varchar note }
+  DRUG_AFFINITIES { uuid affinity_id PK
+    uuid drug_id_a FK
+    uuid drug_id_b FK
+    varchar affinity_type
+    float confidence_score }
+  CUSTOMER_CYCLES { uuid customer_id PK_FK
+    uuid drug_id PK_FK
+    float avg_cycle_days
+    date last_purchase_date
+    date reminder_day }
+  NOTIFICATIONS { uuid notification_id PK
+    uuid tenant_id FK
+    uuid customer_id FK
+    varchar notification_type
+    varchar channel
+    varchar ab_variant
+    varchar status
+    timestamp sent_at
+    timestamp created_at }
+  AUDIT_LOGS { uuid log_id PK
+    uuid tenant_id FK
+    varchar actor_id
+    varchar action_type
+    varchar target_entity
+    timestamp timestamp }
+  PENDING_REMINDERS { uuid reminder_id PK
+    uuid customer_id FK
+    uuid drug_id FK
+    varchar channel
+    varchar decision
+    float cycle_confidence
+    float churn_probability
+    float predicted_days
+    varchar status
+    timestamp created_at
+    timestamp processed_at }
+  INVENTORY_ITEMS { uuid inventory_id PK
+    uuid tenant_id FK
+    uuid drug_id FK
+    int stock_level
+    int reorder_point
+    numeric tenant_price
+    boolean is_active }
+  AB_TESTS { uuid test_id PK
+    uuid tenant_id FK
+    varchar test_name
+    varchar variant_a
+    varchar variant_b
+    date start_date
+    date end_date
+    boolean is_active }
+  AB_TEST_RESULTS { uuid result_id PK
+    uuid test_id FK
+    uuid notification_id FK
+    varchar variant
+    boolean converted }
+  KNOWLEDGE_CHUNKS { uuid chunk_id PK
+    uuid tenant_id FK
+    varchar source_type
+    text content
+    vector embedding
+    timestamp created_at }
+  CONTACT_MESSAGES { uuid id PK
+    uuid tenant_id FK
+    uuid customer_id
+    varchar first_name
+    varchar last_name
+    varchar email
+    varchar message
+    timestamp created_at }
+  PLATFORM_SETTINGS { varchar key PK
+    varchar value
+    timestamp updated_at }
+`,
+
+  ocr: `erDiagram
+  PRESCRIPTIONS ||--o{ PRESCRIPTION_ANALYSES : "analyzed_by"
+  PRESCRIPTION_ANALYSES ||--o{ PRESCRIPTION_ITEMS : "extracts"
+  PRESCRIPTION_ITEMS }o--o| DRUGS : "matched_to"
+  OCR_CORRECTIONS ||--o{ OCR_CORRECTION_EXAMPLES : "trained_from"
+  OCR_CORRECTION_EXAMPLES }o--|| PRESCRIPTIONS : "sourced_from"
+  DRUGS ||--o{ OCR_CORRECTIONS : "corrected_to"
+
+  DRUGS { uuid drug_id PK
+    varchar name }
+  PRESCRIPTIONS { uuid id PK
+    uuid tenant_id
+    varchar file_id
+    uuid uploaded_by
+    varchar status
+    varchar file_sha256
+    timestamp created_at }
+  PRESCRIPTION_ANALYSES { uuid id PK
+    uuid prescription_id FK
+    varchar provider
+    varchar model
+    varchar model_version
+    varchar prompt_version
+    varchar schema_version
+    varchar request_id
+    int latency_ms
+    jsonb token_usage
+    jsonb raw_response
+    varchar status
+    varchar error_message
+    timestamp created_at }
+  PRESCRIPTION_ITEMS { uuid id PK
+    uuid analysis_id FK
+    varchar raw_name
+    varchar normalized_name
+    varchar strength
+    varchar dosage_form
+    varchar quantity
+    varchar duration
+    varchar instructions
+    float ocr_confidence
+    boolean is_illegible
+    varchar match_status
+    uuid matched_drug_id FK
+    float match_confidence
+    float candidate_margin
+    jsonb candidates
+    varchar pharmacist_decision
+    uuid pharmacist_selected_drug_id FK
+    uuid reviewed_by
+    timestamp reviewed_at
+    boolean auto_corrected
+    jsonb correction_trace }
+  OCR_CORRECTIONS { uuid id PK
+    uuid tenant_id
+    varchar wrong_reading_norm
+    varchar corrected_name
+    varchar source
+    int hit_count
+    uuid created_by
+    varchar scope
+    uuid target_drug_id FK
+    varchar status
+    float confidence_score
+    uuid verified_by
+    timestamp created_at
+    timestamp updated_at }
+  OCR_CORRECTION_EXAMPLES { uuid id PK
+    uuid correction_id FK
+    uuid source_rx_id FK
+    varchar crop_storage_key
+    varchar raw_ocr
+    varchar model_version
+    timestamp created_at }
+`,
+
+  fin: `erDiagram
+  TENANTS ||--o{ PURCHASE_ORDERS : "creates"
+  PURCHASE_ORDERS ||--o{ PURCHASE_ORDER_ITEMS : "contains"
+  DRUGS ||--o{ PURCHASE_ORDER_ITEMS : "ordered_as"
+  JOURNAL_ENTRIES ||--o{ JOURNAL_ENTRY_LINES : "has_lines"
+  TENANTS ||--o{ JOURNAL_ENTRIES : "owns"
+  TENANTS ||--o{ SIMULATION_RUNS : "runs"
+  DRUGS ||--o{ SIMULATION_RUNS : "simulated_for"
+  TENANTS ||--o{ SUPPLIERS : "scopes"
+  SUPPLIERS ||--o{ PURCHASE_ORDERS : "fulfills"
+
+  TENANTS { uuid tenant_id PK
+    varchar name }
+  SUPPLIERS { uuid supplier_id PK
+    uuid tenant_id FK
+    varchar name
+    varchar contact_person
+    varchar phone
+    varchar email
+    text address
+    varchar payment_terms
+    boolean is_active
+    timestamp created_at }
+  DRUGS { uuid drug_id PK
+    varchar name }
+  PURCHASE_ORDERS { uuid po_id PK
+    uuid tenant_id FK
+    uuid supplier_id FK
+    varchar po_number
+    varchar supplier_name
+    varchar status
+    numeric total_estimated_cost
+    varchar created_by
+    text notes
+    timestamp created_at
+    timestamp approved_at
+    timestamp received_at }
+  PURCHASE_ORDER_ITEMS { uuid item_id PK
+    uuid po_id FK
+    uuid drug_id FK
+    varchar drug_name
+    int quantity_ordered
+    int quantity_received
+    numeric unit_cost
+    numeric subtotal }
+  JOURNAL_ENTRIES { uuid entry_id PK
+    uuid tenant_id FK
+    varchar entry_number
+    timestamp entry_date
+    varchar reference_type
+    varchar reference_id
+    text description_ar
+    numeric total_debit
+    numeric total_credit
+    boolean is_balanced
+    timestamp created_at }
+  JOURNAL_ENTRY_LINES { uuid line_id PK
+    uuid entry_id FK
+    varchar account_code
+    varchar account_name_ar
+    varchar account_type
+    numeric debit
+    numeric credit
+    varchar line_description }
+  SIMULATION_RUNS { uuid run_id PK
+    uuid tenant_id FK
+    uuid drug_id FK
+    varchar drug_name
+    varchar scenario
+    numeric unit_price
+    numeric unit_cost
+    varchar cost_source
+    numeric discount_pct
+    int base_units
+    numeric volume_lift_pct
+    varchar verdict
+    numeric breakeven_lift_pct
+    numeric expected_margin_total
+    boolean deployed
+    varchar coupon_code
+    varchar created_by
+    timestamp created_at }
+`,
+
+  ai: `erDiagram
+  TENANTS ||--o{ AI_CHAT_LOGS : "scopes"
+  TENANTS ||--o{ AUTOMATION_RUNS : "triggers"
+  TENANTS ||--o{ COUPONS : "issues"
+  TENANTS ||--o{ MARKET_INTELLIGENCE_ACTIONS : "scopes"
+  DRUGS ||--o{ MARKET_INTELLIGENCE_ACTIONS : "targets"
+
+  TENANTS { uuid tenant_id PK
+    varchar name }
+  DRUGS { uuid drug_id PK
+    varchar name }
+  AI_CHAT_LOGS { uuid log_id PK
+    uuid tenant_id FK
+    text session_id
+    uuid customer_id
+    text user_prompt
+    text ai_response
+    array engines_used
+    boolean ddi_detected
+    boolean security_flagged
+    text escalation_status
+    int response_time_ms
+    text intent
+    timestamp created_at }
+  AUTOMATION_RUNS { uuid id PK
+    varchar workflow_name
+    uuid tenant_id FK
+    varchar trigger_source
+    varchar status
+    varchar reason
+    varchar n8n_detail
+    int attempts
+    int max_attempts
+    timestamp next_retry_at
+    jsonb payload
+    timestamp created_at
+    timestamp updated_at }
+  COUPONS { uuid id PK
+    uuid tenant_id FK
+    varchar code
+    varchar customer_name
+    int discount_pct
+    varchar campaign_type
+    varchar drug_name
+    varchar channel
+    uuid used_order_id
+    timestamp created_at
+    timestamp expires_at
+    timestamp used_at }
+  MARKET_INTELLIGENCE_ACTIONS { uuid action_id PK
+    uuid tenant_id FK
+    uuid drug_id FK
+    varchar action_type
+    varchar status
+    varchar priority
+    varchar title
+    varchar drug_name
+    varchar market_signal_id
+    jsonb parameters
+    jsonb execution_result
+    varchar approved_by
+    timestamp approved_at
+    timestamp executed_at }
+`,
+
+  ops: `erDiagram
+  TENANTS ||--o{ COMPLAINTS : "scopes"
+
+  TENANTS { uuid tenant_id PK
+    varchar name }
+  COMPLAINTS { uuid complaint_id PK
+    uuid tenant_id FK
+    varchar customer_name
+    varchar channel
+    varchar subject
+    text message
+    varchar status
+    varchar assigned_to
+    text resolution_note
+    timestamp created_at
+    timestamp updated_at }
+  EMERGENCY_OUTBOX { int id PK
+    uuid tenant_id
+    jsonb payload
+    varchar status
+    int attempts
+    timestamp created_at
+    timestamp sent_at }
+`,
+};
+
+DIAGRAMS.overview = `erDiagram
+  TENANTS ||--o{ CUSTOMERS : "owns"
+  TENANTS ||--o{ ORDERS : "scopes"
+  TENANTS ||--o{ NOTIFICATIONS : "scopes"
+  TENANTS ||--o{ AUDIT_LOGS : "scopes"
+  TENANTS ||--o{ TENANT_SETTINGS : "configures"
+  TENANTS ||--o{ AB_TESTS : "runs"
+  TENANTS ||--o{ INVENTORY_ITEMS : "stocks"
+  TENANTS ||--o{ KNOWLEDGE_CHUNKS : "owns"
+  CUSTOMERS ||--o{ SESSIONS : "opens"
+  CUSTOMERS ||--o{ ORDERS : "places"
+  CUSTOMERS ||--o{ NOTIFICATIONS : "receives"
+  CUSTOMERS ||--o{ AUDIT_LOGS : "triggers"
+  CUSTOMERS ||--o{ CUSTOMER_CYCLES : "has"
+  CUSTOMERS ||--o{ PENDING_REMINDERS : "flagged_for"
+  CUSTOMERS ||--o{ CONTACT_MESSAGES : "sends"
+  SESSIONS ||--o{ EVENTS : "logs"
+  ORDERS ||--o{ ORDER_ITEMS : "contains"
+  DRUGS ||--o{ ORDER_ITEMS : "sold_as"
+  DRUGS ||--o{ DRUG_INTERACTIONS : "involved_in"
+  DRUGS ||--o{ DRUG_AFFINITIES : "pairs_with"
+  DRUGS ||--o{ CUSTOMER_CYCLES : "tracked_by"
+  DRUGS ||--o{ PENDING_REMINDERS : "target"
+  DRUGS ||--o{ INVENTORY_ITEMS : "stocked_as"
+  DRUGS ||--o{ OCR_CORRECTIONS : "corrected_to"
+  NOTIFICATIONS ||--o{ AB_TEST_RESULTS : "measured_by"
+  AB_TESTS ||--o{ AB_TEST_RESULTS : "tracks"
+  PRESCRIPTIONS ||--o{ PRESCRIPTION_ANALYSES : "analyzed_by"
+  PRESCRIPTION_ANALYSES ||--o{ PRESCRIPTION_ITEMS : "extracts"
+  PRESCRIPTION_ITEMS }o--o| DRUGS : "matched_to"
+  OCR_CORRECTIONS ||--o{ OCR_CORRECTION_EXAMPLES : "trained_from"
+  OCR_CORRECTION_EXAMPLES }o--|| PRESCRIPTIONS : "sourced_from"
+  TENANTS ||--o{ PURCHASE_ORDERS : "creates"
+  PURCHASE_ORDERS ||--o{ PURCHASE_ORDER_ITEMS : "contains"
+  DRUGS ||--o{ PURCHASE_ORDER_ITEMS : "ordered_as"
+  JOURNAL_ENTRIES ||--o{ JOURNAL_ENTRY_LINES : "has_lines"
+  TENANTS ||--o{ JOURNAL_ENTRIES : "owns"
+  TENANTS ||--o{ SIMULATION_RUNS : "runs"
+  DRUGS ||--o{ SIMULATION_RUNS : "simulated_for"
+  TENANTS ||--o{ AI_CHAT_LOGS : "scopes"
+  TENANTS ||--o{ AUTOMATION_RUNS : "triggers"
+  TENANTS ||--o{ COUPONS : "issues"
+  TENANTS ||--o{ SUPPLIERS : "scopes"
+  SUPPLIERS ||--o{ PURCHASE_ORDERS : "fulfills"
+  TENANTS ||--o{ MARKET_INTELLIGENCE_ACTIONS : "scopes"
+  DRUGS ||--o{ MARKET_INTELLIGENCE_ACTIONS : "targets"
+  TENANTS ||--o{ COMPLAINTS : "scopes"
+
+  TENANTS { uuid tenant_id PK
+    varchar name
+    varchar subdomain
+    varchar vertical
+    boolean is_active
+    timestamp created_at }
+  TENANT_SETTINGS { uuid id PK
+    uuid tenant_id FK
+    boolean ai_review_mode
+    boolean enterprise_notifications
+    boolean cloud_ocr_allowed }
+  CUSTOMERS { uuid customer_id PK
+    uuid auth_user_id
+    uuid tenant_id FK
+    varchar email
+    varchar full_name
+    varchar phone
+    varchar age_group
+    varchar preferred_channel
+    varchar preferred_language
+    varchar role
+    boolean is_active
+    timestamp created_at
+    timestamp last_login_at }
+  SESSIONS { uuid session_id PK
+    uuid tenant_id
+    uuid customer_id FK
+    varchar device_info
+    timestamp created_at }
+  EVENTS { uuid event_id PK
+    uuid session_id FK
+    varchar event_type
+    jsonb payload
+    timestamp timestamp
+    varchar payload_hash
+    varchar prev_hash
+    uuid actor_id
+    inet source_ip
+    bigint event_seq }
+  ORDERS { uuid order_id PK
+    uuid tenant_id FK
+    uuid customer_id FK
+    timestamp order_date
+    varchar status
+    varchar shipping_name
+    varchar shipping_phone
+    text shipping_address
+    varchar payment_method }
+  ORDER_ITEMS { uuid order_item_id PK
+    uuid order_id FK
+    uuid drug_id FK
+    int quantity
+    numeric price }
+  DRUGS { uuid drug_id PK
+    varchar name
+    varchar category
+    boolean is_chronic
+    numeric base_price
+    int default_cycle_days
+    varchar active_ingredient
+    varchar dosage
+    varchar warnings
+    varchar data_source
+    varchar vertical
+    boolean is_verified }
+  DRUG_INTERACTIONS { uuid interaction_id PK
+    uuid drug_id_a FK
+    uuid drug_id_b FK
+    varchar severity
+    varchar note }
+  DRUG_AFFINITIES { uuid affinity_id PK
+    uuid drug_id_a FK
+    uuid drug_id_b FK
+    varchar affinity_type
+    float confidence_score }
+  CUSTOMER_CYCLES { uuid customer_id PK_FK
+    uuid drug_id PK_FK
+    float avg_cycle_days
+    date last_purchase_date
+    date reminder_day }
+  NOTIFICATIONS { uuid notification_id PK
+    uuid tenant_id FK
+    uuid customer_id FK
+    varchar notification_type
+    varchar channel
+    varchar ab_variant
+    varchar status
+    timestamp sent_at
+    timestamp created_at }
+  AUDIT_LOGS { uuid log_id PK
+    uuid tenant_id FK
+    varchar actor_id
+    varchar action_type
+    varchar target_entity
+    timestamp timestamp }
+  PENDING_REMINDERS { uuid reminder_id PK
+    uuid customer_id FK
+    uuid drug_id FK
+    varchar channel
+    varchar decision
+    float cycle_confidence
+    float churn_probability
+    float predicted_days
+    varchar status
+    timestamp created_at
+    timestamp processed_at }
+  INVENTORY_ITEMS { uuid inventory_id PK
+    uuid tenant_id FK
+    uuid drug_id FK
+    int stock_level
+    int reorder_point
+    numeric tenant_price
+    boolean is_active }
+  AB_TESTS { uuid test_id PK
+    uuid tenant_id FK
+    varchar test_name
+    varchar variant_a
+    varchar variant_b
+    date start_date
+    date end_date
+    boolean is_active }
+  AB_TEST_RESULTS { uuid result_id PK
+    uuid test_id FK
+    uuid notification_id FK
+    varchar variant
+    boolean converted }
+  KNOWLEDGE_CHUNKS { uuid chunk_id PK
+    uuid tenant_id FK
+    varchar source_type
+    text content
+    vector embedding
+    timestamp created_at }
+  CONTACT_MESSAGES { uuid id PK
+    uuid tenant_id FK
+    uuid customer_id
+    varchar first_name
+    varchar last_name
+    varchar email
+    varchar message
+    timestamp created_at }
+  PLATFORM_SETTINGS { varchar key PK
+    varchar value
+    timestamp updated_at }
+  SUPPLIERS { uuid supplier_id PK
+    uuid tenant_id FK
+    varchar name
+    varchar contact_person
+    varchar phone
+    varchar email
+    text address
+    varchar payment_terms
+    boolean is_active
+    timestamp created_at }
+  COMPLAINTS { uuid complaint_id PK
+    uuid tenant_id FK
+    varchar customer_name
+    varchar channel
+    varchar subject
+    text message
+    varchar status
+    varchar assigned_to
+    text resolution_note
+    timestamp created_at
+    timestamp updated_at }
+  MARKET_INTELLIGENCE_ACTIONS { uuid action_id PK
+    uuid tenant_id FK
+    uuid drug_id FK
+    varchar action_type
+    varchar status
+    varchar priority
+    varchar title
+    varchar drug_name
+    varchar market_signal_id
+    jsonb parameters
+    jsonb execution_result
+    varchar approved_by
+    timestamp approved_at
+    timestamp executed_at }
+  PRESCRIPTIONS { uuid id PK
+    uuid tenant_id
+    varchar file_id
+    uuid uploaded_by
+    varchar status
+    varchar file_sha256
+    timestamp created_at }
+  PRESCRIPTION_ANALYSES { uuid id PK
+    uuid prescription_id FK
+    varchar provider
+    varchar model
+    varchar model_version
+    varchar prompt_version
+    varchar schema_version
+    varchar request_id
+    int latency_ms
+    jsonb token_usage
+    jsonb raw_response
+    varchar status
+    varchar error_message
+    timestamp created_at }
+  PRESCRIPTION_ITEMS { uuid id PK
+    uuid analysis_id FK
+    varchar raw_name
+    varchar normalized_name
+    varchar strength
+    varchar dosage_form
+    varchar quantity
+    varchar duration
+    varchar instructions
+    float ocr_confidence
+    boolean is_illegible
+    varchar match_status
+    uuid matched_drug_id FK
+    float match_confidence
+    float candidate_margin
+    jsonb candidates
+    varchar pharmacist_decision
+    uuid pharmacist_selected_drug_id FK
+    uuid reviewed_by
+    timestamp reviewed_at
+    boolean auto_corrected
+    jsonb correction_trace }
+  OCR_CORRECTIONS { uuid id PK
+    uuid tenant_id
+    varchar wrong_reading_norm
+    varchar corrected_name
+    varchar source
+    int hit_count
+    uuid created_by
+    varchar scope
+    uuid target_drug_id FK
+    varchar status
+    float confidence_score
+    uuid verified_by
+    timestamp created_at
+    timestamp updated_at }
+  OCR_CORRECTION_EXAMPLES { uuid id PK
+    uuid correction_id FK
+    uuid source_rx_id FK
+    varchar crop_storage_key
+    varchar raw_ocr
+    varchar model_version
+    timestamp created_at }
+  PURCHASE_ORDERS { uuid po_id PK
+    uuid tenant_id FK
+    uuid supplier_id FK
+    varchar po_number
+    varchar supplier_name
+    varchar status
+    numeric total_estimated_cost
+    varchar created_by
+    text notes
+    timestamp created_at
+    timestamp approved_at
+    timestamp received_at }
+  PURCHASE_ORDER_ITEMS { uuid item_id PK
+    uuid po_id FK
+    uuid drug_id FK
+    varchar drug_name
+    int quantity_ordered
+    int quantity_received
+    numeric unit_cost
+    numeric subtotal }
+  JOURNAL_ENTRIES { uuid entry_id PK
+    uuid tenant_id FK
+    varchar entry_number
+    timestamp entry_date
+    varchar reference_type
+    varchar reference_id
+    text description_ar
+    numeric total_debit
+    numeric total_credit
+    boolean is_balanced
+    timestamp created_at }
+  JOURNAL_ENTRY_LINES { uuid line_id PK
+    uuid entry_id FK
+    varchar account_code
+    varchar account_name_ar
+    varchar account_type
+    numeric debit
+    numeric credit
+    varchar line_description }
+  SIMULATION_RUNS { uuid run_id PK
+    uuid tenant_id FK
+    uuid drug_id FK
+    varchar drug_name
+    varchar scenario
+    numeric unit_price
+    numeric unit_cost
+    varchar cost_source
+    numeric discount_pct
+    int base_units
+    numeric volume_lift_pct
+    varchar verdict
+    numeric breakeven_lift_pct
+    numeric expected_margin_total
+    boolean deployed
+    varchar coupon_code
+    varchar created_by
+    timestamp created_at }
+  AI_CHAT_LOGS { uuid log_id PK
+    uuid tenant_id FK
+    text session_id
+    uuid customer_id
+    text user_prompt
+    text ai_response
+    array engines_used
+    boolean ddi_detected
+    boolean security_flagged
+    text escalation_status
+    int response_time_ms
+    text intent
+    timestamp created_at }
+  AUTOMATION_RUNS { uuid id PK
+    varchar workflow_name
+    uuid tenant_id FK
+    varchar trigger_source
+    varchar status
+    varchar reason
+    varchar n8n_detail
+    int attempts
+    int max_attempts
+    timestamp next_retry_at
+    jsonb payload
+    timestamp created_at
+    timestamp updated_at }
+  COUPONS { uuid id PK
+    uuid tenant_id FK
+    varchar code
+    varchar customer_name
+    int discount_pct
+    varchar campaign_type
+    varchar drug_name
+    varchar channel
+    uuid used_order_id
+    timestamp created_at
+    timestamp expires_at
+    timestamp used_at }
+  EMERGENCY_OUTBOX { int id PK
+    uuid tenant_id
+    jsonb payload
+    varchar status
+    int attempts
+    timestamp created_at
+    timestamp sent_at }
+`;
+
+/* ── Rendering ── */
+const rendered = {}; // paneId -> true once rendered
+let renderCounter = 0;
+
+async function renderPane(paneId) {
+  if (rendered[paneId]) return;
+  const paneEl = document.querySelector(`.pane[data-pane="${paneId}"]`);
+  const wrapEl = paneEl.querySelector('.erd-wrap');
+  try {
+    const id = 'erd-svg-' + (renderCounter++);
+    const { svg } = await mermaid.render(id, DIAGRAMS[paneId]);
+    wrapEl.innerHTML = svg;
+    const svgEl = wrapEl.querySelector('svg');
+
+    // Crop to actual content bounding box
+    try {
+      const bbox = svgEl.getBBox();
+      const pad = 10;
+      svgEl.setAttribute('viewBox', `${bbox.x - pad} ${bbox.y - pad} ${bbox.width + pad * 2} ${bbox.height + pad * 2}`);
+      svgEl.removeAttribute('width');
+      svgEl.removeAttribute('height');
+      svgEl.style.width = Math.min(bbox.width + pad * 2, 1600) + 'px';
+    } catch (e) { /* ignore */ }
+
+    // Color-code entities by category — tint header text + border only (never force white,
+    // to avoid invisible text on the light background)
+    const labels = svgEl.querySelectorAll('.entityLabel');
+    labels.forEach((label) => {
+      const name = (label.textContent || '').trim().toUpperCase();
+      const cat = ENTITY_CATEGORY[name];
+      if (!cat) return;
+      const color = CATEGORY_COLORS[cat];
+      label.setAttribute('fill', color);
+      const group = label.closest('g[id^="entity-"]') || label.closest('g');
+      const entityBox = group && group.querySelector('rect.er.entityBox');
+      if (entityBox) { entityBox.setAttribute('stroke', color); entityBox.setAttribute('stroke-width', '1.6'); }
+    });
+
+    rendered[paneId] = true;
+    if (paneId === document.querySelector('.pane.active').dataset.pane) applyZoom();
+  } catch (e) {
+    wrapEl.innerHTML = '<div class="loading-msg">تعذّر رسم هذا القسم: ' + (e.message || e) + '</div>';
+    console.error(e);
+  }
+}
+
+/* ── Tabs ── */
+const tabBtns = document.querySelectorAll('.tab-btn');
+tabBtns.forEach(btn => {
+  btn.addEventListener('click', async () => {
+    const target = btn.dataset.tab;
+    tabBtns.forEach(b => b.classList.toggle('active', b === btn));
+    document.querySelectorAll('.pane').forEach(p => p.classList.toggle('active', p.dataset.pane === target));
+    scale = DEFAULT_SCALE;
+    await renderPane(target);
+    applyZoom();
+  });
+});
+
+/* ── Zoom (applies to the currently active pane) ── */
+const DEFAULT_SCALE = 0.7;
+let scale = DEFAULT_SCALE;
+function activeWrap() { return document.querySelector('.pane.active .erd-wrap'); }
+function applyZoom() {
+  const w = activeWrap();
+  if (w) { w.style.transform = 'scale(' + scale + ')'; w.style.transformOrigin = 'top center'; }
+}
+document.getElementById('zoomIn').addEventListener('click', () => { scale = Math.min(scale + 0.12, 3); applyZoom(); });
+document.getElementById('zoomOut').addEventListener('click', () => { scale = Math.max(scale - 0.12, 0.25); applyZoom(); });
+document.getElementById('zoomReset').addEventListener('click', () => { scale = DEFAULT_SCALE; applyZoom(); });
+document.querySelectorAll('.erd-container').forEach(container => {
+  container.addEventListener('wheel', (e) => {
+    if (!e.ctrlKey) return;
+    e.preventDefault();
+    scale = Math.min(Math.max(scale + (e.deltaY < 0 ? 0.1 : -0.1), 0.25), 3);
+    applyZoom();
+  }, { passive: false });
+});
+
+/* ── Initial render: first tab ── */
+renderPane('core');
+</script>
+</body>
+</html>

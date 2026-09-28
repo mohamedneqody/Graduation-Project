@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>🎙️ اختيار صوت الصيدلية الذكية — AI-COS</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    color: #e2e8f0; min-height: 100vh; padding: 30px 20px;
+  }
+  .wrap { max-width: 780px; margin: auto; }
+  h1 { text-align: center; font-size: 26px; color: #7dd3fc; margin-bottom: 8px; }
+  .sub { text-align: center; color: #94a3b8; font-size: 14px; margin-bottom: 26px; line-height: 1.8; }
+  .card {
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 14px; padding: 16px 20px; margin-bottom: 14px;
+    display: flex; align-items: center; gap: 16px; transition: all .2s;
+  }
+  .card:hover { background: rgba(255,255,255,0.09); border-color: #38bdf8; }
+  .card.recommended { border-color: #34d399; background: rgba(52,211,153,0.08); }
+  .badge {
+    min-width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center;
+    justify-content: center; font-size: 19px; font-weight: 800; color: #0f172a;
+    background: linear-gradient(135deg, #38bdf8, #34d399);
+  }
+  .info { flex: 1; }
+  .info b { font-size: 16px; color: #f1f5f9; display: block; margin-bottom: 3px; }
+  .info span { font-size: 12.5px; color: #94a3b8; }
+  .star { color: #fbbf24; font-size: 15px; }
+  audio { width: 240px; height: 36px; }
+  .hint {
+    background: rgba(251,191,36,0.1); border: 1px solid rgba(251,191,36,0.35);
+    border-radius: 12px; padding: 14px 18px; margin-top: 26px; font-size: 13.5px;
+    color: #fde68a; line-height: 1.9; text-align: center;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>🎙️ اختار صوت الصيدلية الذكية</h1>
+  <div class="sub">
+    كل عينة بقرا الجملة دي (نفس أسلوب ردود البوت الفعلية):<br>
+    <i style="color:#cbd5e1">«أهلاً بحضرتك في صيدلية AI-COS! سعر بنادول إكسترا عشرين جنيه، ولو محتاج أي حاجة تانية أنا معاك في أي وقت.»</i>
+  </div>
+
+  <div class="card recommended">
+    <div class="badge">1</div>
+    <div class="info"><b>سلمى — مصري <span class="star">⭐ ترشيحي الأول</span></b>
+    <span>الصوت المصري المدرب على العامية — طبيعي على كلام زي ده</span></div>
+    <audio controls src="عينات_الاصوات_العامية/01_سلمى_مصريه.mp3"></audio>
+  </div>
+
+  <div class="card recommended">
+    <div class="badge">2</div>
+    <div class="info"><b>سلمى — مصري (بطيء وواضح) <span class="star">⭐ لو عايز نطق أهدأ</span></b>
+    <span>نفس سلمى بسرعة أبطأ 15% — أوضح للي بيسمع أول مرة</span></div>
+    <audio controls src="عينات_الاصوات_العامية/02_سلمى_مصريه_بطيء.mp3"></audio>
+  </div>
+
+  <div class="card">
+    <div class="badge">3</div>
+    <div class="info"><b>شاكر — مصري (راجل)</b>
+    <span>لو حابب صوت راجل مصري</span></div>
+    <audio controls src="عينات_الاصوات_العامية/03_شاكر_مصري_راجل.mp3"></audio>
+  </div>
+
+  <div class="card">
+    <div class="badge">4</div>
+    <div class="info"><b>زارية — سعودي</b>
+    <span>فصحى واضحة جداً — بس هتقرا العامية بلمسة خليجية</span></div>
+    <audio controls src="عينات_الاصوات_العامية/04_زارية_سعودي.mp3"></audio>
+  </div>
+
+  <div class="card">
+    <div class="badge">5</div>
+    <div class="info"><b>سناء — أردني</b>
+    <span>هادئة ومقروءة</span></div>
+    <audio controls src="عينات_الاصوات_العامية/05_سناء_اردني.mp3"></audio>
+  </div>
+
+  <div class="card">
+    <div class="badge">6</div>
+    <div class="info"><b>فاطمة — إماراتي</b>
+    <span>خليجي ناعم</span></div>
+    <audio controls src="عينات_الاصوات_العامية/06_فاطمه_اماراتي.mp3"></audio>
+  </div>
+
+  <div class="card">
+    <div class="badge">7</div>
+    <div class="info"><b>ليلى — لبناني</b>
+    <span>شامي رقيق</span></div>
+    <audio controls src="عينات_الاصوات_العامية/07_ليلى_لبناني.mp3"></audio>
+  </div>
+
+  <div class="card">
+    <div class="badge">8</div>
+    <div class="info"><b>رنا — عراقي</b>
+    <span>للتجربة</span></div>
+    <audio controls src="عينات_الاصوات_العامية/08_رنا_عراقي.mp3"></audio>
+  </div>
+
+  <div class="card">
+    <div class="badge">9</div>
+    <div class="info"><b>نورة — كويتي</b>
+    <span>للتجربة</span></div>
+    <audio controls src="عينات_الاصوات_العامية/09_نوره_كويتي.mp3"></audio>
+  </div>
+
+  <div class="card">
+    <div class="badge">10</div>
+    <div class="info"><b>مريم — يمني</b>
+    <span>للتجربة</span></div>
+    <audio controls src="عينات_الاصوات_العامية/10_مريم_يمني.mp3"></audio>
+  </div>
+
+  <div class="hint">
+    ✅ بعد ما تختار: قول لي رقم الصوت في الشات وأنا أثبته فوراً في المنظومة كله.<br>
+    💡 ترشيحي: <b>رقم 1 أو 2</b> — لأنهم الوحيدين المدربين على العامية المصرية تحديداً،
+    والباقي هيتكلموا عاميتك بلمسة لهجتهم.
+  </div>
+</div>
+</body>
+</html>

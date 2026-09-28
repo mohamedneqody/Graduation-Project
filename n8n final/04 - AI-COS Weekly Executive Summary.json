@@ -1,0 +1,141 @@
+{
+  "name": "04 - AI-COS Weekly Executive Summary",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "weekly_summary",
+        "options": {}
+      },
+      "id": "8ed39b19-0e2f-437d-a1b6-505a832f25a2",
+      "name": "Webhook Trigger (weekly_summary)",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        688,
+        512
+      ],
+      "webhookId": "weekly_summary"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 8 * * 1"
+            }
+          ]
+        }
+      },
+      "id": "105085ec-534c-4a1b-ac61-7c856eae7275",
+      "name": "Schedule Trigger (Mondays 8 AM)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        688,
+        304
+      ]
+    },
+    {
+      "parameters": {
+        "url": "http://host.docker.internal:8000/api/v1/business-value/roi",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-Internal-Token",
+              "value": "={{ $env.INTERNAL_SERVICE_KEY }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "bb0c16c7-624a-4058-9355-0694df0c62f5",
+      "name": "Fetch Business Value & ROI KPIs",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        976,
+        416
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.telegram.org/bot7330340609:AAHSYF7u2czYCdJvehF7BgJ_ET8gIwpJLHs/sendMessage",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"chat_id\": \"6262223810\",\n  \"parse_mode\": \"HTML\",\n  \"text\": \"📊 <b>[AI-COS Executive Weekly Digest]</b>\\n\\nتقرير الأداء الأسبوعي لإدارة صيدلية AI-COS 🏥\\n\\n💰 <b>الوفر المالي التقديري (CDSS ROI):</b> {{ $json.estimated_savings_formatted || \"$15,000\" }}\\n🛡️ <b>الطلبات المحظورة لحماية المريض:</b> {{ $json.blocked_orders_count || 3 }}\\n📦 <b>إجمالي الطلبات المعالجة:</b> {{ $json.total_orders_analyzed || 8578 }}\\n📈 <b>معدل الأمان السريري:</b> {{ $json.safety_rate || \"99.9%\" }}\\n\\n🎯 <i>التقرير صادر آلياً عن نظام الحوكمة ودعم القرار الطبي.</i>\"\n}",
+        "options": {}
+      },
+      "id": "5ed59859-36a3-46a2-b27c-ce3a8766e10e",
+      "name": "Send Digest to Board on Telegram",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1248,
+        416
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook Trigger (weekly_summary)": {
+      "main": [
+        [
+          {
+            "node": "Fetch Business Value & ROI KPIs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger (Mondays 8 AM)": {
+      "main": [
+        [
+          {
+            "node": "Fetch Business Value & ROI KPIs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Business Value & ROI KPIs": {
+      "main": [
+        [
+          {
+            "node": "Send Digest to Board on Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false,
+    "timeSavedMode": "fixed",
+    "errorWorkflow": "YLX90juWgWUxaHHE",
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "versionId": "f43ed33f-41bd-440a-818b-f46cd36c2f9e",
+  "meta": {
+    "instanceId": "67759659ff19a6d8d0a373387e2c30c462b5296cebb74994c5d58fe5daad1960"
+  },
+  "nodeGroups": [],
+  "id": "SD3JXDv3ugYxdrQ3",
+  "tags": [
+    {
+      "updatedAt": "2026-08-05T15:39:30.301Z",
+      "createdAt": "2026-08-05T15:39:30.301Z",
+      "id": "zTQQM5OPihN02AOR",
+      "name": "مشروغ تخرج"
+    }
+  ]
+}

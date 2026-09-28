@@ -1,0 +1,131 @@
+{
+  "name": "AI-COS - worm_alert",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "worm-alert",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "wh-worm-alert-001",
+      "name": "Webhook (worm-alert)",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        208,
+        304
+      ],
+      "webhookId": "worm-alert"
+    },
+    {
+      "parameters": {
+        "jsCode": "const body = $input.first().json.body || $input.first().json || {};\nconst broken = JSON.stringify(body.broken_lines || []);\nconst msg = `🚨 <b>إنذار أمني عاجل — كسر في سجل WORM!</b>\\n⚠️ تم رصد اختلاف في بصمات التشفير لسجل التدقيق!\\n• الأسطر المكسورة: <code>${broken}</code>\\n• إجمالي أسطر السجل: <b>${body.total_lines || 0}</b>\\n• الإجراء المطلوب: مراجعة فورية لقاعدة البيانات وسجل التدقيق!`;\nreturn [{ json: { ...body, message: msg } }];"
+      },
+      "id": "code-worm-alert-002",
+      "name": "Format Alert Message",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        448,
+        304
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "6262223810",
+        "text": "={{ $json.message }}",
+        "additionalFields": {
+          "parse_mode": "HTML"
+        }
+      },
+      "id": "tg-worm-alert-003",
+      "name": "Send Telegram Alert",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        688,
+        304
+      ],
+      "webhookId": "be817b5a-fe64-4759-954a-a7b97e2d49b1",
+      "credentials": {
+        "telegramApi": {
+          "id": "ntDvdegoGPkjWfXU",
+          "name": "مشروع تخرج"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "{\"ok\": true, \"workflow\": \"worm-alert\", \"status\": \"alert_dispatched\"}",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "id": "resp-worm-alert-004",
+      "name": "Respond OK",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        928,
+        304
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook (worm-alert)": {
+      "main": [
+        [
+          {
+            "node": "Format Alert Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Alert Message": {
+      "main": [
+        [
+          {
+            "node": "Send Telegram Alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Telegram Alert": {
+      "main": [
+        [
+          {
+            "node": "Respond OK",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "c30693d8-8a19-4841-9c2d-049622fe5c62",
+  "meta": {
+    "instanceId": "67759659ff19a6d8d0a373387e2c30c462b5296cebb74994c5d58fe5daad1960"
+  },
+  "nodeGroups": [],
+  "id": "AIcosWormAlert002",
+  "tags": [
+    {
+      "updatedAt": "2026-08-05T15:39:30.301Z",
+      "createdAt": "2026-08-05T15:39:30.301Z",
+      "id": "zTQQM5OPihN02AOR",
+      "name": "مشروغ تخرج"
+    }
+  ]
+}

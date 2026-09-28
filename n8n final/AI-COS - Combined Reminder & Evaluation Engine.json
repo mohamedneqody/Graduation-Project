@@ -1,0 +1,557 @@
+{
+  "name": "AI-COS - Combined Reminder & Evaluation Engine",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 9 * * *"
+            }
+          ]
+        }
+      },
+      "name": "Schedule Trigger (Every 9 AM)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [
+        7888,
+        2704
+      ],
+      "id": "2ba1987b-d585-4738-9f89-70f517ab9b42"
+    },
+    {
+      "parameters": {},
+      "id": "92ea43de-8642-40b6-9984-d3715365a8ee",
+      "name": "When clicking \"Execute Workflow\"",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        7888,
+        2496
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "evaluate_due",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        7888,
+        2896
+      ],
+      "id": "8ddcf845-ee74-4a44-8ad3-319fabb5da0f",
+      "name": "Webhook Evaluate Due",
+      "webhookId": "8e022842-4da4-4180-bc7e-e3b8b3c1f887"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "send_reminder",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        7888,
+        3104
+      ],
+      "id": "24548707-ec6a-4ff9-8444-6a115c5cd04c",
+      "name": "Webhook Send Reminder",
+      "webhookId": "9f133953-5e51-4291-adf3-8d133e2c2f98"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.headers['x-internal-token'] || $json.headers['X-Internal-Token'] }}",
+              "value2": "={{ $env.INTERNAL_SERVICE_KEY }}"
+            }
+          ]
+        }
+      },
+      "name": "Verify Token (Evaluate)",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        8128,
+        2896
+      ],
+      "id": "5a989a1c-e047-4036-8d55-d611bce249bd"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.headers['x-internal-token'] || $json.headers['X-Internal-Token'] }}",
+              "value2": "={{ $env.INTERNAL_SERVICE_KEY }}"
+            }
+          ]
+        }
+      },
+      "name": "Verify Token (Reminder)",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        8128,
+        3104
+      ],
+      "id": "683e87f9-0f1d-4139-8476-c75f21f03159"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:8000/internal/cycles/recalculate",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-Internal-Token",
+              "value": "={{ $env.INTERNAL_SERVICE_KEY }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "0. Evaluate Due Reminders",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        8400,
+        2800
+      ],
+      "id": "3cd17ef9-cd9c-48d5-8c45-862a7f324803"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"status\": \"success\",\n  \"workflow\": \"evaluate_due\",\n  \"message\": \"Due reminders evaluated and queued successfully.\"\n}",
+        "options": {}
+      },
+      "name": "Respond Evaluate",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        8640,
+        2896
+      ],
+      "id": "a264baab-c814-40ae-8ba8-a852f072bd83"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"status\": \"success\",\n  \"workflow\": \"send_reminder\",\n  \"message\": \"Reminders dispatched to queue and processed.\"\n}",
+        "options": {}
+      },
+      "name": "Respond Reminder",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        8400,
+        3200
+      ],
+      "id": "bbd27b19-ba47-4eea-b95f-336582ec2f8e"
+    },
+    {
+      "parameters": {
+        "url": "http://host.docker.internal:8000/internal/governance/pending",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-Internal-Token",
+              "value": "={{ $env.INTERNAL_SERVICE_KEY }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "1. Pull Pending Reminders",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        8640,
+        3104
+      ],
+      "id": "32f49ddf-e828-4c2f-a373-5d3626f090df"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.decision }}",
+              "value2": "auto_send"
+            }
+          ]
+        }
+      },
+      "name": "2. Is Auto Send?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        8896,
+        3104
+      ],
+      "id": "846221a7-4a5f-4080-b1b8-0a623cadd8f4"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:8000/api/v1/agents/marketing/generate-campaign",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-Internal-Token",
+              "value": "={{ $env.INTERNAL_SERVICE_KEY }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"customer_name\": \"{{ $('1. Pull Pending Reminders').item.json.customer_name }}\",\n  \"drug_name\": \"{{ $('1. Pull Pending Reminders').item.json.drug_name }}\",\n  \"discount_percentage\": {{ $('1. Pull Pending Reminders').item.json.churn_probability > 0.4 ? 15 : 0 }}\n}",
+        "options": {}
+      },
+      "name": "2.5 Marketing Agent",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        9152,
+        3008
+      ],
+      "id": "af13b636-4f5b-40fc-a8dd-e44796892b48"
+    },
+    {
+      "parameters": {
+        "chatId": "6262223810",
+        "text": "=🏥 <b>صيدلية AI-COS</b>\n\n💙 <b>تذكير بموعد تجديد علاجك</b>\n\nمرحباً أستاذ {{ $('1. Pull Pending Reminders').item.json.customer_name }} 👋\nنتمنى لك دوام الصحة والعافية 💙\n\n💊 <b>علاجك المجدول</b>\n<code>{{ $('1. Pull Pending Reminders').item.json.drug_name }}</code>\n\n⏰ <b>حان موعد تجديد علاجك</b>\nنذكّرك بتجديد علاجك في الوقت المناسب للمساعدة على الاستمرار في خطتك العلاجية.\n\n{{ $('2.5 Marketing Agent').item.json.coupon_code ? \"🎁 <b>هدية خاصة تقديراً لالتزامك</b>\\n\\nخصم <b>15%</b> على إعادة طلب علاجك\\n\\n🏷️ <code>\" + $('2.5 Marketing Agent').item.json.coupon_code + \"</code>\\n\\n📋 أدخل الكود أثناء إتمام الطلب.\" : \"\" }}\n\n👇 <b>اضغط زر «إعادة الطلب» بالأسفل لإكمال طلبك.</b>",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "name": "3A. Send Telegram",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        9392,
+        3008
+      ],
+      "id": "d36819b9-c055-4aad-b1cb-2b38dcaed5d3",
+      "webhookId": "80463c23-44eb-4bc5-9c06-94e813a2afc4",
+      "credentials": {
+        "telegramApi": {
+          "id": "ntDvdegoGPkjWfXU",
+          "name": "مشروع تخرج"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "PATCH",
+        "url": "=http://host.docker.internal:8000/internal/governance/{{ $('1. Pull Pending Reminders').item.json.reminder_id }}/status",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "status",
+              "value": "sent"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-Internal-Token",
+              "value": "={{ $env.INTERNAL_SERVICE_KEY }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "4A. Mark as Sent in DB",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        9856,
+        3008
+      ],
+      "id": "2de2fb89-cbd4-4a51-b6db-b09f5c344066"
+    },
+    {
+      "parameters": {
+        "chatId": "6262223810",
+        "text": "={{ '⚠️ <b>تنبيه مراجعة بشرية (Human Review)</b>\\n\\n👤 <b>المريض:</b> ' + $json.customer_name + '\\n💊 <b>الدواء:</b> ' + $json.drug_name + '\\n📊 <b>احتمال ترك الصيدلية (Churn):</b> ' + ($json.churn_probability * 100).toFixed(1) + '%\\n\\n🔍 <i>يرجى الدخول للوحة التحكم لمراجعة الحالة واعتمادها.</i>' }}",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "name": "3B. Alert Pharmacy Staff",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        9152,
+        3248
+      ],
+      "id": "326d5cf9-5030-4c36-b582-01e3a8ba1114",
+      "webhookId": "1bc4137e-b570-430a-9825-b5962ab747ce",
+      "credentials": {
+        "telegramApi": {
+          "id": "ntDvdegoGPkjWfXU",
+          "name": "مشروع تخرج"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "{\"status\": \"error\", \"message\": \"403 Forbidden: Invalid or missing X-Internal-Token\"}",
+        "options": {
+          "responseCode": 403
+        }
+      },
+      "id": "unauth-resp-9999",
+      "name": "Respond Unauthorized",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        7552,
+        2832
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:8000/api/v1/agents/automation/callback",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-Internal-Token",
+              "value": "={{ $env.INTERNAL_SERVICE_KEY }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ run_id: $json.body?.run_id || $json.run_id || 'auto_' + Date.now(), status: 'delivered', detail: 'reminder + coupon delivered via marketing agent' }) }}",
+        "options": {
+          "timeout": 50000
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        9600,
+        2992
+      ],
+      "id": "a894ab5b-5cd7-483e-a603-d03bd5e49226",
+      "name": "Callback Delivered → AI-COS"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger (Every 9 AM)": {
+      "main": [
+        [
+          {
+            "node": "0. Evaluate Due Reminders",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking \"Execute Workflow\"": {
+      "main": [
+        [
+          {
+            "node": "0. Evaluate Due Reminders",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook Evaluate Due": {
+      "main": [
+        [
+          {
+            "node": "Verify Token (Evaluate)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Verify Token (Evaluate)": {
+      "main": [
+        [
+          {
+            "node": "0. Evaluate Due Reminders",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respond Unauthorized",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook Send Reminder": {
+      "main": [
+        [
+          {
+            "node": "Verify Token (Reminder)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Verify Token (Reminder)": {
+      "main": [
+        [
+          {
+            "node": "Respond Reminder",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "1. Pull Pending Reminders",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respond Unauthorized",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "0. Evaluate Due Reminders": {
+      "main": [
+        [
+          {
+            "node": "Respond Evaluate",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "1. Pull Pending Reminders",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "1. Pull Pending Reminders": {
+      "main": [
+        [
+          {
+            "node": "2. Is Auto Send?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "2. Is Auto Send?": {
+      "main": [
+        [
+          {
+            "node": "2.5 Marketing Agent",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "3B. Alert Pharmacy Staff",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "2.5 Marketing Agent": {
+      "main": [
+        [
+          {
+            "node": "3A. Send Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "3A. Send Telegram": {
+      "main": [
+        [
+          {
+            "node": "Callback Delivered → AI-COS",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Callback Delivered → AI-COS": {
+      "main": [
+        [
+          {
+            "node": "4A. Mark as Sent in DB",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false,
+    "timeSavedMode": "fixed",
+    "errorWorkflow": "YLX90juWgWUxaHHE",
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "versionId": "0dafc00c-548a-4234-a3f9-f4525140eacc",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "67759659ff19a6d8d0a373387e2c30c462b5296cebb74994c5d58fe5daad1960"
+  },
+  "nodeGroups": [],
+  "id": "81yGYG75B34myKyX",
+  "tags": [
+    {
+      "updatedAt": "2026-08-05T15:39:30.301Z",
+      "createdAt": "2026-08-05T15:39:30.301Z",
+      "id": "zTQQM5OPihN02AOR",
+      "name": "مشروغ تخرج"
+    }
+  ]
+}

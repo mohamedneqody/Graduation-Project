@@ -1,0 +1,131 @@
+{
+  "name": "AI-COS - worm_anchor",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "worm-anchor",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "wh-worm-anchor-001",
+      "name": "Webhook (worm-anchor)",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        208,
+        304
+      ],
+      "webhookId": "worm-anchor"
+    },
+    {
+      "parameters": {
+        "jsCode": "const body = $input.first().json.body || $input.first().json || {};\nconst hashShort = body.head_hash ? body.head_hash.substring(0, 16) + '...' : 'N/A';\nconst msg = `🔐 <b>WORM External Anchor — مرساة التدقيق الخارجي</b>\\n• بصمة رأس السلسلة (Head Hash):\\n<code>${body.head_hash || 'N/A'}</code>\\n• إجمالي القيود الموثقة: <b>${body.total_lines || 0}</b>\\n• توقيت الإرساء: ${body.anchored_at || new Date().toISOString()}`;\nreturn [{ json: { ...body, message: msg } }];"
+      },
+      "id": "code-worm-anchor-002",
+      "name": "Format Anchor Message",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        448,
+        304
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "6262223810",
+        "text": "={{ $json.message }}",
+        "additionalFields": {
+          "parse_mode": "HTML"
+        }
+      },
+      "id": "tg-worm-anchor-003",
+      "name": "Send Telegram Anchor",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        688,
+        304
+      ],
+      "webhookId": "85e52512-95b7-4614-8e6a-06eda4c12a1b",
+      "credentials": {
+        "telegramApi": {
+          "id": "ntDvdegoGPkjWfXU",
+          "name": "مشروع تخرج"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "{\"ok\": true, \"workflow\": \"worm-anchor\", \"status\": \"anchored\"}",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "id": "resp-worm-anchor-004",
+      "name": "Respond OK",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        928,
+        304
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook (worm-anchor)": {
+      "main": [
+        [
+          {
+            "node": "Format Anchor Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Anchor Message": {
+      "main": [
+        [
+          {
+            "node": "Send Telegram Anchor",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Telegram Anchor": {
+      "main": [
+        [
+          {
+            "node": "Respond OK",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "df0e2ede-8343-4625-863d-e20e0b5ea8a2",
+  "meta": {
+    "instanceId": "67759659ff19a6d8d0a373387e2c30c462b5296cebb74994c5d58fe5daad1960"
+  },
+  "nodeGroups": [],
+  "id": "AIcosWormAnchor01",
+  "tags": [
+    {
+      "updatedAt": "2026-08-05T15:39:30.301Z",
+      "createdAt": "2026-08-05T15:39:30.301Z",
+      "id": "zTQQM5OPihN02AOR",
+      "name": "مشروغ تخرج"
+    }
+  ]
+}

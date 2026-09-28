@@ -30,6 +30,9 @@ echo [1] Starting Redis (docker) + Celery Worker...
 docker start ai-cos-redis >nul 2>&1
 start "Celery Worker" /D "D:\Graduation Project" cmd /k call start_worker.bat
 
+echo [1.2] Starting n8n Agents Engine (docker)...
+docker start n8n >nul 2>&1
+
 echo [1.5] Checking Ollama AI Service...
 curl -s http://127.0.0.1:11434/api/tags >nul 2>&1
 if %errorlevel% neq 0 (
@@ -71,6 +74,10 @@ echo   Backend + BERT : http://localhost:8000
 echo   Ollama AI Engine: http://localhost:11434 (100%% GPU)
 echo   OCR Server     : http://localhost:9202
 echo   API Swagger UI : http://localhost:8000/docs
+echo   n8n Agents     : http://localhost:5678
+echo ===================================================
+echo   Tip: before the defense run:
+echo   python AI-COS-Pharmacy/tools/kb_selfcheck.py   (14/14 = ready)
 echo ===================================================
 echo.
 echo Press any key to close this summary window (servers will remain running)...

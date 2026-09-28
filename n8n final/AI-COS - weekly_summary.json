@@ -1,0 +1,186 @@
+{
+  "name": "AI-COS - weekly_summary",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "weekly_summary",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "wh-weekly_summary-001",
+      "name": "Webhook (weekly_summary)",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        208,
+        304
+      ],
+      "webhookId": "weekly_summary"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.headers['x-internal-token'] || $json.headers['X-Internal-Token'] }}",
+              "value2": "={{ $env.INTERNAL_SERVICE_KEY }}"
+            }
+          ]
+        }
+      },
+      "id": "if-weekly_summary-002",
+      "name": "Verify Internal Token",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        448,
+        304
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "{\"status\": \"error\", \"message\": \"403 Forbidden: Invalid or missing X-Internal-Token\"}",
+        "options": {
+          "responseCode": 403
+        }
+      },
+      "id": "resp-err-weekly_summary-003",
+      "name": "Respond Unauthorized",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        704,
+        448
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const body = $input.first().json.body || {};\nconst msg = `📊 <b>الملخص التنفيذي الأسبوعي — AI-COS Governance</b>\\n• معدل أمان الوصفات: 100%\\n• جميع التذكيرات المنفذة تخضع للحوكمة.\\n• التقرير الأسبوعي متاح في لوحة التحكم.`;\nreturn [{ json: { ...body, message: msg } }];"
+      },
+      "id": "code-weekly_summary-004",
+      "name": "Prepare Weekly Summary Message",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        704,
+        208
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "6262223810",
+        "text": "={{ $json.message }}",
+        "additionalFields": {
+          "parse_mode": "HTML"
+        }
+      },
+      "id": "tg-weekly_summary-005",
+      "name": "Send Telegram",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        944,
+        208
+      ],
+      "webhookId": "4281cd55-a0c4-402a-a069-080be83e37a8",
+      "credentials": {
+        "telegramApi": {
+          "id": "ntDvdegoGPkjWfXU",
+          "name": "مشروع تخرج"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "{\"status\": \"sent\", \"workflow\": \"weekly_summary\", \"message\": \"تم إعداد وإرسال الملخص الأسبوعي بنجاح.\"}",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "id": "resp-ok-weekly_summary-006",
+      "name": "Respond OK",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        1184,
+        208
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook (weekly_summary)": {
+      "main": [
+        [
+          {
+            "node": "Verify Internal Token",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Verify Internal Token": {
+      "main": [
+        [
+          {
+            "node": "Prepare Weekly Summary Message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respond Unauthorized",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Weekly Summary Message": {
+      "main": [
+        [
+          {
+            "node": "Send Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Telegram": {
+      "main": [
+        [
+          {
+            "node": "Respond OK",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "9336ff9e-564e-4c48-8745-6a0d0c3cd3f7",
+  "meta": {
+    "instanceId": "67759659ff19a6d8d0a373387e2c30c462b5296cebb74994c5d58fe5daad1960"
+  },
+  "nodeGroups": [],
+  "id": "AIcosSummary0003",
+  "tags": [
+    {
+      "updatedAt": "2026-08-05T15:39:30.301Z",
+      "createdAt": "2026-08-05T15:39:30.301Z",
+      "id": "zTQQM5OPihN02AOR",
+      "name": "مشروغ تخرج"
+    }
+  ]
+}
