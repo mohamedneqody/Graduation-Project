@@ -10,4 +10,4 @@ if errorlevel 1 (
 
 echo Starting FastAPI Backend on http://localhost:8000 ...
 cd /d "D:\Graduation Project\AI-COS-Pharmacy\backend"
-uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+python -m uvicorn app.main:app --reload --host 0.0.0.0 --port 8000

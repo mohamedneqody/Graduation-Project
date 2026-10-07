@@ -47,18 +47,19 @@ echo [3] Starting AI OCR Vision Server on port 9202...
 start "AI OCR Vision Server :9202" /D "D:\Graduation Project" cmd /k call start_ocr.bat
 
 echo.
-echo [*] Waiting for Backend and AI Models to be ready (up to 15s)...
+echo [*] Waiting for Backend to be fully ready on port 8000 (up to 40s)...
 set /a tries=0
 :wait_loop
 ping 127.0.0.1 -n 3 >nul
 curl -s http://127.0.0.1:8000/health 2>nul | findstr "ok" >nul
 if %errorlevel%==0 (
-    echo     Backend and BERT Model are ready!
+    echo     Backend is healthy and listening on http://localhost:8000!
     goto backend_ready
 )
 set /a tries+=1
-if %tries% lss 7 goto wait_loop
-echo     Backend still starting -- continuing anyway...
+echo     Waiting for backend startup (attempt %tries% of 20)...
+if %tries% lss 20 goto wait_loop
+echo     Warning: Backend startup taking longer than usual -- continuing anyway...
 :backend_ready
 echo.
 
