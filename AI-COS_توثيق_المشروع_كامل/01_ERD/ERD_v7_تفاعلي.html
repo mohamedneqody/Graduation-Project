@@ -1,0 +1,2345 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI-COS Pharmacy ERD v7 (2026/2027)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-page: #f8fafc;
+    --border: #e2e8f0;
+    --text-primary: #1e293b;
+    --text-secondary: #64748b;
+    --primary: #4338ca;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Cairo', "Segoe UI", system-ui, -apple-system, sans-serif;
+    background: #ffffff;
+    color: var(--text-primary);
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    user-select: none;
+  }
+
+  /* Top Minimal Toolbar */
+  header {
+    background: #ffffff;
+    border-bottom: 1px solid var(--border);
+    padding: 10px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 10;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .brand-badge {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #4338ca, #6366f1);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 19px;
+  }
+
+  .brand-info h1 {
+    font-size: 16px;
+    font-weight: 800;
+    color: #0f172a;
+    line-height: 1.2;
+  }
+
+  .brand-info p {
+    font-size: 11.5px;
+    color: var(--text-secondary);
+  }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .search-box {
+    position: relative;
+    width: 260px;
+  }
+
+  .search-input {
+    width: 100%;
+    font-family: inherit;
+    font-size: 12px;
+    padding: 6px 12px 6px 30px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: #f8fafc;
+    color: var(--text-primary);
+    outline: none;
+    transition: all 0.15s;
+  }
+
+  .search-input:focus {
+    background: #ffffff;
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99,102,241,0.12);
+  }
+
+  .search-icon {
+    position: absolute;
+    left: 9px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 13px;
+    color: var(--text-secondary);
+    pointer-events: none;
+  }
+
+  .btn {
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: #ffffff;
+    color: var(--text-primary);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.15s;
+  }
+
+  .btn:hover {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+  }
+
+  .btn-primary {
+    background: #4338ca;
+    color: white;
+    border-color: #4338ca;
+  }
+
+  .btn-primary:hover {
+    background: #3730a3;
+  }
+
+  /* Canvas Container */
+  .canvas-wrapper {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    background: #ffffff;
+    background-image: radial-gradient(rgba(148, 163, 184, 0.22) 1.2px, transparent 1.2px);
+    background-size: 24px 24px;
+    cursor: grab;
+    direction: ltr !important;
+  }
+
+  .canvas-wrapper:active {
+    cursor: grabbing;
+  }
+
+  #panzoom-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform-origin: 0 0;
+    will-change: transform;
+    direction: ltr !important;
+  }
+
+  /* Floating Bottom Controls */
+  .controls-bar {
+    position: absolute;
+    bottom: 24px;
+    left: 24px;
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    padding: 5px;
+    z-index: 20;
+    direction: ltr !important;
+  }
+
+  .ctrl-btn {
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    padding: 6px 10px;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-primary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    transition: background 0.15s;
+  }
+
+  .ctrl-btn:hover {
+    background: #f1f5f9;
+    color: #4338ca;
+  }
+
+  .ctrl-sep {
+    width: 1px;
+    height: 18px;
+    background: var(--border);
+    margin: 0 2px;
+  }
+
+  .zoom-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11.5px;
+    font-weight: 700;
+    color: var(--text-secondary);
+    min-width: 48px;
+    text-align: center;
+  }
+
+  .hint-badge {
+    position: absolute;
+    bottom: 24px;
+    right: 24px;
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 6px 14px;
+    font-size: 11.5px;
+    color: var(--text-secondary);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  /* Highlighting and Interaction Styles */
+  .erd-table-group {
+    transition: transform 0.15s ease, opacity 0.2s ease;
+  }
+
+  .erd-table-group:hover .table-card {
+    filter: drop-shadow(0 4px 14px rgba(67, 56, 202, 0.3));
+    stroke-width: 2.4px !important;
+  }
+
+  .dimmed {
+    opacity: 0.22 !important;
+  }
+
+  .highlighted {
+    opacity: 1 !important;
+  }
+
+  .highlighted .table-card {
+    filter: drop-shadow(0 0 16px rgba(67, 56, 202, 0.6)) !important;
+    stroke-width: 2.8px !important;
+  }
+
+  @keyframes pulseNode {
+    0% { filter: drop-shadow(0 0 0 rgba(67, 56, 202, 0)); }
+    50% { filter: drop-shadow(0 0 24px rgba(67, 56, 202, 0.9)); }
+    100% { filter: drop-shadow(0 0 8px rgba(67, 56, 202, 0.4)); }
+  }
+
+  .spotlight-active .table-card {
+    animation: pulseNode 1.2s ease-in-out infinite alternate !important;
+  }
+
+  /* Drawer Inspector */
+  .inspector {
+    position: fixed;
+    top: 0;
+    right: -420px;
+    width: 390px;
+    height: 100vh;
+    background: #ffffff;
+    border-left: 1px solid var(--border);
+    box-shadow: -8px 0 24px rgba(0,0,0,0.08);
+    z-index: 100;
+    transition: right 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .inspector.open {
+    right: 0;
+  }
+
+  .insp-head {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .insp-head h2 {
+    font-size: 16px;
+    font-weight: 700;
+    color: #0f172a;
+  }
+
+  .close-insp {
+    background: none;
+    border: none;
+    font-size: 18px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 6px;
+  }
+
+  .close-insp:hover {
+    background: #f1f5f9;
+  }
+
+  .insp-body {
+    padding: 20px;
+    overflow-y: auto;
+    flex: 1;
+  }
+
+  .insp-item {
+    margin-bottom: 16px;
+  }
+
+  .insp-item label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    display: block;
+    margin-bottom: 4px;
+    letter-spacing: 0.4px;
+  }
+
+  .insp-item p {
+    font-size: 13px;
+    line-height: 1.6;
+    color: #1e293b;
+  }
+
+  .col-list {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11.5px;
+    background: #f8fafc;
+    border: 1px solid var(--border);
+    padding: 10px;
+    border-radius: 8px;
+    max-height: 280px;
+    overflow-y: auto;
+    direction: ltr;
+    text-align: left;
+  }
+
+  .col-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 3px 0;
+    border-bottom: 1px dashed #e2e8f0;
+  }
+
+  .col-row:last-child {
+    border-bottom: none;
+  }
+
+  @media print {
+    header, .controls-bar, .hint-badge, .inspector { display: none !important; }
+    .canvas-wrapper { overflow: visible !important; }
+    #panzoom-layer { transform: none !important; position: static !important; }
+    #main-erd-svg { width: 100% !important; height: auto !important; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <div class="brand-badge">💊</div>
+    <div class="brand-info">
+      <h1>AI-COS Pharmacy — مخطط قاعدة البيانات الكامل (ERD v7)</h1>
+      <p>37 جدولاً مكتملاً · 39 علاقة ربط · نموذج PostgreSQL Supabase الإنتاجي · 2026/2027</p>
+    </div>
+  </div>
+
+  <div class="header-actions">
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="search-input" class="search-input" placeholder="ابحث عن جدول للتكبير عليه..." list="tables-list">
+      <datalist id="tables-list"></datalist>
+    </div>
+    <button class="btn btn-primary" id="btn-dl-svg" title="تصدير كملف SVG فكتور عالي الجودة">
+      💾 تصدير SVG
+    </button>
+  </div>
+</header>
+
+<main class="canvas-wrapper" id="canvas-wrapper">
+  <div id="panzoom-layer">
+    <svg id="main-erd-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 5320 1520" width="5320" height="1520" style="background:white; font-family:'Segoe UI', -apple-system, sans-serif;">
+
+  <defs>
+    <filter id="card-shadow" x="-5%" y="-4%" width="110%" height="112%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="2" stdDeviation="3.5" flood-color="#0f172a" flood-opacity="0.07"/>
+    </filter>
+  </defs>
+
+
+  <!-- ── Header Title & System Meta ── -->
+  <text x="2660.0" y="50" text-anchor="middle" font-size="30" font-weight="800" fill="#0f172a" letter-spacing="-0.3">AI-COS Pharmacy — Entity Relationship Diagram (v7)</text>
+  <text x="2660.0" y="78" text-anchor="middle" font-size="15.5" fill="#64748b" font-weight="500">37 Tables · 39 Relationships · PostgreSQL 15 + Supabase · Complete Architecture 2026/2027</text>
+  <text x="2660.0" y="103" text-anchor="middle" font-size="13" fill="#0d9488" font-weight="700">v7: +4 Tables (SUPPLIERS · COMPLAINTS · MARKET_INTELLIGENCE_ACTIONS · PLATFORM_SETTINGS) · Vertical-Pivot Columns · 7 Column-Name Corrections</text>
+
+<g class="legend-chip" data-domain="core" style="cursor: pointer;">
+<rect x="70" y="124" width="17" height="17" rx="4.5" fill="#4338ca"/>
+<text x="93" y="138" font-size="13.5" fill="#334155" font-weight="600">Multi-Tenant</text>
+</g>
+<g class="legend-chip" data-domain="customer" style="cursor: pointer;">
+<rect x="224.39999999999998" y="124" width="17" height="17" rx="4.5" fill="#0284c7"/>
+<text x="247.39999999999998" y="138" font-size="13.5" fill="#334155" font-weight="600">Customer/Session</text>
+</g>
+<g class="legend-chip" data-domain="orders" style="cursor: pointer;">
+<rect x="415.59999999999997" y="124" width="17" height="17" rx="4.5" fill="#059669"/>
+<text x="438.59999999999997" y="138" font-size="13.5" fill="#334155" font-weight="600">Orders/Commerce</text>
+</g>
+<g class="legend-chip" data-domain="drugs" style="cursor: pointer;">
+<rect x="597.5999999999999" y="124" width="17" height="17" rx="4.5" fill="#d97706"/>
+<text x="620.5999999999999" y="138" font-size="13.5" fill="#334155" font-weight="600">Drug Catalog</text>
+</g>
+<g class="legend-chip" data-domain="inventory" style="cursor: pointer;">
+<rect x="751.9999999999999" y="124" width="17" height="17" rx="4.5" fill="#0d9488"/>
+<text x="774.9999999999999" y="138" font-size="13.5" fill="#334155" font-weight="600">Inventory/Cycle</text>
+</g>
+<g class="legend-chip" data-domain="ocr" style="cursor: pointer;">
+<rect x="933.9999999999999" y="124" width="17" height="17" rx="4.5" fill="#7c3aed"/>
+<text x="956.9999999999999" y="138" font-size="13.5" fill="#334155" font-weight="600">Prescriptions/OCR [NEW]</text>
+</g>
+<g class="legend-chip" data-domain="finance" style="cursor: pointer;">
+<rect x="1189.6" y="124" width="17" height="17" rx="4.5" fill="#0891b2"/>
+<text x="1212.6" y="138" font-size="13.5" fill="#334155" font-weight="600">Finance/Accounting [NEW]</text>
+</g>
+<g class="legend-chip" data-domain="ai" style="cursor: pointer;">
+<rect x="1454.3999999999999" y="124" width="17" height="17" rx="4.5" fill="#e11d48"/>
+<text x="1477.3999999999999" y="138" font-size="13.5" fill="#334155" font-weight="600">AI Agents [NEW]</text>
+</g>
+<g class="legend-chip" data-domain="analytics" style="cursor: pointer;">
+<rect x="1636.3999999999999" y="124" width="17" height="17" rx="4.5" fill="#475569"/>
+<text x="1659.3999999999999" y="138" font-size="13.5" fill="#334155" font-weight="600">Analytics/System</text>
+</g>
+<rect x="1827.6" y="122" width="30" height="18" rx="9" fill="#fef3c7"/>
+<text x="1834.6" y="135" font-size="10.5" font-weight="bold" fill="#92400e">PK</text>
+<rect x="1867.6" y="122" width="30" height="18" rx="9" fill="#ede9fe"/>
+<text x="1874.6" y="135" font-size="10.5" font-weight="bold" fill="#5b21b6">FK</text>
+<rect x="1907.6" y="122" width="52" height="18" rx="9" fill="#dbeafe"/>
+<text x="1914.6" y="135" font-size="10.5" font-weight="bold" fill="#1e40af">PK/FK</text>
+
+  <!-- ── Connector Lines ── -->
+  <g id="connectors-layer">
+<g class="erd-rel" data-from="TENANTS" data-to="TENANT_SETTINGS">
+<path d="M 240.0,384.0 C 240.0,424.0 240.0,424.0 240.0,464.0" fill="none" stroke="#4338ca" stroke-width="1.3" stroke-opacity="0.48"/>
+<circle cx="240.0" cy="384.0" r="2.8" fill="white" stroke="#4338ca" stroke-width="1.3"/>
+<polygon points="240.0,464 236.0,458 244.0,458" fill="#4338ca" fill-opacity="0.75"/>
+<rect x="207.0" y="417.5" width="66.0" height="13" rx="3.5" fill="#ffffff" stroke="#e2e8f0" stroke-width="0.8"/>
+<text x="240.0" y="427.2" text-anchor="middle" font-size="11" fill="#475569" font-style="italic" font-weight="600">configures</text>
+</g>
+<g class="erd-rel" data-from="TENANTS" data-to="CUSTOMERS">
+<path d="M 410.0,215.0 C 460.0,215.0 460.0,215.0 510.0,215.0" fill="none" stroke="#4338ca" stroke-width="1.3" stroke-opacity="0.48"/>
+<circle cx="410.0" cy="215.0" r="2.8" fill="white" stroke="#4338ca" stroke-width="1.3"/>
+<polygon points="510,215 504,211 504,219" fill="#4338ca" fill-opacity="0.75"/>
+<rect x="429.8" y="208.5" width="60.4" height="13" rx="3.5" fill="#ffffff" stroke="#e2e8f0" stroke-width="0.8"/>
+<text x="460.0" y="218.2" text-anchor="middle" font-size="11" fill="#475569" font-style="italic" font-weight="600">registers</text>
+</g>
+<g class="erd-rel" data-from="TENANTS" data-to="AUDIT_LOGS">
+<path d="M 70.0,220.0 C 48.0,220.0 48.0,836.0 70.0,836.0" fill="none" stroke="#4338ca" stroke-width="1.3" stroke-opacity="0.48"/>
+<circle cx="70.0" cy="220.0" r="2.8" fill="white" stroke="#4338ca" stroke-width="1.3"/>
+<polygon points="70,836 64,832 64,840" fill="#4338ca" fill-opacity="0.75"/>
+<rect x="26.2" y="521.5" width="43.6" height="13" rx="3.5" fill="#ffffff" stroke="#e2e8f0" stroke-width="0.8"/>
+<text x="48.0" y="531.2" text-anchor="middle" font-size="11" fill="#475569" font-style="italic" font-weight="600">scopes</text>
+</g>
+<g class="erd-rel" data-from="CUSTOMERS" data-to="SESSIONS">
+<path d="M 680.0,552.0 C 680.0,592.0 680.0,592.0 680.0,632.0" fill="none" stroke="#0284c7" stroke-width="1.3" stroke-opacity="0.48"/>
+<circle cx="680.0" cy="552.0" r="2.8" fill="white" stroke="#0284c7" stroke-width="1.3"/>
+<polygon points="680.0,632 676.0,626 684.0,626" fill="#0284c7" fill-opacity="0.75"/>
+<rect x="661.0" y="585.5" width="38.0" height="13" rx="3.5" fill="#ffffff" stroke="#e2e8f0" stroke-width="0.8"/>
+<text x="680.0" y="595.2" text-anchor="middle" font-size="11" fill="#475569" font-style="italic" font-weight="600">opens</text>
+</g>
+<g class="erd-rel" data-from="SESSIONS" data-to="EVENTS">
+<path d="M 680.0,818.0 C 680.0,858.0 680.0,858.0 680.0,898.0" fill="none" stroke="#0284c7" stroke-width="1.3" stroke-opacity="0.48"/>
+<circle cx="680.0" cy="818.0" r="2.8" fill="white" stroke="#0284c7" stroke-width="1.3"/>
+<polygon points="680.0,898 676.0,892 684.0,892" fill="#0284c7" fill-opacity="0.75"/>
+<rect x="663.8" y="851.5" width="32.4" height="13" rx="3.5" fill="#ffffff" stroke="#e2e8f0" stroke-width="0.8"/>
+<text x="680.0" y="861.2" text-anchor="middle" font-size="11" fill="#475569" font-style="italic" font-weight="600">logs</text>
+</g>
+<g class="erd-rel" data-from="CUSTOMERS" data-to="CONTACT_MESSAGES">
+<path d="M 510.0,220.0 C 488.0,220.0 488.0,220.0 950.0,220.0" fill="none" stroke="#0284c7" stroke-width="1.3" stroke-opacity="0.48"/>
+<circle cx="510.0" cy="220.0" r="2.8" fill="white" stroke="#0284c7" stroke-width="1.3"/>
+<polygon points="950,220 944,216 944,224" fill="#0284c7" fill-opacity="0.75"/>
+<rect x="463.4" y="213.5" width="49.2" height="13" rx="3.5" fill="#ffffff" stroke="#e2e8f0" stroke-width="0.8"/>
+<text x="488.0" y="223.2" text-anchor="middle" font-size="11" fill="#475569" font-style="italic" font-weight="600">submits</text>
+</g>
+<g class="erd-rel" data-from="CUSTOMERS" data-to="ORDERS">
+<path d="M 850.0,215.0 C 1120.0,215.0 1120.0,215.0 1390.0,215.0" fill="none" stroke="#0284c7" stroke-width="1.3" stroke-opacity="0.48"/>
+<circle cx="850.0" cy="215.0" r="2.8" fill="white" stroke="#0284c7" stroke-width="1.3"/>
+<polygon points="1390,215 1384,211 1384,219" fill="#0284c7" fill-opacity="0.75"/>
+<rect x="1098.2" y="208.5" width="43.6" height="13" rx="3.5" fill="#ffffff" stroke="#e2e8f0" stroke-width="0.8"/>
+<text x="1120.0" y="218.2" text-anchor="middle" font-size="11" fill="#475569" font-style="italic" font-weight="600">places</text>
+</g>
+<g class="erd-rel" data-from="ORDERS" data-to="ORDER_ITEMS">
+<path d="M 1560.0,440.0 C 1560.0,480.0 1560.0,480.0 1560.0,520.0" fill="none" stroke="#059669" stroke-width="1.3" stroke-opacity="0.48"/>
+<circle cx="1560.0" cy="440.0" r="2.8" fill="white" stroke="#059669" stroke-width="1.3"/>
+<polygon points="1560.0,520 1556.0,514 1564.0,514" fill="#059669" fill-opacity="0.75"/>
+<rect x="1532.6" y="473.5" width="54.8" height="13" rx="3.5" fill="#ffffff" stroke="#e2e8f0" stroke-width="0.8"/>
+<text x="1560.0" y="483.2" text-anchor="middle" font-size="11" fill="#475569" font-style="italic" font-weight="600">contains</text>
+</g>
+<g class="erd-rel" data-from="COUPONS" data-to="ORDERS">
+<path d="M 1390.0,836.0 C 1368.0,836.0 1368.0,220.0 1390.0,220.0" fill="none" stroke="#059669" stroke-width="1.3" stroke-opacity="0.48"/>
+<circle cx="1390.0" cy="836.0" r="2.8" fill="white" stroke="#059669" stroke-width="1.3"/>
+<polygon points="1390,220 1384,216 1384,224" fill="#059669" fill-opacity="0.75"/>
+<rect x="1337.8" y="521.5" width="60.4" height="13" rx="3.5" fill="#ffffff" stroke="#e2e8f0" stroke-width="0.8"/>
+<text x="1368.0" y="531.2" text-anchor="middle" font-size="11" fill="#475569" font-style="italic" font-weight="600">discounts</text>
+</g>
+<g class="erd-rel" data-from="DRUGS" data-to="ORDER_ITEMS">
+<path d="M 1830.0,215.0 C 1780.0,215.0 1780.0,565.0 1730.0,565.0" fill="none" stroke="#d97706" stroke-width="1.3" stroke-opacity="0.48"/>
+<circle cx="1830.0" cy="215.0" r="2.8" fill="white" stroke="#d97706" stroke-width="1.3"/>
+<polygon points="1730,565 1736,561 1736,569" fill="#d97706" fill-opacity="0.75"/>
+<rect x="1755.4" y="383.5" width="49.2" height="13" rx="3.5" fill="#ffffff" stroke="#e2e8f0" stroke-width="0.8"/>
+<text x="1780.0" y="393.2" text-anchor="middle" font-size="11" fill="#475569" font-style="italic" font-weight="600">sold_as</text>
+</g>
+<g class="erd-rel" data-from="DRUGS" data-to="DRUG_INTERACTIONS">
+<path d="M 2000.0,552.0 C 2000.0,592.0 2000.0,592.0 2000.0,632.0" fill="none" stroke="#d97706" stroke-width="1.3" stroke-opacity="0.48"/>
+<circle cx="2000.0" cy="552.0" r="2.8" fill="white" stroke="#d97706" stroke-width="1.3"/>
+<polygon points="2000.0,632 1996.0,626 2004.0,626" fill="#d97706" fill-opacity="0.75"/>
+<rect x="1969.8" y="585.5" width="60.4" height="13" rx="3.5" fill="#ffffff" stroke="#e2e8f0" stroke-width="0.8"/>
+<text x="2000.0" y="595.2" text-anchor="middle" font-size="11" fill="#475569" font-style="italic" font-weight="600">conflicts</text>
+</g>
+<g class="erd-rel" data-from="DRUGS" data-to="DRUG_AFFINITIES">
+<path d="M 2170.0,220.0 C 2192.0,220.0 2192.0,948.0 2170.0,948.0" fill="none" stroke="#d97706" stroke-width="1.3" stroke-opacity="0.48"/>
+<circle cx="2170.0" cy="220.0" r="2.8" fill="white" stroke="#d97706" stroke-width="1.3"/>
+<polygon points="2170,948 2176,944 2176,952" fill="#d97706" fill-opacity="0.75"/>
+<rect x="2159.0" y="577.5" width="66.0" height="13" rx="3.5" fill="#ffffff" stroke="#e2e8f0" stroke-width="0.8"/>
+<text x="2192.0" y="587.2" text-anchor="middle" font-size="11" fill="#475569" font-style="italic" font-weight="600">pairs_with</text>
+</g>
+<g class="erd-rel" data-from="DRUGS" data-to="INVENTORY_ITEMS">
+<path d="M 2170.0,215.0 C 2220.0,215.0 2220.0,215.0 2270.0,215.0" fill="none" stroke="#0d9488" stroke-width="1.3" stroke-opacity="0.48"/>
+<circle cx="2170.0" cy="215.0" r="2.8" fill="white" stroke="#0d9488" stroke-width="1.3"/>
+<polygon points="2270,215 2264,211 2264,219" fill="#0d9488" fill-opacity="0.75"/>
+<rect x="2187.0" y="208.5" width="66.0" height="13" rx="3.5" fill="#ffffff" stroke="#e2e8f0" stroke-width="0.8"/>
+<text x="2220.0" y="218.2" text-anchor="middle" font-size="11" fill="#475569" font-style="italic" font-weight="600">stocked_as</text>
+</g>
+<g class="erd-rel" data-from="DRUGS" data-to="CUSTOMER_CYCLES">
+<path d="M 2170.0,215.0 C 2220.0,215.0 2220.0,537.0 2270.0,537.0" fill="none" stroke="#0d9488" stroke-width="1.3" stroke-opacity="0.48"/>
+<circle cx="2170.0" cy="215.0" r="2.8" fill="white" stroke="#0d9488" stroke-width="1.3"/>
+<polygon points="2270,537 2264,533 2264,541" fill="#0d9488" fill-opacity="0.75"/>
+<rect x="2184.2" y="369.5" width="71.6" height="13" rx="3.5" fill="#ffffff" stroke="#e2e8f0" stroke-width="0.8"/>
+<text x="2220.0" y="379.2" text-anchor="middle" font-size="11" fill="#475569" font-style="italic" font-weight="600">tracked_for</text>
+</g>
+<g class="erd-rel" data-from="DRUGS" data-to="PENDING_REMINDERS">
+<path d="M 2170.0,215.0 C 2220.0,215.0 2220.0,803.0 2270.0,803.0" fill="none" stroke="#0d9488" stroke-width="1.3" stroke-opacity="0.48"/>
+<circle cx="2170.0" cy="215.0" r="2.8" fill="white" stroke="#0d9488" stroke-width="1.3"/>
+<polygon points="2270,803 2264,799 2264,807" fill="#0d9488" fill-opacity="0.75"/>
+<rect x="2195.4" y="502.5" width="49.2" height="13" rx="3.5" fill="#ffffff" stroke="#e2e8f0" stroke-width="0.8"/>
+<text x="2220.0" y="512.2" text-anchor="middle" font-size="11" fill="#475569" font-style="italic" font-weight="600">targets</text>
+</g>
+<g class="erd-rel" data-from="CUSTOMERS" data-to="CUSTOMER_CYCLES">
+<path d="M 748.0,170.0 C 748.0,144.0 2372.0,144.0 2372.0,492.0" fill="none" stroke="#0d9488" stroke-width="1.3" stroke-opacity="0.48"/>
+<circle cx="748.0" cy="170.0" r="2.8" fill="white" stroke="#0d9488" stroke-width="1.3"/>
+<polygon points="2372.0,492 2368.0,486 2376.0,486" fill="#0d9488" fill-opacity="0.75"/>
+<rect x="1546.6" y="137.5" width="26.8" height="13" rx="3.5" fill="#ffffff" stroke="#e2e8f0" stroke-width="0.8"/>
+<text x="1560.0" y="147.2" text-anchor="middle" font-size="11" fill="#475569" font-style="italic" font-weight="600">has</text>
+</g>
+<g class="erd-rel" data-from="CUSTOMERS" data-to="PRESCRIPTIONS">
+<path d="M 748.0,170.0 C 748.0,144.0 2812.0,144.0 2812.0,170.0" fill="none" stroke="#7c3aed" stroke-width="1.3" stroke-opacity="0.48"/>
+<circle cx="748.0" cy="170.0" r="2.8" fill="white" stroke="#7c3aed" stroke-width="1.3"/>
+<polygon points="2812.0,170 2808.0,164 2816.0,164" fill="#7c3aed" fill-opacity="0.75"/>
+<rect x="1755.4" y="137.5" width="49.2" height="13" rx="3.5" fill="#ffffff" stroke="#e2e8f0" stroke-width="0.8"/>
+<text x="1780.0" y="147.2" text-anchor="middle" font-size="11" fill="#475569" font-style="italic" font-weight="600">uploads</text>
+</g>
+<g class="erd-rel" data-from="PRESCRIPTIONS" data-to="PRESCRIPTION_ANALYSES">
+<path d="M 2880.0,412.0 C 2880.0,452.0 2880.0,452.0 2880.0,492.0" fill="none" stroke="#7c3aed" stroke-width="1.3" stroke-opacity="0.48"/>
+<circle cx="2880.0" cy="412.0" r="2.8" fill="white" stroke="#7c3aed" stroke-width="1.3"/>
+<polygon points="2880.0,492 2876.0,486 2884.0,486" fill="#7c3aed" fill-opacity="0.75"/>
+<rect x="2852.6" y="445.5" width="54.8" height="13" rx="3.5" fill="#ffffff" stroke="#e2e8f0" stroke-width="0.8"/>
+<text x="2880.0" y="455.2" text-anchor="middle" font-size="11" fill="#475569" font-style="italic" font-weight="600">analyzes</text>
+</g>
+<g class="erd-rel" data-from="PRESCRIPTION_ANALYSES" data-to="PRESCRIPTION_ITEMS">
+<path d="M 2880.0,762.0 C 2880.0,802.0 2880.0,802.0 2880.0,842.0" fill="none" stroke="#7c3aed" stroke-width="1.3" stroke-opacity="0.48"/>
+<circle cx="2880.0" cy="762.0" r="2.8" fill="white" stroke="#7c3aed" stroke-width="1.3"/>
+<polygon points="2880.0,842 2876.0,836 2884.0,836" fill="#7c3aed" fill-opacity="0.75"/>
+<rect x="2852.6" y="795.5" width="54.8" height="13" rx="3.5" fill="#ffffff" stroke="#e2e8f0" stroke-width="0.8"/>
+<text x="2880.0" y="805.2" text-anchor="middle" font-size="11" fill="#475569" font-style="italic" font-weight="600">extracts</text>
+</g>
+<g class="erd-rel" data-from="DRUGS" data-to="PRESCRIPTION_ITEMS">
+<path d="M 2068.0,552.0 C 2068.0,1222.0 2812.0,1222.0 2812.0,1196.0" fill="none" stroke="#7c3aed" stroke-width="1.3" stroke-opacity="0.48"/>
+<circle cx="2068.0" cy="552.0" r="2.8" fill="white" stroke="#7c3aed" stroke-width="1.3"/>
+<polygon points="2812.0,1196 2808.0,1202 2816.0,1202" fill="#7c3aed" fill-opacity="0.75"/>
+<rect x="2415.4" y="1215.5" width="49.2" height="13" rx="3.5" fill="#ffffff" stroke="#e2e8f0" stroke-width="0.8"/>
+<text x="2440.0" y="1225.2" text-anchor="middle" font-size="11" fill="#475569" font-style="italic" font-weight="600">matches</text>
+</g>
+<g class="erd-rel" data-from="DRUGS" data-to="OCR_CORRECTIONS">
+<path d="M 2068.0,170.0 C 2068.0,144.0 3252.0,144.0 3252.0,170.0" fill="none" stroke="#7c3aed" stroke-width="1.3" stroke-opacity="0.48"/>
+<circle cx="2068.0" cy="170.0" r="2.8" fill="white" stroke="#7c3aed" stroke-width="1.3"/>
+<polygon points="3252.0,170 3248.0,164 3256.0,164" fill="#7c3aed" fill-opacity="0.75"/>
+<rect x="2632.6" y="137.5" width="54.8" height="13" rx="3.5" fill="#ffffff" stroke="#e2e8f0" stroke-width="0.8"/>
+<text x="2660.0" y="147.2" text-anchor="middle" font-size="11" fill="#475569" font-style="italic" font-weight="600">corrects</text>
+</g>
+<g class="erd-rel" data-from="OCR_CORRECTIONS" data-to="OCR_CORRECTION_EXAMPLES">
+<path d="M 3320.0,496.0 C 3320.0,536.0 3320.0,536.0 3320.0,576.0" fill="none" stroke="#7c3aed" stroke-width="1.3" stroke-opacity="0.48"/>
+<circle cx="3320.0" cy="496.0" r="2.8" fill="white" stroke="#7c3aed" stroke-width="1.3"/>
+<polygon points="3320.0,576 3316.0,570 3324.0,570" fill="#7c3aed" fill-opacity="0.75"/>
+<rect x="3298.2" y="529.5" width="43.6" height="13" rx="3.5" fill="#ffffff" stroke="#e2e8f0" stroke-width="0.8"/>
+<text x="3320.0" y="539.2" text-anchor="middle" font-size="11" fill="#475569" font-style="italic" font-weight="600">trains</text>
+</g>
+<g class="erd-rel" data-from="PRESCRIPTIONS" data-to="OCR_CORRECTION_EXAMPLES">
+<path d="M 3050.0,215.0 C 3100.0,215.0 3100.0,621.0 3150.0,621.0" fill="none" stroke="#7c3aed" stroke-width="1.3" stroke-opacity="0.48"/>
+<circle cx="3050.0" cy="215.0" r="2.8" fill="white" stroke="#7c3aed" stroke-width="1.3"/>
+<polygon points="3150,621 3144,617 3144,625" fill="#7c3aed" fill-opacity="0.75"/>
+<rect x="3075.4" y="411.5" width="49.2" height="13" rx="3.5" fill="#ffffff" stroke="#e2e8f0" stroke-width="0.8"/>
+<text x="3100.0" y="421.2" text-anchor="middle" font-size="11" fill="#475569" font-style="italic" font-weight="600">samples</text>
+</g>
+<g class="erd-rel" data-from="DRUGS" data-to="SIMULATION_RUNS">
+<path d="M 2068.0,552.0 C 2068.0,1250.0 3252.0,1250.0 3252.0,1224.0" fill="none" stroke="#0891b2" stroke-width="1.3" stroke-opacity="0.48"/>
+<circle cx="2068.0" cy="552.0" r="2.8" fill="white" stroke="#0891b2" stroke-width="1.3"/>
+<polygon points="3252.0,1224 3248.0,1230 3256.0,1230" fill="#0891b2" fill-opacity="0.75"/>
+<rect x="2629.8" y="1243.5" width="60.4" height="13" rx="3.5" fill="#ffffff" stroke="#e2e8f0" stroke-width="0.8"/>
+<text x="2660.0" y="1253.2" text-anchor="middle" font-size="11" fill="#475569" font-style="italic" font-weight="600">simulates</text>
+</g>
+<g class="erd-rel" data-from="PURCHASE_ORDERS" data-to="PURCHASE_ORDER_ITEMS">
+<path d="M 3760.0,874.0 C 3760.0,914.0 3760.0,914.0 3760.0,954.0" fill="none" stroke="#0891b2" stroke-width="1.3" stroke-opacity="0.48"/>
+<circle cx="3760.0" cy="874.0" r="2.8" fill="white" stroke="#0891b2" stroke-width="1.3"/>
+<polygon points="3760.0,954 3756.0,948 3764.0,948" fill="#0891b2" fill-opacity="0.75"/>
+<rect x="3738.2" y="907.5" width="43.6" height="13" rx="3.5" fill="#ffffff" stroke="#e2e8f0" stroke-width="0.8"/>
+<text x="3760.0" y="917.2" text-anchor="middle" font-size="11" fill="#475569" font-style="italic" font-weight="600">orders</text>
+</g>
+<g class="erd-rel" data-from="DRUGS" data-to="PURCHASE_ORDER_ITEMS">
+<path d="M 2068.0,552.0 C 2068.0,1250.0 3692.0,1250.0 3692.0,1224.0" fill="none" stroke="#0891b2" stroke-width="1.3" stroke-opacity="0.48"/>
+<circle cx="2068.0" cy="552.0" r="2.8" fill="white" stroke="#0891b2" stroke-width="1.3"/>
+<polygon points="3692.0,1224 3688.0,1230 3696.0,1230" fill="#0891b2" fill-opacity="0.75"/>
+<rect x="2852.6" y="1243.5" width="54.8" height="13" rx="3.5" fill="#ffffff" stroke="#e2e8f0" stroke-width="0.8"/>
+<text x="2880.0" y="1253.2" text-anchor="middle" font-size="11" fill="#475569" font-style="italic" font-weight="600">procures</text>
+</g>
+<g class="erd-rel" data-from="PURCHASE_ORDERS" data-to="JOURNAL_ENTRIES">
+<path d="M 3590.0,626.0 C 3568.0,626.0 3568.0,220.0 4030.0,220.0" fill="none" stroke="#0891b2" stroke-width="1.3" stroke-opacity="0.48"/>
+<circle cx="3590.0" cy="626.0" r="2.8" fill="white" stroke="#0891b2" stroke-width="1.3"/>
+<polygon points="4030,220 4024,216 4024,224" fill="#0891b2" fill-opacity="0.75"/>
+<rect x="3537.8" y="416.5" width="60.4" height="13" rx="3.5" fill="#ffffff" stroke="#e2e8f0" stroke-width="0.8"/>
+<text x="3568.0" y="426.2" text-anchor="middle" font-size="11" fill="#475569" font-style="italic" font-weight="600">generates</text>
+</g>
+<g class="erd-rel" data-from="JOURNAL_ENTRIES" data-to="JOURNAL_ENTRY_LINES">
+<path d="M 4200.0,440.0 C 4200.0,480.0 4200.0,480.0 4200.0,520.0" fill="none" stroke="#0891b2" stroke-width="1.3" stroke-opacity="0.48"/>
+<circle cx="4200.0" cy="440.0" r="2.8" fill="white" stroke="#0891b2" stroke-width="1.3"/>
+<polygon points="4200.0,520 4196.0,514 4204.0,514" fill="#0891b2" fill-opacity="0.75"/>
+<rect x="4175.4" y="473.5" width="49.2" height="13" rx="3.5" fill="#ffffff" stroke="#e2e8f0" stroke-width="0.8"/>
+<text x="4200.0" y="483.2" text-anchor="middle" font-size="11" fill="#475569" font-style="italic" font-weight="600">details</text>
+</g>
+<g class="erd-rel" data-from="ORDERS" data-to="JOURNAL_ENTRIES">
+<path d="M 1628.0,440.0 C 1628.0,466.0 4132.0,466.0 4132.0,440.0" fill="none" stroke="#0891b2" stroke-width="1.3" stroke-opacity="0.48"/>
+<circle cx="1628.0" cy="440.0" r="2.8" fill="white" stroke="#0891b2" stroke-width="1.3"/>
+<polygon points="4132.0,440 4128.0,446 4136.0,446" fill="#0891b2" fill-opacity="0.75"/>
+<rect x="2855.4" y="459.5" width="49.2" height="13" rx="3.5" fill="#ffffff" stroke="#e2e8f0" stroke-width="0.8"/>
+<text x="2880.0" y="469.2" text-anchor="middle" font-size="11" fill="#475569" font-style="italic" font-weight="600">settles</text>
+</g>
+<g class="erd-rel" data-from="CUSTOMERS" data-to="AI_CHAT_LOGS">
+<path d="M 748.0,170.0 C 748.0,144.0 4132.0,144.0 4132.0,842.0" fill="none" stroke="#e11d48" stroke-width="1.3" stroke-opacity="0.48"/>
+<circle cx="748.0" cy="170.0" r="2.8" fill="white" stroke="#e11d48" stroke-width="1.3"/>
+<polygon points="4132.0,842 4128.0,836 4136.0,836" fill="#e11d48" fill-opacity="0.75"/>
+<rect x="2421.0" y="137.5" width="38.0" height="13" rx="3.5" fill="#ffffff" stroke="#e2e8f0" stroke-width="0.8"/>
+<text x="2440.0" y="147.2" text-anchor="middle" font-size="11" fill="#475569" font-style="italic" font-weight="600">chats</text>
+</g>
+<g class="erd-rel" data-from="AUTOMATION_RUNS" data-to="EMERGENCY_OUTBOX">
+<path d="M 4640.0,524.0 C 4640.0,564.0 4640.0,564.0 4640.0,604.0" fill="none" stroke="#e11d48" stroke-width="1.3" stroke-opacity="0.48"/>
+<circle cx="4640.0" cy="524.0" r="2.8" fill="white" stroke="#e11d48" stroke-width="1.3"/>
+<polygon points="4640.0,604 4636.0,598 4644.0,598" fill="#e11d48" fill-opacity="0.75"/>
+<rect x="4612.6" y="557.5" width="54.8" height="13" rx="3.5" fill="#ffffff" stroke="#e2e8f0" stroke-width="0.8"/>
+<text x="4640.0" y="567.2" text-anchor="middle" font-size="11" fill="#475569" font-style="italic" font-weight="600">triggers</text>
+</g>
+<g class="erd-rel" data-from="CUSTOMERS" data-to="NOTIFICATIONS">
+<path d="M 748.0,170.0 C 748.0,144.0 5012.0,144.0 5012.0,170.0" fill="none" stroke="#475569" stroke-width="1.3" stroke-opacity="0.48"/>
+<circle cx="748.0" cy="170.0" r="2.8" fill="white" stroke="#475569" stroke-width="1.3"/>
+<polygon points="5012.0,170 5008.0,164 5016.0,164" fill="#475569" fill-opacity="0.75"/>
+<rect x="2852.6" y="137.5" width="54.8" height="13" rx="3.5" fill="#ffffff" stroke="#e2e8f0" stroke-width="0.8"/>
+<text x="2880.0" y="147.2" text-anchor="middle" font-size="11" fill="#475569" font-style="italic" font-weight="600">receives</text>
+</g>
+<g class="erd-rel" data-from="NOTIFICATIONS" data-to="AB_TEST_RESULTS">
+<path d="M 5250.0,220.0 C 5272.0,220.0 5272.0,892.0 5250.0,892.0" fill="none" stroke="#475569" stroke-width="1.3" stroke-opacity="0.48"/>
+<circle cx="5250.0" cy="220.0" r="2.8" fill="white" stroke="#475569" stroke-width="1.3"/>
+<polygon points="5250,892 5256,888 5256,896" fill="#475569" fill-opacity="0.75"/>
+<rect x="5244.6" y="549.5" width="54.8" height="13" rx="3.5" fill="#ffffff" stroke="#e2e8f0" stroke-width="0.8"/>
+<text x="5272.0" y="559.2" text-anchor="middle" font-size="11" fill="#475569" font-style="italic" font-weight="600">measures</text>
+</g>
+<g class="erd-rel" data-from="AB_TESTS" data-to="AB_TEST_RESULTS">
+<path d="M 5080.0,762.0 C 5080.0,802.0 5080.0,802.0 5080.0,842.0" fill="none" stroke="#475569" stroke-width="1.3" stroke-opacity="0.48"/>
+<circle cx="5080.0" cy="762.0" r="2.8" fill="white" stroke="#475569" stroke-width="1.3"/>
+<polygon points="5080.0,842 5076.0,836 5084.0,836" fill="#475569" fill-opacity="0.75"/>
+<rect x="5058.2" y="795.5" width="43.6" height="13" rx="3.5" fill="#ffffff" stroke="#e2e8f0" stroke-width="0.8"/>
+<text x="5080.0" y="805.2" text-anchor="middle" font-size="11" fill="#475569" font-style="italic" font-weight="600">tracks</text>
+</g>
+<g class="erd-rel" data-from="TENANTS" data-to="SUPPLIERS">
+<path d="M 308.0,384.0 C 308.0,522.0 3692.0,522.0 3692.0,496.0" fill="none" stroke="#4338ca" stroke-width="1.3" stroke-opacity="0.48"/>
+<circle cx="308.0" cy="384.0" r="2.8" fill="white" stroke="#4338ca" stroke-width="1.3"/>
+<polygon points="3692.0,496 3688.0,502 3696.0,502" fill="#4338ca" fill-opacity="0.75"/>
+<rect x="1978.2" y="515.5" width="43.6" height="13" rx="3.5" fill="#ffffff" stroke="#e2e8f0" stroke-width="0.8"/>
+<text x="2000.0" y="525.2" text-anchor="middle" font-size="11" fill="#475569" font-style="italic" font-weight="600">scopes</text>
+</g>
+<g class="erd-rel" data-from="SUPPLIERS" data-to="PURCHASE_ORDERS">
+<path d="M 3760.0,496.0 C 3760.0,536.0 3760.0,536.0 3760.0,576.0" fill="none" stroke="#0891b2" stroke-width="1.3" stroke-opacity="0.48"/>
+<circle cx="3760.0" cy="496.0" r="2.8" fill="white" stroke="#0891b2" stroke-width="1.3"/>
+<polygon points="3760.0,576 3756.0,570 3764.0,570" fill="#0891b2" fill-opacity="0.75"/>
+<rect x="3732.6" y="529.5" width="54.8" height="13" rx="3.5" fill="#ffffff" stroke="#e2e8f0" stroke-width="0.8"/>
+<text x="3760.0" y="539.2" text-anchor="middle" font-size="11" fill="#475569" font-style="italic" font-weight="600">fulfills</text>
+</g>
+<g class="erd-rel" data-from="CUSTOMERS" data-to="COMPLAINTS">
+<path d="M 850.0,215.0 C 900.0,215.0 900.0,537.0 950.0,537.0" fill="none" stroke="#0284c7" stroke-width="1.3" stroke-opacity="0.48"/>
+<circle cx="850.0" cy="215.0" r="2.8" fill="white" stroke="#0284c7" stroke-width="1.3"/>
+<polygon points="950,537 944,533 944,541" fill="#0284c7" fill-opacity="0.75"/>
+<rect x="881.0" y="369.5" width="38.0" height="13" rx="3.5" fill="#ffffff" stroke="#e2e8f0" stroke-width="0.8"/>
+<text x="900.0" y="379.2" text-anchor="middle" font-size="11" fill="#475569" font-style="italic" font-weight="600">files</text>
+</g>
+<g class="erd-rel" data-from="DRUGS" data-to="MARKET_INTELLIGENCE_ACTIONS">
+<path d="M 2068.0,552.0 C 2068.0,1362.0 4572.0,1362.0 4572.0,1336.0" fill="none" stroke="#e11d48" stroke-width="1.3" stroke-opacity="0.48"/>
+<circle cx="2068.0" cy="552.0" r="2.8" fill="white" stroke="#e11d48" stroke-width="1.3"/>
+<polygon points="4572.0,1336 4568.0,1342 4576.0,1342" fill="#e11d48" fill-opacity="0.75"/>
+<rect x="3295.4" y="1355.5" width="49.2" height="13" rx="3.5" fill="#ffffff" stroke="#e2e8f0" stroke-width="0.8"/>
+<text x="3320.0" y="1365.2" text-anchor="middle" font-size="11" fill="#475569" font-style="italic" font-weight="600">targets</text>
+</g>
+<g class="erd-rel" data-from="TENANTS" data-to="PLATFORM_SETTINGS">
+<path d="M 70.0,220.0 C 48.0,220.0 48.0,1130.0 70.0,1130.0" fill="none" stroke="#4338ca" stroke-width="1.3" stroke-opacity="0.48"/>
+<circle cx="70.0" cy="220.0" r="2.8" fill="white" stroke="#4338ca" stroke-width="1.3"/>
+<polygon points="70,1130 64,1126 64,1134" fill="#4338ca" fill-opacity="0.75"/>
+<rect x="23.4" y="668.5" width="49.2" height="13" rx="3.5" fill="#ffffff" stroke="#e2e8f0" stroke-width="0.8"/>
+<text x="48.0" y="678.2" text-anchor="middle" font-size="11" fill="#475569" font-style="italic" font-weight="600">governs</text>
+</g>
+  </g>
+
+  <!-- ── Tables Layer ── -->
+  <g id="tables-layer">
+<g id="table-TENANTS" class="erd-table-group" data-table="TENANTS" data-domain="core" style="cursor: pointer;">
+<rect x="72" y="172" width="340" height="214" rx="8" fill="#0000000a"/>
+<rect id="box-TENANTS" class="table-card" x="70" y="170" width="340" height="214" rx="8" fill="#ffffff" stroke="#4338ca" stroke-width="1.4"/>
+<rect x="70" y="170" width="340" height="42" rx="8" fill="#4338ca"/>
+<rect x="70" y="204" width="340" height="8" fill="#4338ca"/>
+<text x="80" y="198" font-size="15" font-weight="700" fill="#ffffff" letter-spacing="0.2">TENANTS</text>
+<rect x="71" y="212" width="338" height="28" fill="#ffffff"/>
+<text x="78" y="231" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="150" y="231" font-size="12.5" fill="#1e293b" font-weight="600">tenant_id</text>
+<rect x="372" y="217" width="30" height="18" rx="9" fill="#fef3c7"/>
+<text x="379" y="230.5" font-size="10" font-weight="bold" fill="#92400e">PK</text>
+<rect x="71" y="240" width="338" height="28" fill="#f8fafc"/>
+<text x="78" y="259" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="150" y="259" font-size="12.5" fill="#1e293b" font-weight="600">name</text>
+<rect x="71" y="268" width="338" height="28" fill="#ffffff"/>
+<text x="78" y="287" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="150" y="287" font-size="12.5" fill="#1e293b" font-weight="600">subdomain</text>
+<rect x="71" y="296" width="338" height="28" fill="#f8fafc"/>
+<text x="78" y="315" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="150" y="315" font-size="12.5" fill="#1e293b" font-weight="600">vertical</text>
+<rect x="71" y="324" width="338" height="28" fill="#ffffff"/>
+<text x="78" y="343" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">boolean</text>
+<text x="150" y="343" font-size="12.5" fill="#1e293b" font-weight="600">is_active</text>
+<rect x="71" y="352" width="338" height="28" fill="#f8fafc"/>
+<text x="78" y="371" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">timestamp</text>
+<text x="150" y="371" font-size="12.5" fill="#1e293b" font-weight="600">created_at</text>
+</g>
+<g id="table-TENANT_SETTINGS" class="erd-table-group" data-table="TENANT_SETTINGS" data-domain="core" style="cursor: pointer;">
+<rect x="72" y="466" width="340" height="242" rx="8" fill="#0000000a"/>
+<rect id="box-TENANT_SETTINGS" class="table-card" x="70" y="464" width="340" height="242" rx="8" fill="#ffffff" stroke="#4338ca" stroke-width="2.2"/>
+<rect x="70" y="464" width="340" height="42" rx="8" fill="#4338ca"/>
+<rect x="70" y="498" width="340" height="8" fill="#4338ca"/>
+<text x="80" y="492" font-size="15" font-weight="700" fill="#ffffff" letter-spacing="0.2">TENANT_SETTINGS  [NEW]</text>
+<rect x="71" y="506" width="338" height="28" fill="#ffffff"/>
+<text x="78" y="525" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="150" y="525" font-size="12.5" fill="#1e293b" font-weight="600">id</text>
+<rect x="372" y="511" width="30" height="18" rx="9" fill="#fef3c7"/>
+<text x="379" y="524.5" font-size="10" font-weight="bold" fill="#92400e">PK</text>
+<rect x="71" y="534" width="338" height="28" fill="#f8fafc"/>
+<text x="78" y="553" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="150" y="553" font-size="12.5" fill="#1e293b" font-weight="600">tenant_id</text>
+<rect x="372" y="539" width="30" height="18" rx="9" fill="#ede9fe"/>
+<text x="379" y="552.5" font-size="10" font-weight="bold" fill="#5b21b6">FK</text>
+<rect x="71" y="562" width="338" height="28" fill="#ffffff"/>
+<text x="78" y="581" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">boolean</text>
+<text x="150" y="581" font-size="12.5" fill="#1e293b" font-weight="600">ai_review_mode</text>
+<rect x="71" y="590" width="338" height="28" fill="#f8fafc"/>
+<text x="78" y="609" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">boolean</text>
+<text x="150" y="609" font-size="12.5" fill="#1e293b" font-weight="600">enterprise_notifications</text>
+<rect x="71" y="618" width="338" height="28" fill="#ffffff"/>
+<text x="78" y="637" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">boolean</text>
+<text x="150" y="637" font-size="12.5" fill="#1e293b" font-weight="600">cloud_ocr_allowed</text>
+<rect x="71" y="646" width="338" height="28" fill="#f8fafc"/>
+<text x="78" y="665" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">timestamp</text>
+<text x="150" y="665" font-size="12.5" fill="#1e293b" font-weight="600">created_at</text>
+<rect x="71" y="674" width="338" height="28" fill="#ffffff"/>
+<text x="78" y="693" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">timestamp</text>
+<text x="150" y="693" font-size="12.5" fill="#1e293b" font-weight="600">updated_at</text>
+</g>
+<g id="table-AUDIT_LOGS" class="erd-table-group" data-table="AUDIT_LOGS" data-domain="core" style="cursor: pointer;">
+<rect x="72" y="788" width="340" height="214" rx="8" fill="#0000000a"/>
+<rect id="box-AUDIT_LOGS" class="table-card" x="70" y="786" width="340" height="214" rx="8" fill="#ffffff" stroke="#4338ca" stroke-width="1.4"/>
+<rect x="70" y="786" width="340" height="42" rx="8" fill="#4338ca"/>
+<rect x="70" y="820" width="340" height="8" fill="#4338ca"/>
+<text x="80" y="814" font-size="15" font-weight="700" fill="#ffffff" letter-spacing="0.2">AUDIT_LOGS</text>
+<rect x="71" y="828" width="338" height="28" fill="#ffffff"/>
+<text x="78" y="847" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="150" y="847" font-size="12.5" fill="#1e293b" font-weight="600">log_id</text>
+<rect x="372" y="833" width="30" height="18" rx="9" fill="#fef3c7"/>
+<text x="379" y="846.5" font-size="10" font-weight="bold" fill="#92400e">PK</text>
+<rect x="71" y="856" width="338" height="28" fill="#f8fafc"/>
+<text x="78" y="875" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="150" y="875" font-size="12.5" fill="#1e293b" font-weight="600">tenant_id</text>
+<rect x="372" y="861" width="30" height="18" rx="9" fill="#ede9fe"/>
+<text x="379" y="874.5" font-size="10" font-weight="bold" fill="#5b21b6">FK</text>
+<rect x="71" y="884" width="338" height="28" fill="#ffffff"/>
+<text x="78" y="903" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="150" y="903" font-size="12.5" fill="#1e293b" font-weight="600">actor_id</text>
+<rect x="71" y="912" width="338" height="28" fill="#f8fafc"/>
+<text x="78" y="931" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="150" y="931" font-size="12.5" fill="#1e293b" font-weight="600">action_type</text>
+<rect x="71" y="940" width="338" height="28" fill="#ffffff"/>
+<text x="78" y="959" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="150" y="959" font-size="12.5" fill="#1e293b" font-weight="600">target_entity</text>
+<rect x="71" y="968" width="338" height="28" fill="#f8fafc"/>
+<text x="78" y="987" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">timestamp</text>
+<text x="150" y="987" font-size="12.5" fill="#1e293b" font-weight="600">timestamp</text>
+</g>
+<g id="table-CUSTOMERS" class="erd-table-group" data-table="CUSTOMERS" data-domain="customer" style="cursor: pointer;">
+<rect x="512" y="172" width="340" height="382" rx="8" fill="#0000000a"/>
+<rect id="box-CUSTOMERS" class="table-card" x="510" y="170" width="340" height="382" rx="8" fill="#ffffff" stroke="#0284c7" stroke-width="1.4"/>
+<rect x="510" y="170" width="340" height="42" rx="8" fill="#0284c7"/>
+<rect x="510" y="204" width="340" height="8" fill="#0284c7"/>
+<text x="520" y="198" font-size="15" font-weight="700" fill="#ffffff" letter-spacing="0.2">CUSTOMERS</text>
+<rect x="511" y="212" width="338" height="28" fill="#ffffff"/>
+<text x="518" y="231" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="590" y="231" font-size="12.5" fill="#1e293b" font-weight="600">customer_id</text>
+<rect x="812" y="217" width="30" height="18" rx="9" fill="#fef3c7"/>
+<text x="819" y="230.5" font-size="10" font-weight="bold" fill="#92400e">PK</text>
+<rect x="511" y="240" width="338" height="28" fill="#f8fafc"/>
+<text x="518" y="259" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="590" y="259" font-size="12.5" fill="#1e293b" font-weight="600">auth_user_id</text>
+<rect x="511" y="268" width="338" height="28" fill="#ffffff"/>
+<text x="518" y="287" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="590" y="287" font-size="12.5" fill="#1e293b" font-weight="600">tenant_id</text>
+<rect x="812" y="273" width="30" height="18" rx="9" fill="#ede9fe"/>
+<text x="819" y="286.5" font-size="10" font-weight="bold" fill="#5b21b6">FK</text>
+<rect x="511" y="296" width="338" height="28" fill="#f8fafc"/>
+<text x="518" y="315" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="590" y="315" font-size="12.5" fill="#1e293b" font-weight="600">email</text>
+<rect x="511" y="324" width="338" height="28" fill="#ffffff"/>
+<text x="518" y="343" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="590" y="343" font-size="12.5" fill="#1e293b" font-weight="600">full_name</text>
+<rect x="511" y="352" width="338" height="28" fill="#f8fafc"/>
+<text x="518" y="371" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="590" y="371" font-size="12.5" fill="#1e293b" font-weight="600">phone</text>
+<rect x="511" y="380" width="338" height="28" fill="#ffffff"/>
+<text x="518" y="399" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="590" y="399" font-size="12.5" fill="#1e293b" font-weight="600">age_group</text>
+<rect x="511" y="408" width="338" height="28" fill="#f8fafc"/>
+<text x="518" y="427" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="590" y="427" font-size="12.5" fill="#1e293b" font-weight="600">preferred_channel</text>
+<rect x="511" y="436" width="338" height="28" fill="#ffffff"/>
+<text x="518" y="455" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="590" y="455" font-size="12.5" fill="#1e293b" font-weight="600">preferred_language</text>
+<rect x="511" y="464" width="338" height="28" fill="#f8fafc"/>
+<text x="518" y="483" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="590" y="483" font-size="12.5" fill="#1e293b" font-weight="600">role</text>
+<rect x="511" y="492" width="338" height="28" fill="#ffffff"/>
+<text x="518" y="511" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">boolean</text>
+<text x="590" y="511" font-size="12.5" fill="#1e293b" font-weight="600">is_active</text>
+<rect x="511" y="520" width="338" height="28" fill="#f8fafc"/>
+<text x="518" y="539" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">timestamp</text>
+<text x="590" y="539" font-size="12.5" fill="#1e293b" font-weight="600">created_at</text>
+</g>
+<g id="table-SESSIONS" class="erd-table-group" data-table="SESSIONS" data-domain="customer" style="cursor: pointer;">
+<rect x="512" y="634" width="340" height="186" rx="8" fill="#0000000a"/>
+<rect id="box-SESSIONS" class="table-card" x="510" y="632" width="340" height="186" rx="8" fill="#ffffff" stroke="#0284c7" stroke-width="1.4"/>
+<rect x="510" y="632" width="340" height="42" rx="8" fill="#0284c7"/>
+<rect x="510" y="666" width="340" height="8" fill="#0284c7"/>
+<text x="520" y="660" font-size="15" font-weight="700" fill="#ffffff" letter-spacing="0.2">SESSIONS</text>
+<rect x="511" y="674" width="338" height="28" fill="#ffffff"/>
+<text x="518" y="693" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="590" y="693" font-size="12.5" fill="#1e293b" font-weight="600">session_id</text>
+<rect x="812" y="679" width="30" height="18" rx="9" fill="#fef3c7"/>
+<text x="819" y="692.5" font-size="10" font-weight="bold" fill="#92400e">PK</text>
+<rect x="511" y="702" width="338" height="28" fill="#f8fafc"/>
+<text x="518" y="721" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="590" y="721" font-size="12.5" fill="#1e293b" font-weight="600">tenant_id</text>
+<rect x="812" y="707" width="30" height="18" rx="9" fill="#ede9fe"/>
+<text x="819" y="720.5" font-size="10" font-weight="bold" fill="#5b21b6">FK</text>
+<rect x="511" y="730" width="338" height="28" fill="#ffffff"/>
+<text x="518" y="749" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="590" y="749" font-size="12.5" fill="#1e293b" font-weight="600">customer_id</text>
+<rect x="812" y="735" width="30" height="18" rx="9" fill="#ede9fe"/>
+<text x="819" y="748.5" font-size="10" font-weight="bold" fill="#5b21b6">FK</text>
+<rect x="511" y="758" width="338" height="28" fill="#f8fafc"/>
+<text x="518" y="777" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="590" y="777" font-size="12.5" fill="#1e293b" font-weight="600">device_info</text>
+<rect x="511" y="786" width="338" height="28" fill="#ffffff"/>
+<text x="518" y="805" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">timestamp</text>
+<text x="590" y="805" font-size="12.5" fill="#1e293b" font-weight="600">created_at</text>
+</g>
+<g id="table-EVENTS" class="erd-table-group" data-table="EVENTS" data-domain="customer" style="cursor: pointer;">
+<rect x="512" y="900" width="340" height="270" rx="8" fill="#0000000a"/>
+<rect id="box-EVENTS" class="table-card" x="510" y="898" width="340" height="270" rx="8" fill="#ffffff" stroke="#0284c7" stroke-width="1.4"/>
+<rect x="510" y="898" width="340" height="42" rx="8" fill="#0284c7"/>
+<rect x="510" y="932" width="340" height="8" fill="#0284c7"/>
+<text x="520" y="926" font-size="15" font-weight="700" fill="#ffffff" letter-spacing="0.2">EVENTS</text>
+<rect x="511" y="940" width="338" height="28" fill="#ffffff"/>
+<text x="518" y="959" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="590" y="959" font-size="12.5" fill="#1e293b" font-weight="600">event_id</text>
+<rect x="812" y="945" width="30" height="18" rx="9" fill="#fef3c7"/>
+<text x="819" y="958.5" font-size="10" font-weight="bold" fill="#92400e">PK</text>
+<rect x="511" y="968" width="338" height="28" fill="#f8fafc"/>
+<text x="518" y="987" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="590" y="987" font-size="12.5" fill="#1e293b" font-weight="600">session_id</text>
+<rect x="812" y="973" width="30" height="18" rx="9" fill="#ede9fe"/>
+<text x="819" y="986.5" font-size="10" font-weight="bold" fill="#5b21b6">FK</text>
+<rect x="511" y="996" width="338" height="28" fill="#ffffff"/>
+<text x="518" y="1015" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="590" y="1015" font-size="12.5" fill="#1e293b" font-weight="600">event_type</text>
+<rect x="511" y="1024" width="338" height="28" fill="#f8fafc"/>
+<text x="518" y="1043" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">jsonb</text>
+<text x="590" y="1043" font-size="12.5" fill="#1e293b" font-weight="600">payload</text>
+<rect x="511" y="1052" width="338" height="28" fill="#ffffff"/>
+<text x="518" y="1071" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">timestamp</text>
+<text x="590" y="1071" font-size="12.5" fill="#1e293b" font-weight="600">timestamp</text>
+<rect x="511" y="1080" width="338" height="28" fill="#f8fafc"/>
+<text x="518" y="1099" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="590" y="1099" font-size="12.5" fill="#1e293b" font-weight="600">prev_hash</text>
+<rect x="511" y="1108" width="338" height="28" fill="#ffffff"/>
+<text x="518" y="1127" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="590" y="1127" font-size="12.5" fill="#1e293b" font-weight="600">actor_id</text>
+<rect x="511" y="1136" width="338" height="28" fill="#f8fafc"/>
+<text x="518" y="1155" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">bigint</text>
+<text x="590" y="1155" font-size="12.5" fill="#1e293b" font-weight="600">event_seq</text>
+</g>
+<g id="table-CONTACT_MESSAGES" class="erd-table-group" data-table="CONTACT_MESSAGES" data-domain="customer" style="cursor: pointer;">
+<rect x="952" y="172" width="340" height="242" rx="8" fill="#0000000a"/>
+<rect id="box-CONTACT_MESSAGES" class="table-card" x="950" y="170" width="340" height="242" rx="8" fill="#ffffff" stroke="#0284c7" stroke-width="2.2"/>
+<rect x="950" y="170" width="340" height="42" rx="8" fill="#0284c7"/>
+<rect x="950" y="204" width="340" height="8" fill="#0284c7"/>
+<text x="960" y="198" font-size="15" font-weight="700" fill="#ffffff" letter-spacing="0.2">CONTACT_MESSAGES  [NEW]</text>
+<rect x="951" y="212" width="338" height="28" fill="#ffffff"/>
+<text x="958" y="231" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="1030" y="231" font-size="12.5" fill="#1e293b" font-weight="600">id</text>
+<rect x="1252" y="217" width="30" height="18" rx="9" fill="#fef3c7"/>
+<text x="1259" y="230.5" font-size="10" font-weight="bold" fill="#92400e">PK</text>
+<rect x="951" y="240" width="338" height="28" fill="#f8fafc"/>
+<text x="958" y="259" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="1030" y="259" font-size="12.5" fill="#1e293b" font-weight="600">tenant_id</text>
+<rect x="1252" y="245" width="30" height="18" rx="9" fill="#ede9fe"/>
+<text x="1259" y="258.5" font-size="10" font-weight="bold" fill="#5b21b6">FK</text>
+<rect x="951" y="268" width="338" height="28" fill="#ffffff"/>
+<text x="958" y="287" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="1030" y="287" font-size="12.5" fill="#1e293b" font-weight="600">customer_id</text>
+<rect x="1252" y="273" width="30" height="18" rx="9" fill="#ede9fe"/>
+<text x="1259" y="286.5" font-size="10" font-weight="bold" fill="#5b21b6">FK</text>
+<rect x="951" y="296" width="338" height="28" fill="#f8fafc"/>
+<text x="958" y="315" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="1030" y="315" font-size="12.5" fill="#1e293b" font-weight="600">first_name</text>
+<rect x="951" y="324" width="338" height="28" fill="#ffffff"/>
+<text x="958" y="343" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="1030" y="343" font-size="12.5" fill="#1e293b" font-weight="600">email</text>
+<rect x="951" y="352" width="338" height="28" fill="#f8fafc"/>
+<text x="958" y="371" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="1030" y="371" font-size="12.5" fill="#1e293b" font-weight="600">message</text>
+<rect x="951" y="380" width="338" height="28" fill="#ffffff"/>
+<text x="958" y="399" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">timestamp</text>
+<text x="1030" y="399" font-size="12.5" fill="#1e293b" font-weight="600">created_at</text>
+</g>
+<g id="table-ORDERS" class="erd-table-group" data-table="ORDERS" data-domain="orders" style="cursor: pointer;">
+<rect x="1392" y="172" width="340" height="270" rx="8" fill="#0000000a"/>
+<rect id="box-ORDERS" class="table-card" x="1390" y="170" width="340" height="270" rx="8" fill="#ffffff" stroke="#059669" stroke-width="1.4"/>
+<rect x="1390" y="170" width="340" height="42" rx="8" fill="#059669"/>
+<rect x="1390" y="204" width="340" height="8" fill="#059669"/>
+<text x="1400" y="198" font-size="15" font-weight="700" fill="#ffffff" letter-spacing="0.2">ORDERS</text>
+<rect x="1391" y="212" width="338" height="28" fill="#ffffff"/>
+<text x="1398" y="231" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="1470" y="231" font-size="12.5" fill="#1e293b" font-weight="600">order_id</text>
+<rect x="1692" y="217" width="30" height="18" rx="9" fill="#fef3c7"/>
+<text x="1699" y="230.5" font-size="10" font-weight="bold" fill="#92400e">PK</text>
+<rect x="1391" y="240" width="338" height="28" fill="#f8fafc"/>
+<text x="1398" y="259" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="1470" y="259" font-size="12.5" fill="#1e293b" font-weight="600">tenant_id</text>
+<rect x="1692" y="245" width="30" height="18" rx="9" fill="#ede9fe"/>
+<text x="1699" y="258.5" font-size="10" font-weight="bold" fill="#5b21b6">FK</text>
+<rect x="1391" y="268" width="338" height="28" fill="#ffffff"/>
+<text x="1398" y="287" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="1470" y="287" font-size="12.5" fill="#1e293b" font-weight="600">customer_id</text>
+<rect x="1692" y="273" width="30" height="18" rx="9" fill="#ede9fe"/>
+<text x="1699" y="286.5" font-size="10" font-weight="bold" fill="#5b21b6">FK</text>
+<rect x="1391" y="296" width="338" height="28" fill="#f8fafc"/>
+<text x="1398" y="315" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="1470" y="315" font-size="12.5" fill="#1e293b" font-weight="600">status</text>
+<rect x="1391" y="324" width="338" height="28" fill="#ffffff"/>
+<text x="1398" y="343" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="1470" y="343" font-size="12.5" fill="#1e293b" font-weight="600">channel</text>
+<rect x="1391" y="352" width="338" height="28" fill="#f8fafc"/>
+<text x="1398" y="371" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="1470" y="371" font-size="12.5" fill="#1e293b" font-weight="600">payment_method</text>
+<rect x="1391" y="380" width="338" height="28" fill="#ffffff"/>
+<text x="1398" y="399" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">text</text>
+<text x="1470" y="399" font-size="12.5" fill="#1e293b" font-weight="600">shipping_address</text>
+<rect x="1391" y="408" width="338" height="28" fill="#f8fafc"/>
+<text x="1398" y="427" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">timestamp</text>
+<text x="1470" y="427" font-size="12.5" fill="#1e293b" font-weight="600">order_date</text>
+</g>
+<g id="table-ORDER_ITEMS" class="erd-table-group" data-table="ORDER_ITEMS" data-domain="orders" style="cursor: pointer;">
+<rect x="1392" y="522" width="340" height="186" rx="8" fill="#0000000a"/>
+<rect id="box-ORDER_ITEMS" class="table-card" x="1390" y="520" width="340" height="186" rx="8" fill="#ffffff" stroke="#059669" stroke-width="1.4"/>
+<rect x="1390" y="520" width="340" height="42" rx="8" fill="#059669"/>
+<rect x="1390" y="554" width="340" height="8" fill="#059669"/>
+<text x="1400" y="548" font-size="15" font-weight="700" fill="#ffffff" letter-spacing="0.2">ORDER_ITEMS</text>
+<rect x="1391" y="562" width="338" height="28" fill="#ffffff"/>
+<text x="1398" y="581" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="1470" y="581" font-size="12.5" fill="#1e293b" font-weight="600">order_item_id</text>
+<rect x="1692" y="567" width="30" height="18" rx="9" fill="#fef3c7"/>
+<text x="1699" y="580.5" font-size="10" font-weight="bold" fill="#92400e">PK</text>
+<rect x="1391" y="590" width="338" height="28" fill="#f8fafc"/>
+<text x="1398" y="609" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="1470" y="609" font-size="12.5" fill="#1e293b" font-weight="600">order_id</text>
+<rect x="1692" y="595" width="30" height="18" rx="9" fill="#ede9fe"/>
+<text x="1699" y="608.5" font-size="10" font-weight="bold" fill="#5b21b6">FK</text>
+<rect x="1391" y="618" width="338" height="28" fill="#ffffff"/>
+<text x="1398" y="637" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="1470" y="637" font-size="12.5" fill="#1e293b" font-weight="600">drug_id</text>
+<rect x="1692" y="623" width="30" height="18" rx="9" fill="#ede9fe"/>
+<text x="1699" y="636.5" font-size="10" font-weight="bold" fill="#5b21b6">FK</text>
+<rect x="1391" y="646" width="338" height="28" fill="#f8fafc"/>
+<text x="1398" y="665" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">int</text>
+<text x="1470" y="665" font-size="12.5" fill="#1e293b" font-weight="600">quantity</text>
+<rect x="1391" y="674" width="338" height="28" fill="#ffffff"/>
+<text x="1398" y="693" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">numeric</text>
+<text x="1470" y="693" font-size="12.5" fill="#1e293b" font-weight="600">price</text>
+</g>
+<g id="table-COUPONS" class="erd-table-group" data-table="COUPONS" data-domain="orders" style="cursor: pointer;">
+<rect x="1392" y="788" width="340" height="298" rx="8" fill="#0000000a"/>
+<rect id="box-COUPONS" class="table-card" x="1390" y="786" width="340" height="298" rx="8" fill="#ffffff" stroke="#059669" stroke-width="2.2"/>
+<rect x="1390" y="786" width="340" height="42" rx="8" fill="#059669"/>
+<rect x="1390" y="820" width="340" height="8" fill="#059669"/>
+<text x="1400" y="814" font-size="15" font-weight="700" fill="#ffffff" letter-spacing="0.2">COUPONS  [NEW]</text>
+<rect x="1391" y="828" width="338" height="28" fill="#ffffff"/>
+<text x="1398" y="847" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="1470" y="847" font-size="12.5" fill="#1e293b" font-weight="600">id</text>
+<rect x="1692" y="833" width="30" height="18" rx="9" fill="#fef3c7"/>
+<text x="1699" y="846.5" font-size="10" font-weight="bold" fill="#92400e">PK</text>
+<rect x="1391" y="856" width="338" height="28" fill="#f8fafc"/>
+<text x="1398" y="875" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="1470" y="875" font-size="12.5" fill="#1e293b" font-weight="600">tenant_id</text>
+<rect x="1692" y="861" width="30" height="18" rx="9" fill="#ede9fe"/>
+<text x="1699" y="874.5" font-size="10" font-weight="bold" fill="#5b21b6">FK</text>
+<rect x="1391" y="884" width="338" height="28" fill="#ffffff"/>
+<text x="1398" y="903" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="1470" y="903" font-size="12.5" fill="#1e293b" font-weight="600">code</text>
+<rect x="1391" y="912" width="338" height="28" fill="#f8fafc"/>
+<text x="1398" y="931" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">int</text>
+<text x="1470" y="931" font-size="12.5" fill="#1e293b" font-weight="600">discount_pct</text>
+<rect x="1391" y="940" width="338" height="28" fill="#ffffff"/>
+<text x="1398" y="959" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="1470" y="959" font-size="12.5" fill="#1e293b" font-weight="600">campaign_type</text>
+<rect x="1391" y="968" width="338" height="28" fill="#f8fafc"/>
+<text x="1398" y="987" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="1470" y="987" font-size="12.5" fill="#1e293b" font-weight="600">drug_name</text>
+<rect x="1391" y="996" width="338" height="28" fill="#ffffff"/>
+<text x="1398" y="1015" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="1470" y="1015" font-size="12.5" fill="#1e293b" font-weight="600">channel</text>
+<rect x="1391" y="1024" width="338" height="28" fill="#f8fafc"/>
+<text x="1398" y="1043" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="1470" y="1043" font-size="12.5" fill="#1e293b" font-weight="600">used_order_id</text>
+<rect x="1692" y="1029" width="30" height="18" rx="9" fill="#ede9fe"/>
+<text x="1699" y="1042.5" font-size="10" font-weight="bold" fill="#5b21b6">FK</text>
+<rect x="1391" y="1052" width="338" height="28" fill="#ffffff"/>
+<text x="1398" y="1071" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">timestamp</text>
+<text x="1470" y="1071" font-size="12.5" fill="#1e293b" font-weight="600">expires_at</text>
+</g>
+<g id="table-DRUGS" class="erd-table-group" data-table="DRUGS" data-domain="drugs" style="cursor: pointer;">
+<rect x="1832" y="172" width="340" height="382" rx="8" fill="#0000000a"/>
+<rect id="box-DRUGS" class="table-card" x="1830" y="170" width="340" height="382" rx="8" fill="#ffffff" stroke="#d97706" stroke-width="1.4"/>
+<rect x="1830" y="170" width="340" height="42" rx="8" fill="#d97706"/>
+<rect x="1830" y="204" width="340" height="8" fill="#d97706"/>
+<text x="1840" y="198" font-size="15" font-weight="700" fill="#ffffff" letter-spacing="0.2">DRUGS</text>
+<rect x="1831" y="212" width="338" height="28" fill="#ffffff"/>
+<text x="1838" y="231" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="1910" y="231" font-size="12.5" fill="#1e293b" font-weight="600">drug_id</text>
+<rect x="2132" y="217" width="30" height="18" rx="9" fill="#fef3c7"/>
+<text x="2139" y="230.5" font-size="10" font-weight="bold" fill="#92400e">PK</text>
+<rect x="1831" y="240" width="338" height="28" fill="#f8fafc"/>
+<text x="1838" y="259" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="1910" y="259" font-size="12.5" fill="#1e293b" font-weight="600">name</text>
+<rect x="1831" y="268" width="338" height="28" fill="#ffffff"/>
+<text x="1838" y="287" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="1910" y="287" font-size="12.5" fill="#1e293b" font-weight="600">category</text>
+<rect x="1831" y="296" width="338" height="28" fill="#f8fafc"/>
+<text x="1838" y="315" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">boolean</text>
+<text x="1910" y="315" font-size="12.5" fill="#1e293b" font-weight="600">is_chronic</text>
+<rect x="1831" y="324" width="338" height="28" fill="#ffffff"/>
+<text x="1838" y="343" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">numeric</text>
+<text x="1910" y="343" font-size="12.5" fill="#1e293b" font-weight="600">base_price</text>
+<rect x="1831" y="352" width="338" height="28" fill="#f8fafc"/>
+<text x="1838" y="371" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">int</text>
+<text x="1910" y="371" font-size="12.5" fill="#1e293b" font-weight="600">default_cycle_days</text>
+<rect x="1831" y="380" width="338" height="28" fill="#ffffff"/>
+<text x="1838" y="399" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="1910" y="399" font-size="12.5" fill="#1e293b" font-weight="600">active_ingredient</text>
+<rect x="1831" y="408" width="338" height="28" fill="#f8fafc"/>
+<text x="1838" y="427" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="1910" y="427" font-size="12.5" fill="#1e293b" font-weight="600">dosage</text>
+<rect x="1831" y="436" width="338" height="28" fill="#ffffff"/>
+<text x="1838" y="455" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="1910" y="455" font-size="12.5" fill="#1e293b" font-weight="600">warnings</text>
+<rect x="1831" y="464" width="338" height="28" fill="#f8fafc"/>
+<text x="1838" y="483" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">boolean</text>
+<text x="1910" y="483" font-size="12.5" fill="#1e293b" font-weight="600">is_verified</text>
+<rect x="1831" y="492" width="338" height="28" fill="#ffffff"/>
+<text x="1838" y="511" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="1910" y="511" font-size="12.5" fill="#1e293b" font-weight="600">vertical</text>
+<rect x="1831" y="520" width="338" height="28" fill="#f8fafc"/>
+<text x="1838" y="539" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="1910" y="539" font-size="12.5" fill="#1e293b" font-weight="600">data_source</text>
+</g>
+<g id="table-DRUG_INTERACTIONS" class="erd-table-group" data-table="DRUG_INTERACTIONS" data-domain="drugs" style="cursor: pointer;">
+<rect x="1832" y="634" width="340" height="186" rx="8" fill="#0000000a"/>
+<rect id="box-DRUG_INTERACTIONS" class="table-card" x="1830" y="632" width="340" height="186" rx="8" fill="#ffffff" stroke="#d97706" stroke-width="1.4"/>
+<rect x="1830" y="632" width="340" height="42" rx="8" fill="#d97706"/>
+<rect x="1830" y="666" width="340" height="8" fill="#d97706"/>
+<text x="1840" y="660" font-size="15" font-weight="700" fill="#ffffff" letter-spacing="0.2">DRUG_INTERACTIONS</text>
+<rect x="1831" y="674" width="338" height="28" fill="#ffffff"/>
+<text x="1838" y="693" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="1910" y="693" font-size="12.5" fill="#1e293b" font-weight="600">interaction_id</text>
+<rect x="2132" y="679" width="30" height="18" rx="9" fill="#fef3c7"/>
+<text x="2139" y="692.5" font-size="10" font-weight="bold" fill="#92400e">PK</text>
+<rect x="1831" y="702" width="338" height="28" fill="#f8fafc"/>
+<text x="1838" y="721" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="1910" y="721" font-size="12.5" fill="#1e293b" font-weight="600">drug_id_a</text>
+<rect x="2132" y="707" width="30" height="18" rx="9" fill="#ede9fe"/>
+<text x="2139" y="720.5" font-size="10" font-weight="bold" fill="#5b21b6">FK</text>
+<rect x="1831" y="730" width="338" height="28" fill="#ffffff"/>
+<text x="1838" y="749" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="1910" y="749" font-size="12.5" fill="#1e293b" font-weight="600">drug_id_b</text>
+<rect x="2132" y="735" width="30" height="18" rx="9" fill="#ede9fe"/>
+<text x="2139" y="748.5" font-size="10" font-weight="bold" fill="#5b21b6">FK</text>
+<rect x="1831" y="758" width="338" height="28" fill="#f8fafc"/>
+<text x="1838" y="777" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="1910" y="777" font-size="12.5" fill="#1e293b" font-weight="600">severity</text>
+<rect x="1831" y="786" width="338" height="28" fill="#ffffff"/>
+<text x="1838" y="805" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="1910" y="805" font-size="12.5" fill="#1e293b" font-weight="600">note</text>
+</g>
+<g id="table-DRUG_AFFINITIES" class="erd-table-group" data-table="DRUG_AFFINITIES" data-domain="drugs" style="cursor: pointer;">
+<rect x="1832" y="900" width="340" height="186" rx="8" fill="#0000000a"/>
+<rect id="box-DRUG_AFFINITIES" class="table-card" x="1830" y="898" width="340" height="186" rx="8" fill="#ffffff" stroke="#d97706" stroke-width="1.4"/>
+<rect x="1830" y="898" width="340" height="42" rx="8" fill="#d97706"/>
+<rect x="1830" y="932" width="340" height="8" fill="#d97706"/>
+<text x="1840" y="926" font-size="15" font-weight="700" fill="#ffffff" letter-spacing="0.2">DRUG_AFFINITIES</text>
+<rect x="1831" y="940" width="338" height="28" fill="#ffffff"/>
+<text x="1838" y="959" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="1910" y="959" font-size="12.5" fill="#1e293b" font-weight="600">affinity_id</text>
+<rect x="2132" y="945" width="30" height="18" rx="9" fill="#fef3c7"/>
+<text x="2139" y="958.5" font-size="10" font-weight="bold" fill="#92400e">PK</text>
+<rect x="1831" y="968" width="338" height="28" fill="#f8fafc"/>
+<text x="1838" y="987" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="1910" y="987" font-size="12.5" fill="#1e293b" font-weight="600">drug_id_a</text>
+<rect x="2132" y="973" width="30" height="18" rx="9" fill="#ede9fe"/>
+<text x="2139" y="986.5" font-size="10" font-weight="bold" fill="#5b21b6">FK</text>
+<rect x="1831" y="996" width="338" height="28" fill="#ffffff"/>
+<text x="1838" y="1015" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="1910" y="1015" font-size="12.5" fill="#1e293b" font-weight="600">drug_id_b</text>
+<rect x="2132" y="1001" width="30" height="18" rx="9" fill="#ede9fe"/>
+<text x="2139" y="1014.5" font-size="10" font-weight="bold" fill="#5b21b6">FK</text>
+<rect x="1831" y="1024" width="338" height="28" fill="#f8fafc"/>
+<text x="1838" y="1043" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="1910" y="1043" font-size="12.5" fill="#1e293b" font-weight="600">affinity_type</text>
+<rect x="1831" y="1052" width="338" height="28" fill="#ffffff"/>
+<text x="1838" y="1071" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">float</text>
+<text x="1910" y="1071" font-size="12.5" fill="#1e293b" font-weight="600">confidence_score</text>
+</g>
+<g id="table-INVENTORY_ITEMS" class="erd-table-group" data-table="INVENTORY_ITEMS" data-domain="inventory" style="cursor: pointer;">
+<rect x="2272" y="172" width="340" height="242" rx="8" fill="#0000000a"/>
+<rect id="box-INVENTORY_ITEMS" class="table-card" x="2270" y="170" width="340" height="242" rx="8" fill="#ffffff" stroke="#0d9488" stroke-width="1.4"/>
+<rect x="2270" y="170" width="340" height="42" rx="8" fill="#0d9488"/>
+<rect x="2270" y="204" width="340" height="8" fill="#0d9488"/>
+<text x="2280" y="198" font-size="15" font-weight="700" fill="#ffffff" letter-spacing="0.2">INVENTORY_ITEMS</text>
+<rect x="2271" y="212" width="338" height="28" fill="#ffffff"/>
+<text x="2278" y="231" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="2350" y="231" font-size="12.5" fill="#1e293b" font-weight="600">inventory_id</text>
+<rect x="2572" y="217" width="30" height="18" rx="9" fill="#fef3c7"/>
+<text x="2579" y="230.5" font-size="10" font-weight="bold" fill="#92400e">PK</text>
+<rect x="2271" y="240" width="338" height="28" fill="#f8fafc"/>
+<text x="2278" y="259" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="2350" y="259" font-size="12.5" fill="#1e293b" font-weight="600">tenant_id</text>
+<rect x="2572" y="245" width="30" height="18" rx="9" fill="#ede9fe"/>
+<text x="2579" y="258.5" font-size="10" font-weight="bold" fill="#5b21b6">FK</text>
+<rect x="2271" y="268" width="338" height="28" fill="#ffffff"/>
+<text x="2278" y="287" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="2350" y="287" font-size="12.5" fill="#1e293b" font-weight="600">drug_id</text>
+<rect x="2572" y="273" width="30" height="18" rx="9" fill="#ede9fe"/>
+<text x="2579" y="286.5" font-size="10" font-weight="bold" fill="#5b21b6">FK</text>
+<rect x="2271" y="296" width="338" height="28" fill="#f8fafc"/>
+<text x="2278" y="315" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">int</text>
+<text x="2350" y="315" font-size="12.5" fill="#1e293b" font-weight="600">stock_level</text>
+<rect x="2271" y="324" width="338" height="28" fill="#ffffff"/>
+<text x="2278" y="343" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">int</text>
+<text x="2350" y="343" font-size="12.5" fill="#1e293b" font-weight="600">reorder_point</text>
+<rect x="2271" y="352" width="338" height="28" fill="#f8fafc"/>
+<text x="2278" y="371" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">numeric</text>
+<text x="2350" y="371" font-size="12.5" fill="#1e293b" font-weight="600">tenant_price</text>
+<rect x="2271" y="380" width="338" height="28" fill="#ffffff"/>
+<text x="2278" y="399" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">boolean</text>
+<text x="2350" y="399" font-size="12.5" fill="#1e293b" font-weight="600">is_active</text>
+</g>
+<g id="table-CUSTOMER_CYCLES" class="erd-table-group" data-table="CUSTOMER_CYCLES" data-domain="inventory" style="cursor: pointer;">
+<rect x="2272" y="494" width="340" height="186" rx="8" fill="#0000000a"/>
+<rect id="box-CUSTOMER_CYCLES" class="table-card" x="2270" y="492" width="340" height="186" rx="8" fill="#ffffff" stroke="#0d9488" stroke-width="1.4"/>
+<rect x="2270" y="492" width="340" height="42" rx="8" fill="#0d9488"/>
+<rect x="2270" y="526" width="340" height="8" fill="#0d9488"/>
+<text x="2280" y="520" font-size="15" font-weight="700" fill="#ffffff" letter-spacing="0.2">CUSTOMER_CYCLES</text>
+<rect x="2271" y="534" width="338" height="28" fill="#ffffff"/>
+<text x="2278" y="553" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="2350" y="553" font-size="12.5" fill="#1e293b" font-weight="600">customer_id</text>
+<rect x="2550" y="539" width="52" height="18" rx="9" fill="#dbeafe"/>
+<text x="2557" y="552.5" font-size="10" font-weight="bold" fill="#1e40af">PK/FK</text>
+<rect x="2271" y="562" width="338" height="28" fill="#f8fafc"/>
+<text x="2278" y="581" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="2350" y="581" font-size="12.5" fill="#1e293b" font-weight="600">drug_id</text>
+<rect x="2550" y="567" width="52" height="18" rx="9" fill="#dbeafe"/>
+<text x="2557" y="580.5" font-size="10" font-weight="bold" fill="#1e40af">PK/FK</text>
+<rect x="2271" y="590" width="338" height="28" fill="#ffffff"/>
+<text x="2278" y="609" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">float</text>
+<text x="2350" y="609" font-size="12.5" fill="#1e293b" font-weight="600">avg_cycle_days</text>
+<rect x="2271" y="618" width="338" height="28" fill="#f8fafc"/>
+<text x="2278" y="637" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">date</text>
+<text x="2350" y="637" font-size="12.5" fill="#1e293b" font-weight="600">last_purchase_date</text>
+<rect x="2271" y="646" width="338" height="28" fill="#ffffff"/>
+<text x="2278" y="665" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">date</text>
+<text x="2350" y="665" font-size="12.5" fill="#1e293b" font-weight="600">reminder_day</text>
+</g>
+<g id="table-PENDING_REMINDERS" class="erd-table-group" data-table="PENDING_REMINDERS" data-domain="inventory" style="cursor: pointer;">
+<rect x="2272" y="760" width="340" height="326" rx="8" fill="#0000000a"/>
+<rect id="box-PENDING_REMINDERS" class="table-card" x="2270" y="758" width="340" height="326" rx="8" fill="#ffffff" stroke="#0d9488" stroke-width="1.4"/>
+<rect x="2270" y="758" width="340" height="42" rx="8" fill="#0d9488"/>
+<rect x="2270" y="792" width="340" height="8" fill="#0d9488"/>
+<text x="2280" y="786" font-size="15" font-weight="700" fill="#ffffff" letter-spacing="0.2">PENDING_REMINDERS</text>
+<rect x="2271" y="800" width="338" height="28" fill="#ffffff"/>
+<text x="2278" y="819" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="2350" y="819" font-size="12.5" fill="#1e293b" font-weight="600">reminder_id</text>
+<rect x="2572" y="805" width="30" height="18" rx="9" fill="#fef3c7"/>
+<text x="2579" y="818.5" font-size="10" font-weight="bold" fill="#92400e">PK</text>
+<rect x="2271" y="828" width="338" height="28" fill="#f8fafc"/>
+<text x="2278" y="847" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="2350" y="847" font-size="12.5" fill="#1e293b" font-weight="600">customer_id</text>
+<rect x="2572" y="833" width="30" height="18" rx="9" fill="#ede9fe"/>
+<text x="2579" y="846.5" font-size="10" font-weight="bold" fill="#5b21b6">FK</text>
+<rect x="2271" y="856" width="338" height="28" fill="#ffffff"/>
+<text x="2278" y="875" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="2350" y="875" font-size="12.5" fill="#1e293b" font-weight="600">drug_id</text>
+<rect x="2572" y="861" width="30" height="18" rx="9" fill="#ede9fe"/>
+<text x="2579" y="874.5" font-size="10" font-weight="bold" fill="#5b21b6">FK</text>
+<rect x="2271" y="884" width="338" height="28" fill="#f8fafc"/>
+<text x="2278" y="903" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="2350" y="903" font-size="12.5" fill="#1e293b" font-weight="600">channel</text>
+<rect x="2271" y="912" width="338" height="28" fill="#ffffff"/>
+<text x="2278" y="931" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="2350" y="931" font-size="12.5" fill="#1e293b" font-weight="600">decision</text>
+<rect x="2271" y="940" width="338" height="28" fill="#f8fafc"/>
+<text x="2278" y="959" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">float</text>
+<text x="2350" y="959" font-size="12.5" fill="#1e293b" font-weight="600">cycle_confidence</text>
+<rect x="2271" y="968" width="338" height="28" fill="#ffffff"/>
+<text x="2278" y="987" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">float</text>
+<text x="2350" y="987" font-size="12.5" fill="#1e293b" font-weight="600">churn_probability</text>
+<rect x="2271" y="996" width="338" height="28" fill="#f8fafc"/>
+<text x="2278" y="1015" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">numeric</text>
+<text x="2350" y="1015" font-size="12.5" fill="#1e293b" font-weight="600">predicted_days</text>
+<rect x="2271" y="1024" width="338" height="28" fill="#ffffff"/>
+<text x="2278" y="1043" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="2350" y="1043" font-size="12.5" fill="#1e293b" font-weight="600">status</text>
+<rect x="2271" y="1052" width="338" height="28" fill="#f8fafc"/>
+<text x="2278" y="1071" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">timestamp</text>
+<text x="2350" y="1071" font-size="12.5" fill="#1e293b" font-weight="600">created_at</text>
+</g>
+<g id="table-PRESCRIPTIONS" class="erd-table-group" data-table="PRESCRIPTIONS" data-domain="ocr" style="cursor: pointer;">
+<rect x="2712" y="172" width="340" height="242" rx="8" fill="#0000000a"/>
+<rect id="box-PRESCRIPTIONS" class="table-card" x="2710" y="170" width="340" height="242" rx="8" fill="#ffffff" stroke="#7c3aed" stroke-width="2.2"/>
+<rect x="2710" y="170" width="340" height="42" rx="8" fill="#7c3aed"/>
+<rect x="2710" y="204" width="340" height="8" fill="#7c3aed"/>
+<text x="2720" y="198" font-size="15" font-weight="700" fill="#ffffff" letter-spacing="0.2">PRESCRIPTIONS  [NEW]</text>
+<rect x="2711" y="212" width="338" height="28" fill="#ffffff"/>
+<text x="2718" y="231" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="2790" y="231" font-size="12.5" fill="#1e293b" font-weight="600">id</text>
+<rect x="3012" y="217" width="30" height="18" rx="9" fill="#fef3c7"/>
+<text x="3019" y="230.5" font-size="10" font-weight="bold" fill="#92400e">PK</text>
+<rect x="2711" y="240" width="338" height="28" fill="#f8fafc"/>
+<text x="2718" y="259" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="2790" y="259" font-size="12.5" fill="#1e293b" font-weight="600">tenant_id</text>
+<rect x="3012" y="245" width="30" height="18" rx="9" fill="#ede9fe"/>
+<text x="3019" y="258.5" font-size="10" font-weight="bold" fill="#5b21b6">FK</text>
+<rect x="2711" y="268" width="338" height="28" fill="#ffffff"/>
+<text x="2718" y="287" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="2790" y="287" font-size="12.5" fill="#1e293b" font-weight="600">file_id</text>
+<rect x="2711" y="296" width="338" height="28" fill="#f8fafc"/>
+<text x="2718" y="315" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="2790" y="315" font-size="12.5" fill="#1e293b" font-weight="600">uploaded_by</text>
+<rect x="3012" y="301" width="30" height="18" rx="9" fill="#ede9fe"/>
+<text x="3019" y="314.5" font-size="10" font-weight="bold" fill="#5b21b6">FK</text>
+<rect x="2711" y="324" width="338" height="28" fill="#ffffff"/>
+<text x="2718" y="343" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="2790" y="343" font-size="12.5" fill="#1e293b" font-weight="600">status</text>
+<rect x="2711" y="352" width="338" height="28" fill="#f8fafc"/>
+<text x="2718" y="371" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="2790" y="371" font-size="12.5" fill="#1e293b" font-weight="600">file_sha256</text>
+<rect x="2711" y="380" width="338" height="28" fill="#ffffff"/>
+<text x="2718" y="399" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">timestamp</text>
+<text x="2790" y="399" font-size="12.5" fill="#1e293b" font-weight="600">created_at</text>
+</g>
+<g id="table-PRESCRIPTION_ANALYSES" class="erd-table-group" data-table="PRESCRIPTION_ANALYSES" data-domain="ocr" style="cursor: pointer;">
+<rect x="2712" y="494" width="340" height="270" rx="8" fill="#0000000a"/>
+<rect id="box-PRESCRIPTION_ANALYSES" class="table-card" x="2710" y="492" width="340" height="270" rx="8" fill="#ffffff" stroke="#7c3aed" stroke-width="2.2"/>
+<rect x="2710" y="492" width="340" height="42" rx="8" fill="#7c3aed"/>
+<rect x="2710" y="526" width="340" height="8" fill="#7c3aed"/>
+<text x="2720" y="520" font-size="15" font-weight="700" fill="#ffffff" letter-spacing="0.2">PRESCRIPTION_ANALYSES  [NEW]</text>
+<rect x="2711" y="534" width="338" height="28" fill="#ffffff"/>
+<text x="2718" y="553" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="2790" y="553" font-size="12.5" fill="#1e293b" font-weight="600">id</text>
+<rect x="3012" y="539" width="30" height="18" rx="9" fill="#fef3c7"/>
+<text x="3019" y="552.5" font-size="10" font-weight="bold" fill="#92400e">PK</text>
+<rect x="2711" y="562" width="338" height="28" fill="#f8fafc"/>
+<text x="2718" y="581" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="2790" y="581" font-size="12.5" fill="#1e293b" font-weight="600">prescription_id</text>
+<rect x="3012" y="567" width="30" height="18" rx="9" fill="#ede9fe"/>
+<text x="3019" y="580.5" font-size="10" font-weight="bold" fill="#5b21b6">FK</text>
+<rect x="2711" y="590" width="338" height="28" fill="#ffffff"/>
+<text x="2718" y="609" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="2790" y="609" font-size="12.5" fill="#1e293b" font-weight="600">provider</text>
+<rect x="2711" y="618" width="338" height="28" fill="#f8fafc"/>
+<text x="2718" y="637" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="2790" y="637" font-size="12.5" fill="#1e293b" font-weight="600">model</text>
+<rect x="2711" y="646" width="338" height="28" fill="#ffffff"/>
+<text x="2718" y="665" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="2790" y="665" font-size="12.5" fill="#1e293b" font-weight="600">model_version</text>
+<rect x="2711" y="674" width="338" height="28" fill="#f8fafc"/>
+<text x="2718" y="693" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">int</text>
+<text x="2790" y="693" font-size="12.5" fill="#1e293b" font-weight="600">latency_ms</text>
+<rect x="2711" y="702" width="338" height="28" fill="#ffffff"/>
+<text x="2718" y="721" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="2790" y="721" font-size="12.5" fill="#1e293b" font-weight="600">status</text>
+<rect x="2711" y="730" width="338" height="28" fill="#f8fafc"/>
+<text x="2718" y="749" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">timestamp</text>
+<text x="2790" y="749" font-size="12.5" fill="#1e293b" font-weight="600">created_at</text>
+</g>
+<g id="table-PRESCRIPTION_ITEMS" class="erd-table-group" data-table="PRESCRIPTION_ITEMS" data-domain="ocr" style="cursor: pointer;">
+<rect x="2712" y="844" width="340" height="354" rx="8" fill="#0000000a"/>
+<rect id="box-PRESCRIPTION_ITEMS" class="table-card" x="2710" y="842" width="340" height="354" rx="8" fill="#ffffff" stroke="#7c3aed" stroke-width="2.2"/>
+<rect x="2710" y="842" width="340" height="42" rx="8" fill="#7c3aed"/>
+<rect x="2710" y="876" width="340" height="8" fill="#7c3aed"/>
+<text x="2720" y="870" font-size="15" font-weight="700" fill="#ffffff" letter-spacing="0.2">PRESCRIPTION_ITEMS  [NEW]</text>
+<rect x="2711" y="884" width="338" height="28" fill="#ffffff"/>
+<text x="2718" y="903" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="2790" y="903" font-size="12.5" fill="#1e293b" font-weight="600">id</text>
+<rect x="3012" y="889" width="30" height="18" rx="9" fill="#fef3c7"/>
+<text x="3019" y="902.5" font-size="10" font-weight="bold" fill="#92400e">PK</text>
+<rect x="2711" y="912" width="338" height="28" fill="#f8fafc"/>
+<text x="2718" y="931" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="2790" y="931" font-size="12.5" fill="#1e293b" font-weight="600">analysis_id</text>
+<rect x="3012" y="917" width="30" height="18" rx="9" fill="#ede9fe"/>
+<text x="3019" y="930.5" font-size="10" font-weight="bold" fill="#5b21b6">FK</text>
+<rect x="2711" y="940" width="338" height="28" fill="#ffffff"/>
+<text x="2718" y="959" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="2790" y="959" font-size="12.5" fill="#1e293b" font-weight="600">raw_name</text>
+<rect x="2711" y="968" width="338" height="28" fill="#f8fafc"/>
+<text x="2718" y="987" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="2790" y="987" font-size="12.5" fill="#1e293b" font-weight="600">normalized_name</text>
+<rect x="2711" y="996" width="338" height="28" fill="#ffffff"/>
+<text x="2718" y="1015" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="2790" y="1015" font-size="12.5" fill="#1e293b" font-weight="600">strength</text>
+<rect x="2711" y="1024" width="338" height="28" fill="#f8fafc"/>
+<text x="2718" y="1043" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="2790" y="1043" font-size="12.5" fill="#1e293b" font-weight="600">dosage_form</text>
+<rect x="2711" y="1052" width="338" height="28" fill="#ffffff"/>
+<text x="2718" y="1071" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">float</text>
+<text x="2790" y="1071" font-size="12.5" fill="#1e293b" font-weight="600">ocr_confidence</text>
+<rect x="2711" y="1080" width="338" height="28" fill="#f8fafc"/>
+<text x="2718" y="1099" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="2790" y="1099" font-size="12.5" fill="#1e293b" font-weight="600">match_status</text>
+<rect x="2711" y="1108" width="338" height="28" fill="#ffffff"/>
+<text x="2718" y="1127" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="2790" y="1127" font-size="12.5" fill="#1e293b" font-weight="600">matched_drug_id</text>
+<rect x="3012" y="1113" width="30" height="18" rx="9" fill="#ede9fe"/>
+<text x="3019" y="1126.5" font-size="10" font-weight="bold" fill="#5b21b6">FK</text>
+<rect x="2711" y="1136" width="338" height="28" fill="#f8fafc"/>
+<text x="2718" y="1155" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="2790" y="1155" font-size="12.5" fill="#1e293b" font-weight="600">pharmacist_decision</text>
+<rect x="2711" y="1164" width="338" height="28" fill="#ffffff"/>
+<text x="2718" y="1183" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">boolean</text>
+<text x="2790" y="1183" font-size="12.5" fill="#1e293b" font-weight="600">auto_corrected</text>
+</g>
+<g id="table-OCR_CORRECTIONS" class="erd-table-group" data-table="OCR_CORRECTIONS" data-domain="ocr" style="cursor: pointer;">
+<rect x="3152" y="172" width="340" height="326" rx="8" fill="#0000000a"/>
+<rect id="box-OCR_CORRECTIONS" class="table-card" x="3150" y="170" width="340" height="326" rx="8" fill="#ffffff" stroke="#7c3aed" stroke-width="2.2"/>
+<rect x="3150" y="170" width="340" height="42" rx="8" fill="#7c3aed"/>
+<rect x="3150" y="204" width="340" height="8" fill="#7c3aed"/>
+<text x="3160" y="198" font-size="15" font-weight="700" fill="#ffffff" letter-spacing="0.2">OCR_CORRECTIONS  [NEW]</text>
+<rect x="3151" y="212" width="338" height="28" fill="#ffffff"/>
+<text x="3158" y="231" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="3230" y="231" font-size="12.5" fill="#1e293b" font-weight="600">id</text>
+<rect x="3452" y="217" width="30" height="18" rx="9" fill="#fef3c7"/>
+<text x="3459" y="230.5" font-size="10" font-weight="bold" fill="#92400e">PK</text>
+<rect x="3151" y="240" width="338" height="28" fill="#f8fafc"/>
+<text x="3158" y="259" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="3230" y="259" font-size="12.5" fill="#1e293b" font-weight="600">tenant_id</text>
+<rect x="3452" y="245" width="30" height="18" rx="9" fill="#ede9fe"/>
+<text x="3459" y="258.5" font-size="10" font-weight="bold" fill="#5b21b6">FK</text>
+<rect x="3151" y="268" width="338" height="28" fill="#ffffff"/>
+<text x="3158" y="287" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="3230" y="287" font-size="12.5" fill="#1e293b" font-weight="600">wrong_reading_norm</text>
+<rect x="3151" y="296" width="338" height="28" fill="#f8fafc"/>
+<text x="3158" y="315" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="3230" y="315" font-size="12.5" fill="#1e293b" font-weight="600">corrected_name</text>
+<rect x="3151" y="324" width="338" height="28" fill="#ffffff"/>
+<text x="3158" y="343" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="3230" y="343" font-size="12.5" fill="#1e293b" font-weight="600">source</text>
+<rect x="3151" y="352" width="338" height="28" fill="#f8fafc"/>
+<text x="3158" y="371" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">int</text>
+<text x="3230" y="371" font-size="12.5" fill="#1e293b" font-weight="600">hit_count</text>
+<rect x="3151" y="380" width="338" height="28" fill="#ffffff"/>
+<text x="3158" y="399" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="3230" y="399" font-size="12.5" fill="#1e293b" font-weight="600">target_drug_id</text>
+<rect x="3452" y="385" width="30" height="18" rx="9" fill="#ede9fe"/>
+<text x="3459" y="398.5" font-size="10" font-weight="bold" fill="#5b21b6">FK</text>
+<rect x="3151" y="408" width="338" height="28" fill="#f8fafc"/>
+<text x="3158" y="427" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">float</text>
+<text x="3230" y="427" font-size="12.5" fill="#1e293b" font-weight="600">confidence_score</text>
+<rect x="3151" y="436" width="338" height="28" fill="#ffffff"/>
+<text x="3158" y="455" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="3230" y="455" font-size="12.5" fill="#1e293b" font-weight="600">status</text>
+<rect x="3151" y="464" width="338" height="28" fill="#f8fafc"/>
+<text x="3158" y="483" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">timestamp</text>
+<text x="3230" y="483" font-size="12.5" fill="#1e293b" font-weight="600">updated_at</text>
+</g>
+<g id="table-OCR_CORRECTION_EXAMPLES" class="erd-table-group" data-table="OCR_CORRECTION_EXAMPLES" data-domain="ocr" style="cursor: pointer;">
+<rect x="3152" y="578" width="340" height="242" rx="8" fill="#0000000a"/>
+<rect id="box-OCR_CORRECTION_EXAMPLES" class="table-card" x="3150" y="576" width="340" height="242" rx="8" fill="#ffffff" stroke="#7c3aed" stroke-width="2.2"/>
+<rect x="3150" y="576" width="340" height="42" rx="8" fill="#7c3aed"/>
+<rect x="3150" y="610" width="340" height="8" fill="#7c3aed"/>
+<text x="3160" y="604" font-size="15" font-weight="700" fill="#ffffff" letter-spacing="0.2">OCR_CORRECTION_EXAMPLES  [NEW]</text>
+<rect x="3151" y="618" width="338" height="28" fill="#ffffff"/>
+<text x="3158" y="637" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="3230" y="637" font-size="12.5" fill="#1e293b" font-weight="600">id</text>
+<rect x="3452" y="623" width="30" height="18" rx="9" fill="#fef3c7"/>
+<text x="3459" y="636.5" font-size="10" font-weight="bold" fill="#92400e">PK</text>
+<rect x="3151" y="646" width="338" height="28" fill="#f8fafc"/>
+<text x="3158" y="665" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="3230" y="665" font-size="12.5" fill="#1e293b" font-weight="600">correction_id</text>
+<rect x="3452" y="651" width="30" height="18" rx="9" fill="#ede9fe"/>
+<text x="3459" y="664.5" font-size="10" font-weight="bold" fill="#5b21b6">FK</text>
+<rect x="3151" y="674" width="338" height="28" fill="#ffffff"/>
+<text x="3158" y="693" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="3230" y="693" font-size="12.5" fill="#1e293b" font-weight="600">source_rx_id</text>
+<rect x="3452" y="679" width="30" height="18" rx="9" fill="#ede9fe"/>
+<text x="3459" y="692.5" font-size="10" font-weight="bold" fill="#5b21b6">FK</text>
+<rect x="3151" y="702" width="338" height="28" fill="#f8fafc"/>
+<text x="3158" y="721" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="3230" y="721" font-size="12.5" fill="#1e293b" font-weight="600">crop_storage_key</text>
+<rect x="3151" y="730" width="338" height="28" fill="#ffffff"/>
+<text x="3158" y="749" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="3230" y="749" font-size="12.5" fill="#1e293b" font-weight="600">raw_ocr</text>
+<rect x="3151" y="758" width="338" height="28" fill="#f8fafc"/>
+<text x="3158" y="777" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="3230" y="777" font-size="12.5" fill="#1e293b" font-weight="600">model_version</text>
+<rect x="3151" y="786" width="338" height="28" fill="#ffffff"/>
+<text x="3158" y="805" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">timestamp</text>
+<text x="3230" y="805" font-size="12.5" fill="#1e293b" font-weight="600">created_at</text>
+</g>
+<g id="table-SIMULATION_RUNS" class="erd-table-group" data-table="SIMULATION_RUNS" data-domain="finance" style="cursor: pointer;">
+<rect x="3152" y="900" width="340" height="326" rx="8" fill="#0000000a"/>
+<rect id="box-SIMULATION_RUNS" class="table-card" x="3150" y="898" width="340" height="326" rx="8" fill="#ffffff" stroke="#0891b2" stroke-width="2.2"/>
+<rect x="3150" y="898" width="340" height="42" rx="8" fill="#0891b2"/>
+<rect x="3150" y="932" width="340" height="8" fill="#0891b2"/>
+<text x="3160" y="926" font-size="15" font-weight="700" fill="#ffffff" letter-spacing="0.2">SIMULATION_RUNS  [NEW]</text>
+<rect x="3151" y="940" width="338" height="28" fill="#ffffff"/>
+<text x="3158" y="959" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="3230" y="959" font-size="12.5" fill="#1e293b" font-weight="600">run_id</text>
+<rect x="3452" y="945" width="30" height="18" rx="9" fill="#fef3c7"/>
+<text x="3459" y="958.5" font-size="10" font-weight="bold" fill="#92400e">PK</text>
+<rect x="3151" y="968" width="338" height="28" fill="#f8fafc"/>
+<text x="3158" y="987" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="3230" y="987" font-size="12.5" fill="#1e293b" font-weight="600">tenant_id</text>
+<rect x="3452" y="973" width="30" height="18" rx="9" fill="#ede9fe"/>
+<text x="3459" y="986.5" font-size="10" font-weight="bold" fill="#5b21b6">FK</text>
+<rect x="3151" y="996" width="338" height="28" fill="#ffffff"/>
+<text x="3158" y="1015" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="3230" y="1015" font-size="12.5" fill="#1e293b" font-weight="600">drug_id</text>
+<rect x="3452" y="1001" width="30" height="18" rx="9" fill="#ede9fe"/>
+<text x="3459" y="1014.5" font-size="10" font-weight="bold" fill="#5b21b6">FK</text>
+<rect x="3151" y="1024" width="338" height="28" fill="#f8fafc"/>
+<text x="3158" y="1043" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="3230" y="1043" font-size="12.5" fill="#1e293b" font-weight="600">scenario</text>
+<rect x="3151" y="1052" width="338" height="28" fill="#ffffff"/>
+<text x="3158" y="1071" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">numeric</text>
+<text x="3230" y="1071" font-size="12.5" fill="#1e293b" font-weight="600">unit_price</text>
+<rect x="3151" y="1080" width="338" height="28" fill="#f8fafc"/>
+<text x="3158" y="1099" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">numeric</text>
+<text x="3230" y="1099" font-size="12.5" fill="#1e293b" font-weight="600">discount_pct</text>
+<rect x="3151" y="1108" width="338" height="28" fill="#ffffff"/>
+<text x="3158" y="1127" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">numeric</text>
+<text x="3230" y="1127" font-size="12.5" fill="#1e293b" font-weight="600">volume_lift_pct</text>
+<rect x="3151" y="1136" width="338" height="28" fill="#f8fafc"/>
+<text x="3158" y="1155" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="3230" y="1155" font-size="12.5" fill="#1e293b" font-weight="600">verdict</text>
+<rect x="3151" y="1164" width="338" height="28" fill="#ffffff"/>
+<text x="3158" y="1183" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">numeric</text>
+<text x="3230" y="1183" font-size="12.5" fill="#1e293b" font-weight="600">expected_margin_total</text>
+<rect x="3151" y="1192" width="338" height="28" fill="#f8fafc"/>
+<text x="3158" y="1211" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">boolean</text>
+<text x="3230" y="1211" font-size="12.5" fill="#1e293b" font-weight="600">deployed</text>
+</g>
+<g id="table-SUPPLIERS" class="erd-table-group" data-table="SUPPLIERS" data-domain="finance" style="cursor: pointer;">
+<rect x="3592" y="172" width="340" height="326" rx="8" fill="#0000000a"/>
+<rect id="box-SUPPLIERS" class="table-card" x="3590" y="170" width="340" height="326" rx="8" fill="#ffffff" stroke="#0891b2" stroke-width="2.2"/>
+<rect x="3590" y="170" width="340" height="42" rx="8" fill="#0891b2"/>
+<rect x="3590" y="204" width="340" height="8" fill="#0891b2"/>
+<text x="3600" y="198" font-size="15" font-weight="700" fill="#ffffff" letter-spacing="0.2">SUPPLIERS  [NEW]</text>
+<rect x="3591" y="212" width="338" height="28" fill="#ffffff"/>
+<text x="3598" y="231" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="3670" y="231" font-size="12.5" fill="#1e293b" font-weight="600">supplier_id</text>
+<rect x="3892" y="217" width="30" height="18" rx="9" fill="#fef3c7"/>
+<text x="3899" y="230.5" font-size="10" font-weight="bold" fill="#92400e">PK</text>
+<rect x="3591" y="240" width="338" height="28" fill="#f8fafc"/>
+<text x="3598" y="259" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="3670" y="259" font-size="12.5" fill="#1e293b" font-weight="600">tenant_id</text>
+<rect x="3892" y="245" width="30" height="18" rx="9" fill="#ede9fe"/>
+<text x="3899" y="258.5" font-size="10" font-weight="bold" fill="#5b21b6">FK</text>
+<rect x="3591" y="268" width="338" height="28" fill="#ffffff"/>
+<text x="3598" y="287" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="3670" y="287" font-size="12.5" fill="#1e293b" font-weight="600">name</text>
+<rect x="3591" y="296" width="338" height="28" fill="#f8fafc"/>
+<text x="3598" y="315" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="3670" y="315" font-size="12.5" fill="#1e293b" font-weight="600">contact_person</text>
+<rect x="3591" y="324" width="338" height="28" fill="#ffffff"/>
+<text x="3598" y="343" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="3670" y="343" font-size="12.5" fill="#1e293b" font-weight="600">phone</text>
+<rect x="3591" y="352" width="338" height="28" fill="#f8fafc"/>
+<text x="3598" y="371" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="3670" y="371" font-size="12.5" fill="#1e293b" font-weight="600">email</text>
+<rect x="3591" y="380" width="338" height="28" fill="#ffffff"/>
+<text x="3598" y="399" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">text</text>
+<text x="3670" y="399" font-size="12.5" fill="#1e293b" font-weight="600">address</text>
+<rect x="3591" y="408" width="338" height="28" fill="#f8fafc"/>
+<text x="3598" y="427" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="3670" y="427" font-size="12.5" fill="#1e293b" font-weight="600">payment_terms</text>
+<rect x="3591" y="436" width="338" height="28" fill="#ffffff"/>
+<text x="3598" y="455" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">boolean</text>
+<text x="3670" y="455" font-size="12.5" fill="#1e293b" font-weight="600">is_active</text>
+<rect x="3591" y="464" width="338" height="28" fill="#f8fafc"/>
+<text x="3598" y="483" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">timestamp</text>
+<text x="3670" y="483" font-size="12.5" fill="#1e293b" font-weight="600">created_at</text>
+</g>
+<g id="table-PURCHASE_ORDERS" class="erd-table-group" data-table="PURCHASE_ORDERS" data-domain="finance" style="cursor: pointer;">
+<rect x="3592" y="578" width="340" height="298" rx="8" fill="#0000000a"/>
+<rect id="box-PURCHASE_ORDERS" class="table-card" x="3590" y="576" width="340" height="298" rx="8" fill="#ffffff" stroke="#0891b2" stroke-width="2.2"/>
+<rect x="3590" y="576" width="340" height="42" rx="8" fill="#0891b2"/>
+<rect x="3590" y="610" width="340" height="8" fill="#0891b2"/>
+<text x="3600" y="604" font-size="15" font-weight="700" fill="#ffffff" letter-spacing="0.2">PURCHASE_ORDERS  [NEW]</text>
+<rect x="3591" y="618" width="338" height="28" fill="#ffffff"/>
+<text x="3598" y="637" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="3670" y="637" font-size="12.5" fill="#1e293b" font-weight="600">po_id</text>
+<rect x="3892" y="623" width="30" height="18" rx="9" fill="#fef3c7"/>
+<text x="3899" y="636.5" font-size="10" font-weight="bold" fill="#92400e">PK</text>
+<rect x="3591" y="646" width="338" height="28" fill="#f8fafc"/>
+<text x="3598" y="665" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="3670" y="665" font-size="12.5" fill="#1e293b" font-weight="600">tenant_id</text>
+<rect x="3892" y="651" width="30" height="18" rx="9" fill="#ede9fe"/>
+<text x="3899" y="664.5" font-size="10" font-weight="bold" fill="#5b21b6">FK</text>
+<rect x="3591" y="674" width="338" height="28" fill="#ffffff"/>
+<text x="3598" y="693" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="3670" y="693" font-size="12.5" fill="#1e293b" font-weight="600">supplier_id</text>
+<rect x="3892" y="679" width="30" height="18" rx="9" fill="#ede9fe"/>
+<text x="3899" y="692.5" font-size="10" font-weight="bold" fill="#5b21b6">FK</text>
+<rect x="3591" y="702" width="338" height="28" fill="#f8fafc"/>
+<text x="3598" y="721" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="3670" y="721" font-size="12.5" fill="#1e293b" font-weight="600">po_number</text>
+<rect x="3591" y="730" width="338" height="28" fill="#ffffff"/>
+<text x="3598" y="749" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="3670" y="749" font-size="12.5" fill="#1e293b" font-weight="600">supplier_name</text>
+<rect x="3591" y="758" width="338" height="28" fill="#f8fafc"/>
+<text x="3598" y="777" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="3670" y="777" font-size="12.5" fill="#1e293b" font-weight="600">status</text>
+<rect x="3591" y="786" width="338" height="28" fill="#ffffff"/>
+<text x="3598" y="805" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">numeric</text>
+<text x="3670" y="805" font-size="12.5" fill="#1e293b" font-weight="600">total_estimated_cost</text>
+<rect x="3591" y="814" width="338" height="28" fill="#f8fafc"/>
+<text x="3598" y="833" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="3670" y="833" font-size="12.5" fill="#1e293b" font-weight="600">created_by</text>
+<rect x="3591" y="842" width="338" height="28" fill="#ffffff"/>
+<text x="3598" y="861" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">timestamp</text>
+<text x="3670" y="861" font-size="12.5" fill="#1e293b" font-weight="600">created_at</text>
+</g>
+<g id="table-PURCHASE_ORDER_ITEMS" class="erd-table-group" data-table="PURCHASE_ORDER_ITEMS" data-domain="finance" style="cursor: pointer;">
+<rect x="3592" y="956" width="340" height="270" rx="8" fill="#0000000a"/>
+<rect id="box-PURCHASE_ORDER_ITEMS" class="table-card" x="3590" y="954" width="340" height="270" rx="8" fill="#ffffff" stroke="#0891b2" stroke-width="2.2"/>
+<rect x="3590" y="954" width="340" height="42" rx="8" fill="#0891b2"/>
+<rect x="3590" y="988" width="340" height="8" fill="#0891b2"/>
+<text x="3600" y="982" font-size="15" font-weight="700" fill="#ffffff" letter-spacing="0.2">PURCHASE_ORDER_ITEMS  [NEW]</text>
+<rect x="3591" y="996" width="338" height="28" fill="#ffffff"/>
+<text x="3598" y="1015" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="3670" y="1015" font-size="12.5" fill="#1e293b" font-weight="600">item_id</text>
+<rect x="3892" y="1001" width="30" height="18" rx="9" fill="#fef3c7"/>
+<text x="3899" y="1014.5" font-size="10" font-weight="bold" fill="#92400e">PK</text>
+<rect x="3591" y="1024" width="338" height="28" fill="#f8fafc"/>
+<text x="3598" y="1043" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="3670" y="1043" font-size="12.5" fill="#1e293b" font-weight="600">po_id</text>
+<rect x="3892" y="1029" width="30" height="18" rx="9" fill="#ede9fe"/>
+<text x="3899" y="1042.5" font-size="10" font-weight="bold" fill="#5b21b6">FK</text>
+<rect x="3591" y="1052" width="338" height="28" fill="#ffffff"/>
+<text x="3598" y="1071" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="3670" y="1071" font-size="12.5" fill="#1e293b" font-weight="600">drug_id</text>
+<rect x="3892" y="1057" width="30" height="18" rx="9" fill="#ede9fe"/>
+<text x="3899" y="1070.5" font-size="10" font-weight="bold" fill="#5b21b6">FK</text>
+<rect x="3591" y="1080" width="338" height="28" fill="#f8fafc"/>
+<text x="3598" y="1099" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="3670" y="1099" font-size="12.5" fill="#1e293b" font-weight="600">drug_name</text>
+<rect x="3591" y="1108" width="338" height="28" fill="#ffffff"/>
+<text x="3598" y="1127" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">int</text>
+<text x="3670" y="1127" font-size="12.5" fill="#1e293b" font-weight="600">quantity_ordered</text>
+<rect x="3591" y="1136" width="338" height="28" fill="#f8fafc"/>
+<text x="3598" y="1155" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">int</text>
+<text x="3670" y="1155" font-size="12.5" fill="#1e293b" font-weight="600">quantity_received</text>
+<rect x="3591" y="1164" width="338" height="28" fill="#ffffff"/>
+<text x="3598" y="1183" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">numeric</text>
+<text x="3670" y="1183" font-size="12.5" fill="#1e293b" font-weight="600">unit_cost</text>
+<rect x="3591" y="1192" width="338" height="28" fill="#f8fafc"/>
+<text x="3598" y="1211" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">numeric</text>
+<text x="3670" y="1211" font-size="12.5" fill="#1e293b" font-weight="600">subtotal</text>
+</g>
+<g id="table-JOURNAL_ENTRIES" class="erd-table-group" data-table="JOURNAL_ENTRIES" data-domain="finance" style="cursor: pointer;">
+<rect x="4032" y="172" width="340" height="270" rx="8" fill="#0000000a"/>
+<rect id="box-JOURNAL_ENTRIES" class="table-card" x="4030" y="170" width="340" height="270" rx="8" fill="#ffffff" stroke="#0891b2" stroke-width="2.2"/>
+<rect x="4030" y="170" width="340" height="42" rx="8" fill="#0891b2"/>
+<rect x="4030" y="204" width="340" height="8" fill="#0891b2"/>
+<text x="4040" y="198" font-size="15" font-weight="700" fill="#ffffff" letter-spacing="0.2">JOURNAL_ENTRIES  [NEW]</text>
+<rect x="4031" y="212" width="338" height="28" fill="#ffffff"/>
+<text x="4038" y="231" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="4110" y="231" font-size="12.5" fill="#1e293b" font-weight="600">entry_id</text>
+<rect x="4332" y="217" width="30" height="18" rx="9" fill="#fef3c7"/>
+<text x="4339" y="230.5" font-size="10" font-weight="bold" fill="#92400e">PK</text>
+<rect x="4031" y="240" width="338" height="28" fill="#f8fafc"/>
+<text x="4038" y="259" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="4110" y="259" font-size="12.5" fill="#1e293b" font-weight="600">tenant_id</text>
+<rect x="4332" y="245" width="30" height="18" rx="9" fill="#ede9fe"/>
+<text x="4339" y="258.5" font-size="10" font-weight="bold" fill="#5b21b6">FK</text>
+<rect x="4031" y="268" width="338" height="28" fill="#ffffff"/>
+<text x="4038" y="287" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="4110" y="287" font-size="12.5" fill="#1e293b" font-weight="600">entry_number</text>
+<rect x="4031" y="296" width="338" height="28" fill="#f8fafc"/>
+<text x="4038" y="315" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">timestamp</text>
+<text x="4110" y="315" font-size="12.5" fill="#1e293b" font-weight="600">entry_date</text>
+<rect x="4031" y="324" width="338" height="28" fill="#ffffff"/>
+<text x="4038" y="343" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="4110" y="343" font-size="12.5" fill="#1e293b" font-weight="600">reference_type</text>
+<rect x="4031" y="352" width="338" height="28" fill="#f8fafc"/>
+<text x="4038" y="371" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">numeric</text>
+<text x="4110" y="371" font-size="12.5" fill="#1e293b" font-weight="600">total_debit</text>
+<rect x="4031" y="380" width="338" height="28" fill="#ffffff"/>
+<text x="4038" y="399" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">numeric</text>
+<text x="4110" y="399" font-size="12.5" fill="#1e293b" font-weight="600">total_credit</text>
+<rect x="4031" y="408" width="338" height="28" fill="#f8fafc"/>
+<text x="4038" y="427" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">boolean</text>
+<text x="4110" y="427" font-size="12.5" fill="#1e293b" font-weight="600">is_balanced</text>
+</g>
+<g id="table-JOURNAL_ENTRY_LINES" class="erd-table-group" data-table="JOURNAL_ENTRY_LINES" data-domain="finance" style="cursor: pointer;">
+<rect x="4032" y="522" width="340" height="242" rx="8" fill="#0000000a"/>
+<rect id="box-JOURNAL_ENTRY_LINES" class="table-card" x="4030" y="520" width="340" height="242" rx="8" fill="#ffffff" stroke="#0891b2" stroke-width="2.2"/>
+<rect x="4030" y="520" width="340" height="42" rx="8" fill="#0891b2"/>
+<rect x="4030" y="554" width="340" height="8" fill="#0891b2"/>
+<text x="4040" y="548" font-size="15" font-weight="700" fill="#ffffff" letter-spacing="0.2">JOURNAL_ENTRY_LINES  [NEW]</text>
+<rect x="4031" y="562" width="338" height="28" fill="#ffffff"/>
+<text x="4038" y="581" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="4110" y="581" font-size="12.5" fill="#1e293b" font-weight="600">line_id</text>
+<rect x="4332" y="567" width="30" height="18" rx="9" fill="#fef3c7"/>
+<text x="4339" y="580.5" font-size="10" font-weight="bold" fill="#92400e">PK</text>
+<rect x="4031" y="590" width="338" height="28" fill="#f8fafc"/>
+<text x="4038" y="609" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="4110" y="609" font-size="12.5" fill="#1e293b" font-weight="600">entry_id</text>
+<rect x="4332" y="595" width="30" height="18" rx="9" fill="#ede9fe"/>
+<text x="4339" y="608.5" font-size="10" font-weight="bold" fill="#5b21b6">FK</text>
+<rect x="4031" y="618" width="338" height="28" fill="#ffffff"/>
+<text x="4038" y="637" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="4110" y="637" font-size="12.5" fill="#1e293b" font-weight="600">account_code</text>
+<rect x="4031" y="646" width="338" height="28" fill="#f8fafc"/>
+<text x="4038" y="665" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="4110" y="665" font-size="12.5" fill="#1e293b" font-weight="600">account_name_ar</text>
+<rect x="4031" y="674" width="338" height="28" fill="#ffffff"/>
+<text x="4038" y="693" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="4110" y="693" font-size="12.5" fill="#1e293b" font-weight="600">account_type</text>
+<rect x="4031" y="702" width="338" height="28" fill="#f8fafc"/>
+<text x="4038" y="721" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">numeric</text>
+<text x="4110" y="721" font-size="12.5" fill="#1e293b" font-weight="600">debit</text>
+<rect x="4031" y="730" width="338" height="28" fill="#ffffff"/>
+<text x="4038" y="749" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">numeric</text>
+<text x="4110" y="749" font-size="12.5" fill="#1e293b" font-weight="600">credit</text>
+</g>
+<g id="table-AI_CHAT_LOGS" class="erd-table-group" data-table="AI_CHAT_LOGS" data-domain="ai" style="cursor: pointer;">
+<rect x="4032" y="844" width="340" height="298" rx="8" fill="#0000000a"/>
+<rect id="box-AI_CHAT_LOGS" class="table-card" x="4030" y="842" width="340" height="298" rx="8" fill="#ffffff" stroke="#e11d48" stroke-width="2.2"/>
+<rect x="4030" y="842" width="340" height="42" rx="8" fill="#e11d48"/>
+<rect x="4030" y="876" width="340" height="8" fill="#e11d48"/>
+<text x="4040" y="870" font-size="15" font-weight="700" fill="#ffffff" letter-spacing="0.2">AI_CHAT_LOGS  [NEW]</text>
+<rect x="4031" y="884" width="338" height="28" fill="#ffffff"/>
+<text x="4038" y="903" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="4110" y="903" font-size="12.5" fill="#1e293b" font-weight="600">log_id</text>
+<rect x="4332" y="889" width="30" height="18" rx="9" fill="#fef3c7"/>
+<text x="4339" y="902.5" font-size="10" font-weight="bold" fill="#92400e">PK</text>
+<rect x="4031" y="912" width="338" height="28" fill="#f8fafc"/>
+<text x="4038" y="931" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="4110" y="931" font-size="12.5" fill="#1e293b" font-weight="600">tenant_id</text>
+<rect x="4332" y="917" width="30" height="18" rx="9" fill="#ede9fe"/>
+<text x="4339" y="930.5" font-size="10" font-weight="bold" fill="#5b21b6">FK</text>
+<rect x="4031" y="940" width="338" height="28" fill="#ffffff"/>
+<text x="4038" y="959" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="4110" y="959" font-size="12.5" fill="#1e293b" font-weight="600">session_id</text>
+<rect x="4031" y="968" width="338" height="28" fill="#f8fafc"/>
+<text x="4038" y="987" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="4110" y="987" font-size="12.5" fill="#1e293b" font-weight="600">customer_id</text>
+<rect x="4332" y="973" width="30" height="18" rx="9" fill="#ede9fe"/>
+<text x="4339" y="986.5" font-size="10" font-weight="bold" fill="#5b21b6">FK</text>
+<rect x="4031" y="996" width="338" height="28" fill="#ffffff"/>
+<text x="4038" y="1015" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">text</text>
+<text x="4110" y="1015" font-size="12.5" fill="#1e293b" font-weight="600">user_prompt</text>
+<rect x="4031" y="1024" width="338" height="28" fill="#f8fafc"/>
+<text x="4038" y="1043" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">text</text>
+<text x="4110" y="1043" font-size="12.5" fill="#1e293b" font-weight="600">ai_response</text>
+<rect x="4031" y="1052" width="338" height="28" fill="#ffffff"/>
+<text x="4038" y="1071" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">boolean</text>
+<text x="4110" y="1071" font-size="12.5" fill="#1e293b" font-weight="600">ddi_detected</text>
+<rect x="4031" y="1080" width="338" height="28" fill="#f8fafc"/>
+<text x="4038" y="1099" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="4110" y="1099" font-size="12.5" fill="#1e293b" font-weight="600">escalation_status</text>
+<rect x="4031" y="1108" width="338" height="28" fill="#ffffff"/>
+<text x="4038" y="1127" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">int</text>
+<text x="4110" y="1127" font-size="12.5" fill="#1e293b" font-weight="600">response_time_ms</text>
+</g>
+<g id="table-AUTOMATION_RUNS" class="erd-table-group" data-table="AUTOMATION_RUNS" data-domain="ai" style="cursor: pointer;">
+<rect x="4472" y="172" width="340" height="354" rx="8" fill="#0000000a"/>
+<rect id="box-AUTOMATION_RUNS" class="table-card" x="4470" y="170" width="340" height="354" rx="8" fill="#ffffff" stroke="#e11d48" stroke-width="2.2"/>
+<rect x="4470" y="170" width="340" height="42" rx="8" fill="#e11d48"/>
+<rect x="4470" y="204" width="340" height="8" fill="#e11d48"/>
+<text x="4480" y="198" font-size="15" font-weight="700" fill="#ffffff" letter-spacing="0.2">AUTOMATION_RUNS  [NEW]</text>
+<rect x="4471" y="212" width="338" height="28" fill="#ffffff"/>
+<text x="4478" y="231" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="4550" y="231" font-size="12.5" fill="#1e293b" font-weight="600">id</text>
+<rect x="4772" y="217" width="30" height="18" rx="9" fill="#fef3c7"/>
+<text x="4779" y="230.5" font-size="10" font-weight="bold" fill="#92400e">PK</text>
+<rect x="4471" y="240" width="338" height="28" fill="#f8fafc"/>
+<text x="4478" y="259" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="4550" y="259" font-size="12.5" fill="#1e293b" font-weight="600">workflow_name</text>
+<rect x="4471" y="268" width="338" height="28" fill="#ffffff"/>
+<text x="4478" y="287" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="4550" y="287" font-size="12.5" fill="#1e293b" font-weight="600">tenant_id</text>
+<rect x="4772" y="273" width="30" height="18" rx="9" fill="#ede9fe"/>
+<text x="4779" y="286.5" font-size="10" font-weight="bold" fill="#5b21b6">FK</text>
+<rect x="4471" y="296" width="338" height="28" fill="#f8fafc"/>
+<text x="4478" y="315" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="4550" y="315" font-size="12.5" fill="#1e293b" font-weight="600">trigger_source</text>
+<rect x="4471" y="324" width="338" height="28" fill="#ffffff"/>
+<text x="4478" y="343" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="4550" y="343" font-size="12.5" fill="#1e293b" font-weight="600">status</text>
+<rect x="4471" y="352" width="338" height="28" fill="#f8fafc"/>
+<text x="4478" y="371" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">int</text>
+<text x="4550" y="371" font-size="12.5" fill="#1e293b" font-weight="600">attempts</text>
+<rect x="4471" y="380" width="338" height="28" fill="#ffffff"/>
+<text x="4478" y="399" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">int</text>
+<text x="4550" y="399" font-size="12.5" fill="#1e293b" font-weight="600">max_attempts</text>
+<rect x="4471" y="408" width="338" height="28" fill="#f8fafc"/>
+<text x="4478" y="427" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">text</text>
+<text x="4550" y="427" font-size="12.5" fill="#1e293b" font-weight="600">n8n_detail</text>
+<rect x="4471" y="436" width="338" height="28" fill="#ffffff"/>
+<text x="4478" y="455" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">text</text>
+<text x="4550" y="455" font-size="12.5" fill="#1e293b" font-weight="600">reason</text>
+<rect x="4471" y="464" width="338" height="28" fill="#f8fafc"/>
+<text x="4478" y="483" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">jsonb</text>
+<text x="4550" y="483" font-size="12.5" fill="#1e293b" font-weight="600">payload</text>
+<rect x="4471" y="492" width="338" height="28" fill="#ffffff"/>
+<text x="4478" y="511" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">timestamp</text>
+<text x="4550" y="511" font-size="12.5" fill="#1e293b" font-weight="600">created_at</text>
+</g>
+<g id="table-EMERGENCY_OUTBOX" class="erd-table-group" data-table="EMERGENCY_OUTBOX" data-domain="ai" style="cursor: pointer;">
+<rect x="4472" y="606" width="340" height="214" rx="8" fill="#0000000a"/>
+<rect id="box-EMERGENCY_OUTBOX" class="table-card" x="4470" y="604" width="340" height="214" rx="8" fill="#ffffff" stroke="#e11d48" stroke-width="2.2"/>
+<rect x="4470" y="604" width="340" height="42" rx="8" fill="#e11d48"/>
+<rect x="4470" y="638" width="340" height="8" fill="#e11d48"/>
+<text x="4480" y="632" font-size="15" font-weight="700" fill="#ffffff" letter-spacing="0.2">EMERGENCY_OUTBOX  [NEW]</text>
+<rect x="4471" y="646" width="338" height="28" fill="#ffffff"/>
+<text x="4478" y="665" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">int</text>
+<text x="4550" y="665" font-size="12.5" fill="#1e293b" font-weight="600">id</text>
+<rect x="4772" y="651" width="30" height="18" rx="9" fill="#fef3c7"/>
+<text x="4779" y="664.5" font-size="10" font-weight="bold" fill="#92400e">PK</text>
+<rect x="4471" y="674" width="338" height="28" fill="#f8fafc"/>
+<text x="4478" y="693" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="4550" y="693" font-size="12.5" fill="#1e293b" font-weight="600">tenant_id</text>
+<rect x="4772" y="679" width="30" height="18" rx="9" fill="#ede9fe"/>
+<text x="4779" y="692.5" font-size="10" font-weight="bold" fill="#5b21b6">FK</text>
+<rect x="4471" y="702" width="338" height="28" fill="#ffffff"/>
+<text x="4478" y="721" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">jsonb</text>
+<text x="4550" y="721" font-size="12.5" fill="#1e293b" font-weight="600">payload</text>
+<rect x="4471" y="730" width="338" height="28" fill="#f8fafc"/>
+<text x="4478" y="749" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="4550" y="749" font-size="12.5" fill="#1e293b" font-weight="600">status</text>
+<rect x="4471" y="758" width="338" height="28" fill="#ffffff"/>
+<text x="4478" y="777" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">int</text>
+<text x="4550" y="777" font-size="12.5" fill="#1e293b" font-weight="600">attempts</text>
+<rect x="4471" y="786" width="338" height="28" fill="#f8fafc"/>
+<text x="4478" y="805" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">timestamp</text>
+<text x="4550" y="805" font-size="12.5" fill="#1e293b" font-weight="600">created_at</text>
+</g>
+<g id="table-NOTIFICATIONS" class="erd-table-group" data-table="NOTIFICATIONS" data-domain="analytics" style="cursor: pointer;">
+<rect x="4912" y="172" width="340" height="270" rx="8" fill="#0000000a"/>
+<rect id="box-NOTIFICATIONS" class="table-card" x="4910" y="170" width="340" height="270" rx="8" fill="#ffffff" stroke="#475569" stroke-width="1.4"/>
+<rect x="4910" y="170" width="340" height="42" rx="8" fill="#475569"/>
+<rect x="4910" y="204" width="340" height="8" fill="#475569"/>
+<text x="4920" y="198" font-size="15" font-weight="700" fill="#ffffff" letter-spacing="0.2">NOTIFICATIONS</text>
+<rect x="4911" y="212" width="338" height="28" fill="#ffffff"/>
+<text x="4918" y="231" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="4990" y="231" font-size="12.5" fill="#1e293b" font-weight="600">notification_id</text>
+<rect x="5212" y="217" width="30" height="18" rx="9" fill="#fef3c7"/>
+<text x="5219" y="230.5" font-size="10" font-weight="bold" fill="#92400e">PK</text>
+<rect x="4911" y="240" width="338" height="28" fill="#f8fafc"/>
+<text x="4918" y="259" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="4990" y="259" font-size="12.5" fill="#1e293b" font-weight="600">tenant_id</text>
+<rect x="5212" y="245" width="30" height="18" rx="9" fill="#ede9fe"/>
+<text x="5219" y="258.5" font-size="10" font-weight="bold" fill="#5b21b6">FK</text>
+<rect x="4911" y="268" width="338" height="28" fill="#ffffff"/>
+<text x="4918" y="287" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="4990" y="287" font-size="12.5" fill="#1e293b" font-weight="600">customer_id</text>
+<rect x="5212" y="273" width="30" height="18" rx="9" fill="#ede9fe"/>
+<text x="5219" y="286.5" font-size="10" font-weight="bold" fill="#5b21b6">FK</text>
+<rect x="4911" y="296" width="338" height="28" fill="#f8fafc"/>
+<text x="4918" y="315" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="4990" y="315" font-size="12.5" fill="#1e293b" font-weight="600">notification_type</text>
+<rect x="4911" y="324" width="338" height="28" fill="#ffffff"/>
+<text x="4918" y="343" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="4990" y="343" font-size="12.5" fill="#1e293b" font-weight="600">channel</text>
+<rect x="4911" y="352" width="338" height="28" fill="#f8fafc"/>
+<text x="4918" y="371" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="4990" y="371" font-size="12.5" fill="#1e293b" font-weight="600">ab_variant</text>
+<rect x="4911" y="380" width="338" height="28" fill="#ffffff"/>
+<text x="4918" y="399" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="4990" y="399" font-size="12.5" fill="#1e293b" font-weight="600">status</text>
+<rect x="4911" y="408" width="338" height="28" fill="#f8fafc"/>
+<text x="4918" y="427" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">timestamp</text>
+<text x="4990" y="427" font-size="12.5" fill="#1e293b" font-weight="600">sent_at</text>
+</g>
+<g id="table-AB_TESTS" class="erd-table-group" data-table="AB_TESTS" data-domain="analytics" style="cursor: pointer;">
+<rect x="4912" y="522" width="340" height="242" rx="8" fill="#0000000a"/>
+<rect id="box-AB_TESTS" class="table-card" x="4910" y="520" width="340" height="242" rx="8" fill="#ffffff" stroke="#475569" stroke-width="2.2"/>
+<rect x="4910" y="520" width="340" height="42" rx="8" fill="#475569"/>
+<rect x="4910" y="554" width="340" height="8" fill="#475569"/>
+<text x="4920" y="548" font-size="15" font-weight="700" fill="#ffffff" letter-spacing="0.2">AB_TESTS  [NEW]</text>
+<rect x="4911" y="562" width="338" height="28" fill="#ffffff"/>
+<text x="4918" y="581" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="4990" y="581" font-size="12.5" fill="#1e293b" font-weight="600">test_id</text>
+<rect x="5212" y="567" width="30" height="18" rx="9" fill="#fef3c7"/>
+<text x="5219" y="580.5" font-size="10" font-weight="bold" fill="#92400e">PK</text>
+<rect x="4911" y="590" width="338" height="28" fill="#f8fafc"/>
+<text x="4918" y="609" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="4990" y="609" font-size="12.5" fill="#1e293b" font-weight="600">tenant_id</text>
+<rect x="5212" y="595" width="30" height="18" rx="9" fill="#ede9fe"/>
+<text x="5219" y="608.5" font-size="10" font-weight="bold" fill="#5b21b6">FK</text>
+<rect x="4911" y="618" width="338" height="28" fill="#ffffff"/>
+<text x="4918" y="637" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="4990" y="637" font-size="12.5" fill="#1e293b" font-weight="600">test_name</text>
+<rect x="4911" y="646" width="338" height="28" fill="#f8fafc"/>
+<text x="4918" y="665" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="4990" y="665" font-size="12.5" fill="#1e293b" font-weight="600">variant_a</text>
+<rect x="4911" y="674" width="338" height="28" fill="#ffffff"/>
+<text x="4918" y="693" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="4990" y="693" font-size="12.5" fill="#1e293b" font-weight="600">variant_b</text>
+<rect x="4911" y="702" width="338" height="28" fill="#f8fafc"/>
+<text x="4918" y="721" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">boolean</text>
+<text x="4990" y="721" font-size="12.5" fill="#1e293b" font-weight="600">is_active</text>
+<rect x="4911" y="730" width="338" height="28" fill="#ffffff"/>
+<text x="4918" y="749" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">timestamp</text>
+<text x="4990" y="749" font-size="12.5" fill="#1e293b" font-weight="600">created_at</text>
+</g>
+<g id="table-AB_TEST_RESULTS" class="erd-table-group" data-table="AB_TEST_RESULTS" data-domain="analytics" style="cursor: pointer;">
+<rect x="4912" y="844" width="340" height="214" rx="8" fill="#0000000a"/>
+<rect id="box-AB_TEST_RESULTS" class="table-card" x="4910" y="842" width="340" height="214" rx="8" fill="#ffffff" stroke="#475569" stroke-width="2.2"/>
+<rect x="4910" y="842" width="340" height="42" rx="8" fill="#475569"/>
+<rect x="4910" y="876" width="340" height="8" fill="#475569"/>
+<text x="4920" y="870" font-size="15" font-weight="700" fill="#ffffff" letter-spacing="0.2">AB_TEST_RESULTS  [NEW]</text>
+<rect x="4911" y="884" width="338" height="28" fill="#ffffff"/>
+<text x="4918" y="903" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="4990" y="903" font-size="12.5" fill="#1e293b" font-weight="600">result_id</text>
+<rect x="5212" y="889" width="30" height="18" rx="9" fill="#fef3c7"/>
+<text x="5219" y="902.5" font-size="10" font-weight="bold" fill="#92400e">PK</text>
+<rect x="4911" y="912" width="338" height="28" fill="#f8fafc"/>
+<text x="4918" y="931" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="4990" y="931" font-size="12.5" fill="#1e293b" font-weight="600">test_id</text>
+<rect x="5212" y="917" width="30" height="18" rx="9" fill="#ede9fe"/>
+<text x="5219" y="930.5" font-size="10" font-weight="bold" fill="#5b21b6">FK</text>
+<rect x="4911" y="940" width="338" height="28" fill="#ffffff"/>
+<text x="4918" y="959" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="4990" y="959" font-size="12.5" fill="#1e293b" font-weight="600">notification_id</text>
+<rect x="5212" y="945" width="30" height="18" rx="9" fill="#ede9fe"/>
+<text x="5219" y="958.5" font-size="10" font-weight="bold" fill="#5b21b6">FK</text>
+<rect x="4911" y="968" width="338" height="28" fill="#f8fafc"/>
+<text x="4918" y="987" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="4990" y="987" font-size="12.5" fill="#1e293b" font-weight="600">variant</text>
+<rect x="4911" y="996" width="338" height="28" fill="#ffffff"/>
+<text x="4918" y="1015" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">boolean</text>
+<text x="4990" y="1015" font-size="12.5" fill="#1e293b" font-weight="600">converted</text>
+<rect x="4911" y="1024" width="338" height="28" fill="#f8fafc"/>
+<text x="4918" y="1043" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">timestamp</text>
+<text x="4990" y="1043" font-size="12.5" fill="#1e293b" font-weight="600">created_at</text>
+</g>
+<g id="table-KNOWLEDGE_CHUNKS" class="erd-table-group" data-table="KNOWLEDGE_CHUNKS" data-domain="analytics" style="cursor: pointer;">
+<rect x="4912" y="1138" width="340" height="214" rx="8" fill="#0000000a"/>
+<rect id="box-KNOWLEDGE_CHUNKS" class="table-card" x="4910" y="1136" width="340" height="214" rx="8" fill="#ffffff" stroke="#475569" stroke-width="2.2"/>
+<rect x="4910" y="1136" width="340" height="42" rx="8" fill="#475569"/>
+<rect x="4910" y="1170" width="340" height="8" fill="#475569"/>
+<text x="4920" y="1164" font-size="15" font-weight="700" fill="#ffffff" letter-spacing="0.2">KNOWLEDGE_CHUNKS  [NEW]</text>
+<rect x="4911" y="1178" width="338" height="28" fill="#ffffff"/>
+<text x="4918" y="1197" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="4990" y="1197" font-size="12.5" fill="#1e293b" font-weight="600">chunk_id</text>
+<rect x="5212" y="1183" width="30" height="18" rx="9" fill="#fef3c7"/>
+<text x="5219" y="1196.5" font-size="10" font-weight="bold" fill="#92400e">PK</text>
+<rect x="4911" y="1206" width="338" height="28" fill="#f8fafc"/>
+<text x="4918" y="1225" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="4990" y="1225" font-size="12.5" fill="#1e293b" font-weight="600">tenant_id</text>
+<rect x="5212" y="1211" width="30" height="18" rx="9" fill="#ede9fe"/>
+<text x="5219" y="1224.5" font-size="10" font-weight="bold" fill="#5b21b6">FK</text>
+<rect x="4911" y="1234" width="338" height="28" fill="#ffffff"/>
+<text x="4918" y="1253" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="4990" y="1253" font-size="12.5" fill="#1e293b" font-weight="600">source_type</text>
+<rect x="4911" y="1262" width="338" height="28" fill="#f8fafc"/>
+<text x="4918" y="1281" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">text</text>
+<text x="4990" y="1281" font-size="12.5" fill="#1e293b" font-weight="600">content</text>
+<rect x="4911" y="1290" width="338" height="28" fill="#ffffff"/>
+<text x="4918" y="1309" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">vector</text>
+<text x="4990" y="1309" font-size="12.5" fill="#1e293b" font-weight="600">embedding</text>
+<rect x="4911" y="1318" width="338" height="28" fill="#f8fafc"/>
+<text x="4918" y="1337" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">timestamp</text>
+<text x="4990" y="1337" font-size="12.5" fill="#1e293b" font-weight="600">created_at</text>
+</g>
+<g id="table-COMPLAINTS" class="erd-table-group" data-table="COMPLAINTS" data-domain="customer" style="cursor: pointer;">
+<rect x="952" y="494" width="340" height="354" rx="8" fill="#0000000a"/>
+<rect id="box-COMPLAINTS" class="table-card" x="950" y="492" width="340" height="354" rx="8" fill="#ffffff" stroke="#0284c7" stroke-width="2.2"/>
+<rect x="950" y="492" width="340" height="42" rx="8" fill="#0284c7"/>
+<rect x="950" y="526" width="340" height="8" fill="#0284c7"/>
+<text x="960" y="520" font-size="15" font-weight="700" fill="#ffffff" letter-spacing="0.2">COMPLAINTS  [NEW]</text>
+<rect x="951" y="534" width="338" height="28" fill="#ffffff"/>
+<text x="958" y="553" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="1030" y="553" font-size="12.5" fill="#1e293b" font-weight="600">complaint_id</text>
+<rect x="1252" y="539" width="30" height="18" rx="9" fill="#fef3c7"/>
+<text x="1259" y="552.5" font-size="10" font-weight="bold" fill="#92400e">PK</text>
+<rect x="951" y="562" width="338" height="28" fill="#f8fafc"/>
+<text x="958" y="581" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="1030" y="581" font-size="12.5" fill="#1e293b" font-weight="600">tenant_id</text>
+<rect x="1252" y="567" width="30" height="18" rx="9" fill="#ede9fe"/>
+<text x="1259" y="580.5" font-size="10" font-weight="bold" fill="#5b21b6">FK</text>
+<rect x="951" y="590" width="338" height="28" fill="#ffffff"/>
+<text x="958" y="609" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="1030" y="609" font-size="12.5" fill="#1e293b" font-weight="600">customer_name</text>
+<rect x="951" y="618" width="338" height="28" fill="#f8fafc"/>
+<text x="958" y="637" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="1030" y="637" font-size="12.5" fill="#1e293b" font-weight="600">channel</text>
+<rect x="951" y="646" width="338" height="28" fill="#ffffff"/>
+<text x="958" y="665" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="1030" y="665" font-size="12.5" fill="#1e293b" font-weight="600">subject</text>
+<rect x="951" y="674" width="338" height="28" fill="#f8fafc"/>
+<text x="958" y="693" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">text</text>
+<text x="1030" y="693" font-size="12.5" fill="#1e293b" font-weight="600">message</text>
+<rect x="951" y="702" width="338" height="28" fill="#ffffff"/>
+<text x="958" y="721" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="1030" y="721" font-size="12.5" fill="#1e293b" font-weight="600">status</text>
+<rect x="951" y="730" width="338" height="28" fill="#f8fafc"/>
+<text x="958" y="749" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="1030" y="749" font-size="12.5" fill="#1e293b" font-weight="600">assigned_to</text>
+<rect x="951" y="758" width="338" height="28" fill="#ffffff"/>
+<text x="958" y="777" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">text</text>
+<text x="1030" y="777" font-size="12.5" fill="#1e293b" font-weight="600">resolution_note</text>
+<rect x="951" y="786" width="338" height="28" fill="#f8fafc"/>
+<text x="958" y="805" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">timestamp</text>
+<text x="1030" y="805" font-size="12.5" fill="#1e293b" font-weight="600">created_at</text>
+<rect x="951" y="814" width="338" height="28" fill="#ffffff"/>
+<text x="958" y="833" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">timestamp</text>
+<text x="1030" y="833" font-size="12.5" fill="#1e293b" font-weight="600">updated_at</text>
+</g>
+<g id="table-MARKET_INTELLIGENCE_ACTIONS" class="erd-table-group" data-table="MARKET_INTELLIGENCE_ACTIONS" data-domain="ai" style="cursor: pointer;">
+<rect x="4472" y="900" width="340" height="438" rx="8" fill="#0000000a"/>
+<rect id="box-MARKET_INTELLIGENCE_ACTIONS" class="table-card" x="4470" y="898" width="340" height="438" rx="8" fill="#ffffff" stroke="#e11d48" stroke-width="2.2"/>
+<rect x="4470" y="898" width="340" height="42" rx="8" fill="#e11d48"/>
+<rect x="4470" y="932" width="340" height="8" fill="#e11d48"/>
+<text x="4480" y="926" font-size="15" font-weight="700" fill="#ffffff" letter-spacing="0.2">MARKET_INTELLIGENCE_ACTIONS  [NEW]</text>
+<rect x="4471" y="940" width="338" height="28" fill="#ffffff"/>
+<text x="4478" y="959" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="4550" y="959" font-size="12.5" fill="#1e293b" font-weight="600">action_id</text>
+<rect x="4772" y="945" width="30" height="18" rx="9" fill="#fef3c7"/>
+<text x="4779" y="958.5" font-size="10" font-weight="bold" fill="#92400e">PK</text>
+<rect x="4471" y="968" width="338" height="28" fill="#f8fafc"/>
+<text x="4478" y="987" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="4550" y="987" font-size="12.5" fill="#1e293b" font-weight="600">tenant_id</text>
+<rect x="4772" y="973" width="30" height="18" rx="9" fill="#ede9fe"/>
+<text x="4779" y="986.5" font-size="10" font-weight="bold" fill="#5b21b6">FK</text>
+<rect x="4471" y="996" width="338" height="28" fill="#ffffff"/>
+<text x="4478" y="1015" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">uuid</text>
+<text x="4550" y="1015" font-size="12.5" fill="#1e293b" font-weight="600">drug_id</text>
+<rect x="4772" y="1001" width="30" height="18" rx="9" fill="#ede9fe"/>
+<text x="4779" y="1014.5" font-size="10" font-weight="bold" fill="#5b21b6">FK</text>
+<rect x="4471" y="1024" width="338" height="28" fill="#f8fafc"/>
+<text x="4478" y="1043" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="4550" y="1043" font-size="12.5" fill="#1e293b" font-weight="600">action_type</text>
+<rect x="4471" y="1052" width="338" height="28" fill="#ffffff"/>
+<text x="4478" y="1071" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="4550" y="1071" font-size="12.5" fill="#1e293b" font-weight="600">status</text>
+<rect x="4471" y="1080" width="338" height="28" fill="#f8fafc"/>
+<text x="4478" y="1099" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="4550" y="1099" font-size="12.5" fill="#1e293b" font-weight="600">priority</text>
+<rect x="4471" y="1108" width="338" height="28" fill="#ffffff"/>
+<text x="4478" y="1127" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="4550" y="1127" font-size="12.5" fill="#1e293b" font-weight="600">title</text>
+<rect x="4471" y="1136" width="338" height="28" fill="#f8fafc"/>
+<text x="4478" y="1155" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="4550" y="1155" font-size="12.5" fill="#1e293b" font-weight="600">drug_name</text>
+<rect x="4471" y="1164" width="338" height="28" fill="#ffffff"/>
+<text x="4478" y="1183" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="4550" y="1183" font-size="12.5" fill="#1e293b" font-weight="600">market_signal_id</text>
+<rect x="4471" y="1192" width="338" height="28" fill="#f8fafc"/>
+<text x="4478" y="1211" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">jsonb</text>
+<text x="4550" y="1211" font-size="12.5" fill="#1e293b" font-weight="600">parameters</text>
+<rect x="4471" y="1220" width="338" height="28" fill="#ffffff"/>
+<text x="4478" y="1239" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">jsonb</text>
+<text x="4550" y="1239" font-size="12.5" fill="#1e293b" font-weight="600">execution_result</text>
+<rect x="4471" y="1248" width="338" height="28" fill="#f8fafc"/>
+<text x="4478" y="1267" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="4550" y="1267" font-size="12.5" fill="#1e293b" font-weight="600">approved_by</text>
+<rect x="4471" y="1276" width="338" height="28" fill="#ffffff"/>
+<text x="4478" y="1295" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">timestamp</text>
+<text x="4550" y="1295" font-size="12.5" fill="#1e293b" font-weight="600">approved_at</text>
+<rect x="4471" y="1304" width="338" height="28" fill="#f8fafc"/>
+<text x="4478" y="1323" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">timestamp</text>
+<text x="4550" y="1323" font-size="12.5" fill="#1e293b" font-weight="600">executed_at</text>
+</g>
+<g id="table-PLATFORM_SETTINGS" class="erd-table-group" data-table="PLATFORM_SETTINGS" data-domain="core" style="cursor: pointer;">
+<rect x="72" y="1082" width="340" height="130" rx="8" fill="#0000000a"/>
+<rect id="box-PLATFORM_SETTINGS" class="table-card" x="70" y="1080" width="340" height="130" rx="8" fill="#ffffff" stroke="#4338ca" stroke-width="2.2"/>
+<rect x="70" y="1080" width="340" height="42" rx="8" fill="#4338ca"/>
+<rect x="70" y="1114" width="340" height="8" fill="#4338ca"/>
+<text x="80" y="1108" font-size="15" font-weight="700" fill="#ffffff" letter-spacing="0.2">PLATFORM_SETTINGS  [NEW]</text>
+<rect x="71" y="1122" width="338" height="28" fill="#ffffff"/>
+<text x="78" y="1141" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="150" y="1141" font-size="12.5" fill="#1e293b" font-weight="600">key</text>
+<rect x="372" y="1127" width="30" height="18" rx="9" fill="#fef3c7"/>
+<text x="379" y="1140.5" font-size="10" font-weight="bold" fill="#92400e">PK</text>
+<rect x="71" y="1150" width="338" height="28" fill="#f8fafc"/>
+<text x="78" y="1169" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">string</text>
+<text x="150" y="1169" font-size="12.5" fill="#1e293b" font-weight="600">value</text>
+<rect x="71" y="1178" width="338" height="28" fill="#ffffff"/>
+<text x="78" y="1197" font-size="11.5" fill="#94a3b8" font-family="Consolas, monospace">timestamp</text>
+<text x="150" y="1197" font-size="12.5" fill="#1e293b" font-weight="600">updated_at</text>
+</g>
+  </g>
+<text x="2660.0" y="1486" text-anchor="middle" font-size="13.5" fill="#94a3b8" font-weight="500">AI-COS Pharmacy · Graduation Project 2026/2027 · Faculty of Computers &amp; Informatics · Suez Canal University · ERD v7 Final Production</text>
+</svg>
+  </div>
+
+  <div class="controls-bar">
+    <button class="ctrl-btn" id="btn-zoom-in" title="تكبير (+)">➕</button>
+    <div class="zoom-label" id="zoom-label">100%</div>
+    <button class="ctrl-btn" id="btn-zoom-out" title="تصغير (-)">➖</button>
+    <div class="ctrl-sep"></div>
+    <button class="ctrl-btn" id="btn-reset" title="الحجم الأصلي الطبيعي">1:1 أصلي</button>
+    <button class="ctrl-btn" id="btn-fit" title="ملاءمة الشاشة">⊡ ملاءمة</button>
+    <div class="ctrl-sep"></div>
+    <button class="ctrl-btn" id="btn-fullscreen" title="ملء الشاشة">⛶ ملء الشاشة</button>
+  </div>
+
+  <div class="hint-badge">
+    💡 عجلة الفأرة للتكبير/التصغير · اسحب بالفأرة للتنقل · انقر على أي جدول أو تصنيف للتفاصيل
+  </div>
+</main>
+
+<!-- Side Inspector Drawer -->
+<aside class="inspector" id="inspector">
+  <div class="insp-head">
+    <h2 id="insp-title">اسم الجدول</h2>
+    <button class="close-insp" id="close-insp">✕</button>
+  </div>
+  <div class="insp-body">
+    <div class="insp-item">
+      <label>القطاع المعماري</label>
+      <span id="insp-domain" style="font-weight:700; color: #4338ca; font-size:13px;"></span>
+    </div>
+    <div class="insp-item">
+      <label>الوصف والدور الوظيفي في AI-COS</label>
+      <p id="insp-desc"></p>
+    </div>
+    <div class="insp-item">
+      <label>الحقول والمفاتيح (PK / FK)</label>
+      <div class="col-list" id="insp-cols"></div>
+    </div>
+  </div>
+</aside>
+
+<script>
+const META = {"TENANTS": {"name_ar": "سجل الصيدليات المشتركة بنظام Multi-Tenancy مع عزل كامل للبيانات والإعدادات.", "domain": "Multi-Tenant & Core", "domain_ar": "المستأجرون والنواة الإدارية", "color": "#4338ca", "fields": [{"name": "tenant_id", "type": "uuid", "key": "PK"}, {"name": "name", "type": "string", "key": null}, {"name": "subdomain", "type": "string", "key": null}, {"name": "vertical", "type": "string", "key": null}, {"name": "is_active", "type": "boolean", "key": null}, {"name": "created_at", "type": "timestamp", "key": null}]}, "TENANT_SETTINGS": {"name_ar": "تفضيلات الصيدلية: نمط المراجعة بالذكاء الاصطناعي، قنوات التنبيه، والاتصال السحابي.", "domain": "Multi-Tenant & Core", "domain_ar": "المستأجرون والنواة الإدارية", "color": "#4338ca", "fields": [{"name": "id", "type": "uuid", "key": "PK"}, {"name": "tenant_id", "type": "uuid", "key": "FK"}, {"name": "ai_review_mode", "type": "boolean", "key": null}, {"name": "enterprise_notifications", "type": "boolean", "key": null}, {"name": "cloud_ocr_allowed", "type": "boolean", "key": null}, {"name": "created_at", "type": "timestamp", "key": null}, {"name": "updated_at", "type": "timestamp", "key": null}]}, "AUDIT_LOGS": {"name_ar": "سجل الرقابة والأمان وتدقيق العمليات الحساسة والامتثال الطبي.", "domain": "Multi-Tenant & Core", "domain_ar": "المستأجرون والنواة الإدارية", "color": "#4338ca", "fields": [{"name": "log_id", "type": "uuid", "key": "PK"}, {"name": "tenant_id", "type": "uuid", "key": "FK"}, {"name": "actor_id", "type": "string", "key": null}, {"name": "action_type", "type": "string", "key": null}, {"name": "target_entity", "type": "string", "key": null}, {"name": "timestamp", "type": "timestamp", "key": null}]}, "CUSTOMERS": {"name_ar": "بيانات المرضى والعملاء، الهوية الرقمية، قنوات التواصل المفضلة، والفئات العمرية.", "domain": "Customer & Sessions", "domain_ar": "العملاء والجلسات وسجل النشاط", "color": "#0284c7", "fields": [{"name": "customer_id", "type": "uuid", "key": "PK"}, {"name": "auth_user_id", "type": "uuid", "key": null}, {"name": "tenant_id", "type": "uuid", "key": "FK"}, {"name": "email", "type": "string", "key": null}, {"name": "full_name", "type": "string", "key": null}, {"name": "phone", "type": "string", "key": null}, {"name": "age_group", "type": "string", "key": null}, {"name": "preferred_channel", "type": "string", "key": null}, {"name": "preferred_language", "type": "string", "key": null}, {"name": "role", "type": "string", "key": null}, {"name": "is_active", "type": "boolean", "key": null}, {"name": "created_at", "type": "timestamp", "key": null}]}, "SESSIONS": {"name_ar": "تتبع جلسات العملاء وأجهزتهم على التطبيق والويب.", "domain": "Customer & Sessions", "domain_ar": "العملاء والجلسات وسجل النشاط", "color": "#0284c7", "fields": [{"name": "session_id", "type": "uuid", "key": "PK"}, {"name": "tenant_id", "type": "uuid", "key": "FK"}, {"name": "customer_id", "type": "uuid", "key": "FK"}, {"name": "device_info", "type": "string", "key": null}, {"name": "created_at", "type": "timestamp", "key": null}]}, "EVENTS": {"name_ar": "تسجيل سلوك وتفاعلات العميل لحظياً مع التشفير التسلسلي لمنع التلاعب.", "domain": "Customer & Sessions", "domain_ar": "العملاء والجلسات وسجل النشاط", "color": "#0284c7", "fields": [{"name": "event_id", "type": "uuid", "key": "PK"}, {"name": "session_id", "type": "uuid", "key": "FK"}, {"name": "event_type", "type": "string", "key": null}, {"name": "payload", "type": "jsonb", "key": null}, {"name": "timestamp", "type": "timestamp", "key": null}, {"name": "prev_hash", "type": "string", "key": null}, {"name": "actor_id", "type": "uuid", "key": null}, {"name": "event_seq", "type": "bigint", "key": null}]}, "CONTACT_MESSAGES": {"name_ar": "رسائل الدعم الفني واستفسارات العملاء الموجهة لإدارة الصيدلية.", "domain": "Customer & Sessions", "domain_ar": "العملاء والجلسات وسجل النشاط", "color": "#0284c7", "fields": [{"name": "id", "type": "uuid", "key": "PK"}, {"name": "tenant_id", "type": "uuid", "key": "FK"}, {"name": "customer_id", "type": "uuid", "key": "FK"}, {"name": "first_name", "type": "string", "key": null}, {"name": "email", "type": "string", "key": null}, {"name": "message", "type": "string", "key": null}, {"name": "created_at", "type": "timestamp", "key": null}]}, "ORDERS": {"name_ar": "فواتير المبيعات وقناة الشراء وبيانات الشحن — الإجماليات تُحسب من ORDER_ITEMS (لا يوجد عمود إجمالي في القاعدة).", "domain": "Orders & Commerce", "domain_ar": "المبيعات والطلبات وكوبونات الخصم", "color": "#059669", "fields": [{"name": "order_id", "type": "uuid", "key": "PK"}, {"name": "tenant_id", "type": "uuid", "key": "FK"}, {"name": "customer_id", "type": "uuid", "key": "FK"}, {"name": "status", "type": "string", "key": null}, {"name": "channel", "type": "string", "key": null}, {"name": "payment_method", "type": "string", "key": null}, {"name": "shipping_address", "type": "text", "key": null}, {"name": "order_date", "type": "timestamp", "key": null}]}, "ORDER_ITEMS": {"name_ar": "بنود الفاتورة: تفاصيل الأدوية المباعة والكميات وأسعار البيع الفعلية.", "domain": "Orders & Commerce", "domain_ar": "المبيعات والطلبات وكوبونات الخصم", "color": "#059669", "fields": [{"name": "order_item_id", "type": "uuid", "key": "PK"}, {"name": "order_id", "type": "uuid", "key": "FK"}, {"name": "drug_id", "type": "uuid", "key": "FK"}, {"name": "quantity", "type": "int", "key": null}, {"name": "price", "type": "numeric", "key": null}]}, "COUPONS": {"name_ar": "أكواد الخصم والحملات الموجهة للمرضى المستهدفين للحد من التسرب.", "domain": "Orders & Commerce", "domain_ar": "المبيعات والطلبات وكوبونات الخصم", "color": "#059669", "fields": [{"name": "id", "type": "uuid", "key": "PK"}, {"name": "tenant_id", "type": "uuid", "key": "FK"}, {"name": "code", "type": "string", "key": null}, {"name": "discount_pct", "type": "int", "key": null}, {"name": "campaign_type", "type": "string", "key": null}, {"name": "drug_name", "type": "string", "key": null}, {"name": "channel", "type": "string", "key": null}, {"name": "used_order_id", "type": "uuid", "key": "FK"}, {"name": "expires_at", "type": "timestamp", "key": null}]}, "DRUGS": {"name_ar": "الكتالوج الطبي المركزي: المادة الفعالة، السعر، الجرعات، وتصنيف الأمراض المزمنة.", "domain": "Drug Catalog & Safety", "domain_ar": "كتالوج الأدوية والتفاعلات الدوائية", "color": "#d97706", "fields": [{"name": "drug_id", "type": "uuid", "key": "PK"}, {"name": "name", "type": "string", "key": null}, {"name": "category", "type": "string", "key": null}, {"name": "is_chronic", "type": "boolean", "key": null}, {"name": "base_price", "type": "numeric", "key": null}, {"name": "default_cycle_days", "type": "int", "key": null}, {"name": "active_ingredient", "type": "string", "key": null}, {"name": "dosage", "type": "string", "key": null}, {"name": "warnings", "type": "string", "key": null}, {"name": "is_verified", "type": "boolean", "key": null}, {"name": "vertical", "type": "string", "key": null}, {"name": "data_source", "type": "string", "key": null}]}, "DRUG_INTERACTIONS": {"name_ar": "قاعدة بيانات التعارضات الدوائية الخطرة (DDI) والتنبيه التلقائي للصيدلي.", "domain": "Drug Catalog & Safety", "domain_ar": "كتالوج الأدوية والتفاعلات الدوائية", "color": "#d97706", "fields": [{"name": "interaction_id", "type": "uuid", "key": "PK"}, {"name": "drug_id_a", "type": "uuid", "key": "FK"}, {"name": "drug_id_b", "type": "uuid", "key": "FK"}, {"name": "severity", "type": "string", "key": null}, {"name": "note", "type": "string", "key": null}]}, "DRUG_AFFINITIES": {"name_ar": "الارتباطات الدوائية التكميلية (Cross-selling الذكي مثل فيتامينات مع المضادات).", "domain": "Drug Catalog & Safety", "domain_ar": "كتالوج الأدوية والتفاعلات الدوائية", "color": "#d97706", "fields": [{"name": "affinity_id", "type": "uuid", "key": "PK"}, {"name": "drug_id_a", "type": "uuid", "key": "FK"}, {"name": "drug_id_b", "type": "uuid", "key": "FK"}, {"name": "affinity_type", "type": "string", "key": null}, {"name": "confidence_score", "type": "float", "key": null}]}, "INVENTORY_ITEMS": {"name_ar": "إدارة الأرصدة اللحظية، حد إعادة الطلب، وتكلفة المخزون لكل صيدلية.", "domain": "Inventory & Cycles", "domain_ar": "المخزون ودورات استهلاك المرضى", "color": "#0d9488", "fields": [{"name": "inventory_id", "type": "uuid", "key": "PK"}, {"name": "tenant_id", "type": "uuid", "key": "FK"}, {"name": "drug_id", "type": "uuid", "key": "FK"}, {"name": "stock_level", "type": "int", "key": null}, {"name": "reorder_point", "type": "int", "key": null}, {"name": "tenant_price", "type": "numeric", "key": null}, {"name": "is_active", "type": "boolean", "key": null}]}, "CUSTOMER_CYCLES": {"name_ar": "تتبع وتوقع دورة استهلاك أدوية الأمراض المزمنة لكل مريض بدقة إحصائية.", "domain": "Inventory & Cycles", "domain_ar": "المخزون ودورات استهلاك المرضى", "color": "#0d9488", "fields": [{"name": "customer_id", "type": "uuid", "key": "PK/FK"}, {"name": "drug_id", "type": "uuid", "key": "PK/FK"}, {"name": "avg_cycle_days", "type": "float", "key": null}, {"name": "last_purchase_date", "type": "date", "key": null}, {"name": "reminder_day", "type": "date", "key": null}]}, "PENDING_REMINDERS": {"name_ar": "جدولة إشعارات إعادة صرف الدواء عبر WhatsApp وSMS مع نسب الثقة التنبؤية.", "domain": "Inventory & Cycles", "domain_ar": "المخزون ودورات استهلاك المرضى", "color": "#0d9488", "fields": [{"name": "reminder_id", "type": "uuid", "key": "PK"}, {"name": "customer_id", "type": "uuid", "key": "FK"}, {"name": "drug_id", "type": "uuid", "key": "FK"}, {"name": "channel", "type": "string", "key": null}, {"name": "decision", "type": "string", "key": null}, {"name": "cycle_confidence", "type": "float", "key": null}, {"name": "churn_probability", "type": "float", "key": null}, {"name": "predicted_days", "type": "numeric", "key": null}, {"name": "status", "type": "string", "key": null}, {"name": "created_at", "type": "timestamp", "key": null}]}, "PRESCRIPTIONS": {"name_ar": "صور الروشتات الأصلية المرفوعة وحالات المعالجة وبصمة SHA256 للتحقق.", "domain": "Prescriptions & OCR [NEW]", "domain_ar": "الروشتات ومحرك OCR وحلقة التعلم", "color": "#7c3aed", "fields": [{"name": "id", "type": "uuid", "key": "PK"}, {"name": "tenant_id", "type": "uuid", "key": "FK"}, {"name": "file_id", "type": "string", "key": null}, {"name": "uploaded_by", "type": "uuid", "key": "FK"}, {"name": "status", "type": "string", "key": null}, {"name": "file_sha256", "type": "string", "key": null}, {"name": "created_at", "type": "timestamp", "key": null}]}, "PRESCRIPTION_ANALYSES": {"name_ar": "نتائج فحص الروشتة عبر TrOCR / Vision ومقاييس زمن الاستجابة والتوكنز.", "domain": "Prescriptions & OCR [NEW]", "domain_ar": "الروشتات ومحرك OCR وحلقة التعلم", "color": "#7c3aed", "fields": [{"name": "id", "type": "uuid", "key": "PK"}, {"name": "prescription_id", "type": "uuid", "key": "FK"}, {"name": "provider", "type": "string", "key": null}, {"name": "model", "type": "string", "key": null}, {"name": "model_version", "type": "string", "key": null}, {"name": "latency_ms", "type": "int", "key": null}, {"name": "status", "type": "string", "key": null}, {"name": "created_at", "type": "timestamp", "key": null}]}, "PRESCRIPTION_ITEMS": {"name_ar": "بنود الروشتة المستخرجة: الدواء، الجرعة، الثقة، والمطابقة مع كتالوج الصيدلية.", "domain": "Prescriptions & OCR [NEW]", "domain_ar": "الروشتات ومحرك OCR وحلقة التعلم", "color": "#7c3aed", "fields": [{"name": "id", "type": "uuid", "key": "PK"}, {"name": "analysis_id", "type": "uuid", "key": "FK"}, {"name": "raw_name", "type": "string", "key": null}, {"name": "normalized_name", "type": "string", "key": null}, {"name": "strength", "type": "string", "key": null}, {"name": "dosage_form", "type": "string", "key": null}, {"name": "ocr_confidence", "type": "float", "key": null}, {"name": "match_status", "type": "string", "key": null}, {"name": "matched_drug_id", "type": "uuid", "key": "FK"}, {"name": "pharmacist_decision", "type": "string", "key": null}, {"name": "auto_corrected", "type": "boolean", "key": null}]}, "OCR_CORRECTIONS": {"name_ar": "سجل تصحيحات الصيادلة اليدوية لقراءات OCR لتحسين دقة النموذج باستمرار.", "domain": "Prescriptions & OCR [NEW]", "domain_ar": "الروشتات ومحرك OCR وحلقة التعلم", "color": "#7c3aed", "fields": [{"name": "id", "type": "uuid", "key": "PK"}, {"name": "tenant_id", "type": "uuid", "key": "FK"}, {"name": "wrong_reading_norm", "type": "string", "key": null}, {"name": "corrected_name", "type": "string", "key": null}, {"name": "source", "type": "string", "key": null}, {"name": "hit_count", "type": "int", "key": null}, {"name": "target_drug_id", "type": "uuid", "key": "FK"}, {"name": "confidence_score", "type": "float", "key": null}, {"name": "status", "type": "string", "key": null}, {"name": "updated_at", "type": "timestamp", "key": null}]}, "OCR_CORRECTION_EXAMPLES": {"name_ar": "قصاصات صور الكلمات والخطوط اليدوية الصعبة لتغذية تدريب نماذج TrOCR.", "domain": "Prescriptions & OCR [NEW]", "domain_ar": "الروشتات ومحرك OCR وحلقة التعلم", "color": "#7c3aed", "fields": [{"name": "id", "type": "uuid", "key": "PK"}, {"name": "correction_id", "type": "uuid", "key": "FK"}, {"name": "source_rx_id", "type": "uuid", "key": "FK"}, {"name": "crop_storage_key", "type": "string", "key": null}, {"name": "raw_ocr", "type": "string", "key": null}, {"name": "model_version", "type": "string", "key": null}, {"name": "created_at", "type": "timestamp", "key": null}]}, "SIMULATION_RUNS": {"name_ar": "محاكاة مرونة الأسعار والخصومات وهوامش الربح المتوقعة قبل إطلاق الحملات.", "domain": "Procurement & Accounting [NEW]", "domain_ar": "المشتريات والمحاسبة ومحاكاة التسعير", "color": "#0891b2", "fields": [{"name": "run_id", "type": "uuid", "key": "PK"}, {"name": "tenant_id", "type": "uuid", "key": "FK"}, {"name": "drug_id", "type": "uuid", "key": "FK"}, {"name": "scenario", "type": "string", "key": null}, {"name": "unit_price", "type": "numeric", "key": null}, {"name": "discount_pct", "type": "numeric", "key": null}, {"name": "volume_lift_pct", "type": "numeric", "key": null}, {"name": "verdict", "type": "string", "key": null}, {"name": "expected_margin_total", "type": "numeric", "key": null}, {"name": "deployed", "type": "boolean", "key": null}]}, "SUPPLIERS": {"name_ar": "الموردون: جهات التوريد المرتبطة بأوامر الشراء (P2P) — إضافة v7.", "domain": "Procurement & Accounting [NEW]", "domain_ar": "المشتريات والمحاسبة ومحاكاة التسعير", "color": "#0891b2", "fields": [{"name": "supplier_id", "type": "uuid", "key": "PK"}, {"name": "tenant_id", "type": "uuid", "key": "FK"}, {"name": "name", "type": "string", "key": null}, {"name": "contact_person", "type": "string", "key": null}, {"name": "phone", "type": "string", "key": null}, {"name": "email", "type": "string", "key": null}, {"name": "address", "type": "text", "key": null}, {"name": "payment_terms", "type": "string", "key": null}, {"name": "is_active", "type": "boolean", "key": null}, {"name": "created_at", "type": "timestamp", "key": null}]}, "PURCHASE_ORDERS": {"name_ar": "أوامر الشراء وإعادة توريد الأدوية والمستلزمات من الموزعين والشركات.", "domain": "Procurement & Accounting [NEW]", "domain_ar": "المشتريات والمحاسبة ومحاكاة التسعير", "color": "#0891b2", "fields": [{"name": "po_id", "type": "uuid", "key": "PK"}, {"name": "tenant_id", "type": "uuid", "key": "FK"}, {"name": "supplier_id", "type": "uuid", "key": "FK"}, {"name": "po_number", "type": "string", "key": null}, {"name": "supplier_name", "type": "string", "key": null}, {"name": "status", "type": "string", "key": null}, {"name": "total_estimated_cost", "type": "numeric", "key": null}, {"name": "created_by", "type": "string", "key": null}, {"name": "created_at", "type": "timestamp", "key": null}]}, "PURCHASE_ORDER_ITEMS": {"name_ar": "تفاصيل أصناف أمر التوريد: الكميات المطلوبة والمستلمة وأسعار الشراء بالجملة.", "domain": "Procurement & Accounting [NEW]", "domain_ar": "المشتريات والمحاسبة ومحاكاة التسعير", "color": "#0891b2", "fields": [{"name": "item_id", "type": "uuid", "key": "PK"}, {"name": "po_id", "type": "uuid", "key": "FK"}, {"name": "drug_id", "type": "uuid", "key": "FK"}, {"name": "drug_name", "type": "string", "key": null}, {"name": "quantity_ordered", "type": "int", "key": null}, {"name": "quantity_received", "type": "int", "key": null}, {"name": "unit_cost", "type": "numeric", "key": null}, {"name": "subtotal", "type": "numeric", "key": null}]}, "JOURNAL_ENTRIES": {"name_ar": "قيود اليومية المحاسبية التلقائية بنظام القيد المزدوج المتوازن.", "domain": "Procurement & Accounting [NEW]", "domain_ar": "المشتريات والمحاسبة ومحاكاة التسعير", "color": "#0891b2", "fields": [{"name": "entry_id", "type": "uuid", "key": "PK"}, {"name": "tenant_id", "type": "uuid", "key": "FK"}, {"name": "entry_number", "type": "string", "key": null}, {"name": "entry_date", "type": "timestamp", "key": null}, {"name": "reference_type", "type": "string", "key": null}, {"name": "total_debit", "type": "numeric", "key": null}, {"name": "total_credit", "type": "numeric", "key": null}, {"name": "is_balanced", "type": "boolean", "key": null}]}, "JOURNAL_ENTRY_LINES": {"name_ar": "سطور القيد المالي: حسابات المدين والدائن المتوازنة لكل عملية تجارية.", "domain": "Procurement & Accounting [NEW]", "domain_ar": "المشتريات والمحاسبة ومحاكاة التسعير", "color": "#0891b2", "fields": [{"name": "line_id", "type": "uuid", "key": "PK"}, {"name": "entry_id", "type": "uuid", "key": "FK"}, {"name": "account_code", "type": "string", "key": null}, {"name": "account_name_ar", "type": "string", "key": null}, {"name": "account_type", "type": "string", "key": null}, {"name": "debit", "type": "numeric", "key": null}, {"name": "credit", "type": "numeric", "key": null}]}, "AI_CHAT_LOGS": {"name_ar": "سجل استفسارات العملاء للوكيل الصيدلي الذكي وتصنيف النوايا والتعارضات.", "domain": "AI Agents & Automations [NEW]", "domain_ar": "وكلاء الذكاء الاصطناعي والأتمتة", "color": "#e11d48", "fields": [{"name": "log_id", "type": "uuid", "key": "PK"}, {"name": "tenant_id", "type": "uuid", "key": "FK"}, {"name": "session_id", "type": "string", "key": null}, {"name": "customer_id", "type": "uuid", "key": "FK"}, {"name": "user_prompt", "type": "text", "key": null}, {"name": "ai_response", "type": "text", "key": null}, {"name": "ddi_detected", "type": "boolean", "key": null}, {"name": "escalation_status", "type": "string", "key": null}, {"name": "response_time_ms", "type": "int", "key": null}]}, "AUTOMATION_RUNS": {"name_ar": "مراقبة سير العمل المؤتمت في n8n وتتبع محاولات المعالجة التلقائية.", "domain": "AI Agents & Automations [NEW]", "domain_ar": "وكلاء الذكاء الاصطناعي والأتمتة", "color": "#e11d48", "fields": [{"name": "id", "type": "uuid", "key": "PK"}, {"name": "workflow_name", "type": "string", "key": null}, {"name": "tenant_id", "type": "uuid", "key": "FK"}, {"name": "trigger_source", "type": "string", "key": null}, {"name": "status", "type": "string", "key": null}, {"name": "attempts", "type": "int", "key": null}, {"name": "max_attempts", "type": "int", "key": null}, {"name": "n8n_detail", "type": "text", "key": null}, {"name": "reason", "type": "text", "key": null}, {"name": "payload", "type": "jsonb", "key": null}, {"name": "created_at", "type": "timestamp", "key": null}]}, "EMERGENCY_OUTBOX": {"name_ar": "صندوق رسائل الطوارئ الاحتياطي لضمان وصول التنبيهات الحرجة دون فقد.", "domain": "AI Agents & Automations [NEW]", "domain_ar": "وكلاء الذكاء الاصطناعي والأتمتة", "color": "#e11d48", "fields": [{"name": "id", "type": "int", "key": "PK"}, {"name": "tenant_id", "type": "uuid", "key": "FK"}, {"name": "payload", "type": "jsonb", "key": null}, {"name": "status", "type": "string", "key": null}, {"name": "attempts", "type": "int", "key": null}, {"name": "created_at", "type": "timestamp", "key": null}]}, "NOTIFICATIONS": {"name_ar": "سجل الإشعارات المرسلة عبر WhatsApp وSMS وحالات التسليم والتفاعل.", "domain": "Analytics, Testing & RAG", "domain_ar": "التحليلات واختبارات A/B وقاعدة المعرفة", "color": "#475569", "fields": [{"name": "notification_id", "type": "uuid", "key": "PK"}, {"name": "tenant_id", "type": "uuid", "key": "FK"}, {"name": "customer_id", "type": "uuid", "key": "FK"}, {"name": "notification_type", "type": "string", "key": null}, {"name": "channel", "type": "string", "key": null}, {"name": "ab_variant", "type": "string", "key": null}, {"name": "status", "type": "string", "key": null}, {"name": "sent_at", "type": "timestamp", "key": null}]}, "AB_TESTS": {"name_ar": "تجارب A/B لصياغة رسائل التذكير الطبية لقياس الأكثر فاعلية وتأثيراً.", "domain": "Analytics, Testing & RAG", "domain_ar": "التحليلات واختبارات A/B وقاعدة المعرفة", "color": "#475569", "fields": [{"name": "test_id", "type": "uuid", "key": "PK"}, {"name": "tenant_id", "type": "uuid", "key": "FK"}, {"name": "test_name", "type": "string", "key": null}, {"name": "variant_a", "type": "string", "key": null}, {"name": "variant_b", "type": "string", "key": null}, {"name": "is_active", "type": "boolean", "key": null}, {"name": "created_at", "type": "timestamp", "key": null}]}, "AB_TEST_RESULTS": {"name_ar": "معدلات التحويل والشراء الفعلي الناتجة عن كل نموذج رسالة في تجارب A/B.", "domain": "Analytics, Testing & RAG", "domain_ar": "التحليلات واختبارات A/B وقاعدة المعرفة", "color": "#475569", "fields": [{"name": "result_id", "type": "uuid", "key": "PK"}, {"name": "test_id", "type": "uuid", "key": "FK"}, {"name": "notification_id", "type": "uuid", "key": "FK"}, {"name": "variant", "type": "string", "key": null}, {"name": "converted", "type": "boolean", "key": null}, {"name": "created_at", "type": "timestamp", "key": null}]}, "KNOWLEDGE_CHUNKS": {"name_ar": "قاعدة المعرفة الصيدلانية ومتجهات RAG الرياضية لتوليد الإجابات الدقيقة.", "domain": "Analytics, Testing & RAG", "domain_ar": "التحليلات واختبارات A/B وقاعدة المعرفة", "color": "#475569", "fields": [{"name": "chunk_id", "type": "uuid", "key": "PK"}, {"name": "tenant_id", "type": "uuid", "key": "FK"}, {"name": "source_type", "type": "string", "key": null}, {"name": "content", "type": "text", "key": null}, {"name": "embedding", "type": "vector", "key": null}, {"name": "created_at", "type": "timestamp", "key": null}]}, "COMPLAINTS": {"name_ar": "دورة حياة الشكاوى (open → resolved) — يسجلها وكيل الدعم وتُقاس منها مدة الاستجابة (SLA).", "domain": "Customer & Sessions", "domain_ar": "العملاء والجلسات وسجل النشاط", "color": "#0284c7", "fields": [{"name": "complaint_id", "type": "uuid", "key": "PK"}, {"name": "tenant_id", "type": "uuid", "key": "FK"}, {"name": "customer_name", "type": "string", "key": null}, {"name": "channel", "type": "string", "key": null}, {"name": "subject", "type": "string", "key": null}, {"name": "message", "type": "text", "key": null}, {"name": "status", "type": "string", "key": null}, {"name": "assigned_to", "type": "string", "key": null}, {"name": "resolution_note", "type": "text", "key": null}, {"name": "created_at", "type": "timestamp", "key": null}, {"name": "updated_at", "type": "timestamp", "key": null}]}, "MARKET_INTELLIGENCE_ACTIONS": {"name_ar": "سلسلة حوكمة إجراءات ذكاء السوق: موافقة/رفض/تنفيذ موقّعة ومروية إلى سجل WORM الخارجي.", "domain": "AI Agents & Automations [NEW]", "domain_ar": "وكلاء الذكاء الاصطناعي والأتمتة", "color": "#e11d48", "fields": [{"name": "action_id", "type": "uuid", "key": "PK"}, {"name": "tenant_id", "type": "uuid", "key": "FK"}, {"name": "drug_id", "type": "uuid", "key": "FK"}, {"name": "action_type", "type": "string", "key": null}, {"name": "status", "type": "string", "key": null}, {"name": "priority", "type": "string", "key": null}, {"name": "title", "type": "string", "key": null}, {"name": "drug_name", "type": "string", "key": null}, {"name": "market_signal_id", "type": "string", "key": null}, {"name": "parameters", "type": "jsonb", "key": null}, {"name": "execution_result", "type": "jsonb", "key": null}, {"name": "approved_by", "type": "string", "key": null}, {"name": "approved_at", "type": "timestamp", "key": null}, {"name": "executed_at", "type": "timestamp", "key": null}]}, "PLATFORM_SETTINGS": {"name_ar": "إعدادات على مستوى المنصة كاملة (مفتاح/قيمة) — أشهرها active_vertical لمحور المتاجر المتعددة.", "domain": "Multi-Tenant & Core", "domain_ar": "المستأجرون والنواة الإدارية", "color": "#4338ca", "fields": [{"name": "key", "type": "string", "key": "PK"}, {"name": "value", "type": "string", "key": null}, {"name": "updated_at", "type": "timestamp", "key": null}]}};
+const SVG_W = 5320;
+const SVG_H = 1520;
+
+let scale = 1.0;
+let translateX = 0;
+let translateY = 0;
+let isDragging = false;
+let startX = 0, startY = 0;
+
+const panzoomLayer = document.getElementById('panzoom-layer');
+const canvasWrapper = document.getElementById('canvas-wrapper');
+const zoomLabel = document.getElementById('zoom-label');
+const searchInput = document.getElementById('search-input');
+const datalist = document.getElementById('tables-list');
+const inspector = document.getElementById('inspector');
+
+// Populate Search Datalist
+for (const [id, m] of Object.entries(META)) {
+  const opt = document.createElement('option');
+  opt.value = id;
+  opt.label = `${m.domain_ar} (${id})`;
+  datalist.appendChild(opt);
+}
+
+function updateTransform() {
+  panzoomLayer.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+  zoomLabel.textContent = Math.round(scale * 100) + '%';
+}
+
+function fitToScreen() {
+  const r = canvasWrapper.getBoundingClientRect();
+  const pad = 30;
+  const scaleX = (r.width - pad * 2) / SVG_W;
+  const scaleY = (r.height - pad * 2) / SVG_H;
+  scale = Math.min(scaleX, scaleY);
+  scale = Math.min(Math.max(scale, 0.35), 1.2);
+  translateX = (r.width - SVG_W * scale) / 2;
+  translateY = Math.max(15, (r.height - SVG_H * scale) / 2);
+  updateTransform();
+}
+
+function zoomAt(factor, clientX, clientY) {
+  const r = canvasWrapper.getBoundingClientRect();
+  const x = clientX !== undefined ? clientX - r.left : r.width / 2;
+  const y = clientY !== undefined ? clientY - r.top : r.height / 2;
+  const newScale = Math.min(Math.max(scale * factor, 0.25), 3.5);
+  const ratio = newScale / scale;
+  translateX = x - (x - translateX) * ratio;
+  translateY = y - (y - translateY) * ratio;
+  scale = newScale;
+  updateTransform();
+}
+
+// Mouse Pan and Zoom
+canvasWrapper.addEventListener('wheel', (e) => {
+  e.preventDefault();
+  const factor = e.deltaY < 0 ? 1.15 : 0.87;
+  zoomAt(factor, e.clientX, e.clientY);
+}, { passive: false });
+
+canvasWrapper.addEventListener('mousedown', (e) => {
+  if (e.button !== 0) return;
+  isDragging = true;
+  startX = e.clientX - translateX;
+  startY = e.clientY - translateY;
+});
+
+window.addEventListener('mousemove', (e) => {
+  if (!isDragging) return;
+  translateX = e.clientX - startX;
+  translateY = e.clientY - startY;
+  updateTransform();
+});
+
+window.addEventListener('mouseup', () => {
+  isDragging = false;
+});
+
+// Touch gestures
+let lastTouchDist = 0;
+canvasWrapper.addEventListener('touchstart', (e) => {
+  if (e.touches.length === 1) {
+    isDragging = true;
+    startX = e.touches[0].clientX - translateX;
+    startY = e.touches[0].clientY - translateY;
+  } else if (e.touches.length === 2) {
+    isDragging = false;
+    lastTouchDist = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+  }
+}, { passive: false });
+
+canvasWrapper.addEventListener('touchmove', (e) => {
+  if (e.touches.length === 1 && isDragging) {
+    translateX = e.touches[0].clientX - startX;
+    translateY = e.touches[0].clientY - startY;
+    updateTransform();
+  } else if (e.touches.length === 2) {
+    e.preventDefault();
+    const dist = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+    if (lastTouchDist > 0) {
+      const factor = dist / lastTouchDist;
+      const midX = (e.touches[0].clientX + e.touches[1].clientX) / 2;
+      const midY = (e.touches[0].clientY + e.touches[1].clientY) / 2;
+      zoomAt(factor, midX, midY);
+    }
+    lastTouchDist = dist;
+  }
+}, { passive: false });
+
+canvasWrapper.addEventListener('touchend', () => {
+  isDragging = false;
+  lastTouchDist = 0;
+});
+
+// Buttons
+document.getElementById('btn-zoom-in').addEventListener('click', () => zoomAt(1.2));
+document.getElementById('btn-zoom-out').addEventListener('click', () => zoomAt(0.8));
+document.getElementById('btn-fit').addEventListener('click', fitToScreen);
+document.getElementById('btn-reset').addEventListener('click', () => {
+  scale = 1.0;
+  const r = canvasWrapper.getBoundingClientRect();
+  translateX = (r.width - SVG_W) / 2;
+  translateY = Math.max(20, (r.height - SVG_H) / 2);
+  updateTransform();
+});
+
+document.getElementById('btn-fullscreen').addEventListener('click', () => {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen();
+  } else {
+    document.exitFullscreen();
+  }
+});
+
+// Table Clicking & Inspector
+document.querySelectorAll('.erd-table-group').forEach(grp => {
+  grp.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const tid = grp.getAttribute('data-table');
+    openInspector(tid);
+  });
+});
+
+function openInspector(tid) {
+  const m = META[tid];
+  if (!m) return;
+  document.getElementById('insp-title').textContent = tid;
+  document.getElementById('insp-domain').textContent = `${m.domain_ar} (${m.domain})`;
+  document.getElementById('insp-domain').style.color = m.color;
+  document.getElementById('insp-desc').textContent = m.name_ar;
+
+  let colsHtml = '';
+  m.fields.forEach(f => {
+    let badge = '';
+    if (f.key === 'PK') badge = '<span style="color:#d97706;font-weight:700;">[PK]</span> ';
+    else if (f.key === 'FK') badge = '<span style="color:#7c3aed;font-weight:700;">[FK]</span> ';
+    else if (f.key === 'PK/FK') badge = '<span style="color:#0284c7;font-weight:700;">[PK/FK]</span> ';
+    colsHtml += `<div class="col-row"><span>${f.name}</span><span style="color:#94a3b8;">${f.type} ${badge}</span></div>`;
+  });
+  document.getElementById('insp-cols').innerHTML = colsHtml;
+  inspector.classList.add('open');
+
+  // Highlight table
+  document.querySelectorAll('.erd-table-group').forEach(g => {
+    g.classList.toggle('spotlight-active', g.getAttribute('data-table') === tid);
+  });
+  setTimeout(() => {
+    document.querySelectorAll('.erd-table-group').forEach(g => g.classList.remove('spotlight-active'));
+  }, 4000);
+}
+
+document.getElementById('close-insp').addEventListener('click', () => {
+  inspector.classList.remove('open');
+});
+
+canvasWrapper.addEventListener('click', () => {
+  inspector.classList.remove('open');
+  document.querySelectorAll('.erd-table-group, .erd-rel').forEach(el => {
+    el.classList.remove('dimmed', 'highlighted', 'spotlight-active');
+  });
+});
+
+// Search Handler
+searchInput.addEventListener('change', (e) => {
+  const q = e.target.value.trim().toUpperCase();
+  if (!q) return;
+  const grp = document.getElementById('table-' + q);
+  if (!grp) {
+    alert('الجدول ' + q + ' غير موجود.');
+    return;
+  }
+  openInspector(q);
+  // Center camera on table
+  const bbox = grp.getBBox();
+  const r = canvasWrapper.getBoundingClientRect();
+  scale = 1.15;
+  translateX = (r.width / 2) - (bbox.x + bbox.width / 2) * scale;
+  translateY = (r.height / 2) - (bbox.y + bbox.height / 2) * scale;
+  updateTransform();
+});
+
+// Domain Chip Filtering
+document.querySelectorAll('.legend-chip').forEach(chip => {
+  chip.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const dkey = chip.getAttribute('data-domain');
+    const allGroups = document.querySelectorAll('.erd-table-group');
+    const allRels = document.querySelectorAll('.erd-rel');
+    
+    allGroups.forEach(g => {
+      const match = g.getAttribute('data-domain') === dkey;
+      g.classList.toggle('dimmed', !match);
+      g.classList.toggle('highlighted', match);
+    });
+  });
+});
+
+// Export SVG
+document.getElementById('btn-dl-svg').addEventListener('click', () => {
+  const svg = document.getElementById('main-erd-svg');
+  const serializer = new XMLSerializer();
+  const src = '<?xml version="1.0" standalone="no"?>\r\n' + serializer.serializeToString(svg);
+  const blob = new Blob([src], {type: "image/svg+xml;charset=utf-8"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'AI-COS-Pharmacy-ERD-v7.svg';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+});
+
+// Initial fit on load
+window.addEventListener('load', fitToScreen);
+window.addEventListener('resize', fitToScreen);
+setTimeout(fitToScreen, 100);
+</script>
+</body>
+</html>
