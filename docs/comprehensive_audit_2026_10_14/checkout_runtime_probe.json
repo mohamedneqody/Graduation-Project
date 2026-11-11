@@ -1,0 +1,7 @@
+{
+  "tls_verified": true,
+  "runtime_guard": true,
+  "checkout_columns_present": true,
+  "pooled_tenant_context_cleared": true,
+  "advisory_lock_blocks_competitor_and_releases_on_rollback": true
+}

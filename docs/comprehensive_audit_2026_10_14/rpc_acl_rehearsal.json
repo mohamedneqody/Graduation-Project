@@ -1,0 +1,10 @@
+{
+  "committed": false,
+  "functions_checked": 7,
+  "target_functions_invoked": false,
+  "business_rows_modified": false,
+  "backend_execute_preserved": true,
+  "acl_snapshot": "D:\\Graduation Project\\docs\\comprehensive_audit_2026_10_14\\rpc_acl_before_20261015T081946Z.json",
+  "live_revision": "20261014_dispensing_integrity",
+  "public_execute_blocked": false
+}

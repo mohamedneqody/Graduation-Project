@@ -1,0 +1,196 @@
+{
+  "checked_at_utc": "2026-10-23T14:00:32.351690+00:00",
+  "scope": "Supabase runtime-role schema metadata only",
+  "public_data_read": false,
+  "public_data_modified": false,
+  "schema_modified": false,
+  "external_messages_sent": false,
+  "live_concurrency_tested": false,
+  "limitations": [
+    "Metadata compatibility does not test claim/completion execution or concurrency.",
+    "Privilege availability and enabled/forced RLS do not prove policy semantics.",
+    "No workflow, worker, application or provider delivery was executed."
+  ],
+  "cloud_host_guard_passed": true,
+  "tls_hostname_verified": true,
+  "transaction_read_only": true,
+  "runtime_role": {
+    "role_name": "aicos_runtime",
+    "rolsuper": false,
+    "rolbypassrls": false,
+    "rolcreaterole": false,
+    "rolcreatedb": false
+  },
+  "tables": [
+    {
+      "table_name": "automation_runs",
+      "rls_enabled": true,
+      "rls_forced": true,
+      "runtime_owns_table": false
+    },
+    {
+      "table_name": "customers",
+      "rls_enabled": true,
+      "rls_forced": true,
+      "runtime_owns_table": false
+    },
+    {
+      "table_name": "drugs",
+      "rls_enabled": true,
+      "rls_forced": true,
+      "runtime_owns_table": false
+    },
+    {
+      "table_name": "emergency_outbox",
+      "rls_enabled": true,
+      "rls_forced": true,
+      "runtime_owns_table": false
+    },
+    {
+      "table_name": "pending_reminders",
+      "rls_enabled": true,
+      "rls_forced": true,
+      "runtime_owns_table": false
+    }
+  ],
+  "columns": [
+    {
+      "table_name": "automation_runs",
+      "column_name": "payload",
+      "data_type": "jsonb",
+      "character_maximum_length": null,
+      "is_nullable": "YES"
+    },
+    {
+      "table_name": "automation_runs",
+      "column_name": "status",
+      "data_type": "character varying",
+      "character_maximum_length": 32,
+      "is_nullable": "NO"
+    },
+    {
+      "table_name": "emergency_outbox",
+      "column_name": "attempts",
+      "data_type": "integer",
+      "character_maximum_length": null,
+      "is_nullable": "YES"
+    },
+    {
+      "table_name": "emergency_outbox",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "character_maximum_length": null,
+      "is_nullable": "YES"
+    },
+    {
+      "table_name": "emergency_outbox",
+      "column_name": "id",
+      "data_type": "integer",
+      "character_maximum_length": null,
+      "is_nullable": "NO"
+    },
+    {
+      "table_name": "emergency_outbox",
+      "column_name": "payload",
+      "data_type": "jsonb",
+      "character_maximum_length": null,
+      "is_nullable": "NO"
+    },
+    {
+      "table_name": "emergency_outbox",
+      "column_name": "sent_at",
+      "data_type": "timestamp with time zone",
+      "character_maximum_length": null,
+      "is_nullable": "YES"
+    },
+    {
+      "table_name": "emergency_outbox",
+      "column_name": "status",
+      "data_type": "character varying",
+      "character_maximum_length": 16,
+      "is_nullable": "YES"
+    },
+    {
+      "table_name": "emergency_outbox",
+      "column_name": "tenant_id",
+      "data_type": "uuid",
+      "character_maximum_length": null,
+      "is_nullable": "YES"
+    },
+    {
+      "table_name": "pending_reminders",
+      "column_name": "status",
+      "data_type": "character varying",
+      "character_maximum_length": 20,
+      "is_nullable": "NO"
+    }
+  ],
+  "required_runtime_privileges": {
+    "automation_runs": {
+      "SELECT": true,
+      "INSERT": true,
+      "UPDATE": true
+    },
+    "pending_reminders": {
+      "SELECT": true,
+      "UPDATE": true
+    },
+    "emergency_outbox": {
+      "SELECT": true,
+      "INSERT": true,
+      "UPDATE": true
+    },
+    "customers": {
+      "SELECT": true
+    },
+    "drugs": {
+      "SELECT": true
+    }
+  },
+  "emergency_outbox_id_sequence_privileges": {
+    "sequence_exists": true,
+    "USAGE": true,
+    "SELECT": false
+  },
+  "status_constraints": {
+    "automation_runs": {
+      "status_check_constraints": [],
+      "compatible": true,
+      "basis": "No status CHECK constraints"
+    },
+    "pending_reminders": {
+      "status_check_constraints": [],
+      "compatible": true,
+      "basis": "No status CHECK constraints"
+    },
+    "emergency_outbox": {
+      "status_check_constraints": [],
+      "compatible": true,
+      "basis": "No status CHECK constraints"
+    }
+  },
+  "checks": {
+    "automation_runs_status_capacity": true,
+    "automation_runs_rls_enabled_and_forced": true,
+    "automation_runs_runtime_not_owner": true,
+    "pending_reminders_status_capacity": true,
+    "pending_reminders_rls_enabled_and_forced": true,
+    "pending_reminders_runtime_not_owner": true,
+    "emergency_outbox_status_capacity": true,
+    "emergency_outbox_rls_enabled_and_forced": true,
+    "emergency_outbox_runtime_not_owner": true,
+    "automation_runs_payload_jsonb": true,
+    "emergency_outbox_id_type": true,
+    "emergency_outbox_tenant_id_type": true,
+    "emergency_outbox_payload_type": true,
+    "emergency_outbox_attempts_type": true,
+    "emergency_outbox_created_at_type": true,
+    "emergency_outbox_sent_at_type": true,
+    "required_runtime_privileges": true,
+    "emergency_outbox_id_sequence_usage": true,
+    "automation_runs_status_constraints_compatible": true,
+    "pending_reminders_status_constraints_compatible": true,
+    "emergency_outbox_status_constraints_compatible": true
+  },
+  "schema_compatible": true
+}

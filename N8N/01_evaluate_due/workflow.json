@@ -6,7 +6,8 @@
         "httpMethod": "POST",
         "path": "evaluate_due",
         "responseMode": "onReceived",
-        "options": {}
+        "options": {},
+        "authentication": "headerAuth"
       },
       "id": "e1a10001-0000-4000-8000-000000000001",
       "name": "Webhook Trigger (evaluate_due)",
@@ -16,7 +17,13 @@
         200,
         300
       ],
-      "webhookId": "evaluate_due"
+      "webhookId": "evaluate_due",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "AIcosInternalHeader01",
+          "name": "AI-COS Internal Header"
+        }
+      }
     },
     {
       "parameters": {

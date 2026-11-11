@@ -1,0 +1,18 @@
+{
+  "workflow_id": "81yGYG75B34myKyX",
+  "workflow_name": "AI-COS - Combined Reminder & Evaluation Engine",
+  "active": true,
+  "published_version": "f21ebb1e-61a9-44e8-b1da-f8222edd3825",
+  "current_version": "f21ebb1e-61a9-44e8-b1da-f8222edd3825",
+  "active_version_matches": true,
+  "reviewed_definition_matches": true,
+  "nodes": 30,
+  "normalized_defaults": [
+    "Loop Over Items v3 batchSize defaults to 1"
+  ],
+  "other_definitions_compared": 218,
+  "other_definition_differences": 0,
+  "total_workflows": 219,
+  "manual_execution": false,
+  "test_messages_sent": false
+}

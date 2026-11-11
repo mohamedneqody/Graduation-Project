@@ -1,0 +1,173 @@
+[
+  {
+    "path": "send_reminder",
+    "source": "automation allowlist",
+    "activeOwners": [
+      {
+        "id": "81yGYG75B34myKyX",
+        "name": "AI-COS - Combined Reminder & Evaluation Engine",
+        "authentication": [
+          "headerAuth"
+        ]
+      }
+    ]
+  },
+  {
+    "path": "send_discount_offer",
+    "source": "automation allowlist",
+    "activeOwners": [
+      {
+        "id": "AIcosDiscount002",
+        "name": "AI-COS - send_discount_offer",
+        "authentication": [
+          "headerAuth"
+        ]
+      }
+    ]
+  },
+  {
+    "path": "weekly_summary",
+    "source": "automation allowlist",
+    "activeOwners": [
+      {
+        "id": "AIcosSummary0003",
+        "name": "AI-COS Weekly Executive Summary (FIXED)",
+        "authentication": [
+          "headerAuth"
+        ]
+      }
+    ]
+  },
+  {
+    "path": "evaluate_due",
+    "source": "automation allowlist",
+    "activeOwners": [
+      {
+        "id": "81yGYG75B34myKyX",
+        "name": "AI-COS - Combined Reminder & Evaluation Engine",
+        "authentication": [
+          "headerAuth"
+        ]
+      }
+    ]
+  },
+  {
+    "path": "order-notification",
+    "source": "automation allowlist",
+    "activeOwners": []
+  },
+  {
+    "path": "low-stock",
+    "source": "automation allowlist",
+    "activeOwners": []
+  },
+  {
+    "path": "inventory-alert",
+    "source": "automation allowlist",
+    "activeOwners": []
+  },
+  {
+    "path": "emergency-alert",
+    "source": "automation allowlist",
+    "activeOwners": [
+      {
+        "id": "AIcosEmgAlertFIX03",
+        "name": "AI-COS Medical Emergency Escalation (FIXED v3)",
+        "authentication": [
+          "headerAuth"
+        ]
+      }
+    ]
+  },
+  {
+    "path": "aicos-support",
+    "source": "hybrid/worker integration or reviewed agent",
+    "activeOwners": [
+      {
+        "id": "fsCIHwHnZPCl9VSW",
+        "name": "AI-COS: Support Agent (Arabic v2)",
+        "authentication": [
+          "headerAuth"
+        ]
+      }
+    ]
+  },
+  {
+    "path": "aicos-finance-clv",
+    "source": "hybrid/worker integration or reviewed agent",
+    "activeOwners": [
+      {
+        "id": "qrv7DBmlhfYp63X9",
+        "name": "AI-COS: Finance Agent (Arabic v2)",
+        "authentication": [
+          "headerAuth"
+        ]
+      }
+    ]
+  },
+  {
+    "path": "aicos-analytics",
+    "source": "hybrid/worker integration or reviewed agent",
+    "activeOwners": [
+      {
+        "id": "ofhk7M9PfQzHx0BV",
+        "name": "AI-COS: Analytics Agent (Arabic v2)",
+        "authentication": [
+          "headerAuth"
+        ]
+      }
+    ]
+  },
+  {
+    "path": "aicos-customer-success",
+    "source": "hybrid/worker integration or reviewed agent",
+    "activeOwners": [
+      {
+        "id": "tBAAF1jT2jP9dJiD",
+        "name": "AI-COS: Customer Success Agent (Arabic v2)",
+        "authentication": [
+          "headerAuth"
+        ]
+      }
+    ]
+  },
+  {
+    "path": "aicos-patient-health",
+    "source": "hybrid/worker integration or reviewed agent",
+    "activeOwners": [
+      {
+        "id": "h6V0iABymaF3COv7",
+        "name": "AI-COS: Patient Health Agent",
+        "authentication": [
+          "headerAuth"
+        ]
+      }
+    ]
+  },
+  {
+    "path": "worm-anchor",
+    "source": "hybrid/worker integration or reviewed agent",
+    "activeOwners": [
+      {
+        "id": "AIcosWormAnchor01",
+        "name": "AI-COS - worm_anchor",
+        "authentication": [
+          "headerAuth"
+        ]
+      }
+    ]
+  },
+  {
+    "path": "worm-alert",
+    "source": "hybrid/worker integration or reviewed agent",
+    "activeOwners": [
+      {
+        "id": "AIcosWormAlert002",
+        "name": "AI-COS - worm_alert",
+        "authentication": [
+          "headerAuth"
+        ]
+      }
+    ]
+  }
+]

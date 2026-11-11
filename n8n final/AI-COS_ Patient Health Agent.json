@@ -6,7 +6,8 @@
         "httpMethod": "POST",
         "path": "aicos-patient-health",
         "responseMode": "responseNode",
-        "options": {}
+        "options": {},
+        "authentication": "headerAuth"
       },
       "id": "ph1",
       "name": "Webhook",
@@ -16,13 +17,22 @@
         0,
         304
       ],
-      "webhookId": "9096b980-6105-497b-98f6-1c66f32702eb"
+      "webhookId": "9096b980-6105-497b-98f6-1c66f32702eb",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "AIcosInternalHeader01",
+          "name": "AI-COS Internal Header"
+        }
+      }
     },
     {
       "parameters": {
         "operation": "executeQuery",
-        "query": "{{ \"SELECT o.order_id::text, o.order_date::text, o.status, \" +\"COALESCE(SUM(oi.price * oi.quantity)::text, '0') as total_amount, \" +\"COALESCE(STRING_AGG(d.name, ', '), 'No drugs recorded') as drugs \" +\"FROM orders o \" +\"LEFT JOIN order_items oi ON oi.order_id = o.order_id \" +\"LEFT JOIN drugs d ON d.drug_id = oi.drug_id \" +\"LEFT JOIN customers c ON c.customer_id = o.customer_id \" +\"WHERE c.customer_id = '\" + ($(\\'Webhook\\').first().json.body.customer_id || '00000000-0000-0000-0000-000000000000') + \"' \" +\"GROUP BY o.order_id, o.order_date, o.status \" +\"ORDER BY o.order_date DESC LIMIT 5\" }}",
-        "options": {}
+        "query": "SET LOCAL app.current_tenant_id = '62712616-be1e-4129-986f-4131877e63b8'; SELECT o.order_id::text,o.order_date::text,o.status,COALESCE(SUM(oi.price*oi.quantity)::text,'0') AS total_amount,STRING_AGG(d.name,', ') AS drugs FROM orders o LEFT JOIN order_items oi ON oi.order_id=o.order_id LEFT JOIN drugs d ON d.drug_id=oi.drug_id JOIN customers c ON c.customer_id=o.customer_id WHERE o.tenant_id='62712616-be1e-4129-986f-4131877e63b8'::uuid AND (c.customer_id=NULLIF($1,'')::uuid OR ($1='' AND c.full_name=$2 AND (SELECT count(*) FROM customers x WHERE x.tenant_id=c.tenant_id AND x.full_name=$2)=1)) GROUP BY o.order_id,o.order_date,o.status ORDER BY o.order_date DESC LIMIT 5",
+        "options": {
+          "queryBatching": "transaction",
+          "queryReplacement": "={{ [String($('Webhook').first().json.body.customer_id || ''), String($('Webhook').first().json.body.customer_name || '')] }}"
+        }
       },
       "id": "ph2",
       "name": "Get Patient Orders",
@@ -35,8 +45,8 @@
       "alwaysOutputData": true,
       "credentials": {
         "postgres": {
-          "id": "SwX8vKQ2HWC6ZSmX",
-          "name": "AI-COS Supabase Postgres"
+          "id": "AIcosScopedCloudDb01",
+          "name": "AI-COS Supabase Scoped Readonly"
         }
       },
       "onError": "continueRegularOutput"
@@ -44,8 +54,11 @@
     {
       "parameters": {
         "operation": "executeQuery",
-        "query": "{{ \"SELECT cc.last_purchase_date::text, cc.avg_cycle_days, d.name as drug_name, d.category \" +\"FROM customer_cycles cc \" +\"LEFT JOIN drugs d ON d.drug_id = cc.drug_id \" +\"WHERE cc.customer_id = '\" + ($(\\'Webhook\\').first().json.body.customer_id || '00000000-0000-0000-0000-000000000000') + \"'\" }}",
-        "options": {}
+        "query": "SET LOCAL app.current_tenant_id = '62712616-be1e-4129-986f-4131877e63b8'; SELECT cc.last_purchase_date::text,cc.avg_cycle_days,d.name AS drug_name,d.category FROM customer_cycles cc LEFT JOIN drugs d ON d.drug_id=cc.drug_id JOIN customers c ON c.customer_id=cc.customer_id WHERE c.tenant_id='62712616-be1e-4129-986f-4131877e63b8'::uuid AND (c.customer_id=NULLIF($1,'')::uuid OR ($1='' AND c.full_name=$2 AND (SELECT count(*) FROM customers x WHERE x.tenant_id=c.tenant_id AND x.full_name=$2)=1))",
+        "options": {
+          "queryBatching": "transaction",
+          "queryReplacement": "={{ [String($('Webhook').first().json.body.customer_id || ''), String($('Webhook').first().json.body.customer_name || '')] }}"
+        }
       },
       "id": "ph3",
       "name": "Get Churn Data",
@@ -58,8 +71,8 @@
       "alwaysOutputData": true,
       "credentials": {
         "postgres": {
-          "id": "SwX8vKQ2HWC6ZSmX",
-          "name": "AI-COS Supabase Postgres"
+          "id": "AIcosScopedCloudDb01",
+          "name": "AI-COS Supabase Scoped Readonly"
         }
       },
       "onError": "continueRegularOutput"

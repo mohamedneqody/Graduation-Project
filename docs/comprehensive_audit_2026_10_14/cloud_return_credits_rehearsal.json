@@ -1,0 +1,19 @@
+{
+  "checks": [
+    "actual_additive_migration",
+    "scoped_evidence_upload_checksum_and_retry",
+    "independent_approval_idempotent_post_and_changed_replay_rejected",
+    "partial_payments_and_stale_overpayment_guard",
+    "posted_journal_and_document_immutable",
+    "payment_refund_corrections_then_complete_invoice_reversal",
+    "actual_supplier_invoice_and_payments_reconcile_without_estimate",
+    "partial_credit_original_values_rounding_and_stale_allocation_guard",
+    "partial_refund_and_stale_overrefund_guard_with_dependencies",
+    "credit_refund_reversal_reissue_and_final_balances_without_inventory_valuation",
+    "runtime_rls_hides_other_tenant_evidence_and_documents"
+  ],
+  "temporary_schema_removed": true,
+  "public_data_modified": false,
+  "local_database_used": false,
+  "migration_sha256": "fe9068900b4eb8568edd624c20b558d8e7de65a0503291169992dafca6f9fa64"
+}

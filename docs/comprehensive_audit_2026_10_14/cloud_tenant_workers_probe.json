@@ -1,0 +1,19 @@
+{
+  "passed": [
+    "unscoped_limited_role_sees_no_runs",
+    "tenant_scope_reapplied_after_service_commit",
+    "committed_claim_prevents_second_tick",
+    "retry_payload_scope_is_authoritative",
+    "other_tenant_unchanged",
+    "acceptance_is_not_delivery",
+    "early_delivery_callback_preserved",
+    "cross_tenant_callback_rejected_without_rls",
+    "ledger_sync_scoped_without_rls",
+    "exhausted_stale_claim_stops_retrying",
+    "real_commits_preserve_task_scope_and_restore_context"
+  ],
+  "temporary_schema_and_role_removed": true,
+  "live_revision": "20261014_dispensing_integrity",
+  "public_data_modified": false,
+  "external_messages_sent": false
+}

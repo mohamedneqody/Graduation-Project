@@ -23,8 +23,12 @@ if not defined INTERNAL_OCR_SECRET (
 set HF_HOME=D:\huggingface_cache
 set TRANSFORMERS_CACHE=D:\huggingface_cache
 set TORCH_HOME=D:\huggingface_cache
+set HF_HUB_OFFLINE=1
+set TRANSFORMERS_OFFLINE=1
+set HF_HUB_DISABLE_TELEMETRY=1
+set PYTHONUNBUFFERED=1
 python ocr_api_server.py
 
 echo [%time%] OCR Server stopped. Restarting in 3 seconds...
 timeout /t 3 /nobreak >nul
-goto start_server
+goto check_port

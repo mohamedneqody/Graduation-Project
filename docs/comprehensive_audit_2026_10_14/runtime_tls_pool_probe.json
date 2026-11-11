@@ -1,0 +1,6 @@
+{
+  "tls_hostname_verified": true,
+  "runtime_security_guard": true,
+  "tenant_scope_survives_commit": true,
+  "pool_scope_cleared": true
+}

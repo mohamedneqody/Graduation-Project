@@ -7,6 +7,8 @@ import uvicorn
 from fastapi import FastAPI, File, UploadFile, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from PIL import Image
+from ocr_fields import extract_strength_and_package
+from ocr_review import review_ocr_candidate
 
 # تحميل محرك TrOCR المحلي
 from prescription_ocr_engine import PrescriptionOCREngine
@@ -31,6 +33,10 @@ app.add_middleware(
 # 1. Initialize Local Fine-Tuned TrOCR Engine
 print("[Server] Initializing Local TrOCR Offline Engine...")
 local_ocr_engine = PrescriptionOCREngine()
+try:
+    local_ocr_engine.load_florence()
+except Exception as _fl_err:
+    print(f"[Server] Florence preload failed, will retry on request: {_fl_err}")
 
 from fastapi import Header
 
@@ -170,13 +176,13 @@ def extract_quantity_tail(text: str) -> tuple[str | None, str]:
 
 def extract_structured_fields(text: str) -> tuple[str | None, str | None, str | None]:
     """Extract only visible strength/form/instructions tokens; never infer missing values."""
-    strength_matches = STRENGTH_PATTERN.findall(text or "")
+    strength, _ = extract_strength_and_package(text)
     form_match = FORM_PATTERN.search(text or "")
     instr_matches = INSTRUCTION_PATTERN.findall(text or "")
     instr_matches = [m for m in instr_matches if not re.match(r'^\d{1,2}$', m.strip())]
     
     return (
-        strength_matches[-1].replace(" ", "") if strength_matches else None,
+        strength,
         form_match.group(0).lower() if form_match else None,
         " ".join(instr_matches).lower() if instr_matches else None,
     )
@@ -228,7 +234,12 @@ def infer_text(
             quantity, clean_name = extract_quantity_tail(raw_name)
             # Strip TrOCR hallucinated instruction tails BEFORE sending to backend
             # "Etroxin 100mcg 100 tabs - 1 tab BID with meals" → "Etroxin 100mcg 100 tabs"
+            before_instruction_strip = clean_name
             clean_name = strip_instruction_tail(clean_name)
+            instruction_review = review_ocr_candidate(clean_name, instructions,
+                removed_tail=clean_name != before_instruction_strip)
+            clean_name = instruction_review['catalog_name']
+            strength, package_size = extract_strength_and_package(clean_name)
             formatted_meds.append({
                 "line_number": m.get("line_number"),
                 "raw_name": clean_name,
@@ -238,10 +249,13 @@ def infer_text(
                 "trocr_confidence": m.get("trocr_confidence", 0.0),
                 "florence_confidence": m.get("florence_confidence", 0.0),
                 "strength": strength,
+                "package_size": package_size,
                 "dosage_form": dosage_form,
                 "quantity": quantity,
                 "duration": None,
-                "instructions": instructions,
+                "instructions": None,
+                "unverified_instruction_text": instruction_review['unverified_instruction_text'],
+                "requires_human_review": instruction_review['requires_human_review'],
                 "ocr_confidence": m.get("ocr_confidence", 0.0),
                 "is_illegible": m["is_illegible"],
                 "is_fragment_too_short": m.get("is_fragment_too_short", False),
@@ -262,7 +276,8 @@ def infer_text(
             "prompt_version": "v5.0-strict",
             "deskew_angle": preprocessing_meta.get("deskew_angle", 0.0),
             "trocr_letterbox": preprocessing_meta.get("trocr_letterbox", True),
-            "florence_error": result.get("florence_error")
+            "florence_error": result.get("florence_error"),
+            "layout_audit": preprocessing_meta.get("layout_audit", {}),
         }
 
         crops_manifest = []

@@ -1,0 +1,16 @@
+{
+  "read_only": true,
+  "runtime_role": {
+    "rolsuper": false,
+    "rolbypassrls": true,
+    "rolcreaterole": true,
+    "rolcreatedb": true
+  },
+  "revision": "market_action_source_model_20261001",
+  "duplicate_inventory_groups": 0,
+  "negative_inventory_rows": 0,
+  "inventory_constraints_ready": true,
+  "runtime_role_ready": false,
+  "production_ready": false,
+  "note": "This preflight is necessary, not sufficient: workers, grants, policies, backup, and UI acceptance remain deployment gates."
+}

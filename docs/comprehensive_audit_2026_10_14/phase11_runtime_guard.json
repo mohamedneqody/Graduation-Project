@@ -1,0 +1,6 @@
+{
+  "role": "aicos_runtime",
+  "revision": "20261019_coupon_eligibility",
+  "runtime_guard_passed": true,
+  "coupon_reads_without_tenant": 0
+}

@@ -222,6 +222,86 @@ def _estimate_ink_height(gray: np.ndarray) -> int:
     return int(nz[-1] - nz[0] + 1) if len(nz) else 0
 
 
+def header_ink_coverage(image, crop_box, header_boxes):
+    """Fraction of crop ink explained by the UNION of known header fields.
+
+    The center of a Patient/Date/Age crop may lie in whitespace between fields.
+    Measure actual ink instead of treating that center as evidence of a drug.
+    Boxes are page coordinates: crop yxyx, header xyxy. Rx is handled elsewhere.
+    """
+    gray = np.asarray(image.convert("RGB")) if isinstance(image, Image.Image) else np.asarray(image)
+    if gray.ndim == 3:
+        gray = cv2.cvtColor(gray, cv2.COLOR_RGB2GRAY)
+    ink = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, 31, 15) > 0
+    total = int(ink.sum())
+    if total < 20:
+        return 0.0
+    covered = np.zeros_like(ink)
+    cy, cx = crop_box[:2]
+    for box in header_boxes:
+        if isinstance(box, dict):  # Rx must never remove medication ink here.
+            continue
+        x1, y1, x2, y2 = box
+        left, top = max(0, int(x1 - cx) - 2), max(0, int(y1 - cy) - 2)
+        right, bottom = min(gray.shape[1], int(x2 - cx) + 2), min(gray.shape[0], int(y2 - cy) + 2)
+        if left < right and top < bottom:
+            covered[top:bottom, left:right] = True
+    return float(np.count_nonzero(ink & covered)) / total
+
+
+def suppress_horizontal_rules(mask):
+    """Remove only long horizontal stroke pixels from the segmentation mask.
+
+    A connected component can contain an underline AND a complete drug name.
+    Erasing its contour erases that name. Morphological opening isolates the
+    rule itself; original color pixels are never modified for recognition.
+    """
+    length = max(40, int(np.ceil(mask.shape[1] * .30)))
+    cleaned = mask.copy()
+    # A slightly tilted pad rule can evade horizontal opening and join the
+    # diagnosis band. Remove an isolated component ONLY when every contour
+    # point fits a thin straight rule. Attached letters fail this residual
+    # test (unlike the old width/height heuristic that erased whole names).
+    contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    for contour in contours:
+        if cv2.boundingRect(contour)[2] < length:
+            continue
+        vx, vy, x0, y0 = cv2.fitLine(contour, cv2.DIST_L2, 0, .01, .01).reshape(-1)
+        distances = np.abs((contour[:, 0, 0] - x0) * vy - (contour[:, 0, 1] - y0) * vx)
+        if abs(vy) <= .035 and float(distances.max()) <= 2.5:
+            cv2.drawContours(cleaned, [contour], -1, 0, -1)
+    rules = cv2.morphologyEx(cleaned, cv2.MORPH_OPEN,
+                           cv2.getStructuringElement(cv2.MORPH_RECT, (length, 1)))
+    return cv2.subtract(cleaned, rules)
+
+
+def split_at_blank_rows(bands, ink_profile, min_part_h=24, min_gap=2):
+    """Recover distinct rows bridged by smoothing, including Rx + first line.
+
+    Only true whitespace in the original (unsmoothed) mask permits a split.
+    Minimum heights on BOTH sides protect detached dots and short ascenders.
+    Unlike the oversized fallback, no 90px height prerequisite hides Rx.
+    """
+    result = []
+    for start, end in bands:
+        part_start = start
+        y = start
+        while y < end:
+            if ink_profile[y] != 0:
+                y += 1
+                continue
+            gap_start = y
+            while y < end and ink_profile[y] == 0:
+                y += 1
+            cut = (gap_start + y) // 2
+            if (y - gap_start >= min_gap and gap_start - part_start >= min_part_h
+                    and end - y >= min_part_h):
+                result.append((part_start, cut))
+                part_start = cut
+        result.append((part_start, end))
+    return result
+
+
 def split_oversized_bands(bands, profile, *, oversized_ratio: float = 1.5,
                           min_abs_h: int = 90, min_part_h: int = 24,
                           valley_ratio: float = 0.25) -> list:
@@ -282,6 +362,41 @@ def pad_left_white(pil_img: Image.Image, ratio: float) -> Image.Image:
     canvas = Image.new("RGB", (w + extra, h), (255, 255, 255))
     canvas.paste(pil_img, (extra, 0))
     return canvas
+
+
+def snap_band_separators(bands, ink_profile, radius=12, min_height=24):
+    """Snap nearby band boundaries to a real blank row, not blurred ink.
+
+    Smoothing may bridge Rx and the first line. Only a genuinely empty row in
+    the unsmoothed ink mask can move their boundary; never cut through ink to
+    obtain a desired number of crops. If no blank exists, leave it unchanged.
+    """
+    out = [list(band) for band in bands]
+    for i in range(len(out) - 1):
+        left, right = out[i], out[i + 1]
+        if right[0] - left[1] > 2 * radius:
+            continue
+        center = (left[1] + right[0]) // 2
+        lo = max(left[0] + min_height, center - radius, 0)
+        hi = min(right[1] - min_height, center + radius, len(ink_profile) - 1)
+        blank = [y for y in range(lo, hi + 1) if ink_profile[y] == 0]
+        if blank:
+            cut = min(blank, key=lambda y: abs(y - center))
+            left[1] = cut
+            right[0] = cut
+    return [tuple(band) for band in out]
+
+
+def bounded_vertical_padding(bands, index, pad, height):
+    """Pad a real ink band without crossing its neighbors' separator.
+
+    Bands are unpadded, sorted, non-overlapping [start, end) intervals. Padding
+    must never merge them again or donate an ascender/Rx stroke to another row.
+    """
+    start, end = bands[index]
+    lower = (bands[index - 1][1] + start) // 2 if index else 0
+    upper = (end + bands[index + 1][0]) // 2 if index + 1 < len(bands) else height
+    return max(lower, start - pad), min(upper, end + pad)
 
 
 def ink_x_bounds(band_bgr: np.ndarray) -> tuple[int, int] | None:

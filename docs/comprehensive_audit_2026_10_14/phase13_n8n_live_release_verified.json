@@ -1,0 +1,211 @@
+{
+  "verifiedOn": "2026-10-22",
+  "source": "read-only n8n CLI export after publication",
+  "liveExecutionTest": false,
+  "workflowCount": 219,
+  "reviewedPublished": [
+    {
+      "id": "qrv7DBmlhfYp63X9",
+      "name": "AI-COS: Finance Agent (Arabic v2)",
+      "versionId": "1adc1e0c-373c-4192-a37b-b5d6dde76a7d",
+      "activeVersionId": "1adc1e0c-373c-4192-a37b-b5d6dde76a7d",
+      "published": true,
+      "nodesMatch": true,
+      "connectionsMatch": true,
+      "settingsPreserved": true,
+      "telegramDestinationsPreserved": true,
+      "credentialsPreserved": true
+    },
+    {
+      "id": "fsCIHwHnZPCl9VSW",
+      "name": "AI-COS: Support Agent (Arabic v2)",
+      "versionId": "608cc04b-7047-477e-a53b-ee538ea21662",
+      "activeVersionId": "608cc04b-7047-477e-a53b-ee538ea21662",
+      "published": true,
+      "nodesMatch": true,
+      "connectionsMatch": true,
+      "settingsPreserved": true,
+      "telegramDestinationsPreserved": true,
+      "credentialsPreserved": true
+    },
+    {
+      "id": "ofhk7M9PfQzHx0BV",
+      "name": "AI-COS: Analytics Agent (Arabic v2)",
+      "versionId": "8d16f871-06e9-43f2-a83d-4a85182c4ecb",
+      "activeVersionId": "8d16f871-06e9-43f2-a83d-4a85182c4ecb",
+      "published": true,
+      "nodesMatch": true,
+      "connectionsMatch": true,
+      "settingsPreserved": true,
+      "telegramDestinationsPreserved": true,
+      "credentialsPreserved": true
+    },
+    {
+      "id": "tBAAF1jT2jP9dJiD",
+      "name": "AI-COS: Customer Success Agent (Arabic v2)",
+      "versionId": "fa09c05f-6fc7-4b1a-9212-353f5f099f2d",
+      "activeVersionId": "fa09c05f-6fc7-4b1a-9212-353f5f099f2d",
+      "published": true,
+      "nodesMatch": true,
+      "connectionsMatch": true,
+      "settingsPreserved": true,
+      "telegramDestinationsPreserved": true,
+      "credentialsPreserved": true
+    },
+    {
+      "id": "h6V0iABymaF3COv7",
+      "name": "AI-COS: Patient Health Agent",
+      "versionId": "e5accc01-95be-440a-91d2-819b645e11fd",
+      "activeVersionId": "e5accc01-95be-440a-91d2-819b645e11fd",
+      "published": true,
+      "nodesMatch": true,
+      "connectionsMatch": true,
+      "settingsPreserved": true,
+      "telegramDestinationsPreserved": true,
+      "credentialsPreserved": true
+    },
+    {
+      "id": "YLX90juWgWUxaHHE",
+      "name": "AI-COS Global Error Handler",
+      "versionId": "21feea13-899d-43b7-a211-c839c080e6bb",
+      "activeVersionId": "21feea13-899d-43b7-a211-c839c080e6bb",
+      "published": true,
+      "nodesMatch": true,
+      "connectionsMatch": true,
+      "settingsPreserved": true,
+      "telegramDestinationsPreserved": true,
+      "credentialsPreserved": true
+    },
+    {
+      "id": "zWNggcB1fRoc7VJN",
+      "name": "AI-COS Governance SLA Monitor",
+      "versionId": "eb2be0f8-7592-43f1-8de7-531bee9c687f",
+      "activeVersionId": "eb2be0f8-7592-43f1-8de7-531bee9c687f",
+      "published": true,
+      "nodesMatch": true,
+      "connectionsMatch": true,
+      "settingsPreserved": true,
+      "telegramDestinationsPreserved": true,
+      "credentialsPreserved": true
+    },
+    {
+      "id": "AIcosDiscount002",
+      "name": "AI-COS - send_discount_offer",
+      "versionId": "4a15fc89-097a-4198-b9dc-8332486cf521",
+      "activeVersionId": "4a15fc89-097a-4198-b9dc-8332486cf521",
+      "published": true,
+      "nodesMatch": true,
+      "connectionsMatch": true,
+      "settingsPreserved": true,
+      "telegramDestinationsPreserved": true,
+      "credentialsPreserved": true
+    },
+    {
+      "id": "AIcosSummary0003",
+      "name": "AI-COS Weekly Executive Summary (FIXED)",
+      "versionId": "11190f3b-7c50-4134-829e-54f955d16030",
+      "activeVersionId": "11190f3b-7c50-4134-829e-54f955d16030",
+      "published": true,
+      "nodesMatch": true,
+      "connectionsMatch": true,
+      "settingsPreserved": true,
+      "telegramDestinationsPreserved": true,
+      "credentialsPreserved": true
+    },
+    {
+      "id": "AIcosWormAnchor01",
+      "name": "AI-COS - worm_anchor",
+      "versionId": "fe79eaca-aaf2-4845-8a5a-991c81661b5e",
+      "activeVersionId": "fe79eaca-aaf2-4845-8a5a-991c81661b5e",
+      "published": true,
+      "nodesMatch": true,
+      "connectionsMatch": true,
+      "settingsPreserved": true,
+      "telegramDestinationsPreserved": true,
+      "credentialsPreserved": true
+    },
+    {
+      "id": "AIcosWormAlert002",
+      "name": "AI-COS - worm_alert",
+      "versionId": "5112d1d7-40d1-47c3-a6d7-990739e20adb",
+      "activeVersionId": "5112d1d7-40d1-47c3-a6d7-990739e20adb",
+      "published": true,
+      "nodesMatch": true,
+      "connectionsMatch": true,
+      "settingsPreserved": true,
+      "telegramDestinationsPreserved": true,
+      "credentialsPreserved": true
+    },
+    {
+      "id": "AIcosEmgAlertFIX03",
+      "name": "AI-COS Medical Emergency Escalation (FIXED v3)",
+      "versionId": "6d8d946a-b08a-4aa1-85ad-8b8601c7ee8c",
+      "activeVersionId": "6d8d946a-b08a-4aa1-85ad-8b8601c7ee8c",
+      "published": true,
+      "nodesMatch": true,
+      "connectionsMatch": true,
+      "settingsPreserved": true,
+      "telegramDestinationsPreserved": true,
+      "credentialsPreserved": true
+    }
+  ],
+  "otherProjectDefinitions": [
+    {
+      "id": "81yGYG75B34myKyX",
+      "unchanged": true
+    },
+    {
+      "id": "GWDKof1bYd2Cdi3v",
+      "unchanged": true
+    },
+    {
+      "id": "nvp7VjI0j5ZArRLt",
+      "unchanged": true
+    },
+    {
+      "id": "SD3JXDv3ugYxdrQ3",
+      "unchanged": true
+    },
+    {
+      "id": "iR6tHSWWPKFhFCNe",
+      "unchanged": true
+    },
+    {
+      "id": "AIcosReminder001",
+      "unchanged": true
+    },
+    {
+      "id": "AIcosEvalDue0004",
+      "unchanged": true
+    },
+    {
+      "id": "AIcosEmgAlertFIX01",
+      "unchanged": true
+    },
+    {
+      "id": "AIcosEmgAlertFIX02",
+      "unchanged": true
+    },
+    {
+      "id": "AIcosSupportAr02",
+      "unchanged": true
+    },
+    {
+      "id": "AIcosAnalyticsAr02",
+      "unchanged": true
+    },
+    {
+      "id": "AIcosCustSuccAr02",
+      "unchanged": true
+    },
+    {
+      "id": "AIcosFinanceAr02",
+      "unchanged": true
+    }
+  ],
+  "nonProjectDefinitions": {
+    "count": 194,
+    "scope": "not targeted; post-release baseline hashes not compared"
+  },
+  "userPreference": "Keep fixed Telegram destination unchanged; defer individual customer linking"
+}

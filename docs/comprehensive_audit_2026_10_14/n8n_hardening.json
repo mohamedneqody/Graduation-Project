@@ -1,0 +1,59 @@
+{
+  "workflow_count": 25,
+  "active_count": 13,
+  "authentication_tests": [
+    {
+      "path": "evaluate_due",
+      "unauthorized_status": 403
+    },
+    {
+      "path": "send_reminder",
+      "unauthorized_status": 403
+    },
+    {
+      "path": "aicos-finance-clv",
+      "unauthorized_status": 403
+    },
+    {
+      "path": "aicos-support",
+      "unauthorized_status": 403
+    },
+    {
+      "path": "aicos-analytics",
+      "unauthorized_status": 403
+    },
+    {
+      "path": "aicos-customer-success",
+      "unauthorized_status": 403
+    },
+    {
+      "path": "aicos-patient-health",
+      "unauthorized_status": 403
+    },
+    {
+      "path": "send_discount_offer",
+      "unauthorized_status": 403
+    },
+    {
+      "path": "weekly_summary",
+      "unauthorized_status": 403
+    },
+    {
+      "path": "worm-anchor",
+      "unauthorized_status": 403
+    },
+    {
+      "path": "worm-alert",
+      "unauthorized_status": 403
+    },
+    {
+      "path": "emergency-alert",
+      "unauthorized_status": 403
+    }
+  ],
+  "database_role": "aicos_automation",
+  "tls_verified": true,
+  "sql_probe_queries": 12,
+  "messages_sent_by_probe": false,
+  "restarted": true
+}

@@ -1,0 +1,6 @@
+{
+  "checked_at": "2026-10-16T08:33:18.672040+00:00",
+  "probe_sent_messages": false,
+  "healthz": 200,
+  "healthz/readiness": 200
+}

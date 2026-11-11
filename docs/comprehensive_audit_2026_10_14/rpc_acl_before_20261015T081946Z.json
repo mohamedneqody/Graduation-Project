@@ -1,0 +1,62 @@
+{
+  "revision": "20261014_dispensing_integrity",
+  "apply_requested": false,
+  "functions": [
+    {
+      "proname": "dw_generate_warehouse",
+      "args": "p_vertical text",
+      "acl": "{=X/postgres,postgres=X/postgres,anon=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+      "anon_execute": true,
+      "authenticated_execute": true,
+      "backend_execute": true
+    },
+    {
+      "proname": "events_block_mutation",
+      "args": "",
+      "acl": "{=X/postgres,postgres=X/postgres,anon=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+      "anon_execute": true,
+      "authenticated_execute": true,
+      "backend_execute": true
+    },
+    {
+      "proname": "events_chain",
+      "args": "",
+      "acl": "{=X/postgres,postgres=X/postgres,anon=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+      "anon_execute": true,
+      "authenticated_execute": true,
+      "backend_execute": true
+    },
+    {
+      "proname": "events_chains",
+      "args": "",
+      "acl": "{=X/postgres,postgres=X/postgres,anon=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+      "anon_execute": true,
+      "authenticated_execute": true,
+      "backend_execute": true
+    },
+    {
+      "proname": "events_unsigned_count",
+      "args": "p_tenant_id uuid",
+      "acl": "{=X/postgres,postgres=X/postgres,anon=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+      "anon_execute": true,
+      "authenticated_execute": true,
+      "backend_execute": true
+    },
+    {
+      "proname": "rebuild_events_chain_hashes",
+      "args": "p_session_id uuid, p_force boolean",
+      "acl": "{=X/postgres,postgres=X/postgres,anon=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+      "anon_execute": true,
+      "authenticated_execute": true,
+      "backend_execute": true
+    },
+    {
+      "proname": "verify_events_chain",
+      "args": "p_tenant_id uuid",
+      "acl": "{=X/postgres,postgres=X/postgres,anon=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+      "anon_execute": true,
+      "authenticated_execute": true,
+      "backend_execute": true
+    }
+  ]
+}

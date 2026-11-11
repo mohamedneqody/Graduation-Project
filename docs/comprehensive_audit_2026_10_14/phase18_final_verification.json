@@ -1,0 +1,36 @@
+{
+  "frontend": {
+    "numTotalTests": 181,
+    "numPassedTests": 181,
+    "numFailedTests": 0,
+    "numPendingTests": 0,
+    "success": true
+  },
+  "backend": [
+    {
+      "name": "pytest",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "14",
+      "tests": "196",
+      "time": "3.110",
+      "timestamp": "2026-10-26T13:32:09.548178+03:00",
+      "hostname": "MOHAMEDNQWDY"
+    }
+  ],
+  "live_readonly_http_passed": true,
+  "cloud_readonly_passed": true,
+  "frontend_scripts": {
+    "dev": "next dev --port 3001",
+    "start": "next start --port 3001"
+  },
+  "owned_smoke_processes_stopped": true,
+  "business_write_cycle_tested": false,
+  "new_message_test_performed": false,
+  "evidence_sha256": {
+    "phase18_backend_final.xml": "e009e7d964360d547fe2c890fd5ca4cfc9d1eb1cb4f12976563bfbafd041447e",
+    "phase18_frontend_suite.json": "fd56169bc5d01774e5b2db6ee0194ea19df837c628005950a9ec8e6a1f6b8508",
+    "phase18_live_integration.json": "90ebbcb8bc7c12088fad95f9b45dc3c490c594567d78af3a6951b6864088e318",
+    "phase18_cloud_order_inventory.json": "900f279308caf618397ffdfbc8ef3b94631e9f4a8ce24ad65b5514ab59dc9440"
+  }
+}

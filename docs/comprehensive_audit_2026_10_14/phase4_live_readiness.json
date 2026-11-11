@@ -1,0 +1,18 @@
+{
+  "read_only": true,
+  "runtime_role": {
+    "rolsuper": false,
+    "rolbypassrls": false,
+    "rolcreaterole": false,
+    "rolcreatedb": false
+  },
+  "revision": "20261016_order_integrity",
+  "inventory_scope": "active_tenants_only",
+  "tenants_checked": 24,
+  "duplicate_inventory_groups": 0,
+  "negative_inventory_rows": 0,
+  "inventory_constraints_ready": true,
+  "runtime_role_ready": true,
+  "production_ready": false,
+  "note": "This preflight is necessary, not sufficient: workers, grants, policies, backup, and UI acceptance remain deployment gates."
+}

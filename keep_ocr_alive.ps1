@@ -1,9 +1,15 @@
-﻿# AI-COS OCR Server Keep-Alive Script
+# AI-COS OCR Server Keep-Alive Script
 # Run this in a PowerShell window - it will keep the OCR server alive permanently
 $python = "D:\Graduation Project\venv\Scripts\python.exe"
 $server = "D:\Graduation Project\upload\ocr_api_server.py"
 $workdir = "D:\Graduation Project\upload"
 $env:PYTHONPATH = "D:\Graduation Project\AI-COS-Pharmacy\backend"
+$env:HF_HOME = "D:\huggingface_cache"
+$env:TORCH_HOME = "D:\huggingface_cache"
+$env:HF_HUB_OFFLINE = "1"
+$env:TRANSFORMERS_OFFLINE = "1"
+$env:HF_HUB_DISABLE_TELEMETRY = "1"
+$env:PYTHONUNBUFFERED = "1"
 
 Write-Host "=== AI-COS OCR Server Manager ===" -ForegroundColor Cyan
 Write-Host "This window keeps the OCR server alive. DO NOT CLOSE this window." -ForegroundColor Yellow

@@ -1,0 +1,10 @@
+{
+  "committed": true,
+  "revision": "20261018_store_configs",
+  "runtime_guard_passed": true,
+  "new_real_stores_created": 0,
+  "existing_business_rows_updated": false,
+  "local_database_used": false,
+  "backup_directory": "D:\\.codex\\backups\\ai-cos-supabase\\20261018T101212Z",
+  "backup_restore_tested": false
+}

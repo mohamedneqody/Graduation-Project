@@ -1,0 +1,12 @@
+{
+  "committed": true,
+  "revision": "20261019_coupon_eligibility",
+  "runtime_guard_passed": true,
+  "original_coupon_fields_preserved": true,
+  "legacy_unverified_count": 23,
+  "new_offers_issued": 0,
+  "local_database_used": false,
+  "notifications_sent": false,
+  "backup_directory": "D:\\.codex\\backups\\ai-cos-supabase\\20261019T200656Z",
+  "backup_restore_tested": false
+}

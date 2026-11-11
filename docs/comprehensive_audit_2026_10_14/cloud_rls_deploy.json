@@ -1,0 +1,25 @@
+{
+  "committed": true,
+  "live_revision": "20261014_rls_coverage",
+  "client_role_checks": {
+    "anon": "private_reads_blocked_and_catalog_readable",
+    "authenticated": "private_reads_blocked_and_catalog_readable"
+  },
+  "row_counts_unchanged": {
+    "orders": 8624,
+    "customers": 687,
+    "inventory_items": 139,
+    "prescriptions": 350,
+    "prescription_items": 1077,
+    "events": 107,
+    "journal_entries": 305,
+    "purchase_orders": 6,
+    "contact_messages": 37,
+    "knowledge_chunks": 156
+  },
+  "backup_directory": "D:\\.codex\\backups\\ai-cos-supabase\\20261015T153011Z",
+  "runtime_login_unchanged": true,
+  "runtime_still_bypasses_rls": true,
+  "production_ready": false,
+  "services_restarted": false
+}

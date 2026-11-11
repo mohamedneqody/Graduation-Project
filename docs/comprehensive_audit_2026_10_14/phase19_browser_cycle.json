@@ -1,0 +1,700 @@
+{
+  "checked_at_utc": "2026-10-26T15:54:09.533Z",
+  "scope": "Browser UI -> real FastAPI routes -> temporary Supabase schema in outer rollback transaction",
+  "auth_mode": "simulated-fixtures",
+  "real_supabase_auth_tested": false,
+  "production_rows_used": false,
+  "provider_messages_sent_by_runner": false,
+  "success": true,
+  "steps": [
+    {
+      "name": "checkout_to_cancel",
+      "order_id": "5caf070b-3ce7-4c49-a1cb-568f9744ebe4",
+      "status": "pending",
+      "quantity": 1
+    },
+    {
+      "name": "checkout_to_complete",
+      "order_id": "974f8fad-e45f-45c6-8f12-4ac85e749b81",
+      "status": "pending",
+      "quantity": 1
+    },
+    {
+      "name": "admin_cancelled",
+      "order_id": "5caf070b-3ce7-4c49-a1cb-568f9744ebe4",
+      "status": "cancelled"
+    },
+    {
+      "name": "admin_completed",
+      "order_id": "974f8fad-e45f-45c6-8f12-4ac85e749b81",
+      "status": "completed"
+    },
+    {
+      "name": "physical_return",
+      "order_id": "974f8fad-e45f-45c6-8f12-4ac85e749b81",
+      "return_id": "981cddbf-93fc-4600-aaf1-c761ab6cf163",
+      "quantity": 1,
+      "disposition": "quarantined",
+      "saleable_stock_added": 0,
+      "financial_refund_recorded": false
+    },
+    {
+      "name": "adjust_price",
+      "stock_unchanged": true,
+      "before_revision": 7,
+      "after_revision": 8,
+      "financial_entry_created": false
+    },
+    {
+      "name": "restore_price",
+      "stock_unchanged": true,
+      "before_revision": 8,
+      "after_revision": 9,
+      "financial_entry_created": false
+    }
+  ],
+  "network": [
+    {
+      "method": "POST",
+      "path": "/api/v1/ai/tts",
+      "status": 503
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/ai/tts",
+      "status": 503
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/ai/tts",
+      "status": 503
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/ai/tts",
+      "status": 503
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/complete-registration/",
+      "status": 308
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/complete-registration",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/ai/tts",
+      "status": 503
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/ai/tts",
+      "status": 503
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/ai/tts",
+      "status": 503
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/ai/tts",
+      "status": 503
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/drugs",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/customers/me",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/drugs",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/customers/me",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/drugs/categories",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/drugs",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/drugs/recommendations",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/drugs",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/drugs/categories",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/drugs",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/drugs/recommendations",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/drugs",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/ai/tts",
+      "status": 503
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/ai/tts",
+      "status": 503
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/ai/tts",
+      "status": 503
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/ai/tts",
+      "status": 503
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/drugs",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/drugs",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/me",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/orders/",
+      "status": 308
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/orders",
+      "status": 201
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/ai/tts",
+      "status": 503
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/ai/tts",
+      "status": 503
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/ai/tts",
+      "status": 503
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/ai/tts",
+      "status": 503
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/drugs",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/customers/me",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/drugs",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/customers/me",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/drugs/categories",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/drugs",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/drugs/recommendations",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/drugs",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/drugs/categories",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/drugs",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/drugs/recommendations",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/drugs",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/ai/tts",
+      "status": 503
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/ai/tts",
+      "status": 503
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/ai/tts",
+      "status": 503
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/ai/tts",
+      "status": 503
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/drugs",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/drugs",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/me",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/orders/",
+      "status": 308
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/orders",
+      "status": 201
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/ai/tts",
+      "status": 503
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/ai/tts",
+      "status": 503
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/ai/tts",
+      "status": 503
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/ai/tts",
+      "status": 503
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/complete-registration/",
+      "status": 308
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/complete-registration",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/ai/tts",
+      "status": 503
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/ai/tts",
+      "status": 503
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/ai/tts",
+      "status": 503
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/ai/tts",
+      "status": 503
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/me",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/customers/contact/admin-inbox",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/governance/events-chain/verify",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/governance/events-chain/verify",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/me",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/orders/all",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/orders/all",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/orders/5caf070b-3ce7-4c49-a1cb-568f9744ebe4",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/orders/5caf070b-3ce7-4c49-a1cb-568f9744ebe4",
+      "status": 200
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/v1/orders/5caf070b-3ce7-4c49-a1cb-568f9744ebe4/status",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/ai/tts",
+      "status": 503
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/ai/tts",
+      "status": 503
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/ai/tts",
+      "status": 503
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/ai/tts",
+      "status": 503
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/me",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/customers/contact/admin-inbox",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/governance/events-chain/verify",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/governance/events-chain/verify",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/me",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/orders/all",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/orders/all",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/orders/974f8fad-e45f-45c6-8f12-4ac85e749b81",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/orders/974f8fad-e45f-45c6-8f12-4ac85e749b81",
+      "status": 200
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/v1/orders/974f8fad-e45f-45c6-8f12-4ac85e749b81/status",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/ai/tts",
+      "status": 503
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/ai/tts",
+      "status": 503
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/ai/tts",
+      "status": 503
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/ai/tts",
+      "status": 503
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/me",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/customers/contact/admin-inbox",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/governance/events-chain/verify",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/governance/events-chain/verify",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/me",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/orders/all",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/orders/all",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/orders/974f8fad-e45f-45c6-8f12-4ac85e749b81/returns",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/orders/974f8fad-e45f-45c6-8f12-4ac85e749b81/returns",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/accounting/evidence",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/orders/974f8fad-e45f-45c6-8f12-4ac85e749b81/returns",
+      "status": 201
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/ai/tts",
+      "status": 503
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/ai/tts",
+      "status": 503
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/ai/tts",
+      "status": 503
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/ai/tts",
+      "status": 503
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/me",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/customers/contact/admin-inbox",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/governance/events-chain/verify",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/governance/events-chain/verify",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/me",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/verticals/tenants",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/inventory",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/verticals/tenants",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/inventory",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/inventory/50622127-8e90-4096-a4da-decbe4f85520/adjustments",
+      "status": 200
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/v1/inventory/50622127-8e90-4096-a4da-decbe4f85520",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/inventory",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/inventory/50622127-8e90-4096-a4da-decbe4f85520/adjustments",
+      "status": 200
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/v1/inventory/50622127-8e90-4096-a4da-decbe4f85520",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/inventory",
+      "status": 200
+    }
+  ],
+  "screenshots": [
+    "D:\\Graduation Project\\docs\\comprehensive_audit_2026_10_14\\phase19_browser_checkout_to_cancel.png",
+    "D:\\Graduation Project\\docs\\comprehensive_audit_2026_10_14\\phase19_browser_checkout_to_complete.png",
+    "D:\\Graduation Project\\docs\\comprehensive_audit_2026_10_14\\phase19_browser_order_review_cancelled.png",
+    "D:\\Graduation Project\\docs\\comprehensive_audit_2026_10_14\\phase19_browser_order_review_completed.png",
+    "D:\\Graduation Project\\docs\\comprehensive_audit_2026_10_14\\phase19_browser_return_quarantined.png",
+    "D:\\Graduation Project\\docs\\comprehensive_audit_2026_10_14\\phase19_browser_inventory_restored.png"
+  ],
+  "counts": {
+    "order_posts": 2,
+    "status_patches": 2,
+    "return_posts": 1,
+    "evidence_posts": 1,
+    "inventory_patches": 2,
+    "external_assets_blocked": 20,
+    "external_data_requests_blocked": 0,
+    "unexpected_mutations_blocked": 0,
+    "optional_ai_features_disabled": 40
+  },
+  "guard_verified": true,
+  "run_id": "a5a617e8-a690-4845-992a-d614f26fa828",
+  "completed_at_utc": "2026-10-26T15:56:28.262Z"
+}

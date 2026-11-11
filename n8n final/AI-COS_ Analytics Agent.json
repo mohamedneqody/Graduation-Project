@@ -6,7 +6,8 @@
         "httpMethod": "POST",
         "path": "aicos-analytics",
         "responseMode": "responseNode",
-        "options": {}
+        "options": {},
+        "authentication": "headerAuth"
       },
       "id": "a1",
       "name": "Webhook",
@@ -16,7 +17,13 @@
         0,
         304
       ],
-      "webhookId": "dc01f602-e069-4660-ad1a-d23eaf4e2956"
+      "webhookId": "dc01f602-e069-4660-ad1a-d23eaf4e2956",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "AIcosInternalHeader01",
+          "name": "AI-COS Internal Header"
+        }
+      }
     },
     {
       "parameters": {
@@ -41,8 +48,10 @@
     {
       "parameters": {
         "operation": "executeQuery",
-        "query": "SELECT COUNT(*) as total_orders, COALESCE(SUM(oi.price*oi.quantity),0) as revenue FROM orders o LEFT JOIN order_items oi ON oi.order_id=o.order_id WHERE o.order_date>=NOW()-INTERVAL '7 days'",
-        "options": {}
+        "query": "SET LOCAL app.current_tenant_id = '62712616-be1e-4129-986f-4131877e63b8'; SELECT COUNT(DISTINCT o.order_id) AS total_orders,COALESCE(SUM(oi.price*oi.quantity),0) AS revenue FROM orders o LEFT JOIN order_items oi ON oi.order_id=o.order_id WHERE o.tenant_id='62712616-be1e-4129-986f-4131877e63b8'::uuid AND o.status='completed' AND o.order_date>=NOW()-INTERVAL '7 days'",
+        "options": {
+          "queryBatching": "transaction"
+        }
       },
       "id": "a2",
       "name": "Orders Revenue",
@@ -54,8 +63,8 @@
       ],
       "credentials": {
         "postgres": {
-          "id": "SwX8vKQ2HWC6ZSmX",
-          "name": "AI-COS Supabase Postgres"
+          "id": "AIcosScopedCloudDb01",
+          "name": "AI-COS Supabase Scoped Readonly"
         }
       },
       "onError": "continueRegularOutput"
@@ -63,8 +72,10 @@
     {
       "parameters": {
         "operation": "executeQuery",
-        "query": "SELECT COUNT(*) as total_cycles, COUNT(*) FILTER (WHERE last_purchase_date+(avg_cycle_days*INTERVAL '1 day')<NOW()) as at_risk FROM customer_cycles",
-        "options": {}
+        "query": "SET LOCAL app.current_tenant_id = '62712616-be1e-4129-986f-4131877e63b8'; SELECT COUNT(*) AS total_cycles,COUNT(*) FILTER (WHERE cc.last_purchase_date+(cc.avg_cycle_days*INTERVAL '1 day')<NOW()) AS at_risk FROM customer_cycles cc JOIN customers c ON c.customer_id=cc.customer_id WHERE c.tenant_id='62712616-be1e-4129-986f-4131877e63b8'::uuid",
+        "options": {
+          "queryBatching": "transaction"
+        }
       },
       "id": "a3",
       "name": "Churn Risk",
@@ -76,8 +87,8 @@
       ],
       "credentials": {
         "postgres": {
-          "id": "SwX8vKQ2HWC6ZSmX",
-          "name": "AI-COS Supabase Postgres"
+          "id": "AIcosScopedCloudDb01",
+          "name": "AI-COS Supabase Scoped Readonly"
         }
       },
       "onError": "continueRegularOutput"

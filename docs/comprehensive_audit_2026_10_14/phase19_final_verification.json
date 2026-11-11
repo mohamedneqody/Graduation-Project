@@ -1,0 +1,32 @@
+{
+  "backend_passed_unique": 966,
+  "backend_skipped": 64,
+  "frontend_passed": 181,
+  "cloud_checks": 22,
+  "browser_steps": 7,
+  "cloud_qa_passed": true,
+  "temporary_schema_and_roles_removed": true,
+  "existing_business_rows_modified": false,
+  "messages_sent": false,
+  "real_supabase_auth_tested": false,
+  "independent_connection_concurrency_tested": false,
+  "owned_test_processes_stopped": true,
+  "qa_snapshot_before_rollback": {
+    "stock": 16,
+    "orders": 4,
+    "posted_documents": 5,
+    "journal_debits": "152.00",
+    "journal_credits": "152.00",
+    "queued_notification_events": 13,
+    "notification_attempts": 0
+  },
+  "evidence_sha256": {
+    "phase19_backend_full.xml": "0004f4218ff733d432c7bac78574143bdae7a5dda95b7e901192659b2c42d963",
+    "phase19_qa_guards.xml": "dd74741a4cfcc0a8fc3abdde8e792658d01bcc02a885747fb04d9fd0f8f799da",
+    "phase19_frontend_suite.json": "817c1b206edb1332b508917c60555134c73435c8878bcd408999984c46cc060f",
+    "phase19_frontend_build.log": "c1501d188229ccb2a0272a74574b9d168b10bb3f22002d6757b10277a65e67e9",
+    "phase19_cloud_qa_cycle.json": "0d20b58e48ce48f8ee15f4014933f99fda5656d21f851e8b3980acfcc519f922",
+    "phase19_browser_cycle.json": "84319879fc3492b94292d558376b95b7ffa023aedef78fcaff7cba344eb46528"
+  },
+  "public_readonly_after_passed": true
+}

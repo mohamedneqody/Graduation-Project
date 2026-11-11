@@ -103,7 +103,7 @@ def main():
 
     print("\n== 3) هوية الفريق دون تسريب [REDACTED] ==")
     reply, _ = chat("من أنت، وما هي جامعتك وكليتك، ومن هو مطور الذكاء الاصطناعي الذي قام ببنائك؟")
-    ok = ("نسمة حسن" in reply and "محمد ياسر سعد نقودي" in reply
+    ok = ("سونة محمد حسن اسماعيل" in reply and "محمد ياسر سعد نقودي" in reply
           and "[REDACTED" not in reply and "[[الاسم]]" not in reply)
     results.append(("هوية الفريق", "أسماء كاملة بلا تعقيم", ok))
     print(("✓" if ok else "✗"), "الهوية:", reply[:120].replace("\n", " | "))

@@ -1,0 +1,12 @@
+{
+  "workflow_id": "81yGYG75B34myKyX",
+  "nodes": 30,
+  "nodes_match": true,
+  "connections_match": true,
+  "settings_match": true,
+  "identity_match": true,
+  "normalized_defaults": [
+    "Loop Over Items v3 batchSize defaults to 1"
+  ],
+  "published": false
+}

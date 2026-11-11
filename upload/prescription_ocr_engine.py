@@ -1,4 +1,10 @@
 import os
+if os.path.exists(r"D:\huggingface_cache"):
+    os.environ.setdefault("HF_HOME", r"D:\huggingface_cache")
+    os.environ.setdefault("TORCH_HOME", r"D:\huggingface_cache")
+    os.environ.setdefault("HF_HUB_OFFLINE", "1")
+    os.environ.setdefault("TRANSFORMERS_OFFLINE", "1")
+    os.environ.setdefault("HF_HUB_DISABLE_TELEMETRY", "1")
 import re
 import json
 import io
@@ -29,11 +35,21 @@ from ocr_image_prep import (
     pad_left_white,
     prepare_trocr_crop,
     split_oversized_bands,
+    bounded_vertical_padding,
+    snap_band_separators,
+    suppress_horizontal_rules,
+    split_at_blank_rows,
+    header_ink_coverage,
 )
 from ocr_scoring import agreement_ratio
 from ocr_scoring import fuse_ocr_hypotheses as _fuse_rule
-from ocr_scoring import geo_mean_confidence
+from ocr_scoring import geo_mean_confidence, beam_confidences
 from ocr_scoring import catalog_score as _catalog_score
+from ocr_scoring import unsupported_reading
+from ocr_layout import associate_lines, rx_overlap_action
+from ocr_text_roles import non_medication_reason
+
+TROCR_LENGTH_PENALTY = 0.6
 
 class PrescriptionOCREngine:
     def __init__(self, model_dir=None, drugs_db_path=None, device=None):
@@ -152,7 +168,7 @@ class PrescriptionOCREngine:
                 eos_token_id=self.tokenizer.sep_token_id,
                 no_repeat_ngram_size=2,                    # was 3 — stricter: no repeated bigrams
                 early_stopping=True,
-                length_penalty=0.6,                        # NEW: penalise long outputs (prefer shorter, confident readings)
+                length_penalty=TROCR_LENGTH_PENALTY,
                 repetition_penalty=ocr_settings.trocr_repetition_penalty,  # stops token / mode collapse repetition
                 use_cache=True,
                 return_dict_in_generate=True,
@@ -163,16 +179,12 @@ class PrescriptionOCREngine:
     def _decode_batch(self, pixel_values):
         output = self._trocr_generate(pixel_values)
         texts = self.processor.batch_decode(output.sequences, skip_special_tokens=True)
-        seqs = output.sequences
-        seq_scores = getattr(output, "sequences_scores", None)
-        pad_id = self.tokenizer.pad_token_id
+        confidences = beam_confidences(output, length_penalty=TROCR_LENGTH_PENALTY)
         results = []
         for i, text in enumerate(texts):
-            n_tokens = int((seqs[i] != pad_id).sum().item())
-            score = float(seq_scores[i].item()) if seq_scores is not None else None
             results.append({
                 "text": text.strip(),
-                "confidence": geo_mean_confidence(score, n_tokens),
+                "confidence": confidences[i],
             })
         return results
 
@@ -248,14 +260,9 @@ class PrescriptionOCREngine:
         # Adaptive thresholding handles varying illumination
         thresh = cv2.adaptiveThreshold(body, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, 41, 15)
 
-        # 1. Filter out wavy horizontal separator lines and scribble rules
-        # Separator strokes are very wide (> 30% of body width) but thin (< 32px height)
-        contours, _ = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-        cleaned_thresh = thresh.copy()
-        for cnt in contours:
-            cx, cy, cw, ch = cv2.boundingRect(cnt)
-            if cw > (body.shape[1] * 0.30) and ch < 32:
-                cv2.drawContours(cleaned_thresh, [cnt], -1, 0, -1)
+        # 1. Suppress rule pixels ONLY. A wide connected contour can also
+        # contain the complete text of an underlined medication row.
+        cleaned_thresh = suppress_horizontal_rules(thresh)
 
         # 2. Gaussian blur connects characters horizontally into solid text bands
         blurred = cv2.GaussianBlur(cleaned_thresh, (61, 15), 0)
@@ -279,9 +286,10 @@ class PrescriptionOCREngine:
                 in_line = False
                 end_y = y
                 if (end_y - start_y) >= min_line_height:
-                    y1 = max(0, start_y - 10)
-                    y2 = min(body_bottom - body_top, end_y + 10)
-                    raw_lines.append((y1, y2))
+                    raw_lines.append((start_y, end_y))
+        # A line touching the bottom boundary still has to be emitted.
+        if in_line and len(smoothed_hist) - start_y >= min_line_height:
+            raw_lines.append((start_y, len(smoothed_hist)))
 
         # 4. Merge vertically overlapping line bands (body coordinates)
         merged_lines = []
@@ -320,7 +328,10 @@ class PrescriptionOCREngine:
         # tightly-spaced handwritten lines otherwise merge into one band and
         # several medications get decoded as a single line. (Profile and bands
         # are both in body coordinates here.)
+        ink_profile = np.count_nonzero(thresh, axis=1)
+        merged_lines = split_at_blank_rows(merged_lines, ink_profile)
         merged_lines = split_oversized_bands(merged_lines, smoothed_hist)
+        merged_lines = snap_band_separators(merged_lines, ink_profile)
 
         # Body x-window: the ink-bbox crop below is computed inside these
         # margins (same idea as the old fixed 5%-95% strip) but the crop
@@ -329,8 +340,10 @@ class PrescriptionOCREngine:
         body_x1, body_x2 = int(w * 0.03), int(w * 0.97)
 
         line_crops = []
-        MIN_BAND_PX = 45  # thinner than this = ascender/descender sliver, not a line
-        for (y1, y2) in merged_lines:
+        # Splitting allows 24px parts. Do not silently drop them with a later
+        # 45px floor (that used to erase valid short/compact medication rows).
+        MIN_BAND_PX = 24
+        for band_index, (y1, y2) in enumerate(merged_lines):
             if (y2 - y1) < MIN_BAND_PX:
                 continue
             y1_page, y2_page = y1 + body_top, y2 + body_top
@@ -354,14 +367,16 @@ class PrescriptionOCREngine:
             pad_y = max(ocr_settings.crop_pad_px, int((y2_page - y1_page) * ocr_settings.crop_pad_y_ratio))
             cx1 = max(body_x1, body_x1 + bx0 - pad_x_left)
             cx2 = min(body_x2, body_x1 + bx1 + pad_x)
-            cy1 = max(0, y1_page - pad_y)
-            cy2 = min(h, y2_page + pad_y)
+            safe_y1, safe_y2 = bounded_vertical_padding(
+                merged_lines, band_index, pad_y, body_bottom - body_top)
+            cy1, cy2 = safe_y1 + body_top, safe_y2 + body_top
 
             crop = cv_img[cy1:cy2, cx1:cx2]
             crop_pil = Image.fromarray(cv2.cvtColor(crop, cv2.COLOR_BGR2RGB))
             line_crops.append({
                 "image": crop_pil,
-                "bbox": [cy1, cx1, cy2, cx2]
+                "bbox": [cy1, cx1, cy2, cx2],
+                "content_bbox": [y1_page, body_x1 + bx0, y2_page, body_x1 + bx1],
             })
 
         if not line_crops:
@@ -474,33 +489,12 @@ class PrescriptionOCREngine:
             def _exclude(reason: str) -> None:
                 excluded_header_lines.append(f"{clean_label} ({reason})")
                 if box is not None:
-                    excluded_header_bboxes.append([int(round(v)) for v in box])
+                    region = [int(round(v)) for v in box]
+                    excluded_header_bboxes.append({"bbox": region, "kind": "rx"} if reason == "Rx Symbol" else region)
 
-            # 1. Filter out clinic pad headers, doctor titles, patient info, registration, phones, specialties
-            is_header = any(h in clean_label.lower() for h in [
-                "clinic", "hospital", "medical center", "medical centre", "center", "centre", "polyclinic", "prescription", "dr.", "dr ", "dr:", "dx:", "doctor", "consultant", "specialist",
-                "internal medicine", "pediatric", "surgery", "cardiology",
-                "tel:", "phone", "patient", "name:", "age:", "date:", "address", "reg.", "reg:"
-            ])
-            if is_header:
-                _exclude("Clinic/Doctor/Patient Header")
-                continue
-
-            # Check for diagnosis prefixes or common clinical disease conditions (v3.0-strict Rule 1)
-            is_diagnosis = (
-                bool(re.search(r'^\s*(d[x\:\.]|diag|diagnosis)\b', clean_label, re.IGNORECASE)) or
-                any(cond in clean_label.lower() for cond in [
-                    "rhinitis", "pharyngitis", "hypertension", "diabetes", "gastritis",
-                    "migraine", "asthma", "allergy", "allergic", "seasonallah", "bronchitis",
-                    "tonsillitis", "sinusitis", "urticaria", "dermatitis", "pain", "back pain", "complaint"
-                ])
-            )
-            if is_diagnosis:
-                _exclude("Diagnosis/Condition Line")
-                continue
-
-            if clean_label.lower() in ["rx", "℞"]:
-                _exclude("Rx Symbol")
+            role = non_medication_reason(clean_label)
+            if role:
+                _exclude(role)
                 continue
 
             if len(clean_label) < 2:
@@ -772,7 +766,7 @@ class PrescriptionOCREngine:
             base_ev = decoded[i]["confidence"] * (0.5 + 0.5 * base_cat)
             alt_ev = alt["confidence"] * (0.5 + 0.5 * alt_cat)
             if alt_ev > base_ev * 1.05:
-                out[i] = alt
+                out[i] = dict(alt, crop_source="florence_box")
                 print(f"[OCR Engine] Florence-box retry upgraded line {i + 1}: "
                       f"{decoded[i]['text']!r} -> {alt['text']!r} (conf {decoded[i]['confidence']:.3f} -> {alt['confidence']:.3f})")
                 changed += 1
@@ -791,8 +785,11 @@ class PrescriptionOCREngine:
         """
         if not ocr_settings.florence_retry_enabled:
             return
-        weak = [i for i, r in enumerate(decoded)
-                if r["confidence"] < ocr_settings.retry_conf_threshold and r["text"]]
+        # High decoder confidence cannot waive an independent second opinion.
+        weak = [i for i, r in enumerate(decoded) if r["text"] and (
+            r["confidence"] < ocr_settings.retry_conf_threshold
+            or not florence_texts[i]
+            or agreement_ratio(r["text"], florence_texts[i]) < .5)]
         if not weak:
             return
         weak = weak[: max(1, ocr_settings.florence_retry_max)]
@@ -858,6 +855,7 @@ class PrescriptionOCREngine:
         header_bboxes = []
         florence_crops = []
         deskew_angle = 0.0
+        layout_audit = {}
         
         if isinstance(image_input, list):
             crops_data = image_input
@@ -932,38 +930,39 @@ class PrescriptionOCREngine:
 
                 is_header = False
                 for h_box in header_bboxes:
+                    if isinstance(h_box, dict) and h_box.get("kind") == "rx":
+                        hx1, hy1, hx2, hy2 = h_box["bbox"]
+                        rx_box = [hy1, hx1, hy2, hx2]
+                        action = rx_overlap_action(crop.get("content_bbox", crop["bbox"]), rx_box)
+                        if action == "exclude":
+                            is_header = True
+                            break
+                        if action == "review":
+                            # Do not erase potentially overlapping medication ink.
+                            # A header box can graze a complete row; this requires
+                            # review, but does not make the row's text unreadable.
+                            crop["header_overlap"] = True
+                        continue
                     hx1, hy1, hx2, hy2 = h_box
                     # Give it a small margin
                     if (hx1 - 20) <= cx <= (hx2 + 20) and (hy1 - 15) <= cy <= (hy2 + 15):
                         is_header = True
                         break
 
+                if not is_header and header_bboxes:
+                    is_header = header_ink_coverage(crop["image"], crop["bbox"], header_bboxes) >= .90
                 if not is_header:
                     filtered_crops.append(crop)
                 else:
                     print(f"[OCR Engine] Dropped OpenCV crop at y={cy} (overlapped with Florence header)")
 
-            crops_data = filtered_crops
-
-            # Fuse Florence's own line readings into the OpenCV crops: the
-            # line whose box overlaps the OpenCV band vertically (>40% of the
-            # smaller band) donates its text + confidence to the fusion stage.
-            for crop in crops_data:
-                cy1, cx1, cy2, cx2 = crop["bbox"]
-                best, best_ov = None, 0.0
-                for fb in florence_crops:
-                    fy1, fx1, fy2, fx2 = fb["bbox"]
-                    ov = min(cy2, fy2) - max(cy1, fy1)
-                    if ov > best_ov:
-                        best_ov, best = ov, fb
-                min_h = min(cy2 - cy1, (best["bbox"][2] - best["bbox"][1])) if best else 0
-                if best is not None and best.get("florence_text") and best_ov > 0.4 * max(1, min_h):
-                    crop["florence_text"] = best["florence_text"]
-                    crop["florence_conf"] = best.get("florence_conf", 0.0)
-                    # Keep the Florence-box crop itself: feeding this line bbox
-                    # (original resolution) directly to TrOCR is the proven
-                    # third hypothesis for weak lines.
-                    crop["florence_box_image"] = best.get("image")
+            crops_data = associate_lines(filtered_crops, florence_crops)
+            # Geometry-only diagnostics: no patient text or duplicate images.
+            layout_audit = {
+                "detected_boxes": [crop["bbox"] for crop in raw_opencv_crops],
+                "retained_boxes": [crop["bbox"] for crop in filtered_crops],
+                "header_regions": header_bboxes,
+            }
 
             print(f"[OCR Engine] OpenCV segmented {len(raw_opencv_crops)} lines, kept {len(crops_data)} after header filtering.")
 
@@ -1011,6 +1010,12 @@ class PrescriptionOCREngine:
         # Third hypothesis: TrOCR on the Florence line-box crop for lines still
         # weak (this crop provenance matches the fine-tuning distribution best).
         decoded = self._florence_box_retry(decoded, florence_box_imgs, florence_texts)
+        # A retry may recognize a different crop. Its displayed evidence and
+        # manifest must follow that crop, not the discarded OpenCV rectangle.
+        for i, reading in enumerate(decoded):
+            if reading.get("crop_source") == "florence_box":
+                crops_images[i] = florence_box_imgs[i]
+                crops_bboxes[i] = crops_data[i].get("florence_box_bbox")
         # Honest per-line Florence confidence for lines still weak after the
         # left-margin retry (fixes the page-level confidence dilution).
         try:
@@ -1024,10 +1029,12 @@ class PrescriptionOCREngine:
         line_num = 1
         for idx, (trocr_text, f_text, bbox, c_img) in enumerate(zip(trocr_texts, florence_texts, crops_bboxes, crops_images)):
             florence_conf = florence_confs[idx] if idx < len(florence_confs) else 0.0
-            # Skip obvious header/footer/diagnosis noise
-            if re.match(r'^(rx|patient|age|date|d[x\:\.]|diag|diagnosis|signed):?', trocr_text, re.IGNORECASE) or \
-               any(cond in trocr_text.lower() for cond in ["rhinitis", "pharyngitis", "seasonallah", "hypertension", "gastritis"]):
-                excluded_header_lines.append(f"{trocr_text} (Diagnosis/Header noise)")
+            # Re-check BOTH readers, including the per-crop Florence re-read.
+            # Catalog-like hallucinations must not override explicit patient
+            # fields from the same crop and become medication candidates.
+            role = non_medication_reason(f_text) or non_medication_reason(trocr_text)
+            if role:
+                excluded_header_lines.append(f"Line {idx + 1} ({role})")
                 continue
 
             # Strip leading numbers (e.g. "1.", "2-", "3)", "1:") from text so line_number is the sole source of truth
@@ -1115,6 +1122,19 @@ class PrescriptionOCREngine:
                     pass
 
             # Combine strengths: TrOCR has medical format structure, Florence has exact raw characters
+            layout_ambiguous = isinstance(crops_data[idx], dict) and crops_data[idx].get("layout_ambiguous", False)
+            header_overlap = isinstance(crops_data[idx], dict) and crops_data[idx].get("header_overlap", False)
+            if unsupported_reading(clean_trocr, clean_florence, layout_ambiguous=layout_ambiguous):
+                chosen_raw = "غير مقروء"
+                is_illeg = True
+                conf = min(conf, 0.25)
+                legibility_reasoning = "لا توجد قراءة موثوقة لهذا المقطع؛ تداخل في التخطيط أو قراءات متباعدة، يرجى مراجعة الصورة الأصلية"
+            elif not clean_trocr or not clean_florence:
+                legibility_reasoning = "قراءة من نموذج واحد دون تأكيد مستقل؛ بحاجة لمراجعة الصيدلي"
+            if header_overlap:
+                conf = min(conf, 0.70)
+                if not is_illeg:
+                    legibility_reasoning = "حدود رمز الروشتة قريبة من السطر؛ راجع المقطع مع الصيدلي قبل اعتماد القراءة"
             results.append({
                 "line_number": line_num,
                 "raw_name": chosen_raw,
@@ -1127,7 +1147,7 @@ class PrescriptionOCREngine:
                 "is_fragment_too_short": is_fragment,
                 "visual_style": v_style,
                 "model_disagreement": is_disagreement,
-                "visual_evidence_ok": True,
+                "visual_evidence_ok": bool(not is_illeg and not is_disagreement and not header_overlap and clean_trocr and clean_florence),
                 "legibility_reasoning": legibility_reasoning,
                 "bbox": bbox,
                 "cropped_image": cropped_image_b64,
@@ -1189,7 +1209,7 @@ class PrescriptionOCREngine:
                 "approximate_image_orientation": "portrait",
                 "number_of_handwritten_lines_visible": len(results)
             },
-            "total_lines_detected": len(crops_data),
+            "total_lines_detected": len(results),
             "medications_found": len(results),
             "medications": results,
             "excluded_header_lines": excluded_header_lines,
@@ -1198,6 +1218,7 @@ class PrescriptionOCREngine:
             "pipeline": "hybrid_florence_trocr",
             "prompt_version": "v5.0-strict",
             "preprocessing": {
+                "layout_audit": layout_audit,
                 "deskew_angle": deskew_angle,
                 "trocr_letterbox": bool(ocr_settings.trocr_letterbox),
                 "florence_canvas": ocr_settings.florence_canvas,

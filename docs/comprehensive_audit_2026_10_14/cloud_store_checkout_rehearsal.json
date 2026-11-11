@@ -1,0 +1,17 @@
+{
+  "checks": [
+    "explicit_enrollment_own_profile_rls_no_metadata_privilege_escalation",
+    "foreign_super_admin_and_unverified_or_wrong_sector_products_rejected",
+    "price_mismatch_rolls_back_order_stock_and_reservation",
+    "pending_reservation_server_price_exact_replay_after_disable_no_double_stock",
+    "cancellation_releases_disabled_inventory_once_and_retry_stays_cancelled",
+    "retail_completion_and_no_context_rls_denial",
+    "pharmacy_quote_rollback_and_same_order_rx_completion_without_reuse"
+  ],
+  "synthetic_rows_rolled_back": true,
+  "existing_business_rows_modified": false,
+  "local_database_used": false,
+  "external_auth_calls": false,
+  "notifications_sent": false,
+  "live_rls_role": "aicos_runtime"
+}

@@ -1,0 +1,14 @@
+{
+  "checks": [
+    "actual_additive_migration",
+    "partial_receipt_idempotency_and_changed_replay_guard",
+    "cumulative_quantity_source_and_evidence_validation_no_resale_or_refund",
+    "completed_cancellation_blocked_pending_inactive_reservation_released_once",
+    "runtime_direct_sql_cannot_overreturn_mutate_or_cancel_completed_sale",
+    "runtime_rls_hides_other_tenant_and_missing_context"
+  ],
+  "temporary_schema_removed": true,
+  "public_data_modified": false,
+  "local_database_used": false,
+  "migration_sha256": "c0b39f2d723c19ae2c8cb9b25511d7d58e819b9d5699bbfdafd7c606dca15e9c"
+}

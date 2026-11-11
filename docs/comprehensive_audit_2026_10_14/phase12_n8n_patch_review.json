@@ -1,0 +1,22 @@
+{
+  "changed_count": 12,
+  "changed_ids": [
+    "qrv7DBmlhfYp63X9",
+    "fsCIHwHnZPCl9VSW",
+    "ofhk7M9PfQzHx0BV",
+    "tBAAF1jT2jP9dJiD",
+    "h6V0iABymaF3COv7",
+    "YLX90juWgWUxaHHE",
+    "zWNggcB1fRoc7VJN",
+    "AIcosDiscount002",
+    "AIcosSummary0003",
+    "AIcosWormAnchor01",
+    "AIcosWormAlert002",
+    "AIcosEmgAlertFIX03"
+  ],
+  "unchanged": 13,
+  "all_idempotent": true,
+  "credentials_and_targets_preserved": true,
+  "no_messages_sent": true,
+  "no_live_n8n_access": true
+}

@@ -1,0 +1,10 @@
+{
+  "committed": true,
+  "revision": "20261017_inventory_adjustments",
+  "existing_stock_and_prices_unchanged": true,
+  "new_adjustments_created": 0,
+  "runtime_nobypass": true,
+  "private_rls_tables": 1,
+  "backup_directory": "D:\\.codex\\backups\\ai-cos-inventory-adjustments\\20261017T070406Z",
+  "local_database_used": false
+}

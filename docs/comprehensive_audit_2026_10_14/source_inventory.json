@@ -1,0 +1,2847 @@
+{
+  "source_files": [
+    {
+      "path": "AI-COS-Pharmacy/backend/app/core/agents_rate_limit.py",
+      "lines": 55,
+      "sha256": "9052f2f0c7ab79f8847e12599961512135e25a48303ebffe48874d98bb5d789d",
+      "functions": 2
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/core/automation_retry_worker.py",
+      "lines": 81,
+      "sha256": "728bfb5102d470e68d31f050c635cf40ff7e89a1ae27f4089fa3965d33e135da",
+      "functions": 1
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/core/config.py",
+      "lines": 108,
+      "sha256": "0707d3f47fcd50f01a63726f2f4f17e66b5507fb1d423901bce48ac4c981fdfa",
+      "functions": 2
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/core/decorators.py",
+      "lines": 38,
+      "sha256": "4cf1a2a86dc2f75cc38520c85301eb105d165dcdcb2473855e6d8ec882570b23",
+      "functions": 3
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/core/exceptions.py",
+      "lines": 32,
+      "sha256": "82cfbe5337f93f503b7f46cc751fb38e732d63dc9a9bc27eb0199e1f84eb9b30",
+      "functions": 7
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/core/logging.py",
+      "lines": 5,
+      "sha256": "76f5a8eee91a68ddfc72dda9c812fee6917be336869bf40a8e9e854a1a197ee6",
+      "functions": 1
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/core/n8n.py",
+      "lines": 69,
+      "sha256": "fa48e5204eb564ec579aefb3f602d0735034ca9588cb21e0cc21dfda98a06a9c",
+      "functions": 3
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/core/rate_limit.py",
+      "lines": 39,
+      "sha256": "de254384a9e2c434471c047f9336277db88ebcd34ad7ac69a96ca3b3faa1af2a",
+      "functions": 2
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/core/verticals/__init__.py",
+      "lines": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "functions": 0
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/core/verticals/loader.py",
+      "lines": 125,
+      "sha256": "b04282d88204878eca319e6c74a3c7c2fca7736e17f9f7e013d7dbdebcf2d50b",
+      "functions": 8
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/core/verticals/scaffold.py",
+      "lines": 169,
+      "sha256": "fddb9cac16325e98f28f11b3f2eceb5de8cee4aa64d873324fd22f3d64625bca",
+      "functions": 1
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/core/worm_ledger.py",
+      "lines": 336,
+      "sha256": "fd51d7340024ee6c22224b6c5fdfc767158b404206d612f66aada3715a300e94",
+      "functions": 14
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/core/worm_worker.py",
+      "lines": 91,
+      "sha256": "8f9bb17305f041b262e6b2ce779093258c94b50d231891be351f3928ce628b88",
+      "functions": 1
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/database/session.py",
+      "lines": 76,
+      "sha256": "9c689d94b077ba113f5fbc61ec1e55716b41da1de0497b069f2a009c5c624368",
+      "functions": 4
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/dependencies/auth.py",
+      "lines": 284,
+      "sha256": "22765dad6f24b11a292a427e2e5764862494863f7bd444a799ad8717ced222e8",
+      "functions": 9
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/dependencies/common.py",
+      "lines": 16,
+      "sha256": "9cc492a63459922600d92abf55b2e1141c3c0b6d9fe37f8293e30f4e9d557f25",
+      "functions": 1
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/dependencies/pagination.py",
+      "lines": 11,
+      "sha256": "5f52a7807add171c0652519d32cb99940a301cd1f45a66133a19a7b59c0d828a",
+      "functions": 1
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/dependencies/session.py",
+      "lines": 61,
+      "sha256": "c4241ddc592a705094c16ed75dfcd523cbbdc7b764864519abacb21397ae8e21",
+      "functions": 1
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/accounting/forensics.py",
+      "lines": 381,
+      "sha256": "476b6b003ae231e1750139e806768308c01c590acdaac88d385b3215792dc221",
+      "functions": 7
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/accounting/router.py",
+      "lines": 96,
+      "sha256": "63a44adc6d60849ff95f96557063070ffa271bd24bddf9969405bd2fd3d5cf5b",
+      "functions": 5
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/accounting/schemas.py",
+      "lines": 62,
+      "sha256": "b22d115a319e696506763677241e7154db16e7f549e136ed0d949487ee80f8b1",
+      "functions": 0
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/accounting/service.py",
+      "lines": 388,
+      "sha256": "a768c17a31040a0f86eefc6d8e18f94dd9b5fc5733444ce07cbeab6715e38369",
+      "functions": 5
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/accounting/working_capital.py",
+      "lines": 144,
+      "sha256": "5bd967792c4454f64acd4faa5a5806ec0c73bf2f5a9bbaae41384729b6e2b53e",
+      "functions": 1
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/agents/__init__.py",
+      "lines": 1,
+      "sha256": "25c63c58f2b35056207b1c15d5ec8a22e4f5272359ccc2630729e53d2cf163f2",
+      "functions": 0
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/agents/analytics.py",
+      "lines": 160,
+      "sha256": "7a0476b47dd586146ea156f9dd8211ba6f326bc8fef9e42e3394d677f2d1b829",
+      "functions": 2
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/agents/automation.py",
+      "lines": 104,
+      "sha256": "3d22c22a7b77c181c2da2cd35689f46a0addadb408e4e516a44641c161870071",
+      "functions": 1
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/agents/cross_sell.py",
+      "lines": 75,
+      "sha256": "1e68260222f33478c191108455c40a9f037305be01ed4eae0dcf7a246a6bee65",
+      "functions": 2
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/agents/customer_success.py",
+      "lines": 101,
+      "sha256": "75f30502dd32e83b12e3c3823f9a15bee1325a6fb3e7d7589ec92eb77d3fade9",
+      "functions": 2
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/agents/documentation.py",
+      "lines": 227,
+      "sha256": "16eca032dbdb4e18f5b67a2483d8b5ec0651d5a25b85b720b998a983f927c14c",
+      "functions": 2
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/agents/executive.py",
+      "lines": 64,
+      "sha256": "0b15f2354a34657ec7fcacb23b430a7b5c49e851cd6d9084c7cc2beb4459ec84",
+      "functions": 1
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/agents/finance.py",
+      "lines": 94,
+      "sha256": "568d185815b40a4a1ef9e16c138f07d0d8696cc775751bc20350cf6b1ce06171",
+      "functions": 1
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/agents/financial_vision.py",
+      "lines": 165,
+      "sha256": "392e5d7f2b005e1f9a6b81d28f3e01296c7ff2ddfc7d7511cdb1a1e372e3927e",
+      "functions": 3
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/agents/hybrid.py",
+      "lines": 78,
+      "sha256": "5ba9eb358f230f462432e942b47cd1ea7bf1a75b7167cd6c977c36babdf59345",
+      "functions": 1
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/agents/inventory.py",
+      "lines": 341,
+      "sha256": "79e7d3701d0b9951c499c983d7c1ae13fd3aebb5052f9525c05e196657be89d0",
+      "functions": 3
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/agents/market_intelligence.py",
+      "lines": 1642,
+      "sha256": "8ad3d2579cdf2002356fc99a59d996bad9b6723774eb7e1847d786cf97302f6a",
+      "functions": 13
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/agents/marketing.py",
+      "lines": 149,
+      "sha256": "cad79fc788d76157744c761d116e73abf7d09065812ea449f7218b86a5aec210",
+      "functions": 2
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/agents/model_manager.py",
+      "lines": 321,
+      "sha256": "e4d9d5228131d92d620645bbf90180633d165559fdd6f49c198d4575d2ac4d64",
+      "functions": 9
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/agents/orchestrator.py",
+      "lines": 162,
+      "sha256": "fd791394b9bfc40ecedd6e49948b5be8054a82d96253d7f49efc1170f014bbc0",
+      "functions": 2
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/agents/pricing.py",
+      "lines": 254,
+      "sha256": "1715d41e1530d32115e12bc0f1ce6b0ddf948e9b3c91c3cd1a76e40061a9e331",
+      "functions": 1
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/agents/router.py",
+      "lines": 1875,
+      "sha256": "3bec19d3cb0b41d1d04d504bee0dd3e219b38d1f48b96a81b6fa3520159db3c4",
+      "functions": 41
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/agents/sales.py",
+      "lines": 80,
+      "sha256": "0800b79b3437fc13d103a6f6455f6ef5f7933099d5ecd2b3a8b23f767286d099",
+      "functions": 2
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/agents/schemas.py",
+      "lines": 132,
+      "sha256": "c028ebe41efa3fc4bc77f43919ffc38aaea34af08a6c9411bfc9cadf6becf33d",
+      "functions": 0
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/agents/simulator.py",
+      "lines": 138,
+      "sha256": "f455862c64e931a3e21ee9048e99a5e4a8081f39a191e95bd36ccc2a9278a0d7",
+      "functions": 3
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/agents/simulator_data.py",
+      "lines": 317,
+      "sha256": "cd998ca6c9e95e2608de01317d2c70ab73d8f399428bed009f9e7d9b385991fb",
+      "functions": 8
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/agents/support.py",
+      "lines": 122,
+      "sha256": "a67699714a8582e8b3ddf5ec7e3ee6a8bd225f781db3572f30ace8bad4348e80",
+      "functions": 2
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/ai/__init__.py",
+      "lines": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "functions": 0
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/ai/catalog_engine.py",
+      "lines": 283,
+      "sha256": "6256d0ce58621d3d6b97bc35c872377078c04f2f165b3262b2968d1ce0fcb979",
+      "functions": 4
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/ai/clinical_policy.py",
+      "lines": 98,
+      "sha256": "1708e8a50163d6e187507196872476ebcc6b298e411cd560a236e29d96c7f374",
+      "functions": 5
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/ai/copilot_draft.py",
+      "lines": 76,
+      "sha256": "8a77b1297f6b21aa6d784063b442bab81c07546aa1a4e459b769aa0228d8bc25",
+      "functions": 1
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/ai/coreference.py",
+      "lines": 81,
+      "sha256": "d39ee0e0f19892d5dab4b33268ce24bbf7d9b78d3947c3396d772c07d260d658",
+      "functions": 4
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/ai/escalation.py",
+      "lines": 183,
+      "sha256": "5ef48197fba7df48f847259d281925f02e5d0ac9eaa059ee89068ef638e7513f",
+      "functions": 3
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/ai/hybrid_retrieval.py",
+      "lines": 66,
+      "sha256": "369cc3e75e36374827c8f876b05784f8e15df093efbef203d8e3c6ae4d48e8cb",
+      "functions": 5
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/ai/hybrid_search.py",
+      "lines": 67,
+      "sha256": "677311a6424a7aedf33e9ebebe82023dbc5fec05b13978dc05a84bea5fac714b",
+      "functions": 2
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/ai/intent_classifier.py",
+      "lines": 173,
+      "sha256": "e368cc65af27daba2784cb1c183e8cd21b6be2240d2005480f512cd9726c12d9",
+      "functions": 3
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/ai/interaction_guard.py",
+      "lines": 345,
+      "sha256": "e3e7ba868139cd0c64d8959ebe570b8fa826b35f1988d11a20c2fb7a478ebecf",
+      "functions": 2
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/ai/knowledge_bundle.py",
+      "lines": 71,
+      "sha256": "a500ebd14639401e6d26f9dafb4491585957753094ab6c49fafaac91649ab60b",
+      "functions": 4
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/ai/llm_engine.py",
+      "lines": 502,
+      "sha256": "646495fb2254fa6183267654915ed0cd396fc5616384225998639d06bd0f8d57",
+      "functions": 16
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/ai/math_engine.py",
+      "lines": 324,
+      "sha256": "fe389fd000248f7f569e06901b8906dfed869ae36a640f23d836da11a257de25",
+      "functions": 3
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/ai/nlp_processor.py",
+      "lines": 154,
+      "sha256": "6bfaa38c3bdce819936d895800686f6d45a2eb19d8c8984c287be380e2bca839",
+      "functions": 3
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/ai/project_knowledge.py",
+      "lines": 989,
+      "sha256": "ac525d5aeb375e24efe50c6051efaf1cf2ecdad61e6a8ad9e2732c38f860092b",
+      "functions": 3
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/ai/regimen_math.py",
+      "lines": 34,
+      "sha256": "1a442be3e08d97e58a794a68864a5205d2903a12412bfba9b920115d6d29e026",
+      "functions": 3
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/ai/reranker.py",
+      "lines": 56,
+      "sha256": "667a9186e14336c1c5e49f364d1509497106f2f7835f6ae2e229400e9d1c45e1",
+      "functions": 4
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/ai/response_verifier.py",
+      "lines": 75,
+      "sha256": "83573f534f9149f91289999a31e6d0f0417d4a6dbcb32d97a5908df228ae7061",
+      "functions": 3
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/ai/router.py",
+      "lines": 1040,
+      "sha256": "ae1985cbbefcffa3546e8844b5a670f35093ae12370f0e38a9cfd5101bcfa96f",
+      "functions": 21
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/ai/schemas.py",
+      "lines": 37,
+      "sha256": "fef0d42b3079deb046380a65dc2d3c10dafebd24a23311bed9a3a77f0e7868c7",
+      "functions": 0
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/ai/security_guard.py",
+      "lines": 86,
+      "sha256": "b7bf4c322b78df955a5ed5f28029f51a57b718be23ae6e977cd212b3fbd7c059",
+      "functions": 2
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/ai/service.py",
+      "lines": 1730,
+      "sha256": "8afee5e42022053b962a350b2517e53f1e15b1e6c516be92069d727c108a1809",
+      "functions": 32
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/analytics/__init__.py",
+      "lines": 1,
+      "sha256": "870462b3c64efae6ad2f1f275f31776cfd964a02760bbb81d3a1bb790c78c4c5",
+      "functions": 0
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/analytics/router.py",
+      "lines": 358,
+      "sha256": "86eb361fc579655bb507c36dd672b24d1852113dc2cdc21d45e8e0dd91646011",
+      "functions": 13
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/analytics/schemas.py",
+      "lines": 131,
+      "sha256": "11742365841b1eede70abc134cafff810c2b35b844139837eea089413add74b5",
+      "functions": 0
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/analytics/service.py",
+      "lines": 504,
+      "sha256": "b06a4682be8f967f572e6c8ece456a59dad83a160d84d2014cf5541090e3b89a",
+      "functions": 9
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/auth/__init__.py",
+      "lines": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "functions": 0
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/auth/router.py",
+      "lines": 151,
+      "sha256": "6c6554edc4564157ee5080ab4992efade957a424d9db9397913e022412097b25",
+      "functions": 3
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/business_value/__init__.py",
+      "lines": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "functions": 0
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/business_value/impact_engine.py",
+      "lines": 228,
+      "sha256": "3380b5644a0c260ca5bf0b54c04913a8eef4e3b410467d7da3b0b66bddbe15cc",
+      "functions": 3
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/business_value/router.py",
+      "lines": 1099,
+      "sha256": "35d8ae7a93098193c79d5b888231ede23ac5bb44b53a46493771eb40fddfc93e",
+      "functions": 20
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/business_value/value_chains.py",
+      "lines": 152,
+      "sha256": "854ef7f09ae141a67cf800aa2f93a866e356f895f9f63c885af9eb8718c51d7b",
+      "functions": 0
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/customer/router.py",
+      "lines": 415,
+      "sha256": "57a54de10c93da06e72311a7120bfe5157873b0610ff335091ad3ff4efc732bc",
+      "functions": 13
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/customer/schemas.py",
+      "lines": 37,
+      "sha256": "744a25bcea0a3eb9688adea97933beb94353149a3719c388c2af0f62460c015e",
+      "functions": 0
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/customer/service.py",
+      "lines": 144,
+      "sha256": "b0c4d8f6f940bd93c1d45689b4b6bf5c7081afef0315eea3435f821f003ae44e",
+      "functions": 5
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/customer_cycle/__init__.py",
+      "lines": 1,
+      "sha256": "dadd7dbe80cc8a06bb5e48542e194a8ba00ab59bea619b27326d32757ba4ab43",
+      "functions": 0
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/customer_cycle/router.py",
+      "lines": 70,
+      "sha256": "7881b4482cda9a245e157abb23c918cb2a79c2f1bd49461c3fae6d7b750624c8",
+      "functions": 3
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/customer_cycle/schemas.py",
+      "lines": 22,
+      "sha256": "59ac8192e515676f3e2064e3f3783fd40a41134eb433af5aa3cbe7b2125547ab",
+      "functions": 0
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/customer_cycle/service.py",
+      "lines": 222,
+      "sha256": "d8ebc23719cec84d0c9011d3bcf9072df9fdc96290e3e1fb02cc523ed2023f25",
+      "functions": 3
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/drug/router.py",
+      "lines": 236,
+      "sha256": "a17930496fbd41ee670e582113fe899599b4e22722269a68c7cf9a59f42991ed",
+      "functions": 17
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/drug/schemas.py",
+      "lines": 166,
+      "sha256": "67572a3405684e0698256df5949d2d80a6fcb458696e95df42d7fb86660f3f21",
+      "functions": 2
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/drug/service.py",
+      "lines": 713,
+      "sha256": "ba02f8237366a676c5b29a8ef9cf27562cc6c157c96faf0ce1019c2977abde47",
+      "functions": 21
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/files/__init__.py",
+      "lines": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "functions": 0
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/files/router.py",
+      "lines": 21,
+      "sha256": "ad3a9230371808da59346c2bed738372a67cec7567469bda8122bdd4ac9faf1a",
+      "functions": 1
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/files/schemas.py",
+      "lines": 7,
+      "sha256": "d94d4f5a0548f0f05dc29f89c359541e26e5a797be223c3610a0df9551a1e142",
+      "functions": 0
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/files/service.py",
+      "lines": 103,
+      "sha256": "d7562bdaecda9575a5da81bc1d40c1efd51cce0ee5ea28cb0ec2c26d845b2655",
+      "functions": 4
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/governance/__init__.py",
+      "lines": 1,
+      "sha256": "b958afbfb447f8b58f166bf61981dba92ed5e9de98531da14b5e6934ec73083a",
+      "functions": 0
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/governance/router.py",
+      "lines": 745,
+      "sha256": "dae5ccb4288eff92e07cb8afb74be260d5ffbd087c699c59aac2194132be4fb0",
+      "functions": 12
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/governance/schemas.py",
+      "lines": 47,
+      "sha256": "4092f8b0d94d36444b1a62bc7dbfe03d846ce76a9044273ea00c4ef769b0fa16",
+      "functions": 0
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/governance/service.py",
+      "lines": 223,
+      "sha256": "f6d4872007c79b21385138964aadc3d17c2c1b77090f49d55e674000e47e06e4",
+      "functions": 5
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/insights/__init__.py",
+      "lines": 1,
+      "sha256": "7eb70257593da06f682a3ddda54a9d260d4fc514f645237f5ca74b08f8da61a6",
+      "functions": 0
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/insights/router.py",
+      "lines": 224,
+      "sha256": "7fc6d027676847bd67874801e782d047530cc4b05b10644d367e4862c7d3a2b7",
+      "functions": 8
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/inventory/router.py",
+      "lines": 107,
+      "sha256": "e2feed5dc2319e4efa98fcb6e93f5b25d366459cb6431e9372d50fe7cd4209fc",
+      "functions": 2
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/notification/router.py",
+      "lines": 24,
+      "sha256": "67875b246847ae49bf40694cdfde7e5e0c6cf96d4c0ea88dd79dd689f4a6914f",
+      "functions": 2
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/notification/schemas.py",
+      "lines": 13,
+      "sha256": "fc27594fe66179e5bf3fb8eb7dbce53d72c4a6f9727e1e85f8caf710b4d67177",
+      "functions": 0
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/notification/service.py",
+      "lines": 37,
+      "sha256": "a6b0286a28f3b23bc5e510569741d6283738f5f9a024306e27a13c8920c77b3a",
+      "functions": 2
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/order/eta_invoice.py",
+      "lines": 243,
+      "sha256": "c1dbd7abce43f7e4eb870d185f0cdf10f1f3d358cfece93e2af41b98775e951f",
+      "functions": 7
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/order/router.py",
+      "lines": 179,
+      "sha256": "f6b824518e45f59588ba8ac53468f36f74030986972b7d639e67567df75c31da",
+      "functions": 8
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/order/schemas.py",
+      "lines": 46,
+      "sha256": "2eab6f1965f33e80951ba9d3ee610711ec611a82470710f73021719a9ea7a7d1",
+      "functions": 0
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/order/service.py",
+      "lines": 561,
+      "sha256": "6740be5fe27be799a153c75820a070e14417e7d20b38489d3e6eb756c19c6c25",
+      "functions": 8
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/prediction/__init__.py",
+      "lines": 1,
+      "sha256": "1468a784d03128d963527ff2590906782d8acd2bcccbd4b1a8793f01c502eeb9",
+      "functions": 0
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/prediction/model_wrappers.py",
+      "lines": 58,
+      "sha256": "b39babcfbf8f2d98285bd8f06bdbcedff35e83b01003a3693ceb994a3d67ffbe",
+      "functions": 8
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/prediction/router.py",
+      "lines": 61,
+      "sha256": "69f56c9eab134fcaf71d108516222f6193978eeb584df1bbdafd602a0161c6a6",
+      "functions": 3
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/prediction/schemas.py",
+      "lines": 47,
+      "sha256": "f0fa67db4142057e1f2f79f4b27bee4ae6355212150e2769117a9c21ec213a58",
+      "functions": 0
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/prediction/service.py",
+      "lines": 425,
+      "sha256": "1411023f864ead355a43f546335be884e7dac83c931e3cd335e724f3a814dd64",
+      "functions": 9
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/prescriptions/__init__.py",
+      "lines": 1,
+      "sha256": "7eb70257593da06f682a3ddda54a9d260d4fc514f645237f5ca74b08f8da61a6",
+      "functions": 0
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/prescriptions/corrections.py",
+      "lines": 133,
+      "sha256": "faa559ba3e6f58bc7b82a5d67cb6a815a2567ddb2f4c030d32c6b6eeff4851d3",
+      "functions": 3
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/prescriptions/crop_store.py",
+      "lines": 101,
+      "sha256": "9444715dc462b9e656fa10ad99c857c2d96c1fedd787c6bb68209b0bca2445fd",
+      "functions": 7
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/prescriptions/integrity.py",
+      "lines": 77,
+      "sha256": "6b4a5963e44da19f87f808046a85c5039b659f8bad3b49670792b5b280b95e90",
+      "functions": 5
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/prescriptions/matching.py",
+      "lines": 736,
+      "sha256": "49d469a6bc704d3c5a1f982b86316ef986e2db341803269619efee8b58a9a1d8",
+      "functions": 15
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/prescriptions/review_evidence.py",
+      "lines": 45,
+      "sha256": "a26f1ba47e6d788fc61171877931229e95933f30b2b57b904ee0d19abd9fd86b",
+      "functions": 2
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/prescriptions/router.py",
+      "lines": 813,
+      "sha256": "379d6bd3713dfbcfc9e42948bbd247576afdb17a28ce3adacd76ffc03d0e65c7",
+      "functions": 14
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/prescriptions/schemas.py",
+      "lines": 64,
+      "sha256": "120a513ee083a5194edcd1b31882884a06a83a09554f903cf6bc79593a75bccb",
+      "functions": 1
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/prescriptions/strength.py",
+      "lines": 99,
+      "sha256": "4e3809ed98bf42e2c22e45443c229bb5ca811b95ccd88c1fe6804dc3525c9815",
+      "functions": 6
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/prescriptions/vision.py",
+      "lines": 124,
+      "sha256": "fdb1872c21f33a76bdd63e98c25dd28076da50d55372365a5c848885dbda1fa9",
+      "functions": 3
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/procurement/router.py",
+      "lines": 179,
+      "sha256": "bf29c962806bd458c33d64fdf9c812316faa1011a80c8d52ac9ce95df5a0b728",
+      "functions": 10
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/procurement/schemas.py",
+      "lines": 115,
+      "sha256": "953b6e0abc0bb2b3eaef8184a66968b0c720e9993bc4eb21e7ae360eaeec2333",
+      "functions": 0
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/procurement/service.py",
+      "lines": 480,
+      "sha256": "c543fb73ed452829f597040df3ec2a10a5301fd3c733115c2b5858d331e16d26",
+      "functions": 12
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/runtime/__init__.py",
+      "lines": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "functions": 0
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/runtime/router.py",
+      "lines": 88,
+      "sha256": "fd43f6982f57027996dbeed935cf2abff6473cdac6552bac2020bf67ff2c59a6",
+      "functions": 1
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/settings/__init__.py",
+      "lines": 1,
+      "sha256": "69cba59810437c32bb2e1472eb3a96d0ae2241274b5ac033ecf0027cd9bfda69",
+      "functions": 0
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/settings/router.py",
+      "lines": 115,
+      "sha256": "5fcc55ed453fd79ea8fda2e51db9a7d73d1678e45c0c9e9546d8a3be9d6dcf28",
+      "functions": 4
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/settings/schemas.py",
+      "lines": 20,
+      "sha256": "e4eb27ea4c0ed45b74785bb212afb4fe9c62ee0b57b02f0effa1e4c9e5f96ec2",
+      "functions": 0
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/tracking/router.py",
+      "lines": 44,
+      "sha256": "67f1b7ab8c7b4a09595d7c960f30cd662419439e25b5a0669a8b5fc26798271a",
+      "functions": 2
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/tracking/schemas.py",
+      "lines": 23,
+      "sha256": "15a4120abe6245f78b485eef53e664c4236a374b33cde6d9a010113121017bc5",
+      "functions": 0
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/tracking/service.py",
+      "lines": 46,
+      "sha256": "774546c06bb13e56c448a38de9e76283a5eb55d8ffbffa68501e72c5fd2d1d4e",
+      "functions": 3
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/verticals/__init__.py",
+      "lines": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "functions": 0
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/verticals/router.py",
+      "lines": 317,
+      "sha256": "9e1eed015beb72a300c09d5469014b55aa7a3fb6b5502814d75505b0d60869d2",
+      "functions": 11
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/webhooks/__init__.py",
+      "lines": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "functions": 0
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/webhooks/router.py",
+      "lines": 15,
+      "sha256": "c9afc1e23f02e9cac64cc32b86670254fb8354675caca016d7592cd3d357b2a5",
+      "functions": 1
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/webhooks/schemas.py",
+      "lines": 5,
+      "sha256": "9d46bbcf9621b4392c8d2e7ca327938cf17895da1ab2d1e23618a264e819bb1c",
+      "functions": 0
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/domains/webhooks/service.py",
+      "lines": 13,
+      "sha256": "b7d67a7d97aeead6a6a99d769886c46a80004c148f0b4c32bf499862ceabc5a5",
+      "functions": 1
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/main.py",
+      "lines": 405,
+      "sha256": "0f2917910fa051a307f493dc9a7c7e353e84933c5e9ecfab4598591286595c01",
+      "functions": 11
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/models/__init__.py",
+      "lines": 49,
+      "sha256": "03043d364a5f17f87d54431f8937e3c062d8e06dcdf91e7494178d81cc009d32",
+      "functions": 0
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/models/ab_test.py",
+      "lines": 37,
+      "sha256": "849dedd73d6efc6d14a9fa491146b258a4053e4a22a88601534513c51b8332eb",
+      "functions": 0
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/models/accounting.py",
+      "lines": 43,
+      "sha256": "3b67b23efdc095d92f37c1feb66591f3c6bf69cfc1f5b464493f2d462f56d5ed",
+      "functions": 0
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/models/customer.py",
+      "lines": 33,
+      "sha256": "c8be8ff12ee8c7b1584f704c7083f08bb004c2efd600ce0a4ce35fc0baf5d111",
+      "functions": 0
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/models/drug.py",
+      "lines": 60,
+      "sha256": "e8cae180f1c76e175b1239a9d2a8699b4d72f3a83fd37e5ab34ec5549a506699",
+      "functions": 0
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/models/inventory.py",
+      "lines": 22,
+      "sha256": "73da5cdaf77a11e95a2480b1530d85775ff0c23179f88db3461e71f5b84698f8",
+      "functions": 0
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/models/knowledge.py",
+      "lines": 23,
+      "sha256": "abfc032bdbbe30e65baa57d174b9ed20c9f82c2e53673bae73867c9c3705eecb",
+      "functions": 0
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/models/market_action.py",
+      "lines": 70,
+      "sha256": "9c4303413df4be8416ff62b2c0e2b8632ece21a66f2d720bdfbc90eb0921cb63",
+      "functions": 0
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/models/market_action_outbox.py",
+      "lines": 45,
+      "sha256": "c7da75ac723dd7b5f6e988f48966988e1a5a32d886c7bf9a99601170a29fc56b",
+      "functions": 0
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/models/ocr_correction.py",
+      "lines": 53,
+      "sha256": "921c74b6471af94e15961b234f565ac08addf8752efc168ecb8b2056fab7fac7",
+      "functions": 0
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/models/order.py",
+      "lines": 37,
+      "sha256": "6fd0c094ac4639fc65bb7e1f1e66f1a8c5aaefe10273d327ad49d610a2f34a94",
+      "functions": 0
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/models/outbox.py",
+      "lines": 16,
+      "sha256": "94e1a88d4c91208b1cc3ffec37b5f9eae7a62c54633bdfe43e506de611f04a2d",
+      "functions": 0
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/models/prescription.py",
+      "lines": 65,
+      "sha256": "604b77c1288eb5f25b9e7732afc519ab364cf1acf17693f2323437bec2aace03",
+      "functions": 0
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/models/procurement.py",
+      "lines": 64,
+      "sha256": "e66d767f58ba49b50732f2fb0f282de3e7a80730190d6f5a6c6327a9ab96636f",
+      "functions": 0
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/models/session.py",
+      "lines": 37,
+      "sha256": "a2b664e3cd869d408c34ca5e13cc2e4c61a713db98cfac352dad9a58dc0fea4b",
+      "functions": 0
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/models/settings.py",
+      "lines": 25,
+      "sha256": "73ff4596a35a0b551baac8c3af0057568c0e832d89590bbeae432df4d2885848",
+      "functions": 0
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/models/tenant.py",
+      "lines": 18,
+      "sha256": "6bc23132d4e5f538eedb4183fd7123a49001a74835cb4bf8a389a6fa89a702c9",
+      "functions": 0
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/models/tracking.py",
+      "lines": 86,
+      "sha256": "8ad94df29908329a5c9ec29bf4540773fb86a829218636ee6c4f618b15b8a969",
+      "functions": 0
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/utils/exceptions.py",
+      "lines": 1,
+      "sha256": "d68d8a71d113d6daf1b978f26f3afc24d0f050e188a29354cb21fd587fd10a33",
+      "functions": 0
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/app/worker.py",
+      "lines": 53,
+      "sha256": "5d63c442afe316d6639d857cae4f743373d3ad5fda1065ef0ff53573310d8e93",
+      "functions": 3
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/tests/__init__.py",
+      "lines": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "functions": 0
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/tests/_seed_dryrun.py",
+      "lines": 118,
+      "sha256": "19558f29af733d0de86523139a3787957e3c7851841400541e8e420f215429f4",
+      "functions": 3
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/tests/ai/__init__.py",
+      "lines": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "functions": 0
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/tests/ai/test_chat_session_capability.py",
+      "lines": 44,
+      "sha256": "d865d63c9512e30018e26ccb3a34e84fc9c86a07c410fd76faf0661e89dd96d0",
+      "functions": 4
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/tests/ai/test_clinical_benchmark_cases.py",
+      "lines": 69,
+      "sha256": "63ef5b4f8bf8d2f91477c744bb2f7dd9d1942f948d957a02deef68a8ce945a61",
+      "functions": 6
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/tests/ai/test_internal_knowledge_router.py",
+      "lines": 208,
+      "sha256": "9bad3a8d53c93eb4d0b18b56dcf4f6905678d6f139294488f4f5752fcfa5eb82",
+      "functions": 22
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/tests/ai/test_llm_engine.py",
+      "lines": 53,
+      "sha256": "130b2a141fab8c16d16358a5b60e2796844563d190c9ef19159eedbce234d0c6",
+      "functions": 3
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/tests/ai/test_marketing_agent.py",
+      "lines": 52,
+      "sha256": "04185b6b7c1595315b71b82cadda086151d85ea3c04f8399a73ebe8890b6fc0d",
+      "functions": 1
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/tests/ai/test_math_engine_safety.py",
+      "lines": 42,
+      "sha256": "8e3b8ab86b7aac3af7cbafa4b0e721a6943988fd5fd8431833897713aa512c75",
+      "functions": 5
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/tests/ai/test_order_tenant_pricing.py",
+      "lines": 17,
+      "sha256": "7a37385165643d53f72e08fc3792aa6c66de7fb20bd50dea638f85283822ae55",
+      "functions": 2
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/tests/ai/test_parallel_rag_execution.py",
+      "lines": 265,
+      "sha256": "39381ef6c509df74f6138cf8b8a1f0d8f59637d4bf22032942c5ed8d2156a5a7",
+      "functions": 12
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/tests/ai/test_security_guard.py",
+      "lines": 13,
+      "sha256": "f79f92a4422c1713d2a82a1e1f13310e60822a2e152ca9e7c15e684d93295828",
+      "functions": 2
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/tests/conftest.py",
+      "lines": 189,
+      "sha256": "8e4afab6134c36de60eeca7185ed39d312d487c0569cd5e193aeab118df7cd4c",
+      "functions": 11
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/tests/run_all_agents.py",
+      "lines": 219,
+      "sha256": "83d7cacc2869e5416eb0a1747e1828267e5011016eb888e6a3159ca747f72d51",
+      "functions": 2
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/tests/test_agent_governance_hardening.py",
+      "lines": 244,
+      "sha256": "d33077f3027241c0809e7e8ad715e8cd91445ad9989966fc3b615b9e6d249e37",
+      "functions": 21
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/tests/test_bis_academic_enhancements.py",
+      "lines": 372,
+      "sha256": "04382ab14f8ad9afc700a062822afdad9555d9d787f9654dec7c324ab3ba7992",
+      "functions": 9
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/tests/test_business_value.py",
+      "lines": 68,
+      "sha256": "d72b3ca3188b885c2fe1748ae8d7756d9e2d4b5e08721147e22813b73b0a2111",
+      "functions": 6
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/tests/test_cdss_clinical.py",
+      "lines": 140,
+      "sha256": "67894d5a760fc03582852765561d3db77faeeed8013c0cf285862da3d360d73d",
+      "functions": 5
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/tests/test_clinical_rag_hardening.py",
+      "lines": 256,
+      "sha256": "519130b3b84e9156ef2f7a0befa2e9d98e3150d2b399be705efd9a032dfbb20e",
+      "functions": 27
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/tests/test_customer.py",
+      "lines": 109,
+      "sha256": "dbda3bfdc0a8eac509bd49df6fedbc5c90fcda2da75acff60d5b475412689b7a",
+      "functions": 6
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/tests/test_events_chain.py",
+      "lines": 448,
+      "sha256": "6640eef4bc685b7e06c41613b7aeab3bd0dc85f12f8e760b12daa85ea3307be9",
+      "functions": 8
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/tests/test_forensics_and_working_capital.py",
+      "lines": 151,
+      "sha256": "8bf8de574cc7ff10160776aef69819d9c161cb53e86c2cb06049405629bd7210",
+      "functions": 8
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/tests/test_governance_hardening_v2.py",
+      "lines": 261,
+      "sha256": "2b22e3d23a8ea98c79e669b31876b163f5b3e8c1404cb834828d8016e9453d45",
+      "functions": 9
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/tests/test_hybrid_agents.py",
+      "lines": 89,
+      "sha256": "1bdcd5ae43d373fbe42a69791013d729596ee7b512b33792cd7153a901f72589",
+      "functions": 13
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/tests/test_market_api_routes.py",
+      "lines": 166,
+      "sha256": "ca9990b368fb62d76bb34383e484aebf256ea019dd72b06aa682d5befebf131e",
+      "functions": 7
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/tests/test_market_intelligence.py",
+      "lines": 322,
+      "sha256": "997ee95057a84f55e546c6e2f2c93208203fab2d37b08ece3dd589f02dce40f2",
+      "functions": 12
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/tests/test_ocr_approval.py",
+      "lines": 122,
+      "sha256": "fc8c4ead0f9ffdc34acfd54204282e6d8c7bd44c75f856a8de3d1f329d3ed409",
+      "functions": 2
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/tests/test_ocr_memory_engine.py",
+      "lines": 264,
+      "sha256": "17cffb79ac98a77aef114efdfd82c054fe33cd87fc4a4065e04f2157ba284b31",
+      "functions": 14
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/tests/test_ocr_memory_engine_db.py",
+      "lines": 236,
+      "sha256": "7b7eb40f227821421b00a5aac9c8d4b1686af5c7c2613903f84091053dfc1275",
+      "functions": 10
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/tests/test_ood_guard_regression.py",
+      "lines": 137,
+      "sha256": "21cf7963b3f33bbe462a1960ce44a314f22babc3f2a34386f28b6eb2f3b4e339",
+      "functions": 6
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/tests/test_operational_guards.py",
+      "lines": 108,
+      "sha256": "299cdedd62772579324298357afb9f414b2b692af8b4974326222b59d3e5eeff",
+      "functions": 6
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/tests/test_outbox_integration.py",
+      "lines": 105,
+      "sha256": "4081b33b07646cc0b4bdf936c1f4d8727080a1be775516595ab927658d6f6968",
+      "functions": 6
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/tests/test_prescription_review_evidence.py",
+      "lines": 139,
+      "sha256": "4731f305a62a633f02e5a4accfba761f4e184e8441572940e2d7ef670e9f7215",
+      "functions": 7
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/tests/test_prescription_safety_october.py",
+      "lines": 246,
+      "sha256": "8b312f76fedee1bc4e48ee51e650ca5e4bf196515504f826901c80b0303feda6",
+      "functions": 23
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/tests/test_prescription_workflow_october.py",
+      "lines": 217,
+      "sha256": "ca537b802523ca04e220d7bce937cb31b442d99e74caec50bf44b2f9e49448bd",
+      "functions": 10
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/tests/test_prescriptions_api.py",
+      "lines": 138,
+      "sha256": "e713b0cc1a64c881ef5e97c8be5d684b21759291fac9da1f020eb1f40070ba09",
+      "functions": 10
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/tests/test_quality_guards.py",
+      "lines": 98,
+      "sha256": "2499f758b39646aa85f9d0ff982c2f2c135934a59b8ff181c42cf89c47d97be8",
+      "functions": 13
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/tests/test_runtime_config.py",
+      "lines": 72,
+      "sha256": "53c6f3ee68130fb1c87dc2f32ed1516b6f2a79e1e3d0188808a1c85bd722cd1b",
+      "functions": 3
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/tests/test_security_regression.py",
+      "lines": 290,
+      "sha256": "d3152090d73afdc8f10ed4c4f442a62c76c19c681783ba4b8b06cb09e45d9025",
+      "functions": 17
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/tests/test_settings.py",
+      "lines": 64,
+      "sha256": "2d99fd9387ad2390ecccacc703c6ecbb695f80c05729e95a8ec6f67c0cb11c01",
+      "functions": 2
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/tests/test_suppliers_dispatch.py",
+      "lines": 235,
+      "sha256": "24a32854a144fd999c44ecfa20159b5d3375a470f03552978c9d919967eca3d7",
+      "functions": 11
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/tests/test_value_chains.py",
+      "lines": 56,
+      "sha256": "7839b6bc06318b4d500979a5c5a74dbae6149c7bd58645e26af91ef4b98c2e7c",
+      "functions": 6
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/tests/test_vertical_packs.py",
+      "lines": 155,
+      "sha256": "e79018bd8f9ab0e2edffd4785f7b01c3b43a4cfab3b463309b515413901166d5",
+      "functions": 14
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/tests/test_whatif_simulator.py",
+      "lines": 108,
+      "sha256": "7915e3af94af72dff3f77ce2cac00188baf9a10eb3b002464dbf5015b9cefe38",
+      "functions": 16
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/tests/test_worm_stats.py",
+      "lines": 74,
+      "sha256": "d367f9e55b08338b16642740008528893cfd70635f3089b220205817e3cd2793",
+      "functions": 7
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/alembic/env.py",
+      "lines": 52,
+      "sha256": "be7b612490298287fea49b7c027c3e8d9483e3282affbdb508c251531e73f84d",
+      "functions": 3
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/alembic/versions/0001_initial_schema.py",
+      "lines": 172,
+      "sha256": "87c201837c1dae9ac8097d04bb09bef407830bd5cc57ed689dd98b6eafcfa10a",
+      "functions": 2
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/alembic/versions/0003_ab_tests.py",
+      "lines": 45,
+      "sha256": "705d8a7090b430971b41749d0416e9931737d0d03e411a367363f907b9721d6c",
+      "functions": 2
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/alembic/versions/0c97e08a5308_supabase_reads_and_rpc.py",
+      "lines": 53,
+      "sha256": "940c6a488a851da96ecfb3dc491e1eada264af795888a6a4720242f7fa3f4931",
+      "functions": 2
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/alembic/versions/0fd4baccac30_add_image_url_to_drugs.py",
+      "lines": 23,
+      "sha256": "a2ebb727bc310d6adab73890e84a3866eed71d833546819464bc3a13d8ed80c5",
+      "functions": 2
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/alembic/versions/108ea68640e6_merge_all_branches_into_one.py",
+      "lines": 24,
+      "sha256": "cbccf538cb2722d03ac1f5d56d7b6dd688d9703e46ade12892ddbf6fa5f9c83b",
+      "functions": 2
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/alembic/versions/20260908_021855_add_emergency_outbox.py",
+      "lines": 34,
+      "sha256": "68a914fab27e4ab48c5ef8ea4189fe415ae211ca83fe9ddb4e72e67aa1b91a4b",
+      "functions": 2
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/alembic/versions/20260908_add_cloud_ocr_consent.py",
+      "lines": 26,
+      "sha256": "3717b86143f845307914a7086c8925e08cf5dfb4a07b0a542f7f577f4a5589a5",
+      "functions": 2
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/alembic/versions/20260908_ai_chat_tenant_hardening.py",
+      "lines": 58,
+      "sha256": "4360fb3e0eb5130cd9363d0888c7027912ad09c8054e3f537f339c992c99dadc",
+      "functions": 2
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/alembic/versions/20260909_add_cropped_image_to_prescription_items.py",
+      "lines": 28,
+      "sha256": "87c1b90d48da3087291e84e8ec85df3a435bb83029f9d66e66335fe41eb6ca4f",
+      "functions": 2
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/alembic/versions/20260909_add_prescription_integrity_audit_details.py",
+      "lines": 24,
+      "sha256": "350ebccb0110238c7406bad873f79fb5b42bcd4bea3ddbc347eeca2a402e5cc4",
+      "functions": 2
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/alembic/versions/20260909_fix_ab_test_results_rls.py",
+      "lines": 43,
+      "sha256": "f2ca3d8619f02ca2b12ef1e3d8197475bf95dadf6b8f5cc689023eae20142d64",
+      "functions": 2
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/alembic/versions/20260909_force_rls_all_tables.py",
+      "lines": 155,
+      "sha256": "8412b4dec34f625e4a6a057f8eab6a10c4bed97c9b15208b50c914510a958fc2",
+      "functions": 2
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/alembic/versions/20260928_market_action_approver_ids.py",
+      "lines": 29,
+      "sha256": "d21545356bb836d8910c4451b289bbc699ca515bc675dfe76f5ace45ddc5fab6",
+      "functions": 2
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/alembic/versions/20260928_market_action_outbox.py",
+      "lines": 45,
+      "sha256": "800ba10fceb7013d201d884bba3fbdb72ed9c23950740f18cbc41144952d0dec",
+      "functions": 2
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/alembic/versions/20261001_market_action_source_model.py",
+      "lines": 33,
+      "sha256": "c69410bb080680da4c4e28f4602b56e6d4820b8b23b5f15c865dc5f020e4229b",
+      "functions": 2
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/alembic/versions/20261011_fail_closed_tenant_rls.py",
+      "lines": 50,
+      "sha256": "93bc3ec570df63c16d1f6c64199ae5f80c801c67fec1097c401458ceb8047fc4",
+      "functions": 3
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/alembic/versions/4bbefaeb5107_add_enterprise_ocr_memory_tables.py",
+      "lines": 48,
+      "sha256": "bf442b0eb54997ab95c70d595374db709e7f03eecb912b05901f1373613bffff",
+      "functions": 2
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/alembic/versions/4f2c2ecae9a6_phase2_ocr_memory_fixes.py",
+      "lines": 35,
+      "sha256": "1ce7aff74a7031f62258715b379765bb43d57f75cb8c4e59b7fcc1911c9696b5",
+      "functions": 2
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/alembic/versions/5c8668fb5512_phase9_fix_rls.py",
+      "lines": 31,
+      "sha256": "91164adc4fe0b1df0f095282971551c394d69cec8a25939ff41eabb043d6cff2",
+      "functions": 2
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/alembic/versions/6da1c746fdff_add_roles_and_rls.py",
+      "lines": 91,
+      "sha256": "293e84f2ca48e5a342caafafee8a1e24eed833658e3379c9f616a21f147fecaf",
+      "functions": 2
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/alembic/versions/7dd95fe06039_add_inventory_items_table.py",
+      "lines": 51,
+      "sha256": "c9230f461c6197982e26a753ad6c695f407ef1037f53068f4dd3138b42f8a291",
+      "functions": 2
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/alembic/versions/8bde7c490701_audit_log_and_force_rls.py",
+      "lines": 175,
+      "sha256": "014ee68f2722a40ca933f6cab0165d821028c4f83de7c073c62ba6e8621973e2",
+      "functions": 2
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/alembic/versions/a165179f481d_enable_rls_customers.py",
+      "lines": 55,
+      "sha256": "aed9a1b7d448b854ae0c8bbd765bfcf20c5a111fdbedd3e47ad1e70f73f29afe",
+      "functions": 2
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/alembic/versions/add_ai_chat_logs.py",
+      "lines": 41,
+      "sha256": "e292c1073dbc4511063af6c6fd45c8f00dbd58697b9c9b3e89d81155e08dc7fd",
+      "functions": 2
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/alembic/versions/b7a790f21e4b_add_tenant_settings.py",
+      "lines": 90,
+      "sha256": "e1a795c0fd295623e1c368a84e9935bf4b0f83efac4dc6e330cf7536cef35f6d",
+      "functions": 2
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/alembic/versions/c89fa4cf264b_apply_rls_all_tables.py",
+      "lines": 90,
+      "sha256": "1379cb9aa39a11a757b612e5a13091d0bc170f8c81ce20785746ee2ff59c435a",
+      "functions": 2
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/alembic/versions/p10_add_missing_columns_and_fix_rls.py",
+      "lines": 187,
+      "sha256": "83d8a8f659f0cca500d681c931802ddf9950feeffe722f2c1862eccb0f9a007e",
+      "functions": 8
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/alembic/versions/phase5_audit_hardening.py",
+      "lines": 604,
+      "sha256": "67e22535bb8c0a0b8ce58142022c2139a3e9459e5c1ebc34cb76ee01dbb80636",
+      "functions": 12
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/alembic/versions/phase6_chain_backfill.py",
+      "lines": 401,
+      "sha256": "f9fea0b6f83f098b4c7396cc80edbf5eaf59b8f048b981063cc794306a849983",
+      "functions": 2
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/alembic/versions/phase7_restore_jsonb.py",
+      "lines": 199,
+      "sha256": "4b55f163db1908d355e1f401f2cfd5c14307f1363e87cf8648af44a956c952ba",
+      "functions": 2
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/alembic/versions/phase8_chain_per_session_fix.py",
+      "lines": 543,
+      "sha256": "74019e8c5054bc84b2ea7044bbf4420eecd6566dc4d0959264411fdcee8fafca",
+      "functions": 2
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/migrations/create_automation_runs_table.sql",
+      "lines": 32,
+      "sha256": "bbb45b03c8c6c7f8975757fc6cefe3dcfd9d7e73d858e4e4f85c118f0b660b28"
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/migrations/create_complaints_table.sql",
+      "lines": 20,
+      "sha256": "915b4f5cab4929219eea1c760cec92364aaf87422339bcd5502e132b83c094d4"
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/migrations/create_coupons_table.sql",
+      "lines": 31,
+      "sha256": "2faaa2b4bb252cf208d81801e544e6d9e525f583a91e23713c8713f7d9b3608c"
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/migrations/create_market_intelligence_actions.sql",
+      "lines": 42,
+      "sha256": "da9310abd4782aae23b330b1aa881e49dcbf4c99a6469a90de12eb38e8ac1957"
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/migrations/create_ocr_corrections_table.sql",
+      "lines": 25,
+      "sha256": "52134b49e80d49c2057061bed954507844ac66aca1088b0ddd0ac57bffceb8b7"
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/migrations/create_platform_settings.sql",
+      "lines": 7,
+      "sha256": "96950b56550fd9199b0c34c9f3c97eb6a7b56144ec0c46dde51a5b9512b11d09"
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/migrations/create_procurement_and_accounting_tables.sql",
+      "lines": 70,
+      "sha256": "41b1ed3fbad024ce7f227004679e962afeab3e8a1b7fdf1ce312bb600ff74b55"
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/migrations/create_simulation_runs_table.sql",
+      "lines": 40,
+      "sha256": "fe49a9e74c50110433c8cf87bbe92384c6cd460bceb3ab209f94e0c3248ab3e9"
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/migrations/create_suppliers_table.sql",
+      "lines": 39,
+      "sha256": "2349c4fafd49949de673c20ebe3a375c7fcbe48422af0d9367c11134565db690"
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/migrations/create_vertical_columns.sql",
+      "lines": 15,
+      "sha256": "f4825e55e5769dc8003173699a6a1a6438121f173a3aca36d7fe051c8389d20b"
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/migrations/enable_rls.sql",
+      "lines": 118,
+      "sha256": "5e58380a8fde481b97eccbeb76a8f98d7a8666cc06e426701ea281a2b7396b39"
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/migrations/enable_rls_prescriptions.sql",
+      "lines": 29,
+      "sha256": "2e06700beb6b32acdfc75b80d74740d621e7ee32c07df1c95fd713846ba80853"
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/migrations/fix_audit_logs_log_id_default.sql",
+      "lines": 20,
+      "sha256": "9b01dbfce2bff64facafc360294ecd91736f24e40d0a0f6c1e0bb6cf66521941"
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/migrations/market_actions_unique_pending_signal.sql",
+      "lines": 25,
+      "sha256": "df5090486000b2228b4700c1c20fbdeac66d3ac2fa4a7f3ef3673ecd96cb1451"
+    },
+    {
+      "path": "AI-COS-Pharmacy/backend/migrations/run_migration.py",
+      "lines": 69,
+      "sha256": "c9bcd60e161132d6b247ffd745cfd3713eaac739bf9e9c37c1a73b26b558d9f6",
+      "functions": 3
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/app/(auth)/login/page.tsx",
+      "lines": 365,
+      "sha256": "8349074ca63c8267f46e649e916aeed481ce33dc2ce9f0ea34122d0dcc7ede67"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/app/(storefront)/about/page.tsx",
+      "lines": 429,
+      "sha256": "f02d9bcc3bff4178bb89b13293ec3e85d4851630cdd7d37e191ba4dfdaa6bbdf"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/app/(storefront)/catalog/page.tsx",
+      "lines": 10,
+      "sha256": "bb3b55656fecc1bb77207a3a12db6074084f467b6e777981db7363b1b033c2f8"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/app/(storefront)/contact/layout.tsx",
+      "lines": 26,
+      "sha256": "4ee4d48b4e87df571718de87f8e665cfbf0910d2fd8be95253583cd51453b120"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/app/(storefront)/contact/page.tsx",
+      "lines": 183,
+      "sha256": "e1bb94174ec92fa87a1c051c1dff37f3e8eacdbedc10c19baccc4a23cca2be73"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/app/(storefront)/layout.tsx",
+      "lines": 58,
+      "sha256": "38a8b122e04dcc9ab4feb7ecda7c9425fb96d978c09043e848af8b56e6c903c0"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/app/(storefront)/page.tsx",
+      "lines": 23,
+      "sha256": "7fead0d34b3dac1909dd7d8f92106686b987186ab4803e72aa71a2b2ee9c7d5d"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/app/(storefront)/profile/page.tsx",
+      "lines": 1386,
+      "sha256": "8bf5b05689c16b94da45cc555de36adffa4fd4ef185062190accd543b3f76920"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/app/admin/accounting/page.tsx",
+      "lines": 476,
+      "sha256": "e1062169b1411f4dcebbfecba32dc37581018ca0092b70965cf59eb47ba7ab29"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/app/admin/agentic-ai/components/ModelManager.tsx",
+      "lines": 1315,
+      "sha256": "6d779b97501f2cdb0f65d0c93950fbed9e5f6a41e7ee198280b9b8fc8e850dfb"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/app/admin/agentic-ai/components/Phase1.tsx",
+      "lines": 748,
+      "sha256": "5181887ca838868bc68218b06fc96fad168c28e290158d81c4ef898127ce3d3e"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/app/admin/agentic-ai/components/Phase2.tsx",
+      "lines": 1450,
+      "sha256": "9a4c3c180c4292251864b45908bb81eaf37c8b6f096720d0b5c577906b63aa74"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/app/admin/agentic-ai/components/Phase3.tsx",
+      "lines": 842,
+      "sha256": "63b51fa49f70350c16870331fcd745b55515183e1437ec2601ccc7f20d992997"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/app/admin/agentic-ai/components/Shared.tsx",
+      "lines": 510,
+      "sha256": "e4f850c7e56e4571d36063c0869e0cb48cbb321c46612bccf24ad6d0fd9e5570"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/app/admin/agentic-ai/page.tsx",
+      "lines": 97,
+      "sha256": "fa2c38766378fec6a3abf76538cd10dce690cdc34f22432637ecffa163981a5b"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/app/admin/agentic-ai/types.ts",
+      "lines": 50,
+      "sha256": "a44ab0e07c03928dbb441121712635c19e20b6bd36fa0db9eae3962fc0daddff"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/app/admin/ai-review/page.tsx",
+      "lines": 429,
+      "sha256": "5c97612fe9d4abda6ed6db847dba3304b061283c9a6f6743b195510b89104088"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/app/admin/analytics/page.tsx",
+      "lines": 1011,
+      "sha256": "1417b121a572e678be658858caf9644ad7b6fd973998cb76f41b09e699754772"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/app/admin/audit-logs/page.tsx",
+      "lines": 465,
+      "sha256": "6a6830bb4c1138d121112c20b0a292b8d9514bf224a06ce8341ad201eae91f46"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/app/admin/balanced-scorecard/page.tsx",
+      "lines": 361,
+      "sha256": "7697633e355ae2b4ff809554fb74ceb5b4284055f2c22865de48c3577025679e"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/app/admin/business-value/page.tsx",
+      "lines": 685,
+      "sha256": "fcc5234a82ff6cd4661a80bc54d90eb3b47faf818327890c4e441211886d14f8"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/app/admin/catalog/page.tsx",
+      "lines": 647,
+      "sha256": "516f3298a04c7c32d5b8d95e433b0c81f2451ce48e5a69c4722d1410f6ae464f"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/app/admin/customers/[id]/page.tsx",
+      "lines": 469,
+      "sha256": "2304da31bc92dd44b3f4424badeba0c9260b7156a66852363205e68c5623e596"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/app/admin/customers/page.tsx",
+      "lines": 427,
+      "sha256": "3e6408ba6414bc2b588cbdc38f0b444e73b5b32bbe594329f7d208d15b2950cd"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/app/admin/layout.tsx",
+      "lines": 598,
+      "sha256": "4229dde4cdefbd435dbc3320e7a4d1329209bf59dfe89cf1a19592650646a460"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/app/admin/market-intelligence/page.tsx",
+      "lines": 1054,
+      "sha256": "be252de692a9d5d5b85772b10c5fc97624211518c5f4e4c04729e424555263f9"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/app/admin/notifications/page.tsx",
+      "lines": 89,
+      "sha256": "5eff9d287cb6e962c4ca6dca62e85e2e73150ab0e8c5c5c37ac8f0f848f43141"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/app/admin/ocr-corrections/page.test.tsx",
+      "lines": 153,
+      "sha256": "d27d483759b1f7e8d45c8bf636b8c644a65af039caa54af703fb7d63b14a027c"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/app/admin/ocr-corrections/page.tsx",
+      "lines": 201,
+      "sha256": "8650138ce12a72a68d09f2d74fad274ee904b0a8806dcac44528f39b6f62561d"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/app/admin/orders/page.tsx",
+      "lines": 400,
+      "sha256": "aa5bd6bcdd8368e60e02937e7794805a438c224d964f813bcb04a89faf12c99b"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/app/admin/page.tsx",
+      "lines": 593,
+      "sha256": "119580913096451f5d2362bf00c3121fdde6d66f26affa9dae52e0fe76eed17c"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/app/admin/prescriptions/[id]/review/page.tsx",
+      "lines": 413,
+      "sha256": "7452e646f313475cd7a2d50d78c320663b1788e3e71484e47077b6de65018988"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/app/admin/procurement/page.tsx",
+      "lines": 962,
+      "sha256": "ee001a3339d0e8485f92747993681c96167eaf6aeef213fb06a2c80e41ea5e6c"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/app/admin/risk-register/page.tsx",
+      "lines": 684,
+      "sha256": "7fd45c9f10e4b3303ebb28e50dbdf8f90f2620f810a02e134afc6e5c2a8ce93b"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/app/admin/settings/page.tsx",
+      "lines": 201,
+      "sha256": "97badb2e2ad922423afa4758de922e6ab4a336ee52507da17396ee994703d2e4"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/app/admin/suppliers/page.tsx",
+      "lines": 292,
+      "sha256": "9a5550f721e8a04ac0c737cdd8e9eb81e161d2c8d42073cd3dced2ac868a6938"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/app/admin/system-architecture/page.tsx",
+      "lines": 1290,
+      "sha256": "6f6d0a243a4b240dd0e90b531cacc6c5a5261b9c6c3451874b0e6baf83f1553b"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/app/admin/vertical-packs/page.tsx",
+      "lines": 591,
+      "sha256": "1a450d832f4c0d4cc2c3b408db70519636f76000672136d99ed0bcd734ae5860"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/app/admin/what-if/page.tsx",
+      "lines": 712,
+      "sha256": "f7a12d5772d8e85ebf17e5b08324ebfa26dfa46298756287a56893bee164d790"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/app/auth/callback/route.ts",
+      "lines": 62,
+      "sha256": "8705f7a8695f3d9fee8b10d604385f69da5bd603cc8af253d38d8f84f384cfec"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/app/checkout/layout.tsx",
+      "lines": 22,
+      "sha256": "d779182162bf8ecd6ab08e83fb6e2a86266fa6fb3c1c222b89f750e504fb5e57"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/app/checkout/page.tsx",
+      "lines": 366,
+      "sha256": "02a748ad049734aeedd84751b870d626fb67dc8f6f6a61e72deaf4307096aadc"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/app/invoice-view/[orderId]/page.tsx",
+      "lines": 213,
+      "sha256": "324a86c4190fb17fe140b8dccdc10278bef633b9964378645d3a4b251257be16"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/app/invoice-view/layout.tsx",
+      "lines": 21,
+      "sha256": "f2adcaa70463c79f946b0b3b43e64e871420e4f52f486a0ede887de647886649"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/app/layout.tsx",
+      "lines": 66,
+      "sha256": "fd0205f45f5555a18689bf78f0dfebc87befbb782ed061039a7517aa1e327c37"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/app/orders/layout.tsx",
+      "lines": 22,
+      "sha256": "774e5af0af63fb56ca4ce84af742920f0eeecb4ae86829752273a073c0b7c25b"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/app/orders/page.tsx",
+      "lines": 250,
+      "sha256": "af4bf075c532f6c9be6034d634defb0cc980d883b11d04e194e22cd4c6bf5284"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/app/robots.ts",
+      "lines": 23,
+      "sha256": "8cf8224e00230a35d64b5a584f5671b61079a608887bc7312240c0ac309b18d1"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/app/sitemap.ts",
+      "lines": 64,
+      "sha256": "c78c0d7d9daadc1b49da254e5f5ba3d1310d33a4a7472166e949ad954559ac99"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/app/StorefrontPageClient.tsx",
+      "lines": 1041,
+      "sha256": "b8e392545e4b7d6b05fc3e09fc7dc524319a8338dff9f27ed8bed1d60ce3b9b7"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/components/chat/ChatWidgetGate.tsx",
+      "lines": 14,
+      "sha256": "e2af3615290fd286fc212cdc45270f92336fbafdd2775cda2d392c46af4f84d0"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/components/chat/FloatingChatWidget.tsx",
+      "lines": 1193,
+      "sha256": "a1320e763b10890a10d7240183cf3c2281f09236782d088f3a0f69274cc4144c"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/components/chat/RobotAvatar.tsx",
+      "lines": 60,
+      "sha256": "e5a4b6c364e1dc8a40c869b4ad543b99dfd33c7527ab39dd04f05627fdaa46e3"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/components/LanguageHydrator.tsx",
+      "lines": 32,
+      "sha256": "93013ea5451905d593c4d3c7c240b75da09ac92c936a694c60a7108d83de82dd"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/components/layout/MedicalCanvas.tsx",
+      "lines": 205,
+      "sha256": "4c2df0e869da2868fd64562ea56adc30c9f9a99bc4ce46045d832f21f9a05ffb"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/components/layout/StorefrontHeader.tsx",
+      "lines": 460,
+      "sha256": "3525f63c307ca863f3275a2091ddda113719449447afbd57bcddb84be9a56430"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/components/layout/VantaBackground.tsx",
+      "lines": 95,
+      "sha256": "66187942d0815ddeccb61d9a6760e9b6027f79e7a3cb5bf494f52f468770faca"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/components/orders/EtaTaxInvoiceModal.tsx",
+      "lines": 544,
+      "sha256": "c52d749697fd1339a4efc135452a0c88d883c9f050fc4fdef0e429a35eb7f2f6"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/components/providers/AdminProviders.tsx",
+      "lines": 19,
+      "sha256": "ec93f0f9150f70fbf64f51e6940493bc235988981c6220893c47b07a39b93a7c"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/components/providers/ErrorBoundary.tsx",
+      "lines": 70,
+      "sha256": "274d8442b9299583f88767490dbf227c15c07c97f14245a1b8f059e8b16231e9"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/components/providers/GlobalRealtimeObserver.tsx",
+      "lines": 59,
+      "sha256": "e81014903160347cbb20d761fe34ab038ef47e5f781a97dd513fc2b5dd586587"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/components/providers.tsx",
+      "lines": 56,
+      "sha256": "8b098f86288c8dc96664d0f465c51a0cd4eb95e2f2ed40ca62402f6d40062676"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/components/ui/button.tsx",
+      "lines": 58,
+      "sha256": "d14549ab3ba7a9d5d1f424c2599233bffa0b317121abf3b6efa2fb902d5e2781"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/components/ui/CartDrawer.tsx",
+      "lines": 289,
+      "sha256": "a956d5a7b76acea61b45dbb2b4769155cdc51b9c81cb3e1d62f208ec9feee98b"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/components/ui/MedicineDetailsModal.tsx",
+      "lines": 475,
+      "sha256": "283f8378d96992153b92e944f576baf0184f4a2dfca986b83cea8bdb730bfbca"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/components/ui/MedicinePlaceholder.tsx",
+      "lines": 18,
+      "sha256": "3c9defbe6cef568a8f22d8f28d3b073fff010baf70264b3e9de025eb878d0e23"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/components/ui/PrescriptionModal.test.tsx",
+      "lines": 463,
+      "sha256": "4caa4ff72ababf24cc8a62304f259e26aa556404a3048bd2c5f164a86e5fd211"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/components/ui/PrescriptionModal.tsx",
+      "lines": 581,
+      "sha256": "266641deb82fd98c1de22d3a192ad1f7bf092d2437c409fc0f84a64aadf2f97e"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/components/ui/RealtimeConnectionBadge.tsx",
+      "lines": 43,
+      "sha256": "090d18913e42f02a44665b399f76783f9ea6c737a474a2e3efca6f505e47d29f"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/components/ui/WormHeartbeatBadge.tsx",
+      "lines": 82,
+      "sha256": "c0c1aa0fb014a4ac6af097d59f7022d34d07cf2ffda473497caf505ef843ef9e"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/hooks/useDashboardKPIs.ts",
+      "lines": 68,
+      "sha256": "0078e0f7a897f49f25fa82699b3d04cc0d75fc67050f3f932eae7a93a830df0d"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/hooks/useMedicineDetails.ts",
+      "lines": 63,
+      "sha256": "d654467f18dd2b0ebbe8463e67505cbc6d4675696d3cab336e4ef36bc7464ddc"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/lib/api.test.ts",
+      "lines": 85,
+      "sha256": "deaf5817b9d166daca9f66f860c5f4ea7739a3cd247da6e60149ce1b3811cff2"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/lib/api.ts",
+      "lines": 179,
+      "sha256": "40ab808b2f70416d79de217719f7b33ce0a2331cf563c211b3085ac7b63611fe"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/lib/categoryColors.ts",
+      "lines": 54,
+      "sha256": "b61256397c760ff0d07ed8eacf41d96c2e11705a2a6283f786bbd0bc8c487374"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/lib/logger.ts",
+      "lines": 13,
+      "sha256": "af4dac8c767c7826c57bb34dd293f4d08be9c829104f16679d621cd7d489cc6c"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/lib/prescription-summary.test.ts",
+      "lines": 22,
+      "sha256": "d7a6c4a355ab1919fc62dca13570e7d05d07726bf05c5b365976c3ddb79d0a79"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/lib/prescription-summary.ts",
+      "lines": 27,
+      "sha256": "402142df0e3b6ba15f9831d64ead76bb77dbe75a08fb1c0f832b44697718989e"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/lib/store/cart.ts",
+      "lines": 55,
+      "sha256": "86c40abc73c6dc2881d0571907d21f6bb60c285ef4e61a60d540ddc35616eddd"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/lib/store/language.ts",
+      "lines": 417,
+      "sha256": "118d40318afaf57a12afac575c9e7fbc4f8d514d99d85d086ee67e6e9760f6f7"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/lib/store/session.ts",
+      "lines": 22,
+      "sha256": "5daac29f554ff7b1ef21208053851fcd10ac236d766dafbdc2ea5defd9717f20"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/lib/supabase/client.ts",
+      "lines": 8,
+      "sha256": "6c0f12f8a9d9936d394b017a61171b2c905ad02a8c590913966c4e93214820c5"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/lib/useModalA11y.ts",
+      "lines": 57,
+      "sha256": "9aaf6488ba3c3d80d2c7a0144cd32c146567a9acff5e3ff4b7b4775e9b9cd590"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/lib/utils.ts",
+      "lines": 6,
+      "sha256": "7c8c3dfc0cdd370d44932828eb067ef771c8fe7996693221d5d4b90af6d54f2d"
+    },
+    {
+      "path": "AI-COS-Pharmacy/frontend/src/proxy.ts",
+      "lines": 56,
+      "sha256": "b9c632a6699c66d45923d1adcb8274daeb14ba45cd752178dbe657eaa7bd1e9c"
+    },
+    {
+      "path": "upload/calculate_overlap.py",
+      "lines": 54,
+      "sha256": "dbc8ab70540f98a325a4780dce8ebdb54ad237ca0bf42b2c0d61acc56de12c57",
+      "functions": 1
+    },
+    {
+      "path": "upload/check_cache.py",
+      "lines": 2,
+      "sha256": "e9214d3f66cafeafa4eac198fb229a944b88af7871412b6b2b8a82df196e7013",
+      "functions": 0
+    },
+    {
+      "path": "upload/check_cache2.py",
+      "lines": 3,
+      "sha256": "10b0887546772b7b33ad2e094f8486e10fdba066280eae186a477e63267fbffd",
+      "functions": 0
+    },
+    {
+      "path": "upload/check_cache3.py",
+      "lines": 3,
+      "sha256": "f74c2a9bd1c3129bfb9f487572ba2d18102a8d44c81c417f77e9d2826074e6fa",
+      "functions": 0
+    },
+    {
+      "path": "upload/check_decoder.py",
+      "lines": 5,
+      "sha256": "bbfa9ac778a128029430b95718e8bfb4566602a3cc8fd11a0f68c47386a5982f",
+      "functions": 0
+    },
+    {
+      "path": "upload/check_decoder_layer.py",
+      "lines": 5,
+      "sha256": "6e0b5d0df2ec325aadd0c3757de7df8326de204ccfd264c3957e9da9b7e1d0b5",
+      "functions": 0
+    },
+    {
+      "path": "upload/check_decoder_layer2.py",
+      "lines": 5,
+      "sha256": "f722cf1719892adb033b25e36713572130b74cca43ede503ac1d2e23c4a665ea",
+      "functions": 0
+    },
+    {
+      "path": "upload/check_dynamic.py",
+      "lines": 3,
+      "sha256": "f39a35302fbdb7835a06b747e85fcf700d970e154ade3756787439c9ce195e1d",
+      "functions": 0
+    },
+    {
+      "path": "upload/check_dynamic2.py",
+      "lines": 3,
+      "sha256": "b8923949bcfd98d98e0e41453186a82f70d8bcc4c5d909c82028e5766b25e124",
+      "functions": 0
+    },
+    {
+      "path": "upload/check_dynamic3.py",
+      "lines": 3,
+      "sha256": "abdb2f8783a93734ef58abe113f3e655cb4c20f414ba1ce4e6cf1a38fc1e4424",
+      "functions": 0
+    },
+    {
+      "path": "upload/check_getitem.py",
+      "lines": 3,
+      "sha256": "387ce7116d3e4728c57cfc6d623c8d4dd5b83ec82d6a7ccec54f1ccd16be26b9",
+      "functions": 0
+    },
+    {
+      "path": "upload/check_indent.py",
+      "lines": 5,
+      "sha256": "e3dc3163bdce71b9c39bcb975c27d1f4595db0330e7aebe9dc1f6755020d430b",
+      "functions": 0
+    },
+    {
+      "path": "upload/check_meds.py",
+      "lines": 6,
+      "sha256": "d1c9d91e8f1e175ec7aa38db8d2329b65950620150259be0fc6c09bf10db0ffa",
+      "functions": 0
+    },
+    {
+      "path": "upload/check_names.py",
+      "lines": 5,
+      "sha256": "923f72413983de8119a4aa5d5ac250c5ba76b4cdc3fb1692fc211e8bb7d78f82",
+      "functions": 0
+    },
+    {
+      "path": "upload/colab_training/_build_v11.py",
+      "lines": 239,
+      "sha256": "9df24b7699327f65e38533618590f4cfed26553c9d717362e0206ab4ce45d3b6",
+      "functions": 0
+    },
+    {
+      "path": "upload/colab_training/_gen_core.py",
+      "lines": 284,
+      "sha256": "de4f8a5a644af507a532fbb430d8bb9f994981b3ba1c985a94f2df8f5856e5c9",
+      "functions": 8
+    },
+    {
+      "path": "upload/colab_training/build_v10.py",
+      "lines": 247,
+      "sha256": "a2a49a92bb725dfc1f6c9678c113c5b2016ec6956d43485ed1166bf7e7d1c5ac",
+      "functions": 0
+    },
+    {
+      "path": "upload/colab_training/finetune_colab.py",
+      "lines": 205,
+      "sha256": "48bb0f99cfddd69be002a304e4c43c9a0e7d5b46016cd504e50f4b3e58dd09b2",
+      "functions": 7
+    },
+    {
+      "path": "upload/colab_training/finetune_colab_grand.py",
+      "lines": 179,
+      "sha256": "32aaefe7030331075af3f028eb93e8ab7e9a813c168821111246d86cba107130",
+      "functions": 7
+    },
+    {
+      "path": "upload/colab_training/finetune_colab_pro.py",
+      "lines": 132,
+      "sha256": "e9a22406dfa00fc0b4f16d81302c36cf22a9e9f4f8c18d1f2c8da59ef0f1bf65",
+      "functions": 7
+    },
+    {
+      "path": "upload/colab_training/finetune_colab_v10.py",
+      "lines": 233,
+      "sha256": "37e8bcad1906e037ae797664b3390f99712cd0fb91f08f1c5649a42e23e9cb8d",
+      "functions": 6
+    },
+    {
+      "path": "upload/colab_training/finetune_colab_v11.py",
+      "lines": 522,
+      "sha256": "170b2c35667cf3319646c014cb49b4d3c056b28d273b5a8e36a099da0e98ceab",
+      "functions": 15
+    },
+    {
+      "path": "upload/colab_training/finetune_colab_v9.py",
+      "lines": 119,
+      "sha256": "69e9010884ccd6827ac560d52a0462c3a25a467a0e7a93c5ea7c0ccc543aa00f",
+      "functions": 7
+    },
+    {
+      "path": "upload/colab_training/finetune_colab_zero.py",
+      "lines": 160,
+      "sha256": "3245cc32ca92b0c2d7c5915b5a65fb0d59b4803b78dc5b819f13f46cc68fe290",
+      "functions": 6
+    },
+    {
+      "path": "upload/colab_training/generate_messy_colab.py",
+      "lines": 370,
+      "sha256": "0cffaa9cdd4ddbe3b4adcbc9cafa49d75c6498dd6158e8cc4bac06b74385607b",
+      "functions": 10
+    },
+    {
+      "path": "upload/colab_training/v11_session_setup.py",
+      "lines": 37,
+      "sha256": "5348dcdd9a8e09ddfebfc2ec75e3977ab7a875f62f952313fd9c666c462fa1f0",
+      "functions": 0
+    },
+    {
+      "path": "upload/colab_training_v2.py",
+      "lines": 407,
+      "sha256": "bf154cf06ef9277811f223f285685a36d8f6532c44eb9653ef2be565ee42283b",
+      "functions": 6
+    },
+    {
+      "path": "upload/eval_holdout_v10.py",
+      "lines": 56,
+      "sha256": "45c05daab35b058cb54ec03f8d720260152d9d42b5ac69f829fad7c01859e444",
+      "functions": 1
+    },
+    {
+      "path": "upload/eval_in_folder.py",
+      "lines": 131,
+      "sha256": "54be960c7fb55aaf382c1a73d37a5476171299f474ffa6a5b8d189f21c329506",
+      "functions": 4
+    },
+    {
+      "path": "upload/eval_own_dataset.py",
+      "lines": 89,
+      "sha256": "1d44d75f33f2861ab6ce3e2c70be1c0adf5e7f8840cfb57def1cb4b863b801ec",
+      "functions": 3
+    },
+    {
+      "path": "upload/eval_reading_ab.py",
+      "lines": 50,
+      "sha256": "d040b4e7d90f79c696c3fe7b2f3d6c7853268bf626c799b58bf9e0a4d0b0a10a",
+      "functions": 1
+    },
+    {
+      "path": "upload/fetch_drugs.py",
+      "lines": 23,
+      "sha256": "e1bf97f081997b06db0c50547a51bb67048292729fa98317116e66f75c530405",
+      "functions": 1
+    },
+    {
+      "path": "upload/fetch_fda.py",
+      "lines": 14,
+      "sha256": "dfa5d43bcd8f36f93f327b44460ad5550cdf1cbacd0bb4f3b7a22e5b52d19653",
+      "functions": 0
+    },
+    {
+      "path": "upload/finetune_trocr.py",
+      "lines": 228,
+      "sha256": "394cb3abc7670060816ea2d08dd86226ccb1cd7a3c3f79870bad1ebcd2b60581",
+      "functions": 4
+    },
+    {
+      "path": "upload/fix_indent2.py",
+      "lines": 43,
+      "sha256": "e4486427dbc52bbb048ac517344253045fd3537e79b637a9a6bdcd6e8de74be7",
+      "functions": 0
+    },
+    {
+      "path": "upload/generate_messy_prescriptions.py",
+      "lines": 355,
+      "sha256": "9397994fc4dc1a4b991e11e16345d6b08f853fdcc66e98406312ff61bec8c7ca",
+      "functions": 8
+    },
+    {
+      "path": "upload/generate_messy_prescriptions_pilot.py",
+      "lines": 378,
+      "sha256": "58e49012991e255200fa859643c5947430a338556a24d8bf5a00260d515d11ca",
+      "functions": 8
+    },
+    {
+      "path": "upload/generate_messy_prescriptions_pretrain.py",
+      "lines": 404,
+      "sha256": "7d6bbb9eaa17799f33f1606eeeed43fb7cd3fc4f7f8762ebbbf514790dfaf205",
+      "functions": 9
+    },
+    {
+      "path": "upload/generate_messy_prescriptions_v2.py",
+      "lines": 348,
+      "sha256": "3e3eaa89b816d2b492f2340cb78e6316e4ec1cf196a7850ddbef48af0be36863",
+      "functions": 9
+    },
+    {
+      "path": "upload/generate_messy_prescriptions_v3.py",
+      "lines": 379,
+      "sha256": "2ffdef41e004d25e086ceb7d32de417038d6ed7c4531f2b8677de98dac455f1d",
+      "functions": 9
+    },
+    {
+      "path": "upload/generate_targeted_v4.py",
+      "lines": 379,
+      "sha256": "2ffdef41e004d25e086ceb7d32de417038d6ed7c4531f2b8677de98dac455f1d",
+      "functions": 9
+    },
+    {
+      "path": "upload/make_notebook.py",
+      "lines": 305,
+      "sha256": "210f8642d17a024673df945ef9617467d1bbe489dadbc3ab5d72a874ec7bd476",
+      "functions": 0
+    },
+    {
+      "path": "upload/ocr_api_server.py",
+      "lines": 338,
+      "sha256": "3b5e5acefd8b75aab65e08abe13a5b167bdc622a1fb955181682352937b606a8",
+      "functions": 10
+    },
+    {
+      "path": "upload/ocr_benchmark.py",
+      "lines": 166,
+      "sha256": "3ba747da72e1d64c53eb1949a4e75d11fbdbaa8a374ad0e28ab00260e1ea9cd0",
+      "functions": 5
+    },
+    {
+      "path": "upload/ocr_config.py",
+      "lines": 128,
+      "sha256": "fb80c02f732502d91745fa21e14d7cb55a1f34a232c7d1650f28111e8977f9ef",
+      "functions": 3
+    },
+    {
+      "path": "upload/ocr_fields.py",
+      "lines": 32,
+      "sha256": "39c1f5714d4894cb089efac3255b7ed626dbf2ee3815d9a0174e9c623aa10fb5",
+      "functions": 1
+    },
+    {
+      "path": "upload/ocr_image_prep.py",
+      "lines": 419,
+      "sha256": "47f554d2e0d47c610c86c06f8d769ab27adc32587442565a9bf3b89c4b3d4ded",
+      "functions": 20
+    },
+    {
+      "path": "upload/ocr_layout.py",
+      "lines": 62,
+      "sha256": "db7914690e3be3f8b22941f4e0bb75ce6d5eba3769b61f1c49ce148ce719cdd8",
+      "functions": 5
+    },
+    {
+      "path": "upload/ocr_scoring.py",
+      "lines": 245,
+      "sha256": "8c0bcab4c4627981f7fde40fac78b71b053e7837ad0438af4e8a6fee526cb621",
+      "functions": 11
+    },
+    {
+      "path": "upload/ocr_text_roles.py",
+      "lines": 26,
+      "sha256": "e42b9003bd93741748943bce63bae7001b79bc10ce9e95b6ea4af9fa3e8470bc",
+      "functions": 1
+    },
+    {
+      "path": "upload/patch.py",
+      "lines": 61,
+      "sha256": "a490315981e7640f5e7daf0f5f5cec1acc0bd820021af9b18a83a24a1f8928d3",
+      "functions": 0
+    },
+    {
+      "path": "upload/patch_crash.py",
+      "lines": 23,
+      "sha256": "9f68806530ff5ac63a9b8233a14d9e796d3ed90e94dbc4b77459496f6962ac52",
+      "functions": 0
+    },
+    {
+      "path": "upload/patch_fixed.py",
+      "lines": 61,
+      "sha256": "788ddb0801bc88c44855b9867d4bda462c7480669736b29ae339de99819f6758",
+      "functions": 0
+    },
+    {
+      "path": "upload/patch_nb.py",
+      "lines": 83,
+      "sha256": "7026421c8b8c178904dd25285d727c362029088bbeb5d9cd140dd69cee5bfdf1",
+      "functions": 0
+    },
+    {
+      "path": "upload/patch_pretrain.py",
+      "lines": 48,
+      "sha256": "17cfa2638cd525b9ddbdf1fb54192841beb7e436786f55859f82d996cee7d9f3",
+      "functions": 0
+    },
+    {
+      "path": "upload/patch_pretrain_final.py",
+      "lines": 65,
+      "sha256": "86e76e81e69ccb283e70634b402e3606a719ed2e9de055d1c2ff01e3847bd668",
+      "functions": 0
+    },
+    {
+      "path": "upload/patch_v2.py",
+      "lines": 41,
+      "sha256": "4e17be6680049c5952766e730cb54eafed1b30ea6c99cd83a2e6038edcfe120d",
+      "functions": 0
+    },
+    {
+      "path": "upload/patch_v3.py",
+      "lines": 55,
+      "sha256": "9ee937e509b20d189faf603602ab26743528bc93f85ee2b69a6a0510e2403c35",
+      "functions": 0
+    },
+    {
+      "path": "upload/prescription_ocr_engine.py",
+      "lines": 1229,
+      "sha256": "0b502c294a812c0168507f8f35e59d0a67f85293370c4e6a417a86d3208c620e",
+      "functions": 17
+    },
+    {
+      "path": "upload/prescription_ocr_engine_test.py",
+      "lines": 1190,
+      "sha256": "8373f455981d062d3ac0a825b292e8e85025d593ef26ce63c6418eef5c9e258f",
+      "functions": 17
+    },
+    {
+      "path": "upload/print_all_cells.py",
+      "lines": 8,
+      "sha256": "3b634dc0c2db77f487c76a23aee71530b36798992ebac6c4a4f40b9d8209fdef",
+      "functions": 0
+    },
+    {
+      "path": "upload/print_cells.py",
+      "lines": 10,
+      "sha256": "b04f29d59faf66395976bfada2b6ac659c0ddfed1de541a6a1bcd11b05aabffa",
+      "functions": 0
+    },
+    {
+      "path": "upload/sim_overlap.py",
+      "lines": 29,
+      "sha256": "c0df2081458fc785a572be456c890fdfa2862cb8e5a336df4fed9fa76c9f1ad5",
+      "functions": 0
+    },
+    {
+      "path": "upload/test_c_v10.py",
+      "lines": 66,
+      "sha256": "62e8a0a95e97ab1a2cf294327173e5f51df822868811b1d62beaa6092ef10c92",
+      "functions": 0
+    },
+    {
+      "path": "upload/test_end_to_end.py",
+      "lines": 27,
+      "sha256": "c92e67afc3d3c73ff91bce15c550543d0f32c9d1f506d6adc4199da4bdd83540",
+      "functions": 0
+    },
+    {
+      "path": "upload/test_florence_crop.py",
+      "lines": 26,
+      "sha256": "0a5c7279cec26e43b928028ba357c50010c8bdd746dbec1e8ba09d93372406ef",
+      "functions": 0
+    },
+    {
+      "path": "upload/test_florence_full.py",
+      "lines": 22,
+      "sha256": "1421789f192063ceeee6b78c3c82bd2376ef31d0b38fc3dc339be0ce109a2341",
+      "functions": 0
+    },
+    {
+      "path": "upload/test_florence_nocache.py",
+      "lines": 27,
+      "sha256": "b8936b07e535b6f61f66aaa7e072012d420406f69bc673ea7906532eb8cfc5ec",
+      "functions": 0
+    },
+    {
+      "path": "upload/test_full_page.py",
+      "lines": 31,
+      "sha256": "51bb17f9b481e11d85789881dfb0db074713104c3a27b5511a89b7b12a1ad612",
+      "functions": 0
+    },
+    {
+      "path": "upload/test_hash.py",
+      "lines": 12,
+      "sha256": "fc6c21ebfa523229150a9360886a70a09064e62f1d657ef5bb7389bd35f019b3",
+      "functions": 0
+    },
+    {
+      "path": "upload/test_manifest_diff.py",
+      "lines": 31,
+      "sha256": "a3aae92a6f1f4393fd7fee434ae7c12ad525770570801568293e4173311cc892",
+      "functions": 0
+    },
+    {
+      "path": "upload/test_patch.py",
+      "lines": 756,
+      "sha256": "98a2a84578dcf5d8bde4300dd9731a53324b0baaac0aa52ecefcae44b746fa93",
+      "functions": 10
+    },
+    {
+      "path": "upload/test_pool.py",
+      "lines": 44,
+      "sha256": "4d09b26368861580e0c9fe61a07e3c74e5321e4f7ef032a9c4635081973461e8",
+      "functions": 1
+    },
+    {
+      "path": "upload/test_pydantic.py",
+      "lines": 61,
+      "sha256": "d39dd114eae22b84caaa410e3c5b31088765587bc290cfa1c5b648f723caf311",
+      "functions": 1
+    },
+    {
+      "path": "upload/test_pydantic2.py",
+      "lines": 38,
+      "sha256": "683bf43180c5db9d714d13d77a5c315463b688bcc7b5302da9bfed9cfbc6fc0d",
+      "functions": 0
+    },
+    {
+      "path": "upload/test_trocr_bare.py",
+      "lines": 11,
+      "sha256": "8b44c5e3b941d1b0aea55a17019182e6b20e91f5ed6da6147b7df10b75743fdb",
+      "functions": 0
+    },
+    {
+      "path": "upload/test_trocr_bare2.py",
+      "lines": 11,
+      "sha256": "8b96c3fdf505678712690dbde3ff47c71e9f30754792cef2b3473f608d7369f4",
+      "functions": 0
+    },
+    {
+      "path": "upload/test_upload.py",
+      "lines": 7,
+      "sha256": "473aad8e707b909549c0317d53e7e2c25722e24bd0f1ee1cc9a7696fa6f1adca",
+      "functions": 0
+    },
+    {
+      "path": "upload/test_upload_e2e.py",
+      "lines": 18,
+      "sha256": "d8c04071d041b31ff8658448796fd5346766d98509acdce710ee51f7f166bb02",
+      "functions": 0
+    },
+    {
+      "path": "upload/tests/test_ocr_abstention.py",
+      "lines": 214,
+      "sha256": "894a236316483ae986a9dd64dc8a0226d410f3fe567e547651183a615fa1cc45",
+      "functions": 14
+    },
+    {
+      "path": "upload/tests/test_ocr_fields_api.py",
+      "lines": 37,
+      "sha256": "98409632007a7ff3c191cb3d95b5645be9833a09fe3904273cc4ee31a81295ff",
+      "functions": 1
+    },
+    {
+      "path": "upload/tests/test_ocr_layout.py",
+      "lines": 60,
+      "sha256": "81de24ec6474228c9329a7e84fb6306b35731185b6aabc393a0a65c788ddbd00",
+      "functions": 9
+    },
+    {
+      "path": "upload/tests/test_ocr_pipeline.py",
+      "lines": 367,
+      "sha256": "8e6084e0f4f0f78b8ed18b96f45c775fd3ce7a109fb6e1396a27973b9c9286d2",
+      "functions": 35
+    },
+    {
+      "path": "upload/tools/audit_local_crops.py",
+      "lines": 60,
+      "sha256": "2974bf564d2923811d9ba06500bb28dc45b3884222e92aefb780c3842a02ccfa",
+      "functions": 1
+    }
+  ],
+  "n8n_exports": [
+    {
+      "path": "N8N/01_evaluate_due/workflow.json",
+      "export_active_flag": true,
+      "node_count": 4,
+      "node_types": [
+        "n8n-nodes-base.httpRequest",
+        "n8n-nodes-base.scheduleTrigger",
+        "n8n-nodes-base.webhook"
+      ],
+      "webhook_auth_modes": [
+        "not_declared"
+      ],
+      "sql_nodes_with_tenant_reference": 0,
+      "postgres_nodes": 0
+    },
+    {
+      "path": "N8N/02_send_reminder/workflow.json",
+      "export_active_flag": true,
+      "node_count": 6,
+      "node_types": [
+        "n8n-nodes-base.httpRequest",
+        "n8n-nodes-base.if",
+        "n8n-nodes-base.webhook"
+      ],
+      "webhook_auth_modes": [
+        "not_declared"
+      ],
+      "sql_nodes_with_tenant_reference": 0,
+      "postgres_nodes": 0
+    },
+    {
+      "path": "N8N/03_send_discount_offer/workflow.json",
+      "export_active_flag": true,
+      "node_count": 3,
+      "node_types": [
+        "n8n-nodes-base.httpRequest",
+        "n8n-nodes-base.webhook"
+      ],
+      "webhook_auth_modes": [
+        "not_declared"
+      ],
+      "sql_nodes_with_tenant_reference": 0,
+      "postgres_nodes": 0
+    },
+    {
+      "path": "N8N/04_weekly_summary/workflow.json",
+      "export_active_flag": true,
+      "node_count": 4,
+      "node_types": [
+        "n8n-nodes-base.httpRequest",
+        "n8n-nodes-base.scheduleTrigger",
+        "n8n-nodes-base.webhook"
+      ],
+      "webhook_auth_modes": [
+        "not_declared"
+      ],
+      "sql_nodes_with_tenant_reference": 0,
+      "postgres_nodes": 0
+    },
+    {
+      "path": "N8N/AI-COS Analytics Agent/workflow_analytics_agent.json",
+      "export_active_flag": null,
+      "node_count": 9,
+      "node_types": [
+        "n8n-nodes-base.code",
+        "n8n-nodes-base.httpRequest",
+        "n8n-nodes-base.postgres",
+        "n8n-nodes-base.respondToWebhook",
+        "n8n-nodes-base.scheduleTrigger",
+        "n8n-nodes-base.telegram",
+        "n8n-nodes-base.webhook"
+      ],
+      "webhook_auth_modes": [
+        "not_declared"
+      ],
+      "sql_nodes_with_tenant_reference": 0,
+      "postgres_nodes": 2
+    },
+    {
+      "path": "N8N/AI-COS Customer Success Agent/workflow_customer_success_agent.json",
+      "export_active_flag": null,
+      "node_count": 7,
+      "node_types": [
+        "n8n-nodes-base.code",
+        "n8n-nodes-base.httpRequest",
+        "n8n-nodes-base.postgres",
+        "n8n-nodes-base.respondToWebhook",
+        "n8n-nodes-base.telegram",
+        "n8n-nodes-base.webhook"
+      ],
+      "webhook_auth_modes": [
+        "not_declared"
+      ],
+      "sql_nodes_with_tenant_reference": 0,
+      "postgres_nodes": 1
+    },
+    {
+      "path": "N8N/AI-COS Finance Agent/workflow_finance_agent.json",
+      "export_active_flag": true,
+      "node_count": 7,
+      "node_types": [
+        "n8n-nodes-base.code",
+        "n8n-nodes-base.httpRequest",
+        "n8n-nodes-base.postgres",
+        "n8n-nodes-base.respondToWebhook",
+        "n8n-nodes-base.telegram",
+        "n8n-nodes-base.webhook"
+      ],
+      "webhook_auth_modes": [
+        "not_declared"
+      ],
+      "sql_nodes_with_tenant_reference": 0,
+      "postgres_nodes": 1
+    },
+    {
+      "path": "N8N/AI-COS Governance SLA Monitor/workflow_3_governance_sla_monitor.json",
+      "export_active_flag": true,
+      "node_count": 5,
+      "node_types": [
+        "n8n-nodes-base.code",
+        "n8n-nodes-base.httpRequest",
+        "n8n-nodes-base.if",
+        "n8n-nodes-base.scheduleTrigger",
+        "n8n-nodes-base.telegram"
+      ],
+      "webhook_auth_modes": [],
+      "sql_nodes_with_tenant_reference": 0,
+      "postgres_nodes": 0
+    },
+    {
+      "path": "N8N/n8n/workflow_1_emergency_escalation.json",
+      "export_active_flag": true,
+      "node_count": 2,
+      "node_types": [
+        "n8n-nodes-base.telegram",
+        "n8n-nodes-base.webhook"
+      ],
+      "webhook_auth_modes": [
+        "not_declared"
+      ],
+      "sql_nodes_with_tenant_reference": 0,
+      "postgres_nodes": 0
+    },
+    {
+      "path": "N8N/n8n/workflow_2_global_error_handler.json",
+      "export_active_flag": true,
+      "node_count": 2,
+      "node_types": [
+        "n8n-nodes-base.errorTrigger",
+        "n8n-nodes-base.telegram"
+      ],
+      "webhook_auth_modes": [],
+      "sql_nodes_with_tenant_reference": 0,
+      "postgres_nodes": 0
+    },
+    {
+      "path": "N8N/n8n/workflow_3_governance_sla_monitor.json",
+      "export_active_flag": true,
+      "node_count": 5,
+      "node_types": [
+        "n8n-nodes-base.code",
+        "n8n-nodes-base.httpRequest",
+        "n8n-nodes-base.if",
+        "n8n-nodes-base.scheduleTrigger",
+        "n8n-nodes-base.telegram"
+      ],
+      "webhook_auth_modes": [],
+      "sql_nodes_with_tenant_reference": 0,
+      "postgres_nodes": 0
+    },
+    {
+      "path": "n8n final/03 - AI-COS Marketing Discount Campaigns.json",
+      "export_active_flag": true,
+      "node_count": 3,
+      "node_types": [
+        "n8n-nodes-base.httpRequest",
+        "n8n-nodes-base.webhook"
+      ],
+      "webhook_auth_modes": [
+        "not_declared"
+      ],
+      "sql_nodes_with_tenant_reference": 0,
+      "postgres_nodes": 0
+    },
+    {
+      "path": "n8n final/04 - AI-COS Weekly Executive Summary.json",
+      "export_active_flag": true,
+      "node_count": 4,
+      "node_types": [
+        "n8n-nodes-base.httpRequest",
+        "n8n-nodes-base.scheduleTrigger",
+        "n8n-nodes-base.webhook"
+      ],
+      "webhook_auth_modes": [
+        "not_declared"
+      ],
+      "sql_nodes_with_tenant_reference": 0,
+      "postgres_nodes": 0
+    },
+    {
+      "path": "n8n final/AI-COS - Combined Reminder & Evaluation Engine.json",
+      "export_active_flag": true,
+      "node_count": 17,
+      "node_types": [
+        "n8n-nodes-base.httpRequest",
+        "n8n-nodes-base.if",
+        "n8n-nodes-base.manualTrigger",
+        "n8n-nodes-base.respondToWebhook",
+        "n8n-nodes-base.scheduleTrigger",
+        "n8n-nodes-base.telegram",
+        "n8n-nodes-base.webhook"
+      ],
+      "webhook_auth_modes": [
+        "not_declared",
+        "not_declared"
+      ],
+      "sql_nodes_with_tenant_reference": 0,
+      "postgres_nodes": 0
+    },
+    {
+      "path": "n8n final/AI-COS - send_discount_offer.json",
+      "export_active_flag": true,
+      "node_count": 7,
+      "node_types": [
+        "n8n-nodes-base.code",
+        "n8n-nodes-base.httpRequest",
+        "n8n-nodes-base.if",
+        "n8n-nodes-base.respondToWebhook",
+        "n8n-nodes-base.telegram",
+        "n8n-nodes-base.webhook"
+      ],
+      "webhook_auth_modes": [
+        "not_declared"
+      ],
+      "sql_nodes_with_tenant_reference": 0,
+      "postgres_nodes": 0
+    },
+    {
+      "path": "n8n final/AI-COS - weekly_summary.json",
+      "export_active_flag": true,
+      "node_count": 6,
+      "node_types": [
+        "n8n-nodes-base.code",
+        "n8n-nodes-base.if",
+        "n8n-nodes-base.respondToWebhook",
+        "n8n-nodes-base.telegram",
+        "n8n-nodes-base.webhook"
+      ],
+      "webhook_auth_modes": [
+        "not_declared"
+      ],
+      "sql_nodes_with_tenant_reference": 0,
+      "postgres_nodes": 0
+    },
+    {
+      "path": "n8n final/AI-COS - worm_alert.json",
+      "export_active_flag": true,
+      "node_count": 4,
+      "node_types": [
+        "n8n-nodes-base.code",
+        "n8n-nodes-base.respondToWebhook",
+        "n8n-nodes-base.telegram",
+        "n8n-nodes-base.webhook"
+      ],
+      "webhook_auth_modes": [
+        "not_declared"
+      ],
+      "sql_nodes_with_tenant_reference": 0,
+      "postgres_nodes": 0
+    },
+    {
+      "path": "n8n final/AI-COS - worm_anchor.json",
+      "export_active_flag": true,
+      "node_count": 4,
+      "node_types": [
+        "n8n-nodes-base.code",
+        "n8n-nodes-base.respondToWebhook",
+        "n8n-nodes-base.telegram",
+        "n8n-nodes-base.webhook"
+      ],
+      "webhook_auth_modes": [
+        "not_declared"
+      ],
+      "sql_nodes_with_tenant_reference": 0,
+      "postgres_nodes": 0
+    },
+    {
+      "path": "n8n final/AI-COS Governance SLA Monitor (1).json",
+      "export_active_flag": true,
+      "node_count": 5,
+      "node_types": [
+        "n8n-nodes-base.code",
+        "n8n-nodes-base.httpRequest",
+        "n8n-nodes-base.if",
+        "n8n-nodes-base.scheduleTrigger",
+        "n8n-nodes-base.telegram"
+      ],
+      "webhook_auth_modes": [],
+      "sql_nodes_with_tenant_reference": 0,
+      "postgres_nodes": 0
+    },
+    {
+      "path": "n8n final/AI-COS Medical Emergency Escalation.json",
+      "export_active_flag": true,
+      "node_count": 4,
+      "node_types": [
+        "n8n-nodes-base.code",
+        "n8n-nodes-base.respondToWebhook",
+        "n8n-nodes-base.telegram",
+        "n8n-nodes-base.webhook"
+      ],
+      "webhook_auth_modes": [
+        "not_declared"
+      ],
+      "sql_nodes_with_tenant_reference": 0,
+      "postgres_nodes": 0
+    },
+    {
+      "path": "n8n final/AI-COS Weekly Executive Summary (FIXED).json",
+      "export_active_flag": false,
+      "node_count": 6,
+      "node_types": [
+        "n8n-nodes-base.httpRequest",
+        "n8n-nodes-base.if",
+        "n8n-nodes-base.noOp",
+        "n8n-nodes-base.scheduleTrigger",
+        "n8n-nodes-base.telegram",
+        "n8n-nodes-base.webhook"
+      ],
+      "webhook_auth_modes": [
+        "not_declared"
+      ],
+      "sql_nodes_with_tenant_reference": 0,
+      "postgres_nodes": 0
+    },
+    {
+      "path": "n8n final/AI-COS_ Analytics Agent.json",
+      "export_active_flag": true,
+      "node_count": 9,
+      "node_types": [
+        "n8n-nodes-base.code",
+        "n8n-nodes-base.httpRequest",
+        "n8n-nodes-base.postgres",
+        "n8n-nodes-base.respondToWebhook",
+        "n8n-nodes-base.scheduleTrigger",
+        "n8n-nodes-base.telegram",
+        "n8n-nodes-base.webhook"
+      ],
+      "webhook_auth_modes": [
+        "not_declared"
+      ],
+      "sql_nodes_with_tenant_reference": 0,
+      "postgres_nodes": 2
+    },
+    {
+      "path": "n8n final/AI-COS_ Customer Success Agent.json",
+      "export_active_flag": true,
+      "node_count": 7,
+      "node_types": [
+        "n8n-nodes-base.code",
+        "n8n-nodes-base.httpRequest",
+        "n8n-nodes-base.postgres",
+        "n8n-nodes-base.respondToWebhook",
+        "n8n-nodes-base.telegram",
+        "n8n-nodes-base.webhook"
+      ],
+      "webhook_auth_modes": [
+        "not_declared"
+      ],
+      "sql_nodes_with_tenant_reference": 0,
+      "postgres_nodes": 1
+    },
+    {
+      "path": "n8n final/AI-COS_ Finance Agent.json",
+      "export_active_flag": true,
+      "node_count": 7,
+      "node_types": [
+        "n8n-nodes-base.code",
+        "n8n-nodes-base.httpRequest",
+        "n8n-nodes-base.postgres",
+        "n8n-nodes-base.respondToWebhook",
+        "n8n-nodes-base.telegram",
+        "n8n-nodes-base.webhook"
+      ],
+      "webhook_auth_modes": [
+        "not_declared"
+      ],
+      "sql_nodes_with_tenant_reference": 0,
+      "postgres_nodes": 1
+    },
+    {
+      "path": "n8n final/AI-COS_ Patient Health Agent.json",
+      "export_active_flag": true,
+      "node_count": 8,
+      "node_types": [
+        "n8n-nodes-base.code",
+        "n8n-nodes-base.httpRequest",
+        "n8n-nodes-base.postgres",
+        "n8n-nodes-base.respondToWebhook",
+        "n8n-nodes-base.telegram",
+        "n8n-nodes-base.webhook"
+      ],
+      "webhook_auth_modes": [
+        "not_declared"
+      ],
+      "sql_nodes_with_tenant_reference": 0,
+      "postgres_nodes": 2
+    },
+    {
+      "path": "n8n final/AI-COS_ Support Agent.json",
+      "export_active_flag": true,
+      "node_count": 7,
+      "node_types": [
+        "n8n-nodes-base.code",
+        "n8n-nodes-base.httpRequest",
+        "n8n-nodes-base.postgres",
+        "n8n-nodes-base.respondToWebhook",
+        "n8n-nodes-base.telegram",
+        "n8n-nodes-base.webhook"
+      ],
+      "webhook_auth_modes": [
+        "not_declared"
+      ],
+      "sql_nodes_with_tenant_reference": 0,
+      "postgres_nodes": 1
+    }
+  ]
+}

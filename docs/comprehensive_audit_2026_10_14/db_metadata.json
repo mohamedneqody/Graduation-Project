@@ -1,0 +1,1757 @@
+{
+  "role": [
+    {
+      "rolsuper": false,
+      "rolbypassrls": true,
+      "rolcreaterole": true,
+      "rolcreatedb": true
+    }
+  ],
+  "tables": [
+    {
+      "relname": "ab_test_results",
+      "relrowsecurity": true,
+      "relforcerowsecurity": true,
+      "app_is_owner": true
+    },
+    {
+      "relname": "ab_tests",
+      "relrowsecurity": true,
+      "relforcerowsecurity": true,
+      "app_is_owner": true
+    },
+    {
+      "relname": "ai_chat_logs",
+      "relrowsecurity": true,
+      "relforcerowsecurity": true,
+      "app_is_owner": true
+    },
+    {
+      "relname": "alembic_version",
+      "relrowsecurity": false,
+      "relforcerowsecurity": false,
+      "app_is_owner": true
+    },
+    {
+      "relname": "audit_logs",
+      "relrowsecurity": true,
+      "relforcerowsecurity": true,
+      "app_is_owner": true
+    },
+    {
+      "relname": "automation_runs",
+      "relrowsecurity": true,
+      "relforcerowsecurity": false,
+      "app_is_owner": true
+    },
+    {
+      "relname": "complaints",
+      "relrowsecurity": true,
+      "relforcerowsecurity": false,
+      "app_is_owner": true
+    },
+    {
+      "relname": "contact_messages",
+      "relrowsecurity": true,
+      "relforcerowsecurity": true,
+      "app_is_owner": true
+    },
+    {
+      "relname": "coupons",
+      "relrowsecurity": true,
+      "relforcerowsecurity": false,
+      "app_is_owner": true
+    },
+    {
+      "relname": "customer_cycles",
+      "relrowsecurity": true,
+      "relforcerowsecurity": true,
+      "app_is_owner": true
+    },
+    {
+      "relname": "customers",
+      "relrowsecurity": true,
+      "relforcerowsecurity": true,
+      "app_is_owner": true
+    },
+    {
+      "relname": "drug_affinities",
+      "relrowsecurity": true,
+      "relforcerowsecurity": true,
+      "app_is_owner": true
+    },
+    {
+      "relname": "drug_interactions",
+      "relrowsecurity": true,
+      "relforcerowsecurity": true,
+      "app_is_owner": true
+    },
+    {
+      "relname": "drugs",
+      "relrowsecurity": true,
+      "relforcerowsecurity": true,
+      "app_is_owner": true
+    },
+    {
+      "relname": "emergency_outbox",
+      "relrowsecurity": true,
+      "relforcerowsecurity": true,
+      "app_is_owner": true
+    },
+    {
+      "relname": "events",
+      "relrowsecurity": true,
+      "relforcerowsecurity": true,
+      "app_is_owner": true
+    },
+    {
+      "relname": "inventory_items",
+      "relrowsecurity": true,
+      "relforcerowsecurity": true,
+      "app_is_owner": true
+    },
+    {
+      "relname": "journal_entries",
+      "relrowsecurity": false,
+      "relforcerowsecurity": false,
+      "app_is_owner": true
+    },
+    {
+      "relname": "journal_entry_lines",
+      "relrowsecurity": false,
+      "relforcerowsecurity": false,
+      "app_is_owner": true
+    },
+    {
+      "relname": "knowledge_chunks",
+      "relrowsecurity": true,
+      "relforcerowsecurity": true,
+      "app_is_owner": true
+    },
+    {
+      "relname": "market_action_outbox",
+      "relrowsecurity": false,
+      "relforcerowsecurity": false,
+      "app_is_owner": true
+    },
+    {
+      "relname": "market_intelligence_actions",
+      "relrowsecurity": true,
+      "relforcerowsecurity": false,
+      "app_is_owner": true
+    },
+    {
+      "relname": "notifications",
+      "relrowsecurity": true,
+      "relforcerowsecurity": true,
+      "app_is_owner": true
+    },
+    {
+      "relname": "ocr_correction_examples",
+      "relrowsecurity": false,
+      "relforcerowsecurity": false,
+      "app_is_owner": true
+    },
+    {
+      "relname": "ocr_corrections",
+      "relrowsecurity": false,
+      "relforcerowsecurity": false,
+      "app_is_owner": true
+    },
+    {
+      "relname": "order_items",
+      "relrowsecurity": true,
+      "relforcerowsecurity": true,
+      "app_is_owner": true
+    },
+    {
+      "relname": "orders",
+      "relrowsecurity": true,
+      "relforcerowsecurity": true,
+      "app_is_owner": true
+    },
+    {
+      "relname": "pending_reminders",
+      "relrowsecurity": true,
+      "relforcerowsecurity": true,
+      "app_is_owner": true
+    },
+    {
+      "relname": "platform_settings",
+      "relrowsecurity": false,
+      "relforcerowsecurity": false,
+      "app_is_owner": true
+    },
+    {
+      "relname": "prescription_analyses",
+      "relrowsecurity": true,
+      "relforcerowsecurity": true,
+      "app_is_owner": true
+    },
+    {
+      "relname": "prescription_items",
+      "relrowsecurity": true,
+      "relforcerowsecurity": true,
+      "app_is_owner": true
+    },
+    {
+      "relname": "prescriptions",
+      "relrowsecurity": true,
+      "relforcerowsecurity": true,
+      "app_is_owner": true
+    },
+    {
+      "relname": "purchase_order_items",
+      "relrowsecurity": false,
+      "relforcerowsecurity": false,
+      "app_is_owner": true
+    },
+    {
+      "relname": "purchase_orders",
+      "relrowsecurity": false,
+      "relforcerowsecurity": false,
+      "app_is_owner": true
+    },
+    {
+      "relname": "sessions",
+      "relrowsecurity": true,
+      "relforcerowsecurity": true,
+      "app_is_owner": true
+    },
+    {
+      "relname": "simulation_runs",
+      "relrowsecurity": true,
+      "relforcerowsecurity": false,
+      "app_is_owner": true
+    },
+    {
+      "relname": "suppliers",
+      "relrowsecurity": false,
+      "relforcerowsecurity": false,
+      "app_is_owner": true
+    },
+    {
+      "relname": "tenant_settings",
+      "relrowsecurity": true,
+      "relforcerowsecurity": true,
+      "app_is_owner": true
+    },
+    {
+      "relname": "tenants",
+      "relrowsecurity": true,
+      "relforcerowsecurity": true,
+      "app_is_owner": true
+    }
+  ],
+  "policies": [
+    {
+      "tablename": "ab_test_results",
+      "policyname": "tenant_isolation_ab_test_results",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "(EXISTS ( SELECT 1\n   FROM ab_tests t\n  WHERE ((t.test_id = ab_test_results.test_id) AND (t.tenant_id = current_user_tenant_id()))))",
+      "with_check": "(EXISTS ( SELECT 1\n   FROM ab_tests t\n  WHERE ((t.test_id = ab_test_results.test_id) AND (t.tenant_id = current_user_tenant_id()))))"
+    },
+    {
+      "tablename": "ab_tests",
+      "policyname": "tenant_isolation_ab_tests",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "((tenant_id = current_user_tenant_id()) OR (current_user_tenant_id() IS NULL))",
+      "with_check": "((tenant_id = current_user_tenant_id()) OR (current_user_tenant_id() IS NULL))"
+    },
+    {
+      "tablename": "ai_chat_logs",
+      "policyname": "tenant_isolation_ai_chat_logs",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "((tenant_id)::text = current_setting('app.current_tenant_id'::text, true))",
+      "with_check": "((tenant_id)::text = current_setting('app.current_tenant_id'::text, true))"
+    },
+    {
+      "tablename": "audit_logs",
+      "policyname": "tenant_isolation_audit_logs",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "((tenant_id = current_user_tenant_id()) OR (current_user_tenant_id() IS NULL))",
+      "with_check": "((tenant_id = current_user_tenant_id()) OR (current_user_tenant_id() IS NULL))"
+    },
+    {
+      "tablename": "automation_runs",
+      "policyname": "automation_runs_tenant_isolation",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "((tenant_id)::text = current_setting('app.current_tenant_id'::text, true))",
+      "with_check": null
+    },
+    {
+      "tablename": "complaints",
+      "policyname": "complaints_tenant_isolation",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "((tenant_id)::text = current_setting('app.current_tenant_id'::text, true))",
+      "with_check": null
+    },
+    {
+      "tablename": "contact_messages",
+      "policyname": "Allow app to insert contact messages",
+      "permissive": "PERMISSIVE",
+      "roles": "{aicos_app}",
+      "cmd": "INSERT",
+      "qual": null,
+      "with_check": "true"
+    },
+    {
+      "tablename": "contact_messages",
+      "policyname": "Service role has full access",
+      "permissive": "PERMISSIVE",
+      "roles": "{service_role}",
+      "cmd": "ALL",
+      "qual": "true",
+      "with_check": "true"
+    },
+    {
+      "tablename": "contact_messages",
+      "policyname": "Users can insert their own contact messages",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "INSERT",
+      "qual": null,
+      "with_check": "((auth.uid() = customer_id) OR (customer_id IS NULL))"
+    },
+    {
+      "tablename": "contact_messages",
+      "policyname": "public_insert_contact_messages",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "INSERT",
+      "qual": null,
+      "with_check": "true"
+    },
+    {
+      "tablename": "contact_messages",
+      "policyname": "tenant_isolation_contact_messages",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "SELECT",
+      "qual": "((tenant_id = current_user_tenant_id()) OR (current_user_tenant_id() IS NULL))",
+      "with_check": null
+    },
+    {
+      "tablename": "coupons",
+      "policyname": "coupons_tenant_isolation",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "((tenant_id)::text = current_setting('app.current_tenant_id'::text, true))",
+      "with_check": null
+    },
+    {
+      "tablename": "customer_cycles",
+      "policyname": "tenant_isolation_customer_cycles",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "(EXISTS ( SELECT 1\n   FROM customers c\n  WHERE ((c.customer_id = customer_cycles.customer_id) AND ((c.tenant_id = current_user_tenant_id()) OR (current_user_tenant_id() IS NULL)))))",
+      "with_check": "(EXISTS ( SELECT 1\n   FROM customers c\n  WHERE ((c.customer_id = customer_cycles.customer_id) AND ((c.tenant_id = current_user_tenant_id()) OR (current_user_tenant_id() IS NULL)))))"
+    },
+    {
+      "tablename": "customers",
+      "policyname": "Allow app to provision customers",
+      "permissive": "PERMISSIVE",
+      "roles": "{aicos_app}",
+      "cmd": "INSERT",
+      "qual": null,
+      "with_check": "true"
+    },
+    {
+      "tablename": "customers",
+      "policyname": "Allow app to read and update self",
+      "permissive": "PERMISSIVE",
+      "roles": "{aicos_app}",
+      "cmd": "ALL",
+      "qual": "((auth_user_id)::text = current_setting('app.current_auth_user_id'::text, true))",
+      "with_check": null
+    },
+    {
+      "tablename": "customers",
+      "policyname": "Allow app to update customers in tenant",
+      "permissive": "PERMISSIVE",
+      "roles": "{aicos_app}",
+      "cmd": "UPDATE",
+      "qual": "((tenant_id = (NULLIF(current_setting('app.current_tenant_id'::text, true), ''::text))::uuid) OR ((auth_user_id)::text = current_setting('app.current_auth_user_id'::text, true)))",
+      "with_check": "((tenant_id = (NULLIF(current_setting('app.current_tenant_id'::text, true), ''::text))::uuid) OR ((auth_user_id)::text = current_setting('app.current_auth_user_id'::text, true)))"
+    },
+    {
+      "tablename": "customers",
+      "policyname": "tenant_isolation_customers",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "SELECT",
+      "qual": "(tenant_id = current_user_tenant_id())",
+      "with_check": null
+    },
+    {
+      "tablename": "drug_affinities",
+      "policyname": "global_read_drug_affinities",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "SELECT",
+      "qual": "true",
+      "with_check": null
+    },
+    {
+      "tablename": "drug_interactions",
+      "policyname": "global_read_drug_interactions",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "SELECT",
+      "qual": "true",
+      "with_check": null
+    },
+    {
+      "tablename": "drugs",
+      "policyname": "global_read_drugs",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "SELECT",
+      "qual": "true",
+      "with_check": null
+    },
+    {
+      "tablename": "emergency_outbox",
+      "policyname": "tenant_isolation_emergency_outbox",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "((tenant_id = current_user_tenant_id()) OR (current_user_tenant_id() IS NULL))",
+      "with_check": "((tenant_id = current_user_tenant_id()) OR (current_user_tenant_id() IS NULL))"
+    },
+    {
+      "tablename": "events",
+      "policyname": "tenant_isolation_events",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "(EXISTS ( SELECT 1\n   FROM (sessions s\n     JOIN customers c ON ((c.customer_id = s.customer_id)))\n  WHERE ((s.session_id = events.session_id) AND (c.tenant_id = current_user_tenant_id()))))",
+      "with_check": "(EXISTS ( SELECT 1\n   FROM (sessions s\n     JOIN customers c ON ((c.customer_id = s.customer_id)))\n  WHERE ((s.session_id = events.session_id) AND (c.tenant_id = current_user_tenant_id()))))"
+    },
+    {
+      "tablename": "inventory_items",
+      "policyname": "tenant_isolation_inventory",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "SELECT",
+      "qual": "((tenant_id)::text = current_setting('app.current_tenant_id'::text, true))",
+      "with_check": null
+    },
+    {
+      "tablename": "inventory_items",
+      "policyname": "tenant_isolation_inventory_items",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "((tenant_id = current_user_tenant_id()) OR (current_user_tenant_id() IS NULL))",
+      "with_check": "((tenant_id = current_user_tenant_id()) OR (current_user_tenant_id() IS NULL))"
+    },
+    {
+      "tablename": "knowledge_chunks",
+      "policyname": "tenant_isolation_knowledge_chunks",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "((tenant_id = current_user_tenant_id()) OR (current_user_tenant_id() IS NULL))",
+      "with_check": "((tenant_id = current_user_tenant_id()) OR (current_user_tenant_id() IS NULL))"
+    },
+    {
+      "tablename": "market_intelligence_actions",
+      "policyname": "market_actions_tenant_isolation",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "((tenant_id IS NULL) OR (NULLIF(current_setting('app.current_tenant_id'::text, true), ''::text) IS NULL) OR (tenant_id = (NULLIF(current_setting('app.current_tenant_id'::text, true), ''::text))::uuid))",
+      "with_check": null
+    },
+    {
+      "tablename": "notifications",
+      "policyname": "tenant_isolation_notifications",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "((tenant_id = current_user_tenant_id()) OR (current_user_tenant_id() IS NULL))",
+      "with_check": "((tenant_id = current_user_tenant_id()) OR (current_user_tenant_id() IS NULL))"
+    },
+    {
+      "tablename": "order_items",
+      "policyname": "tenant_isolation_order_items",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "(EXISTS ( SELECT 1\n   FROM orders o\n  WHERE ((o.order_id = order_items.order_id) AND (o.tenant_id = current_user_tenant_id()))))",
+      "with_check": "(EXISTS ( SELECT 1\n   FROM orders o\n  WHERE ((o.order_id = order_items.order_id) AND (o.tenant_id = current_user_tenant_id()))))"
+    },
+    {
+      "tablename": "orders",
+      "policyname": "tenant_isolation_orders",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "(tenant_id = current_user_tenant_id())",
+      "with_check": null
+    },
+    {
+      "tablename": "pending_reminders",
+      "policyname": "tenant_isolation_pending_reminders",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "(EXISTS ( SELECT 1\n   FROM customers c\n  WHERE ((c.customer_id = pending_reminders.customer_id) AND ((c.tenant_id = current_user_tenant_id()) OR (current_user_tenant_id() IS NULL)))))",
+      "with_check": "(EXISTS ( SELECT 1\n   FROM customers c\n  WHERE ((c.customer_id = pending_reminders.customer_id) AND ((c.tenant_id = current_user_tenant_id()) OR (current_user_tenant_id() IS NULL)))))"
+    },
+    {
+      "tablename": "prescription_analyses",
+      "policyname": "deny_anon",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "false",
+      "with_check": null
+    },
+    {
+      "tablename": "prescription_items",
+      "policyname": "deny_anon",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "false",
+      "with_check": null
+    },
+    {
+      "tablename": "prescriptions",
+      "policyname": "tenant_isolation",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "((tenant_id)::text = current_setting('app.current_tenant_id'::text, true))",
+      "with_check": "((tenant_id)::text = current_setting('app.current_tenant_id'::text, true))"
+    },
+    {
+      "tablename": "sessions",
+      "policyname": "tenant_isolation_sessions",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "(tenant_id = current_user_tenant_id())",
+      "with_check": "(tenant_id = current_user_tenant_id())"
+    },
+    {
+      "tablename": "simulation_runs",
+      "policyname": "simruns_tenant_isolation",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "((tenant_id)::text = current_setting('app.current_tenant_id'::text, true))",
+      "with_check": null
+    },
+    {
+      "tablename": "tenant_settings",
+      "policyname": "tenant_settings_isolation",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "((tenant_id = current_user_tenant_id()) OR (tenant_id = (NULLIF(current_setting('app.current_tenant_id'::text, true), ''::text))::uuid))",
+      "with_check": "((tenant_id = current_user_tenant_id()) OR (tenant_id = (NULLIF(current_setting('app.current_tenant_id'::text, true), ''::text))::uuid))"
+    },
+    {
+      "tablename": "tenants",
+      "policyname": "Allow app to read active tenants for routing",
+      "permissive": "PERMISSIVE",
+      "roles": "{aicos_app}",
+      "cmd": "SELECT",
+      "qual": "(is_active = true)",
+      "with_check": null
+    },
+    {
+      "tablename": "tenants",
+      "policyname": "allow_read_active_tenants",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "SELECT",
+      "qual": "(is_active = true)",
+      "with_check": null
+    },
+    {
+      "tablename": "tenants",
+      "policyname": "tenant_isolation_tenants",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "((tenant_id = current_user_tenant_id()) OR (current_user_tenant_id() IS NULL))",
+      "with_check": "((tenant_id = current_user_tenant_id()) OR (current_user_tenant_id() IS NULL))"
+    }
+  ],
+  "indexes": [
+    {
+      "tablename": "ab_test_results",
+      "indexname": "ab_test_results_pkey",
+      "indexdef": "CREATE UNIQUE INDEX ab_test_results_pkey ON public.ab_test_results USING btree (result_id)"
+    },
+    {
+      "tablename": "ab_test_results",
+      "indexname": "ix_ab_test_results_test_id",
+      "indexdef": "CREATE INDEX ix_ab_test_results_test_id ON public.ab_test_results USING btree (test_id)"
+    },
+    {
+      "tablename": "ab_tests",
+      "indexname": "ab_tests_pkey",
+      "indexdef": "CREATE UNIQUE INDEX ab_tests_pkey ON public.ab_tests USING btree (test_id)"
+    },
+    {
+      "tablename": "ab_tests",
+      "indexname": "ix_ab_tests_tenant_id",
+      "indexdef": "CREATE INDEX ix_ab_tests_tenant_id ON public.ab_tests USING btree (tenant_id)"
+    },
+    {
+      "tablename": "ai_chat_logs",
+      "indexname": "ai_chat_logs_pkey",
+      "indexdef": "CREATE UNIQUE INDEX ai_chat_logs_pkey ON public.ai_chat_logs USING btree (log_id)"
+    },
+    {
+      "tablename": "ai_chat_logs",
+      "indexname": "idx_ai_chat_logs_created",
+      "indexdef": "CREATE INDEX idx_ai_chat_logs_created ON public.ai_chat_logs USING btree (created_at)"
+    },
+    {
+      "tablename": "ai_chat_logs",
+      "indexname": "idx_ai_chat_logs_session",
+      "indexdef": "CREATE INDEX idx_ai_chat_logs_session ON public.ai_chat_logs USING btree (session_id)"
+    },
+    {
+      "tablename": "ai_chat_logs",
+      "indexname": "idx_ai_chat_logs_tenant_created",
+      "indexdef": "CREATE INDEX idx_ai_chat_logs_tenant_created ON public.ai_chat_logs USING btree (tenant_id, created_at DESC)"
+    },
+    {
+      "tablename": "alembic_version",
+      "indexname": "alembic_version_pkc",
+      "indexdef": "CREATE UNIQUE INDEX alembic_version_pkc ON public.alembic_version USING btree (version_num)"
+    },
+    {
+      "tablename": "audit_logs",
+      "indexname": "audit_logs_pkey",
+      "indexdef": "CREATE UNIQUE INDEX audit_logs_pkey ON public.audit_logs USING btree (log_id)"
+    },
+    {
+      "tablename": "audit_logs",
+      "indexname": "ix_audit_logs_tenant_id",
+      "indexdef": "CREATE INDEX ix_audit_logs_tenant_id ON public.audit_logs USING btree (tenant_id)"
+    },
+    {
+      "tablename": "automation_runs",
+      "indexname": "automation_runs_pkey",
+      "indexdef": "CREATE UNIQUE INDEX automation_runs_pkey ON public.automation_runs USING btree (id)"
+    },
+    {
+      "tablename": "automation_runs",
+      "indexname": "idx_auto_runs_retry",
+      "indexdef": "CREATE INDEX idx_auto_runs_retry ON public.automation_runs USING btree (next_retry_at) WHERE ((status)::text = ANY ((ARRAY['trigger_failed'::character varying, 'pending'::character varying])::text[]))"
+    },
+    {
+      "tablename": "automation_runs",
+      "indexname": "idx_auto_runs_wf",
+      "indexdef": "CREATE INDEX idx_auto_runs_wf ON public.automation_runs USING btree (workflow_name, created_at DESC)"
+    },
+    {
+      "tablename": "complaints",
+      "indexname": "complaints_pkey",
+      "indexdef": "CREATE UNIQUE INDEX complaints_pkey ON public.complaints USING btree (complaint_id)"
+    },
+    {
+      "tablename": "complaints",
+      "indexname": "idx_complaints_status",
+      "indexdef": "CREATE INDEX idx_complaints_status ON public.complaints USING btree (status)"
+    },
+    {
+      "tablename": "complaints",
+      "indexname": "idx_complaints_tenant",
+      "indexdef": "CREATE INDEX idx_complaints_tenant ON public.complaints USING btree (tenant_id)"
+    },
+    {
+      "tablename": "contact_messages",
+      "indexname": "contact_messages_pkey",
+      "indexdef": "CREATE UNIQUE INDEX contact_messages_pkey ON public.contact_messages USING btree (id)"
+    },
+    {
+      "tablename": "contact_messages",
+      "indexname": "ix_contact_messages_tenant_id",
+      "indexdef": "CREATE INDEX ix_contact_messages_tenant_id ON public.contact_messages USING btree (tenant_id)"
+    },
+    {
+      "tablename": "coupons",
+      "indexname": "coupons_pkey",
+      "indexdef": "CREATE UNIQUE INDEX coupons_pkey ON public.coupons USING btree (id)"
+    },
+    {
+      "tablename": "coupons",
+      "indexname": "idx_coupons_code",
+      "indexdef": "CREATE INDEX idx_coupons_code ON public.coupons USING btree (code)"
+    },
+    {
+      "tablename": "coupons",
+      "indexname": "idx_coupons_expiry",
+      "indexdef": "CREATE INDEX idx_coupons_expiry ON public.coupons USING btree (expires_at)"
+    },
+    {
+      "tablename": "coupons",
+      "indexname": "idx_coupons_tenant",
+      "indexdef": "CREATE INDEX idx_coupons_tenant ON public.coupons USING btree (tenant_id)"
+    },
+    {
+      "tablename": "customer_cycles",
+      "indexname": "customer_cycles_pkey",
+      "indexdef": "CREATE UNIQUE INDEX customer_cycles_pkey ON public.customer_cycles USING btree (customer_id, drug_id)"
+    },
+    {
+      "tablename": "customers",
+      "indexname": "customers_pkey",
+      "indexdef": "CREATE UNIQUE INDEX customers_pkey ON public.customers USING btree (customer_id)"
+    },
+    {
+      "tablename": "customers",
+      "indexname": "ix_customers_auth_user_id",
+      "indexdef": "CREATE UNIQUE INDEX ix_customers_auth_user_id ON public.customers USING btree (auth_user_id)"
+    },
+    {
+      "tablename": "customers",
+      "indexname": "ix_customers_email",
+      "indexdef": "CREATE UNIQUE INDEX ix_customers_email ON public.customers USING btree (email)"
+    },
+    {
+      "tablename": "customers",
+      "indexname": "ix_customers_tenant_id",
+      "indexdef": "CREATE INDEX ix_customers_tenant_id ON public.customers USING btree (tenant_id)"
+    },
+    {
+      "tablename": "drug_affinities",
+      "indexname": "drug_affinities_pkey",
+      "indexdef": "CREATE UNIQUE INDEX drug_affinities_pkey ON public.drug_affinities USING btree (affinity_id)"
+    },
+    {
+      "tablename": "drug_affinities",
+      "indexname": "idx_affinity_drug_b",
+      "indexdef": "CREATE INDEX idx_affinity_drug_b ON public.drug_affinities USING btree (drug_id_b)"
+    },
+    {
+      "tablename": "drug_affinities",
+      "indexname": "idx_affinity_drug_b_score",
+      "indexdef": "CREATE INDEX idx_affinity_drug_b_score ON public.drug_affinities USING btree (drug_id_b, confidence_score DESC)"
+    },
+    {
+      "tablename": "drug_affinities",
+      "indexname": "uq_affinity_pair",
+      "indexdef": "CREATE UNIQUE INDEX uq_affinity_pair ON public.drug_affinities USING btree (drug_id_a, drug_id_b)"
+    },
+    {
+      "tablename": "drug_interactions",
+      "indexname": "drug_interactions_pkey",
+      "indexdef": "CREATE UNIQUE INDEX drug_interactions_pkey ON public.drug_interactions USING btree (interaction_id)"
+    },
+    {
+      "tablename": "drug_interactions",
+      "indexname": "uq_interaction_pair",
+      "indexdef": "CREATE UNIQUE INDEX uq_interaction_pair ON public.drug_interactions USING btree (drug_id_a, drug_id_b)"
+    },
+    {
+      "tablename": "drugs",
+      "indexname": "drugs_pkey",
+      "indexdef": "CREATE UNIQUE INDEX drugs_pkey ON public.drugs USING btree (drug_id)"
+    },
+    {
+      "tablename": "drugs",
+      "indexname": "idx_drugs_name",
+      "indexdef": "CREATE INDEX idx_drugs_name ON public.drugs USING btree (name)"
+    },
+    {
+      "tablename": "drugs",
+      "indexname": "idx_drugs_vertical",
+      "indexdef": "CREATE INDEX idx_drugs_vertical ON public.drugs USING btree (vertical)"
+    },
+    {
+      "tablename": "drugs",
+      "indexname": "ix_drugs_category",
+      "indexdef": "CREATE INDEX ix_drugs_category ON public.drugs USING btree (category)"
+    },
+    {
+      "tablename": "emergency_outbox",
+      "indexname": "emergency_outbox_pkey",
+      "indexdef": "CREATE UNIQUE INDEX emergency_outbox_pkey ON public.emergency_outbox USING btree (id)"
+    },
+    {
+      "tablename": "events",
+      "indexname": "events_pkey",
+      "indexdef": "CREATE UNIQUE INDEX events_pkey ON public.events USING btree (event_id)"
+    },
+    {
+      "tablename": "events",
+      "indexname": "ix_events_event_seq",
+      "indexdef": "CREATE INDEX ix_events_event_seq ON public.events USING btree (event_seq)"
+    },
+    {
+      "tablename": "events",
+      "indexname": "ix_events_session_id",
+      "indexdef": "CREATE INDEX ix_events_session_id ON public.events USING btree (session_id)"
+    },
+    {
+      "tablename": "inventory_items",
+      "indexname": "inventory_items_pkey",
+      "indexdef": "CREATE UNIQUE INDEX inventory_items_pkey ON public.inventory_items USING btree (inventory_id)"
+    },
+    {
+      "tablename": "inventory_items",
+      "indexname": "ix_inventory_items_drug_id",
+      "indexdef": "CREATE INDEX ix_inventory_items_drug_id ON public.inventory_items USING btree (drug_id)"
+    },
+    {
+      "tablename": "inventory_items",
+      "indexname": "ix_inventory_items_tenant_id",
+      "indexdef": "CREATE INDEX ix_inventory_items_tenant_id ON public.inventory_items USING btree (tenant_id)"
+    },
+    {
+      "tablename": "journal_entries",
+      "indexname": "idx_jv_ref",
+      "indexdef": "CREATE INDEX idx_jv_ref ON public.journal_entries USING btree (reference_type, reference_id)"
+    },
+    {
+      "tablename": "journal_entries",
+      "indexname": "idx_jv_tenant",
+      "indexdef": "CREATE INDEX idx_jv_tenant ON public.journal_entries USING btree (tenant_id)"
+    },
+    {
+      "tablename": "journal_entries",
+      "indexname": "journal_entries_entry_number_key",
+      "indexdef": "CREATE UNIQUE INDEX journal_entries_entry_number_key ON public.journal_entries USING btree (entry_number)"
+    },
+    {
+      "tablename": "journal_entries",
+      "indexname": "journal_entries_pkey",
+      "indexdef": "CREATE UNIQUE INDEX journal_entries_pkey ON public.journal_entries USING btree (entry_id)"
+    },
+    {
+      "tablename": "journal_entry_lines",
+      "indexname": "idx_jvl_account",
+      "indexdef": "CREATE INDEX idx_jvl_account ON public.journal_entry_lines USING btree (account_code)"
+    },
+    {
+      "tablename": "journal_entry_lines",
+      "indexname": "idx_jvl_entry",
+      "indexdef": "CREATE INDEX idx_jvl_entry ON public.journal_entry_lines USING btree (entry_id)"
+    },
+    {
+      "tablename": "journal_entry_lines",
+      "indexname": "journal_entry_lines_pkey",
+      "indexdef": "CREATE UNIQUE INDEX journal_entry_lines_pkey ON public.journal_entry_lines USING btree (line_id)"
+    },
+    {
+      "tablename": "knowledge_chunks",
+      "indexname": "idx_knowledge_chunks_embedding_hnsw",
+      "indexdef": "CREATE INDEX idx_knowledge_chunks_embedding_hnsw ON public.knowledge_chunks USING hnsw (embedding vector_cosine_ops)"
+    },
+    {
+      "tablename": "knowledge_chunks",
+      "indexname": "idx_knowledge_chunks_tenant_id",
+      "indexdef": "CREATE INDEX idx_knowledge_chunks_tenant_id ON public.knowledge_chunks USING btree (tenant_id)"
+    },
+    {
+      "tablename": "knowledge_chunks",
+      "indexname": "ix_knowledge_chunks_tenant_id",
+      "indexdef": "CREATE INDEX ix_knowledge_chunks_tenant_id ON public.knowledge_chunks USING btree (tenant_id)"
+    },
+    {
+      "tablename": "knowledge_chunks",
+      "indexname": "knowledge_chunks_pkey",
+      "indexdef": "CREATE UNIQUE INDEX knowledge_chunks_pkey ON public.knowledge_chunks USING btree (chunk_id)"
+    },
+    {
+      "tablename": "market_action_outbox",
+      "indexname": "ix_market_action_outbox_status_created",
+      "indexdef": "CREATE INDEX ix_market_action_outbox_status_created ON public.market_action_outbox USING btree (status, created_at)"
+    },
+    {
+      "tablename": "market_action_outbox",
+      "indexname": "ix_market_action_outbox_tenant_id",
+      "indexdef": "CREATE INDEX ix_market_action_outbox_tenant_id ON public.market_action_outbox USING btree (tenant_id)"
+    },
+    {
+      "tablename": "market_action_outbox",
+      "indexname": "market_action_outbox_pkey",
+      "indexdef": "CREATE UNIQUE INDEX market_action_outbox_pkey ON public.market_action_outbox USING btree (id)"
+    },
+    {
+      "tablename": "market_action_outbox",
+      "indexname": "uq_market_action_outbox_action_id",
+      "indexdef": "CREATE UNIQUE INDEX uq_market_action_outbox_action_id ON public.market_action_outbox USING btree (action_id)"
+    },
+    {
+      "tablename": "market_action_outbox",
+      "indexname": "uq_market_action_outbox_event_id",
+      "indexdef": "CREATE UNIQUE INDEX uq_market_action_outbox_event_id ON public.market_action_outbox USING btree (event_id)"
+    },
+    {
+      "tablename": "market_intelligence_actions",
+      "indexname": "idx_market_actions_created",
+      "indexdef": "CREATE INDEX idx_market_actions_created ON public.market_intelligence_actions USING btree (created_at DESC)"
+    },
+    {
+      "tablename": "market_intelligence_actions",
+      "indexname": "idx_market_actions_status",
+      "indexdef": "CREATE INDEX idx_market_actions_status ON public.market_intelligence_actions USING btree (status)"
+    },
+    {
+      "tablename": "market_intelligence_actions",
+      "indexname": "ix_market_intelligence_actions_checker_id",
+      "indexdef": "CREATE INDEX ix_market_intelligence_actions_checker_id ON public.market_intelligence_actions USING btree (checker_id)"
+    },
+    {
+      "tablename": "market_intelligence_actions",
+      "indexname": "ix_market_intelligence_actions_maker_id",
+      "indexdef": "CREATE INDEX ix_market_intelligence_actions_maker_id ON public.market_intelligence_actions USING btree (maker_id)"
+    },
+    {
+      "tablename": "market_intelligence_actions",
+      "indexname": "ix_market_intelligence_actions_source_model",
+      "indexdef": "CREATE INDEX ix_market_intelligence_actions_source_model ON public.market_intelligence_actions USING btree (source_model)"
+    },
+    {
+      "tablename": "market_intelligence_actions",
+      "indexname": "market_intelligence_actions_pkey",
+      "indexdef": "CREATE UNIQUE INDEX market_intelligence_actions_pkey ON public.market_intelligence_actions USING btree (action_id)"
+    },
+    {
+      "tablename": "market_intelligence_actions",
+      "indexname": "uq_mi_pending_signal",
+      "indexdef": "CREATE UNIQUE INDEX uq_mi_pending_signal ON public.market_intelligence_actions USING btree (tenant_id, action_type, market_signal_id) WHERE (((status)::text = 'PENDING_APPROVAL'::text) AND (market_signal_id IS NOT NULL))"
+    },
+    {
+      "tablename": "notifications",
+      "indexname": "ix_notifications_customer_id",
+      "indexdef": "CREATE INDEX ix_notifications_customer_id ON public.notifications USING btree (customer_id)"
+    },
+    {
+      "tablename": "notifications",
+      "indexname": "ix_notifications_tenant_id",
+      "indexdef": "CREATE INDEX ix_notifications_tenant_id ON public.notifications USING btree (tenant_id)"
+    },
+    {
+      "tablename": "notifications",
+      "indexname": "notifications_pkey",
+      "indexdef": "CREATE UNIQUE INDEX notifications_pkey ON public.notifications USING btree (notification_id)"
+    },
+    {
+      "tablename": "ocr_correction_examples",
+      "indexname": "ocr_correction_examples_pkey",
+      "indexdef": "CREATE UNIQUE INDEX ocr_correction_examples_pkey ON public.ocr_correction_examples USING btree (id)"
+    },
+    {
+      "tablename": "ocr_corrections",
+      "indexname": "idx_ocr_corrections_lookup",
+      "indexdef": "CREATE INDEX idx_ocr_corrections_lookup ON public.ocr_corrections USING btree (tenant_id, wrong_reading_norm)"
+    },
+    {
+      "tablename": "ocr_corrections",
+      "indexname": "ocr_corrections_pkey",
+      "indexdef": "CREATE UNIQUE INDEX ocr_corrections_pkey ON public.ocr_corrections USING btree (id)"
+    },
+    {
+      "tablename": "ocr_corrections",
+      "indexname": "ocr_corrections_tenant_id_wrong_reading_norm_key",
+      "indexdef": "CREATE UNIQUE INDEX ocr_corrections_tenant_id_wrong_reading_norm_key ON public.ocr_corrections USING btree (tenant_id, wrong_reading_norm)"
+    },
+    {
+      "tablename": "ocr_corrections",
+      "indexname": "uix_tenant_wrong_reading",
+      "indexdef": "CREATE UNIQUE INDEX uix_tenant_wrong_reading ON public.ocr_corrections USING btree (tenant_id, wrong_reading_norm)"
+    },
+    {
+      "tablename": "order_items",
+      "indexname": "idx_order_items_order_id",
+      "indexdef": "CREATE INDEX idx_order_items_order_id ON public.order_items USING btree (order_id)"
+    },
+    {
+      "tablename": "order_items",
+      "indexname": "ix_order_items_drug_id",
+      "indexdef": "CREATE INDEX ix_order_items_drug_id ON public.order_items USING btree (drug_id)"
+    },
+    {
+      "tablename": "order_items",
+      "indexname": "ix_order_items_order_id",
+      "indexdef": "CREATE INDEX ix_order_items_order_id ON public.order_items USING btree (order_id)"
+    },
+    {
+      "tablename": "order_items",
+      "indexname": "order_items_pkey",
+      "indexdef": "CREATE UNIQUE INDEX order_items_pkey ON public.order_items USING btree (order_item_id)"
+    },
+    {
+      "tablename": "orders",
+      "indexname": "idx_orders_date_status",
+      "indexdef": "CREATE INDEX idx_orders_date_status ON public.orders USING btree (order_date DESC, status)"
+    },
+    {
+      "tablename": "orders",
+      "indexname": "ix_orders_customer_id",
+      "indexdef": "CREATE INDEX ix_orders_customer_id ON public.orders USING btree (customer_id)"
+    },
+    {
+      "tablename": "orders",
+      "indexname": "ix_orders_tenant_id",
+      "indexdef": "CREATE INDEX ix_orders_tenant_id ON public.orders USING btree (tenant_id)"
+    },
+    {
+      "tablename": "orders",
+      "indexname": "orders_pkey",
+      "indexdef": "CREATE UNIQUE INDEX orders_pkey ON public.orders USING btree (order_id)"
+    },
+    {
+      "tablename": "pending_reminders",
+      "indexname": "ix_pending_reminders_customer_id",
+      "indexdef": "CREATE INDEX ix_pending_reminders_customer_id ON public.pending_reminders USING btree (customer_id)"
+    },
+    {
+      "tablename": "pending_reminders",
+      "indexname": "pending_reminders_pkey",
+      "indexdef": "CREATE UNIQUE INDEX pending_reminders_pkey ON public.pending_reminders USING btree (reminder_id)"
+    },
+    {
+      "tablename": "platform_settings",
+      "indexname": "platform_settings_pkey",
+      "indexdef": "CREATE UNIQUE INDEX platform_settings_pkey ON public.platform_settings USING btree (key)"
+    },
+    {
+      "tablename": "prescription_analyses",
+      "indexname": "ix_prescription_analyses_prescription_id",
+      "indexdef": "CREATE INDEX ix_prescription_analyses_prescription_id ON public.prescription_analyses USING btree (prescription_id)"
+    },
+    {
+      "tablename": "prescription_analyses",
+      "indexname": "prescription_analyses_pkey",
+      "indexdef": "CREATE UNIQUE INDEX prescription_analyses_pkey ON public.prescription_analyses USING btree (id)"
+    },
+    {
+      "tablename": "prescription_items",
+      "indexname": "ix_prescription_items_analysis_id",
+      "indexdef": "CREATE INDEX ix_prescription_items_analysis_id ON public.prescription_items USING btree (analysis_id)"
+    },
+    {
+      "tablename": "prescription_items",
+      "indexname": "prescription_items_pkey",
+      "indexdef": "CREATE UNIQUE INDEX prescription_items_pkey ON public.prescription_items USING btree (id)"
+    },
+    {
+      "tablename": "prescriptions",
+      "indexname": "prescriptions_pkey",
+      "indexdef": "CREATE UNIQUE INDEX prescriptions_pkey ON public.prescriptions USING btree (id)"
+    },
+    {
+      "tablename": "purchase_order_items",
+      "indexname": "idx_poi_drug",
+      "indexdef": "CREATE INDEX idx_poi_drug ON public.purchase_order_items USING btree (drug_id)"
+    },
+    {
+      "tablename": "purchase_order_items",
+      "indexname": "idx_poi_po",
+      "indexdef": "CREATE INDEX idx_poi_po ON public.purchase_order_items USING btree (po_id)"
+    },
+    {
+      "tablename": "purchase_order_items",
+      "indexname": "purchase_order_items_pkey",
+      "indexdef": "CREATE UNIQUE INDEX purchase_order_items_pkey ON public.purchase_order_items USING btree (item_id)"
+    },
+    {
+      "tablename": "purchase_orders",
+      "indexname": "idx_po_status",
+      "indexdef": "CREATE INDEX idx_po_status ON public.purchase_orders USING btree (status)"
+    },
+    {
+      "tablename": "purchase_orders",
+      "indexname": "idx_po_tenant",
+      "indexdef": "CREATE INDEX idx_po_tenant ON public.purchase_orders USING btree (tenant_id)"
+    },
+    {
+      "tablename": "purchase_orders",
+      "indexname": "ix_purchase_orders_supplier_id",
+      "indexdef": "CREATE INDEX ix_purchase_orders_supplier_id ON public.purchase_orders USING btree (supplier_id)"
+    },
+    {
+      "tablename": "purchase_orders",
+      "indexname": "purchase_orders_pkey",
+      "indexdef": "CREATE UNIQUE INDEX purchase_orders_pkey ON public.purchase_orders USING btree (po_id)"
+    },
+    {
+      "tablename": "purchase_orders",
+      "indexname": "purchase_orders_po_number_key",
+      "indexdef": "CREATE UNIQUE INDEX purchase_orders_po_number_key ON public.purchase_orders USING btree (po_number)"
+    },
+    {
+      "tablename": "sessions",
+      "indexname": "ix_sessions_customer_id",
+      "indexdef": "CREATE INDEX ix_sessions_customer_id ON public.sessions USING btree (customer_id)"
+    },
+    {
+      "tablename": "sessions",
+      "indexname": "ix_sessions_tenant_id",
+      "indexdef": "CREATE INDEX ix_sessions_tenant_id ON public.sessions USING btree (tenant_id)"
+    },
+    {
+      "tablename": "sessions",
+      "indexname": "sessions_pkey",
+      "indexdef": "CREATE UNIQUE INDEX sessions_pkey ON public.sessions USING btree (session_id)"
+    },
+    {
+      "tablename": "simulation_runs",
+      "indexname": "idx_simruns_created",
+      "indexdef": "CREATE INDEX idx_simruns_created ON public.simulation_runs USING btree (created_at DESC)"
+    },
+    {
+      "tablename": "simulation_runs",
+      "indexname": "idx_simruns_tenant",
+      "indexdef": "CREATE INDEX idx_simruns_tenant ON public.simulation_runs USING btree (tenant_id)"
+    },
+    {
+      "tablename": "simulation_runs",
+      "indexname": "simulation_runs_pkey",
+      "indexdef": "CREATE UNIQUE INDEX simulation_runs_pkey ON public.simulation_runs USING btree (run_id)"
+    },
+    {
+      "tablename": "suppliers",
+      "indexname": "suppliers_name_key",
+      "indexdef": "CREATE UNIQUE INDEX suppliers_name_key ON public.suppliers USING btree (name)"
+    },
+    {
+      "tablename": "suppliers",
+      "indexname": "suppliers_pkey",
+      "indexdef": "CREATE UNIQUE INDEX suppliers_pkey ON public.suppliers USING btree (supplier_id)"
+    },
+    {
+      "tablename": "tenant_settings",
+      "indexname": "tenant_settings_pkey",
+      "indexdef": "CREATE UNIQUE INDEX tenant_settings_pkey ON public.tenant_settings USING btree (id)"
+    },
+    {
+      "tablename": "tenant_settings",
+      "indexname": "tenant_settings_tenant_id_key",
+      "indexdef": "CREATE UNIQUE INDEX tenant_settings_tenant_id_key ON public.tenant_settings USING btree (tenant_id)"
+    },
+    {
+      "tablename": "tenants",
+      "indexname": "idx_tenants_vertical",
+      "indexdef": "CREATE INDEX idx_tenants_vertical ON public.tenants USING btree (vertical)"
+    },
+    {
+      "tablename": "tenants",
+      "indexname": "tenants_pkey",
+      "indexdef": "CREATE UNIQUE INDEX tenants_pkey ON public.tenants USING btree (tenant_id)"
+    },
+    {
+      "tablename": "tenants",
+      "indexname": "tenants_subdomain_key",
+      "indexdef": "CREATE UNIQUE INDEX tenants_subdomain_key ON public.tenants USING btree (subdomain)"
+    }
+  ],
+  "triggers": [
+    {
+      "event_object_table": "events",
+      "trigger_name": "events_block_mutation",
+      "event_manipulation": "DELETE",
+      "action_statement": "EXECUTE FUNCTION events_block_mutation()"
+    },
+    {
+      "event_object_table": "events",
+      "trigger_name": "events_block_mutation",
+      "event_manipulation": "UPDATE",
+      "action_statement": "EXECUTE FUNCTION events_block_mutation()"
+    },
+    {
+      "event_object_table": "events",
+      "trigger_name": "events_chain",
+      "event_manipulation": "INSERT",
+      "action_statement": "EXECUTE FUNCTION events_chain()"
+    }
+  ],
+  "constraints": [
+    {
+      "table_name": "ab_test_results",
+      "conname": "ab_test_results_notification_id_fkey",
+      "contype": "b'f'",
+      "definition": "FOREIGN KEY (notification_id) REFERENCES notifications(notification_id)"
+    },
+    {
+      "table_name": "ab_test_results",
+      "conname": "ab_test_results_pkey",
+      "contype": "b'p'",
+      "definition": "PRIMARY KEY (result_id)"
+    },
+    {
+      "table_name": "ab_test_results",
+      "conname": "ab_test_results_test_id_fkey",
+      "contype": "b'f'",
+      "definition": "FOREIGN KEY (test_id) REFERENCES ab_tests(test_id)"
+    },
+    {
+      "table_name": "ab_tests",
+      "conname": "ab_tests_pkey",
+      "contype": "b'p'",
+      "definition": "PRIMARY KEY (test_id)"
+    },
+    {
+      "table_name": "ab_tests",
+      "conname": "ab_tests_tenant_id_fkey",
+      "contype": "b'f'",
+      "definition": "FOREIGN KEY (tenant_id) REFERENCES tenants(tenant_id)"
+    },
+    {
+      "table_name": "ai_chat_logs",
+      "conname": "ai_chat_logs_pkey",
+      "contype": "b'p'",
+      "definition": "PRIMARY KEY (log_id)"
+    },
+    {
+      "table_name": "alembic_version",
+      "conname": "alembic_version_pkc",
+      "contype": "b'p'",
+      "definition": "PRIMARY KEY (version_num)"
+    },
+    {
+      "table_name": "audit_logs",
+      "conname": "audit_logs_pkey",
+      "contype": "b'p'",
+      "definition": "PRIMARY KEY (log_id)"
+    },
+    {
+      "table_name": "audit_logs",
+      "conname": "audit_logs_tenant_id_fkey",
+      "contype": "b'f'",
+      "definition": "FOREIGN KEY (tenant_id) REFERENCES tenants(tenant_id)"
+    },
+    {
+      "table_name": "automation_runs",
+      "conname": "automation_runs_pkey",
+      "contype": "b'p'",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "complaints",
+      "conname": "complaints_pkey",
+      "contype": "b'p'",
+      "definition": "PRIMARY KEY (complaint_id)"
+    },
+    {
+      "table_name": "contact_messages",
+      "conname": "contact_messages_pkey",
+      "contype": "b'p'",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "contact_messages",
+      "conname": "contact_messages_tenant_id_fkey",
+      "contype": "b'f'",
+      "definition": "FOREIGN KEY (tenant_id) REFERENCES tenants(tenant_id)"
+    },
+    {
+      "table_name": "coupons",
+      "conname": "coupons_discount_pct_check",
+      "contype": "b'c'",
+      "definition": "CHECK (((discount_pct >= 0) AND (discount_pct <= 100)))"
+    },
+    {
+      "table_name": "coupons",
+      "conname": "coupons_pkey",
+      "contype": "b'p'",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "customer_cycles",
+      "conname": "customer_cycles_customer_id_fkey",
+      "contype": "b'f'",
+      "definition": "FOREIGN KEY (customer_id) REFERENCES customers(customer_id)"
+    },
+    {
+      "table_name": "customer_cycles",
+      "conname": "customer_cycles_drug_id_fkey",
+      "contype": "b'f'",
+      "definition": "FOREIGN KEY (drug_id) REFERENCES drugs(drug_id)"
+    },
+    {
+      "table_name": "customer_cycles",
+      "conname": "customer_cycles_pkey",
+      "contype": "b'p'",
+      "definition": "PRIMARY KEY (customer_id, drug_id)"
+    },
+    {
+      "table_name": "customers",
+      "conname": "customers_pkey",
+      "contype": "b'p'",
+      "definition": "PRIMARY KEY (customer_id)"
+    },
+    {
+      "table_name": "customers",
+      "conname": "customers_tenant_id_fkey",
+      "contype": "b'f'",
+      "definition": "FOREIGN KEY (tenant_id) REFERENCES tenants(tenant_id)"
+    },
+    {
+      "table_name": "drug_affinities",
+      "conname": "ck_affinity_pair_order",
+      "contype": "b'c'",
+      "definition": "CHECK ((drug_id_a < drug_id_b))"
+    },
+    {
+      "table_name": "drug_affinities",
+      "conname": "drug_affinities_drug_id_a_fkey",
+      "contype": "b'f'",
+      "definition": "FOREIGN KEY (drug_id_a) REFERENCES drugs(drug_id)"
+    },
+    {
+      "table_name": "drug_affinities",
+      "conname": "drug_affinities_drug_id_b_fkey",
+      "contype": "b'f'",
+      "definition": "FOREIGN KEY (drug_id_b) REFERENCES drugs(drug_id)"
+    },
+    {
+      "table_name": "drug_affinities",
+      "conname": "drug_affinities_pkey",
+      "contype": "b'p'",
+      "definition": "PRIMARY KEY (affinity_id)"
+    },
+    {
+      "table_name": "drug_affinities",
+      "conname": "uq_affinity_pair",
+      "contype": "b'u'",
+      "definition": "UNIQUE (drug_id_a, drug_id_b)"
+    },
+    {
+      "table_name": "drug_interactions",
+      "conname": "ck_interaction_pair_order",
+      "contype": "b'c'",
+      "definition": "CHECK ((drug_id_a < drug_id_b))"
+    },
+    {
+      "table_name": "drug_interactions",
+      "conname": "drug_interactions_drug_id_a_fkey",
+      "contype": "b'f'",
+      "definition": "FOREIGN KEY (drug_id_a) REFERENCES drugs(drug_id)"
+    },
+    {
+      "table_name": "drug_interactions",
+      "conname": "drug_interactions_drug_id_b_fkey",
+      "contype": "b'f'",
+      "definition": "FOREIGN KEY (drug_id_b) REFERENCES drugs(drug_id)"
+    },
+    {
+      "table_name": "drug_interactions",
+      "conname": "drug_interactions_pkey",
+      "contype": "b'p'",
+      "definition": "PRIMARY KEY (interaction_id)"
+    },
+    {
+      "table_name": "drug_interactions",
+      "conname": "uq_interaction_pair",
+      "contype": "b'u'",
+      "definition": "UNIQUE (drug_id_a, drug_id_b)"
+    },
+    {
+      "table_name": "drugs",
+      "conname": "drugs_pkey",
+      "contype": "b'p'",
+      "definition": "PRIMARY KEY (drug_id)"
+    },
+    {
+      "table_name": "emergency_outbox",
+      "conname": "emergency_outbox_pkey",
+      "contype": "b'p'",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "events",
+      "conname": "events_event_type_chk",
+      "contype": "b'c'",
+      "definition": "CHECK (((event_type)::text = ANY ((ARRAY['page_view'::character varying, 'search'::character varying, 'add_to_cart'::character varying, 'view_drug'::character varying, 'start_checkout'::character varying, 'contact_message'::character varying, 'admin_action_role_promotion'::character varying])::text[])))"
+    },
+    {
+      "table_name": "events",
+      "conname": "events_pkey",
+      "contype": "b'p'",
+      "definition": "PRIMARY KEY (event_id)"
+    },
+    {
+      "table_name": "events",
+      "conname": "events_session_id_fkey",
+      "contype": "b'f'",
+      "definition": "FOREIGN KEY (session_id) REFERENCES sessions(session_id)"
+    },
+    {
+      "table_name": "inventory_items",
+      "conname": "inventory_items_drug_id_fkey",
+      "contype": "b'f'",
+      "definition": "FOREIGN KEY (drug_id) REFERENCES drugs(drug_id)"
+    },
+    {
+      "table_name": "inventory_items",
+      "conname": "inventory_items_pkey",
+      "contype": "b'p'",
+      "definition": "PRIMARY KEY (inventory_id)"
+    },
+    {
+      "table_name": "inventory_items",
+      "conname": "inventory_items_tenant_id_fkey",
+      "contype": "b'f'",
+      "definition": "FOREIGN KEY (tenant_id) REFERENCES tenants(tenant_id)"
+    },
+    {
+      "table_name": "journal_entries",
+      "conname": "journal_entries_entry_number_key",
+      "contype": "b'u'",
+      "definition": "UNIQUE (entry_number)"
+    },
+    {
+      "table_name": "journal_entries",
+      "conname": "journal_entries_pkey",
+      "contype": "b'p'",
+      "definition": "PRIMARY KEY (entry_id)"
+    },
+    {
+      "table_name": "journal_entry_lines",
+      "conname": "journal_entry_lines_entry_id_fkey",
+      "contype": "b'f'",
+      "definition": "FOREIGN KEY (entry_id) REFERENCES journal_entries(entry_id) ON DELETE CASCADE"
+    },
+    {
+      "table_name": "journal_entry_lines",
+      "conname": "journal_entry_lines_pkey",
+      "contype": "b'p'",
+      "definition": "PRIMARY KEY (line_id)"
+    },
+    {
+      "table_name": "knowledge_chunks",
+      "conname": "knowledge_chunks_pkey",
+      "contype": "b'p'",
+      "definition": "PRIMARY KEY (chunk_id)"
+    },
+    {
+      "table_name": "market_action_outbox",
+      "conname": "market_action_outbox_action_id_fkey",
+      "contype": "b'f'",
+      "definition": "FOREIGN KEY (action_id) REFERENCES market_intelligence_actions(action_id) ON DELETE CASCADE"
+    },
+    {
+      "table_name": "market_action_outbox",
+      "conname": "market_action_outbox_pkey",
+      "contype": "b'p'",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "market_action_outbox",
+      "conname": "uq_market_action_outbox_action_id",
+      "contype": "b'u'",
+      "definition": "UNIQUE (action_id)"
+    },
+    {
+      "table_name": "market_action_outbox",
+      "conname": "uq_market_action_outbox_event_id",
+      "contype": "b'u'",
+      "definition": "UNIQUE (event_id)"
+    },
+    {
+      "table_name": "market_intelligence_actions",
+      "conname": "market_intelligence_actions_pkey",
+      "contype": "b'p'",
+      "definition": "PRIMARY KEY (action_id)"
+    },
+    {
+      "table_name": "notifications",
+      "conname": "notifications_customer_id_fkey",
+      "contype": "b'f'",
+      "definition": "FOREIGN KEY (customer_id) REFERENCES customers(customer_id)"
+    },
+    {
+      "table_name": "notifications",
+      "conname": "notifications_pkey",
+      "contype": "b'p'",
+      "definition": "PRIMARY KEY (notification_id)"
+    },
+    {
+      "table_name": "notifications",
+      "conname": "notifications_tenant_id_fkey",
+      "contype": "b'f'",
+      "definition": "FOREIGN KEY (tenant_id) REFERENCES tenants(tenant_id)"
+    },
+    {
+      "table_name": "ocr_correction_examples",
+      "conname": "ocr_correction_examples_correction_id_fkey",
+      "contype": "b'f'",
+      "definition": "FOREIGN KEY (correction_id) REFERENCES ocr_corrections(id)"
+    },
+    {
+      "table_name": "ocr_correction_examples",
+      "conname": "ocr_correction_examples_pkey",
+      "contype": "b'p'",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "ocr_correction_examples",
+      "conname": "ocr_correction_examples_source_rx_id_fkey",
+      "contype": "b'f'",
+      "definition": "FOREIGN KEY (source_rx_id) REFERENCES prescriptions(id)"
+    },
+    {
+      "table_name": "ocr_corrections",
+      "conname": "ck_ocr_correction_scope",
+      "contype": "b'c'",
+      "definition": "CHECK (((scope)::text = ANY ((ARRAY['TENANT'::character varying, 'GLOBAL'::character varying])::text[])))"
+    },
+    {
+      "table_name": "ocr_corrections",
+      "conname": "ck_ocr_correction_status",
+      "contype": "b'c'",
+      "definition": "CHECK (((status)::text = ANY ((ARRAY['PENDING'::character varying, 'APPROVED'::character varying, 'REJECTED'::character varying])::text[])))"
+    },
+    {
+      "table_name": "ocr_corrections",
+      "conname": "fk_ocr_corrections_target_drug",
+      "contype": "b'f'",
+      "definition": "FOREIGN KEY (target_drug_id) REFERENCES drugs(drug_id)"
+    },
+    {
+      "table_name": "ocr_corrections",
+      "conname": "ocr_corrections_pkey",
+      "contype": "b'p'",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "ocr_corrections",
+      "conname": "ocr_corrections_tenant_id_wrong_reading_norm_key",
+      "contype": "b'u'",
+      "definition": "UNIQUE (tenant_id, wrong_reading_norm)"
+    },
+    {
+      "table_name": "ocr_corrections",
+      "conname": "uix_tenant_wrong_reading",
+      "contype": "b'u'",
+      "definition": "UNIQUE (tenant_id, wrong_reading_norm)"
+    },
+    {
+      "table_name": "order_items",
+      "conname": "order_items_drug_id_fkey",
+      "contype": "b'f'",
+      "definition": "FOREIGN KEY (drug_id) REFERENCES drugs(drug_id)"
+    },
+    {
+      "table_name": "order_items",
+      "conname": "order_items_order_id_fkey",
+      "contype": "b'f'",
+      "definition": "FOREIGN KEY (order_id) REFERENCES orders(order_id)"
+    },
+    {
+      "table_name": "order_items",
+      "conname": "order_items_pkey",
+      "contype": "b'p'",
+      "definition": "PRIMARY KEY (order_item_id)"
+    },
+    {
+      "table_name": "orders",
+      "conname": "orders_customer_id_fkey",
+      "contype": "b'f'",
+      "definition": "FOREIGN KEY (customer_id) REFERENCES customers(customer_id)"
+    },
+    {
+      "table_name": "orders",
+      "conname": "orders_pkey",
+      "contype": "b'p'",
+      "definition": "PRIMARY KEY (order_id)"
+    },
+    {
+      "table_name": "orders",
+      "conname": "orders_tenant_id_fkey",
+      "contype": "b'f'",
+      "definition": "FOREIGN KEY (tenant_id) REFERENCES tenants(tenant_id)"
+    },
+    {
+      "table_name": "pending_reminders",
+      "conname": "pending_reminders_customer_id_fkey",
+      "contype": "b'f'",
+      "definition": "FOREIGN KEY (customer_id) REFERENCES customers(customer_id)"
+    },
+    {
+      "table_name": "pending_reminders",
+      "conname": "pending_reminders_drug_id_fkey",
+      "contype": "b'f'",
+      "definition": "FOREIGN KEY (drug_id) REFERENCES drugs(drug_id)"
+    },
+    {
+      "table_name": "pending_reminders",
+      "conname": "pending_reminders_pkey",
+      "contype": "b'p'",
+      "definition": "PRIMARY KEY (reminder_id)"
+    },
+    {
+      "table_name": "platform_settings",
+      "conname": "platform_settings_pkey",
+      "contype": "b'p'",
+      "definition": "PRIMARY KEY (key)"
+    },
+    {
+      "table_name": "prescription_analyses",
+      "conname": "prescription_analyses_pkey",
+      "contype": "b'p'",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "prescription_analyses",
+      "conname": "prescription_analyses_prescription_id_fkey",
+      "contype": "b'f'",
+      "definition": "FOREIGN KEY (prescription_id) REFERENCES prescriptions(id)"
+    },
+    {
+      "table_name": "prescription_items",
+      "conname": "prescription_items_analysis_id_fkey",
+      "contype": "b'f'",
+      "definition": "FOREIGN KEY (analysis_id) REFERENCES prescription_analyses(id)"
+    },
+    {
+      "table_name": "prescription_items",
+      "conname": "prescription_items_matched_drug_id_fkey",
+      "contype": "b'f'",
+      "definition": "FOREIGN KEY (matched_drug_id) REFERENCES drugs(drug_id)"
+    },
+    {
+      "table_name": "prescription_items",
+      "conname": "prescription_items_pharmacist_selected_drug_id_fkey",
+      "contype": "b'f'",
+      "definition": "FOREIGN KEY (pharmacist_selected_drug_id) REFERENCES drugs(drug_id)"
+    },
+    {
+      "table_name": "prescription_items",
+      "conname": "prescription_items_pkey",
+      "contype": "b'p'",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "prescriptions",
+      "conname": "prescriptions_pkey",
+      "contype": "b'p'",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "purchase_order_items",
+      "conname": "purchase_order_items_drug_id_fkey",
+      "contype": "b'f'",
+      "definition": "FOREIGN KEY (drug_id) REFERENCES drugs(drug_id)"
+    },
+    {
+      "table_name": "purchase_order_items",
+      "conname": "purchase_order_items_pkey",
+      "contype": "b'p'",
+      "definition": "PRIMARY KEY (item_id)"
+    },
+    {
+      "table_name": "purchase_order_items",
+      "conname": "purchase_order_items_po_id_fkey",
+      "contype": "b'f'",
+      "definition": "FOREIGN KEY (po_id) REFERENCES purchase_orders(po_id) ON DELETE CASCADE"
+    },
+    {
+      "table_name": "purchase_orders",
+      "conname": "purchase_orders_pkey",
+      "contype": "b'p'",
+      "definition": "PRIMARY KEY (po_id)"
+    },
+    {
+      "table_name": "purchase_orders",
+      "conname": "purchase_orders_po_number_key",
+      "contype": "b'u'",
+      "definition": "UNIQUE (po_number)"
+    },
+    {
+      "table_name": "purchase_orders",
+      "conname": "purchase_orders_supplier_id_fkey",
+      "contype": "b'f'",
+      "definition": "FOREIGN KEY (supplier_id) REFERENCES suppliers(supplier_id)"
+    },
+    {
+      "table_name": "sessions",
+      "conname": "sessions_customer_id_fkey",
+      "contype": "b'f'",
+      "definition": "FOREIGN KEY (customer_id) REFERENCES customers(customer_id)"
+    },
+    {
+      "table_name": "sessions",
+      "conname": "sessions_pkey",
+      "contype": "b'p'",
+      "definition": "PRIMARY KEY (session_id)"
+    },
+    {
+      "table_name": "simulation_runs",
+      "conname": "simulation_runs_pkey",
+      "contype": "b'p'",
+      "definition": "PRIMARY KEY (run_id)"
+    },
+    {
+      "table_name": "suppliers",
+      "conname": "suppliers_name_key",
+      "contype": "b'u'",
+      "definition": "UNIQUE (name)"
+    },
+    {
+      "table_name": "suppliers",
+      "conname": "suppliers_pkey",
+      "contype": "b'p'",
+      "definition": "PRIMARY KEY (supplier_id)"
+    },
+    {
+      "table_name": "suppliers",
+      "conname": "suppliers_tenant_id_fkey",
+      "contype": "b'f'",
+      "definition": "FOREIGN KEY (tenant_id) REFERENCES tenants(tenant_id)"
+    },
+    {
+      "table_name": "tenant_settings",
+      "conname": "tenant_settings_pkey",
+      "contype": "b'p'",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "tenant_settings",
+      "conname": "tenant_settings_tenant_id_fkey",
+      "contype": "b'f'",
+      "definition": "FOREIGN KEY (tenant_id) REFERENCES tenants(tenant_id) ON DELETE CASCADE"
+    },
+    {
+      "table_name": "tenant_settings",
+      "conname": "tenant_settings_tenant_id_key",
+      "contype": "b'u'",
+      "definition": "UNIQUE (tenant_id)"
+    },
+    {
+      "table_name": "tenants",
+      "conname": "tenants_pkey",
+      "contype": "b'p'",
+      "definition": "PRIMARY KEY (tenant_id)"
+    },
+    {
+      "table_name": "tenants",
+      "conname": "tenants_subdomain_key",
+      "contype": "b'u'",
+      "definition": "UNIQUE (subdomain)"
+    }
+  ],
+  "revision": [
+    {
+      "version_num": "market_action_source_model_20261001"
+    }
+  ]
+}

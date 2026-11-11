@@ -1,0 +1,41 @@
+{
+  "checked_at_utc": "2026-10-24T08:24:06.021174+00:00",
+  "checks": [
+    {
+      "name": "storefront",
+      "status": 200,
+      "expected": 200,
+      "passed": true
+    },
+    {
+      "name": "login_page",
+      "status": 200,
+      "expected": 200,
+      "passed": true
+    },
+    {
+      "name": "catalog_proxy",
+      "status": 200,
+      "expected": 200,
+      "passed": true,
+      "diagnostic_backend_header": true,
+      "total": 114,
+      "returned": 1
+    },
+    {
+      "name": "internal_proxy_auth",
+      "status": 401,
+      "expected": 401,
+      "passed": true,
+      "diagnostic_backend_header": true
+    },
+    {
+      "name": "n8n_health",
+      "status": 200,
+      "expected": 200,
+      "passed": true
+    }
+  ],
+  "all_passed": true,
+  "scope": "GET only; no sign-in, order, dispatch or workflow execution"
+}

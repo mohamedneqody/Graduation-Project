@@ -5,7 +5,8 @@
       "parameters": {
         "httpMethod": "POST",
         "path": "send_discount_offer",
-        "options": {}
+        "options": {},
+        "authentication": "headerAuth"
       },
       "id": "2003b07f-7f69-4ff1-8106-8f5e3710d5c9",
       "name": "Webhook Trigger (send_discount_offer)",
@@ -15,7 +16,13 @@
         0,
         0
       ],
-      "webhookId": "send_discount_offer"
+      "webhookId": "send_discount_offer",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "AIcosInternalHeader01",
+          "name": "AI-COS Internal Header"
+        }
+      }
     },
     {
       "parameters": {

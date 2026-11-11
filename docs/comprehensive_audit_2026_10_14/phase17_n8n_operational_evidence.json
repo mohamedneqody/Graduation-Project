@@ -1,0 +1,31 @@
+{
+  "checks": 80,
+  "passed": true,
+  "network": false,
+  "pytest_passed": 21,
+  "workflows": [
+    {
+      "workflow_id": "AIcosOrderNtf0017",
+      "route": "order-notification",
+      "nodes": 10,
+      "sanitized_template_matches": true,
+      "active": false
+    },
+    {
+      "workflow_id": "AIcosLowStock017",
+      "route": "low-stock",
+      "nodes": 10,
+      "sanitized_template_matches": true,
+      "active": false
+    },
+    {
+      "workflow_id": "AIcosInvAlert017",
+      "route": "inventory-alert",
+      "nodes": 10,
+      "sanitized_template_matches": true,
+      "active": false
+    }
+  ],
+  "imported": false,
+  "executed": false
+}

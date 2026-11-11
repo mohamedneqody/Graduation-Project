@@ -1,0 +1,57 @@
+{
+  "ccc_payable_1000": {
+    "dio_days": 97.3,
+    "dso_days": 2.0,
+    "dpo_days": 120.0,
+    "ccc_days": -20.7,
+    "interpretation_ar": "تستغرق الصيدلية -20.7 يوماً لتحويل استثماراتها في المخزون إلى نقد سائل."
+  },
+  "ccc_payable_10000": {
+    "dio_days": 97.3,
+    "dso_days": 2.0,
+    "dpo_days": 120.0,
+    "ccc_days": -20.7,
+    "interpretation_ar": "تستغرق الصيدلية -20.7 يوماً لتحويل استثماراتها في المخزون إلى نقد سائل."
+  },
+  "pricing_same_inputs": {
+    "deterministic_fallback_discount": 0,
+    "llm_proposed_discount": 5
+  },
+  "cold_start": {
+    "type": "UnboundLocalError",
+    "message": "cannot access local variable 'is_ci_truncated' where it is not associated with a value"
+  },
+  "rfm_old_customer": {
+    "days_since_purchase": 400,
+    "orders": 4,
+    "scores": {
+      "r": 1,
+      "f": 2,
+      "m": 1
+    },
+    "segment": "New / Promising"
+  },
+  "rfm_zero_day_conversion": 999.0,
+  "math_contract_recheck": {
+    "arabic_quantity": "🧾 **تفاصيل حساب الفاتورة الرسمية لدواء (Panadol):**\n\n• **سعر العبوة الواحدة:** 20.00 ج.م\n• **الكمية المطلوبة:** 3 عبوات (× 3)\n• **الإجمالي قبل الخصم:** 60.00 ج.م\n• **قيمة الخصم المطبق (كود الخصم: CARE15 بنسبة 15%):** 9.00 ج.م (خصم 15.0%)\n━━━━━━━━━━━━━━━━━━━━\n💰 **الإجمالي النهائي للدفع بعد الخصم:** **51.00 ج.م**",
+    "strength_not_quantity": "🧾 **تفاصيل حساب الفاتورة الرسمية لدواء (Panadol):**\n\n• **سعر العبوة الواحدة:** 20.00 ج.م\n• **الكمية المطلوبة:** 1 عبوة (× 1)\n• **الإجمالي قبل الخصم:** 20.00 ج.م\n━━━━━━━━━━━━━━━━━━━━\n💰 **الإجمالي النهائي للدفع:** **20.00 ج.م**"
+  },
+  "unsupported_claim_with_valid_source_id": {
+    "passed": true,
+    "decision": "answer",
+    "source_ids": [
+      "306ea68de48b1734"
+    ],
+    "clinical_correctness_verified": false
+  },
+  "rewritten_temp_ledger": {
+    "lines": 1,
+    "chain_valid": true,
+    "broken_lines": []
+  },
+  "pending_complete_without_rx_recheck": {
+    "status": "completed",
+    "db_queries": 1,
+    "commit_count": 1
+  }
+}

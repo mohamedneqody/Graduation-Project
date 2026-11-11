@@ -1,0 +1,10 @@
+{
+  "committed": true,
+  "revision": "20261016_return_credits",
+  "existing_documents_and_journals_unchanged": true,
+  "new_financial_documents_created": 0,
+  "runtime_nobypass": true,
+  "private_rls_tables": 1,
+  "backup_directory": "D:\\.codex\\backups\\ai-cos-return-credits\\20261016T191027Z",
+  "local_database_used": false
+}

@@ -6,7 +6,8 @@
         "httpMethod": "POST",
         "path": "worm-alert",
         "responseMode": "responseNode",
-        "options": {}
+        "options": {},
+        "authentication": "headerAuth"
       },
       "id": "wh-worm-alert-001",
       "name": "Webhook (worm-alert)",
@@ -16,7 +17,13 @@
         208,
         304
       ],
-      "webhookId": "worm-alert"
+      "webhookId": "worm-alert",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "AIcosInternalHeader01",
+          "name": "AI-COS Internal Header"
+        }
+      }
     },
     {
       "parameters": {

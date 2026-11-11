@@ -1,0 +1,13 @@
+{
+  "checks": [
+    "actual_inventory_migration",
+    "real_checkout_revision_stale_count_rejected_and_retry_idempotent",
+    "price_change_reset_and_intervening_stock_movements_detected",
+    "price_constraint_immutable_receipts_and_atomic_rollback",
+    "runtime_rls_and_explicit_history_tenant_scope"
+  ],
+  "temporary_schema_removed": true,
+  "public_data_modified": false,
+  "local_database_used": false,
+  "migration_sha256": "01f5d8105794bf45e12c82b9bedc9151cc0fbca6f824d025434e5ad6a6c660de"
+}

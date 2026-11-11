@@ -1,0 +1,18 @@
+{
+  "passed": [
+    "actual_pending_migration_sql_applied_to_live_schema_metadata_copy",
+    "missing_context_denies_private_reads_despite_legacy_allow",
+    "supabase_jwt_does_not_grant_implicit_tenant_scope",
+    "tenant_a_b_and_child_table_read_isolation",
+    "shared_knowledge_readable",
+    "cross_tenant_and_shared_writes_denied",
+    "cross_tenant_contact_insert_denied",
+    "real_registration_ignores_client_tenant_and_links_scoped_session"
+  ],
+  "tables_cloned": 39,
+  "legacy_policies_cloned": 39,
+  "temporary_schema_and_role_removed": true,
+  "live_business_data_read_or_modified": false,
+  "live_revision": "20261015_private_rpc_acl",
+  "live_rls_changed": false
+}

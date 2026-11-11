@@ -1,0 +1,14 @@
+{
+  "checks": [
+    "uuid_ownership_same_name_isolation_legacy_denial_and_issue_dedup",
+    "per_product_server_quote_and_actual_checkout_price_mismatch_rollback",
+    "single_reservation_exact_replay_cancel_release_completed_redemption",
+    "database_identity_immutability_and_cross_tenant_issue_guard",
+    "no_tenant_rls_denies_coupon_reads"
+  ],
+  "migration_sha256": "2188a2bd80065832bc37bdb0962f00eed1e0521e5bde6b5c889db8bad8389fe5",
+  "migration_and_synthetic_data_rolled_back": true,
+  "existing_business_rows_modified": false,
+  "local_database_used": false,
+  "notifications_sent": false
+}

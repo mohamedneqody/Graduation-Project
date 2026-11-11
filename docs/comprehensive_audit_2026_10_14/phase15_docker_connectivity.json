@@ -1,0 +1,19 @@
+{
+  "checked_at_utc": "2026-10-24T08:23:20.089935+00:00",
+  "checks": [
+    {
+      "name": "configured_backend_8000",
+      "error_type": "TypeError",
+      "error_code": "ECONNREFUSED"
+    },
+    {
+      "name": "diagnostic_backend_8001",
+      "status": 200,
+      "aicos_health_marker": false,
+      "readonly_diagnostic": true
+    }
+  ],
+  "docker_exit_code": 0,
+  "requests_sent": "GET only, no authentication headers",
+  "workflow_executed": false
+}

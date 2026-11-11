@@ -1,0 +1,60 @@
+{
+  "checked_at_utc": "2026-10-26T05:49:53.484301+00:00",
+  "all_passed": true,
+  "workflow_name": "order-notification",
+  "business_rows_created": false,
+  "background_workers_started": false,
+  "dispatch_requests_this_run": 1,
+  "diagnostics": {
+    "mode": "single-notification",
+    "database": "Supabase cloud",
+    "runtime_role_and_rls_verified": true,
+    "background_workers_started": false,
+    "business_routes_enabled": false,
+    "run_id": "1ead39c9-66b3-5e5b-b3ca-e2a4f4e4cc8d",
+    "workflow_name": "order-notification"
+  },
+  "container_callback_preflight": {
+    "status": 200,
+    "mode": "single-notification",
+    "run_id": "1ead39c9-66b3-5e5b-b3ca-e2a4f4e4cc8d",
+    "service_auth_status": 404
+  },
+  "guard_checks": [
+    {
+      "name": "missing_auth",
+      "status": 401,
+      "passed": true
+    },
+    {
+      "name": "bad_auth",
+      "status": 403,
+      "passed": true
+    },
+    {
+      "name": "other_reservation_blocked",
+      "status": 403,
+      "passed": true
+    },
+    {
+      "name": "business_route_blocked",
+      "status": 403,
+      "passed": true
+    }
+  ],
+  "run_id": "1ead39c9-66b3-5e5b-b3ca-e2a4f4e4cc8d",
+  "webhook_http_status": 202,
+  "recorded_result": {
+    "run_id": "1ead39c9-66b3-5e5b-b3ca-e2a4f4e4cc8d",
+    "tenant_id": "62712616-be1e-4129-986f-4131877e63b8",
+    "workflow_name": "order-notification",
+    "status": "delivered",
+    "attempt": 1,
+    "is_test": true,
+    "message_id": "1487",
+    "delivery_scope": "configured_destination",
+    "customer_receipt_verified": false
+  },
+  "duplicate_claim_blocked": true,
+  "owned_server_stopped": true
+}

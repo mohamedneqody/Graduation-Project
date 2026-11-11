@@ -1,0 +1,160 @@
+{
+  "checked_at_utc": "2026-10-26T16:00:13.436765+00:00",
+  "scope": "Supabase cloud runtime-role metadata; default-store aggregate counts only",
+  "business_rows_modified": false,
+  "ddl_executed": false,
+  "local_database_used": false,
+  "workers_started": false,
+  "messages_sent_by_probe": false,
+  "cross_tenant_tested": false,
+  "write_cycle_tested": false,
+  "all_passed": true,
+  "guards": {
+    "transactions_read_only": true,
+    "verified_tls_config": true,
+    "limited_runtime_role_verified": true,
+    "statement_timeout_ms": 15000
+  },
+  "metadata": {
+    "orders": {
+      "checks": {
+        "table_present": true,
+        "row_security": true,
+        "force_row_security": true,
+        "runtime_select": true,
+        "tenant_policy_present": true,
+        "required_columns_present": true,
+        "primary_key_present": true,
+        "required_constraints_present_and_validated": true,
+        "required_indexes_valid_and_ready": true,
+        "required_triggers_enabled": true
+      },
+      "failed_check_count": 0
+    },
+    "order_items": {
+      "checks": {
+        "table_present": true,
+        "row_security": true,
+        "force_row_security": true,
+        "runtime_select": true,
+        "tenant_policy_present": true,
+        "required_columns_present": true,
+        "primary_key_present": true,
+        "required_constraints_present_and_validated": true,
+        "required_indexes_valid_and_ready": true,
+        "required_triggers_enabled": true
+      },
+      "failed_check_count": 0
+    },
+    "inventory_items": {
+      "checks": {
+        "table_present": true,
+        "row_security": true,
+        "force_row_security": true,
+        "runtime_select": true,
+        "tenant_policy_present": true,
+        "required_columns_present": true,
+        "primary_key_present": true,
+        "required_constraints_present_and_validated": true,
+        "required_indexes_valid_and_ready": true,
+        "required_triggers_enabled": true
+      },
+      "failed_check_count": 0
+    },
+    "inventory_adjustments": {
+      "checks": {
+        "table_present": true,
+        "row_security": true,
+        "force_row_security": true,
+        "runtime_select": true,
+        "tenant_policy_present": true,
+        "required_columns_present": true,
+        "primary_key_present": true,
+        "required_constraints_present_and_validated": true,
+        "required_indexes_valid_and_ready": true,
+        "required_triggers_enabled": true
+      },
+      "failed_check_count": 0
+    },
+    "order_returns": {
+      "checks": {
+        "table_present": true,
+        "row_security": true,
+        "force_row_security": true,
+        "runtime_select": true,
+        "tenant_policy_present": true,
+        "required_columns_present": true,
+        "primary_key_present": true,
+        "required_constraints_present_and_validated": true,
+        "required_indexes_valid_and_ready": true,
+        "required_triggers_enabled": true
+      },
+      "failed_check_count": 0
+    },
+    "purchase_orders": {
+      "checks": {
+        "table_present": true,
+        "row_security": true,
+        "force_row_security": true,
+        "runtime_select": true,
+        "tenant_policy_present": true,
+        "required_columns_present": true,
+        "primary_key_present": true,
+        "required_constraints_present_and_validated": true,
+        "required_indexes_valid_and_ready": true,
+        "required_triggers_enabled": true
+      },
+      "failed_check_count": 0
+    },
+    "purchase_order_items": {
+      "checks": {
+        "table_present": true,
+        "row_security": true,
+        "force_row_security": true,
+        "runtime_select": true,
+        "tenant_policy_present": true,
+        "required_columns_present": true,
+        "primary_key_present": true,
+        "required_constraints_present_and_validated": true,
+        "required_indexes_valid_and_ready": true,
+        "required_triggers_enabled": true
+      },
+      "failed_check_count": 0
+    },
+    "automation_runs": {
+      "checks": {
+        "table_present": true,
+        "row_security": true,
+        "force_row_security": true,
+        "runtime_select": true,
+        "tenant_policy_present": true,
+        "required_columns_present": true,
+        "primary_key_present": true,
+        "required_constraints_present_and_validated": true,
+        "required_indexes_valid_and_ready": true,
+        "required_triggers_enabled": true
+      },
+      "failed_check_count": 0
+    }
+  },
+  "metadata_failed_check_count": 0,
+  "invariant_counts": {
+    "negative_inventory_stock": 0,
+    "negative_inventory_revision": 0,
+    "invalid_inventory_price": 0,
+    "nonpositive_order_item_quantity": 0,
+    "negative_order_item_price": 0,
+    "reservation_expiry_before_order_date": 0,
+    "negative_purchase_quantity": 0,
+    "purchase_received_exceeds_ordered": 0,
+    "negative_purchase_cost": 0,
+    "negative_automation_attempts": 0
+  },
+  "observation_counts": {
+    "pending_orders_without_expiry": 2,
+    "expired_pending_orders": 0,
+    "checkout_keys_without_request_hash": 0,
+    "zero_purchase_order_quantity": 0
+  },
+  "observations_are_not_proven_corruption": true
+}

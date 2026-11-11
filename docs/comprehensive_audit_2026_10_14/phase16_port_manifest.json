@@ -1,0 +1,82 @@
+[
+  {
+    "id": "81yGYG75B34myKyX",
+    "name": "AI-COS - Combined Reminder & Evaluation Engine",
+    "source_version": "f21ebb1e-61a9-44e8-b1da-f8222edd3825",
+    "file": "D:\\.codex\\backups\\ai-cos-n8n\\20261021T072324Z\\reviewed\\phase16_ports\\81yGYG75B34myKyX.json",
+    "changes": [
+      {
+        "node": "0. Evaluate Due Reminders",
+        "disabled": false
+      },
+      {
+        "node": "1. Pull Pending Reminders",
+        "disabled": false
+      },
+      {
+        "node": "2.5 Marketing Agent",
+        "disabled": true
+      },
+      {
+        "node": "4A. Mark as Sent in DB",
+        "disabled": true
+      },
+      {
+        "node": "Callback Delivered → AI-COS",
+        "disabled": true
+      },
+      {
+        "node": "Claim Reminder",
+        "disabled": false
+      },
+      {
+        "node": "Complete Reminder",
+        "disabled": false
+      },
+      {
+        "node": "Record Scan Completion",
+        "disabled": false
+      },
+      {
+        "node": "Record Evaluation Queued",
+        "disabled": false
+      }
+    ]
+  },
+  {
+    "id": "zWNggcB1fRoc7VJN",
+    "name": "AI-COS Governance SLA Monitor",
+    "source_version": "eb2be0f8-7592-43f1-8de7-531bee9c687f",
+    "file": "D:\\.codex\\backups\\ai-cos-n8n\\20261021T072324Z\\reviewed\\phase16_ports\\zWNggcB1fRoc7VJN.json",
+    "changes": [
+      {
+        "node": "1. Pull Pending Reminders",
+        "disabled": false
+      }
+    ]
+  },
+  {
+    "id": "AIcosDiscount002",
+    "name": "AI-COS - send_discount_offer",
+    "source_version": "4a15fc89-097a-4198-b9dc-8332486cf521",
+    "file": "D:\\.codex\\backups\\ai-cos-n8n\\20261021T072324Z\\reviewed\\phase16_ports\\AIcosDiscount002.json",
+    "changes": [
+      {
+        "node": "Callback Delivered → AI-COS",
+        "disabled": false
+      }
+    ]
+  },
+  {
+    "id": "AIcosSummary0003",
+    "name": "AI-COS Weekly Executive Summary (FIXED)",
+    "source_version": "11190f3b-7c50-4134-829e-54f955d16030",
+    "file": "D:\\.codex\\backups\\ai-cos-n8n\\20261021T072324Z\\reviewed\\phase16_ports\\AIcosSummary0003.json",
+    "changes": [
+      {
+        "node": "Fetch Real ROI Digest (internal)",
+        "disabled": false
+      }
+    ]
+  }
+]

@@ -1,0 +1,64 @@
+{
+  "all_passed": true,
+  "before_count": 219,
+  "after_count": 222,
+  "existing_definitions_unchanged": 219,
+  "changed_existing": [],
+  "exactly_three_expected_additions": true,
+  "runtime_metadata_excluded": [
+    "createdAt",
+    "staticData",
+    "triggerCount",
+    "updatedAt"
+  ],
+  "workflows": [
+    {
+      "id": "IdmwV5STp1lMMV9u",
+      "name": "AI-COS - Order Notifications",
+      "active": true,
+      "version_id": "c6218529-c6d3-481e-b0a7-2e0459deb4f6",
+      "published_version_matches": true,
+      "name_matches": true,
+      "nodes_match": true,
+      "connections_match": true,
+      "settings_match": true,
+      "reviewed_ui_settings": {
+        "binaryMode": "separate",
+        "availableInMCP": false
+      },
+      "pinned_data_empty": true
+    },
+    {
+      "id": "s1S68Kb87OmgB5tz",
+      "name": "AI-COS - Low Stock Alerts",
+      "active": true,
+      "version_id": "04276993-0d5b-4ce1-a615-0868b6f618c2",
+      "published_version_matches": true,
+      "name_matches": true,
+      "nodes_match": true,
+      "connections_match": true,
+      "settings_match": true,
+      "reviewed_ui_settings": {
+        "binaryMode": "separate",
+        "availableInMCP": false
+      },
+      "pinned_data_empty": true
+    },
+    {
+      "id": "JHc6K01OQn1iPNT7",
+      "name": "AI-COS - Inventory Alerts",
+      "active": true,
+      "version_id": "27edd897-2287-4a04-be11-de9bb9d85310",
+      "published_version_matches": true,
+      "name_matches": true,
+      "nodes_match": true,
+      "connections_match": true,
+      "settings_match": true,
+      "reviewed_ui_settings": {
+        "binaryMode": "separate",
+        "availableInMCP": false
+      },
+      "pinned_data_empty": true
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "committed": true,
+  "revision": "20261016_accounting_documents",
+  "existing_journals_unchanged": true,
+  "new_documents_created": 0,
+  "runtime_nobypass": true,
+  "private_rls_tables": 2,
+  "backup_directory": "D:\\.codex\\backups\\ai-cos-accounting\\20261016T134850Z",
+  "local_database_used": false
+}

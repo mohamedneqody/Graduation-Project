@@ -1,0 +1,10 @@
+{
+  "committed": true,
+  "revision": "20261016_order_returns",
+  "existing_orders_and_inventory_unchanged": true,
+  "new_returns_created": 0,
+  "runtime_nobypass": true,
+  "private_rls_tables": 1,
+  "backup_directory": "D:\\.codex\\backups\\ai-cos-returns\\20261016T185121Z",
+  "local_database_used": false
+}

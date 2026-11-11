@@ -1,0 +1,84 @@
+{
+  "checked_at_utc": "2026-10-24T13:33:16.381692+00:00",
+  "diagnostics": {
+    "mode": "read-only-smoke",
+    "database": "Supabase cloud",
+    "runtime_role_and_rls_verified": true,
+    "transactions_read_only": true,
+    "background_workers_started": false,
+    "model_warmups_started": false,
+    "http_writes_enabled": false
+  },
+  "checks": [
+    {
+      "name": "health",
+      "status": 200,
+      "expected": 200,
+      "passed": true
+    },
+    {
+      "name": "catalog",
+      "status": 200,
+      "expected": 200,
+      "passed": true,
+      "total": 114,
+      "returned": 1
+    },
+    {
+      "name": "categories",
+      "status": 200,
+      "expected": 200,
+      "passed": true,
+      "returned": 10
+    },
+    {
+      "name": "recommendations",
+      "status": 200,
+      "expected": 200,
+      "passed": true,
+      "returned": 1
+    },
+    {
+      "name": "internal_missing_auth",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "name": "internal_bad_auth",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "name": "internal_service_read",
+      "status": 200,
+      "expected": 200,
+      "passed": true,
+      "requires_human_approval": true
+    },
+    {
+      "name": "admin_metrics_missing_auth",
+      "status": 401,
+      "expected": 401,
+      "passed": true
+    },
+    {
+      "name": "unsafe_get_blocked",
+      "status": 403,
+      "expected": 403,
+      "passed": true
+    },
+    {
+      "name": "http_write_guard",
+      "status": 405,
+      "expected": 405,
+      "passed": true
+    }
+  ],
+  "all_passed": true,
+  "messages_sent_by_probe": false,
+  "business_rows_modified": false,
+  "production_lifespan_tested": false,
+  "full_dispatch_tested": false
+}

@@ -1,0 +1,131 @@
+{
+  "checked_at_utc": "2026-10-26T10:25:51.177775+00:00",
+  "all_passed": true,
+  "scope": "Read-only diagnostic startup and HTTP connectivity",
+  "workflow_executed": false,
+  "messages_sent_by_test": false,
+  "normal_production_lifespan_tested": false,
+  "backend_checks": {
+    "checked_at_utc": "2026-10-26T10:26:09.987730+00:00",
+    "diagnostics": {
+      "mode": "read-only-smoke",
+      "database": "Supabase cloud",
+      "runtime_role_and_rls_verified": true,
+      "transactions_read_only": true,
+      "background_workers_started": false,
+      "model_warmups_started": false,
+      "http_writes_enabled": false
+    },
+    "checks": [
+      {
+        "name": "health",
+        "status": 200,
+        "expected": 200,
+        "passed": true
+      },
+      {
+        "name": "catalog",
+        "status": 200,
+        "expected": 200,
+        "passed": true,
+        "total": 114,
+        "returned": 1
+      },
+      {
+        "name": "categories",
+        "status": 200,
+        "expected": 200,
+        "passed": true,
+        "returned": 10
+      },
+      {
+        "name": "recommendations",
+        "status": 200,
+        "expected": 200,
+        "passed": true,
+        "returned": 1
+      },
+      {
+        "name": "internal_missing_auth",
+        "status": 401,
+        "expected": 401,
+        "passed": true
+      },
+      {
+        "name": "internal_bad_auth",
+        "status": 403,
+        "expected": 403,
+        "passed": true
+      },
+      {
+        "name": "internal_service_read",
+        "status": 200,
+        "expected": 200,
+        "passed": true,
+        "requires_human_approval": true
+      },
+      {
+        "name": "admin_metrics_missing_auth",
+        "status": 401,
+        "expected": 401,
+        "passed": true
+      },
+      {
+        "name": "unsafe_get_blocked",
+        "status": 403,
+        "expected": 403,
+        "passed": true
+      },
+      {
+        "name": "http_write_guard",
+        "status": 405,
+        "expected": 405,
+        "passed": true
+      }
+    ],
+    "all_passed": true,
+    "messages_sent_by_probe": false,
+    "business_rows_modified": false,
+    "production_lifespan_tested": false,
+    "full_dispatch_tested": false
+  },
+  "frontend_checks": [
+    {
+      "path": "/",
+      "status": 200,
+      "passed": true
+    },
+    {
+      "path": "/login",
+      "status": 200,
+      "passed": true
+    },
+    {
+      "path": "/api/v1/drugs?page=1&limit=1&vertical=pharmacy",
+      "status": 200,
+      "passed": true
+    },
+    {
+      "path": "/internal/governance/review-overdue",
+      "status": 401,
+      "passed": true
+    }
+  ],
+  "backend_configuration_to_n8n": {
+    "status": 200,
+    "passed": true
+  },
+  "n8n_container_to_backend": [
+    {
+      "path": "/health",
+      "status": 200,
+      "passed": true
+    },
+    {
+      "path": "/internal/governance/review-overdue",
+      "status": 200,
+      "passed": true
+    }
+  ],
+  "owned_processes_stopped": true
+}

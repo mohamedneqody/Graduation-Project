@@ -1,0 +1,136 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" width="1200" height="760" dir="rtl">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="50%" stop-color="#1e1b4b" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+    <linearGradient id="masterGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#059669" />
+      <stop offset="100%" stop-color="#10b981" />
+    </linearGradient>
+    <linearGradient id="coreGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+    <linearGradient id="dynGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4f46e5" />
+      <stop offset="100%" stop-color="#7c3aed" />
+    </linearGradient>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#000000" flood-opacity="0.4" />
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="760" fill="url(#bgGrad)" rx="24" />
+
+  <!-- Top Title Banner -->
+  <rect x="40" y="28" width="1120" height="82" rx="18" fill="#1e293b" stroke="#334155" stroke-width="2" filter="url(#shadow)" />
+  <text x="600" y="64" text-anchor="middle" fill="#ffffff" font-family="Segoe UI, Tahoma, Arial, sans-serif" font-size="24" font-weight="bold">
+    معمارية نظام التشغيل التجاري الذكي (AI-COS Commercial Operating System)
+  </text>
+  <text x="600" y="94" text-anchor="middle" fill="#34d399" font-family="Segoe UI, Tahoma, Arial, sans-serif" font-size="15" font-weight="bold">
+    القالب الأم المرجعي (pharmacy.yaml) ⟵ استنساخ 82%+ نواة مؤسسية ثابتة + 18%-40% طبقة تخصيص ديناميكية
+  </text>
+
+  <!-- Master Blueprint Box (Top Center) -->
+  <rect x="280" y="130" width="640" height="90" rx="18" fill="url(#masterGrad)" stroke="#6ee7b7" stroke-width="2.5" filter="url(#shadow)" />
+  <text x="600" y="165" text-anchor="middle" fill="#ffffff" font-family="Segoe UI, Tahoma, Arial, sans-serif" font-size="20" font-weight="bold">
+    👑 القالب الأم المرجعي: صيدلية AI-COS (backend/verticals/pharmacy.yaml)
+  </text>
+  <text x="600" y="196" text-anchor="middle" fill="#ecfdf5" font-family="Segoe UI, Tahoma, Arial, sans-serif" font-size="14">
+    حصيلة البناء المؤسسي المتكامل (محمي 100% للقراءة فقط — المصدر الأم لجميع القطاعات التجارية)
+  </text>
+
+  <!-- Arrows from Master Blueprint -->
+  <path d="M 450 220 L 320 265" stroke="#34d399" stroke-width="3.5" fill="none" stroke-dasharray="6,4" />
+  <polygon points="320,265 332,256 327,269" fill="#34d399" />
+  <path d="M 750 220 L 880 265" stroke="#a78bfa" stroke-width="3.5" fill="none" stroke-dasharray="6,4" />
+  <polygon points="880,265 873,269 868,256" fill="#a78bfa" />
+
+  <!-- Right Column: 82%+ Shared Enterprise Core -->
+  <rect x="610" y="265" width="550" height="320" rx="20" fill="url(#coreGrad)" stroke="#10b981" stroke-width="2.5" filter="url(#shadow)" />
+  <rect x="630" y="282" width="510" height="42" rx="10" fill="#065f46" />
+  <text x="885" y="309" text-anchor="middle" fill="#ffffff" font-family="Segoe UI, Tahoma, Arial, sans-serif" font-size="17" font-weight="bold">
+    🛡️ النواة المؤسسية الثابتة المشتركة (82%+ Shared Core — لا تتغير)
+  </text>
+
+  <!-- Core Items -->
+  <g font-family="Segoe UI, Tahoma, Arial, sans-serif" font-size="14" fill="#e2e8f0">
+    <rect x="635" y="338" width="500" height="34" rx="8" fill="#1e293b" stroke="#334155" />
+    <text x="1120" y="360" text-anchor="start" fill="#34d399" font-weight="bold">1. المحاسبة المالية المزدوجة (Double-Entry AIS) + ضريبة 14% ETA</text>
+
+    <rect x="635" y="380" width="500" height="34" rx="8" fill="#1e293b" stroke="#334155" />
+    <text x="1120" y="402" text-anchor="start" fill="#34d399" font-weight="bold">2. التحقيق الجنائي المالي (Benford's Law + Smurfing &gt; 10,000 EGP)</text>
+
+    <rect x="635" y="422" width="500" height="34" rx="8" fill="#1e293b" stroke="#334155" />
+    <text x="1120" y="444" text-anchor="start" fill="#34d399" font-weight="bold">3. سجل التدقيق المشفر غير القابل للمسح (WORM SHA-256 Chain)</text>
+
+    <rect x="635" y="464" width="500" height="34" rx="8" fill="#1e293b" stroke="#334155" />
+    <text x="1120" y="486" text-anchor="start" fill="#34d399" font-weight="bold">4. العزل السيادي للمستأجرين (PostgreSQL FORCE RLS + Fail-Closed)</text>
+
+    <rect x="635" y="506" width="500" height="34" rx="8" fill="#1e293b" stroke="#334155" />
+    <text x="1120" y="528" text-anchor="start" fill="#34d399" font-weight="bold">5. بحوث العمليات والتنبؤ (Wilson EOQ + ROP + RFM + XGBoost/SHAP)</text>
+
+    <rect x="635" y="546" width="500" height="30" rx="8" fill="#1e293b" stroke="#334155" />
+    <text x="1120" y="566" text-anchor="start" fill="#34d399" font-weight="bold">6. هيكل الوكلاء التسعة (9-Agent Orchestrator: Code Calculates, LLM Articulates)</text>
+  </g>
+
+  <!-- Left Column: Dynamic Layer -->
+  <rect x="40" y="265" width="540" height="320" rx="20" fill="url(#coreGrad)" stroke="#8b5cf6" stroke-width="2.5" filter="url(#shadow)" />
+  <rect x="60" y="282" width="500" height="42" rx="10" fill="url(#dynGrad)" />
+  <text x="310" y="309" text-anchor="middle" fill="#ffffff" font-family="Segoe UI, Tahoma, Arial, sans-serif" font-size="17" font-weight="bold">
+    ⚙️ طبقة التخصيص الديناميكية (YAML Templates + tenant_store_configs)
+  </text>
+
+  <!-- Dynamic Items -->
+  <g font-family="Segoe UI, Tahoma, Arial, sans-serif" font-size="14" fill="#e2e8f0">
+    <rect x="65" y="338" width="490" height="34" rx="8" fill="#1e293b" stroke="#4c1d95" />
+    <text x="540" y="360" text-anchor="start" fill="#c4b5fd" font-weight="bold">1. الهوية والكتالوج الإلزامي: الاسم + اللوجو + العنوان + ملف CSV/JSON</text>
+
+    <rect x="65" y="380" width="490" height="34" rx="8" fill="#1e293b" stroke="#4c1d95" />
+    <text x="540" y="402" text-anchor="start" fill="#c4b5fd" font-weight="bold">2. سياسة صرف المخزون المقترحة: FEFO (صلاحية) | FIFO (أقدمية) | WAC</text>
+
+    <rect x="65" y="422" width="490" height="34" rx="8" fill="#1e293b" stroke="#4c1d95" />
+    <text x="540" y="444" text-anchor="start" fill="#c4b5fd" font-weight="bold">3. هيكل سقوف الهوامش والخصومات: صارم (10%) | متوازن (18%) | مرن (30%)</text>
+
+    <rect x="65" y="464" width="490" height="34" rx="8" fill="#1e293b" stroke="#4c1d95" />
+    <text x="540" y="486" text-anchor="start" fill="#c4b5fd" font-weight="bold">4. دورة التوريد (7 / 14 / 30 / 90 يوماً) + كود النشاط الضريبي ETA</text>
+
+    <rect x="65" y="506" width="490" height="34" rx="8" fill="#1e293b" stroke="#4c1d95" />
+    <text x="540" y="528" text-anchor="start" fill="#c4b5fd" font-weight="bold">5. القاموس المعجمي للقطاع + تسعير مستقل للمستأجر (tenant_price)</text>
+
+    <rect x="65" y="546" width="490" height="30" rx="8" fill="#1e293b" stroke="#4c1d95" />
+    <text x="540" y="566" text-anchor="start" fill="#c4b5fd" font-weight="bold">6. حفظ التهيئة في Supabase (tenant_store_configs) دون المساس بالقوالب</text>
+  </g>
+
+  <!-- Bottom Output Bar: Multi-Tenant SaaS Storefronts -->
+  <rect x="40" y="615" width="1120" height="115" rx="20" fill="#0f172a" stroke="#38bdf8" stroke-width="2" filter="url(#shadow)" />
+  <text x="600" y="645" text-anchor="middle" fill="#38bdf8" font-family="Segoe UI, Tahoma, Arial, sans-serif" font-size="17" font-weight="bold">
+    🚀 النتيجة النهائية: منصات SaaS ومواقع متاجر مستقلة معزولة بـ (?tenant=subdomain) على نفس النواة البرمجية
+  </text>
+
+  <!-- Store Boxes -->
+  <g font-family="Segoe UI, Tahoma, Arial, sans-serif" font-size="13" font-weight="bold">
+    <rect x="935" y="662" width="200" height="52" rx="12" fill="#064e3b" stroke="#10b981" />
+    <text x="1035" y="684" text-anchor="middle" fill="#ffffff">🏥 الصيدلية الأم (Master)</text>
+    <text x="1035" y="704" text-anchor="middle" fill="#6ee7b7" font-size="11" dir="ltr">localhost:3000/</text>
+
+    <rect x="715" y="662" width="200" height="52" rx="12" fill="#1e1b4b" stroke="#6366f1" />
+    <text x="815" y="684" text-anchor="middle" fill="#ffffff">💻 متجر الإلكترونيات</text>
+    <text x="815" y="704" text-anchor="middle" fill="#a5b4fc" font-size="10.5" dir="ltr">/store/electronics?tenant=...</text>
+
+    <rect x="495" y="662" width="200" height="52" rx="12" fill="#451a03" stroke="#f59e0b" />
+    <text x="595" y="684" text-anchor="middle" fill="#ffffff">☕ محمصة القهوة المختصة</text>
+    <text x="595" y="704" text-anchor="middle" fill="#fcd34d" font-size="10.5" dir="ltr">/store/coffee?tenant=ai-cos-coffee</text>
+
+    <rect x="275" y="662" width="200" height="52" rx="12" fill="#2e1065" stroke="#a855f7" />
+    <text x="375" y="684" text-anchor="middle" fill="#ffffff">👔 متجر الأزياء والموضة</text>
+    <text x="375" y="704" text-anchor="middle" fill="#d8b4fe" font-size="10.5" dir="ltr">/store/apparel?tenant=ai-cos-apparel</text>
+
+    <rect x="55" y="662" width="200" height="52" rx="12" fill="#14532d" stroke="#22c55e" />
+    <text x="155" y="684" text-anchor="middle" fill="#ffffff">🛒 السوبرماركت وأي نشاط</text>
+    <text x="155" y="704" text-anchor="middle" fill="#86efac" font-size="10.5" dir="ltr">/store/[slug]?tenant=[sub]</text>
+  </g>
+</svg>

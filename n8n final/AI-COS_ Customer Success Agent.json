@@ -6,7 +6,8 @@
         "httpMethod": "POST",
         "path": "aicos-customer-success",
         "responseMode": "responseNode",
-        "options": {}
+        "options": {},
+        "authentication": "headerAuth"
       },
       "id": "c1",
       "name": "Webhook",
@@ -16,13 +17,22 @@
         0,
         304
       ],
-      "webhookId": "b1cf0938-678f-40df-8ed2-2685e7cc52f0"
+      "webhookId": "b1cf0938-678f-40df-8ed2-2685e7cc52f0",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "AIcosInternalHeader01",
+          "name": "AI-COS Internal Header"
+        }
+      }
     },
     {
       "parameters": {
         "operation": "executeQuery",
-        "query": "{{ \"SELECT c.customer_id::text, c.full_name, cc.last_purchase_date, cc.avg_cycle_days, COUNT(DISTINCT o.order_id) as order_count FROM customers c LEFT JOIN customer_cycles cc ON cc.customer_id=c.customer_id LEFT JOIN orders o ON o.customer_id=c.customer_id WHERE c.full_name ILIKE '%\" + $('Webhook').first().json.body.customer_name + \"%' GROUP BY c.customer_id,c.full_name,cc.last_purchase_date,cc.avg_cycle_days LIMIT 1\" }}",
-        "options": {}
+        "query": "SET LOCAL app.current_tenant_id = '62712616-be1e-4129-986f-4131877e63b8'; SELECT c.customer_id::text,c.full_name,cc.last_purchase_date,cc.avg_cycle_days,COUNT(DISTINCT o.order_id) AS order_count FROM customers c LEFT JOIN customer_cycles cc ON cc.customer_id=c.customer_id LEFT JOIN orders o ON o.customer_id=c.customer_id AND o.tenant_id=c.tenant_id AND o.status='completed' WHERE c.tenant_id='62712616-be1e-4129-986f-4131877e63b8'::uuid AND (c.customer_id=NULLIF($1,'')::uuid OR ($1='' AND c.full_name=$2 AND (SELECT count(*) FROM customers x WHERE x.tenant_id=c.tenant_id AND x.full_name=$2)=1)) GROUP BY c.customer_id,c.full_name,cc.last_purchase_date,cc.avg_cycle_days",
+        "options": {
+          "queryBatching": "transaction",
+          "queryReplacement": "={{ [String($('Webhook').first().json.body.customer_id || ''), String($('Webhook').first().json.body.customer_name || '')] }}"
+        }
       },
       "id": "c2",
       "name": "Get Cycles",
@@ -34,8 +44,8 @@
       ],
       "credentials": {
         "postgres": {
-          "id": "SwX8vKQ2HWC6ZSmX",
-          "name": "AI-COS Supabase Postgres"
+          "id": "AIcosScopedCloudDb01",
+          "name": "AI-COS Supabase Scoped Readonly"
         }
       },
       "onError": "continueRegularOutput"

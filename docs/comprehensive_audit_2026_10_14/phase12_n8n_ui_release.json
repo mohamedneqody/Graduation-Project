@@ -1,0 +1,101 @@
+[
+  {
+    "id": "qrv7DBmlhfYp63X9",
+    "versionId": "1adc1e0c-373c-4192-a37b-b5d6dde76a7d",
+    "verified": true,
+    "published": true
+  },
+  {
+    "id": "ofhk7M9PfQzHx0BV",
+    "versionId": "8d16f871-06e9-43f2-a83d-4a85182c4ecb",
+    "originalMatches": true,
+    "targetMatches": true,
+    "settingsPreserved": true,
+    "published": true
+  },
+  {
+    "id": "fsCIHwHnZPCl9VSW",
+    "versionId": "608cc04b-7047-477e-a53b-ee538ea21662",
+    "originalMatches": true,
+    "targetMatches": true,
+    "settingsPreserved": true,
+    "published": true
+  },
+  {
+    "id": "tBAAF1jT2jP9dJiD",
+    "versionId": "fa09c05f-6fc7-4b1a-9212-353f5f099f2d",
+    "originalMatches": true,
+    "targetMatches": true,
+    "settingsPreserved": true,
+    "published": true
+  },
+  {
+    "id": "h6V0iABymaF3COv7",
+    "versionId": "e5accc01-95be-440a-91d2-819b645e11fd",
+    "originalMatches": true,
+    "targetMatches": true,
+    "settingsPreserved": true,
+    "published": true
+  },
+  {
+    "id": "YLX90juWgWUxaHHE",
+    "versionId": "21feea13-899d-43b7-a211-c839c080e6bb",
+    "originalMatches": true,
+    "targetMatches": true,
+    "settingsPreserved": true,
+    "published": true
+  },
+  {
+    "id": "zWNggcB1fRoc7VJN",
+    "versionId": "eb2be0f8-7592-43f1-8de7-531bee9c687f",
+    "originalMatches": true,
+    "targetMatches": true,
+    "settingsPreserved": true,
+    "published": true
+  },
+  {
+    "id": "AIcosDiscount002",
+    "versionId": "b330b17d-8a53-4531-a9f3-6c64c6239880",
+    "originalMatches": true,
+    "targetMatches": true,
+    "settingsPreserved": true,
+    "emptyTerminalConnectionNormalization": true,
+    "published": true
+  },
+  {
+    "id": "AIcosSummary0003",
+    "versionId": "fdfa56a7-a563-47cd-9525-55bd49d43667",
+    "originalMatches": true,
+    "targetMatches": true,
+    "settingsPreserved": true,
+    "emptyTerminalConnectionNormalization": false,
+    "published": true
+  },
+  {
+    "id": "AIcosWormAnchor01",
+    "versionId": "952c6cb9-4d76-474e-ad4e-c8809e3d0999",
+    "originalMatches": true,
+    "targetMatches": true,
+    "settingsPreserved": true,
+    "emptyTerminalConnectionNormalization": false,
+    "published": true
+  },
+  {
+    "id": "AIcosWormAlert002",
+    "versionId": "9e251b84-a666-4204-bf6e-2f9ffc6aa5c5",
+    "originalMatches": true,
+    "targetMatches": true,
+    "settingsPreserved": true,
+    "emptyTerminalConnectionNormalization": false,
+    "published": true
+  },
+  {
+    "id": "AIcosEmgAlertFIX03",
+    "versionId": "18357804-9228-4244-bd5d-d0d8b1384390",
+    "originalMatches": true,
+    "targetMatches": true,
+    "settingsPreserved": true,
+    "emptyTerminalConnectionNormalization": false,
+    "published": true
+  }
+]

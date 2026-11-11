@@ -1,0 +1,33 @@
+{
+  "scope": "Entire backend tests directory through isolated audit runner",
+  "passed": 945,
+  "failed": 0,
+  "errors": 0,
+  "skipped": 64,
+  "skip_reasons": {
+    "collection skipped": 1,
+    "Set RUN_POSTGRES_TESTS=1 for the disposable local pharmacy_test database": 57,
+    "Requires isolated PostgreSQL test database; run with RUN_POSTGRES_TESTS=1.": 2,
+    "Hermetic test Postgres on port 56432 is not running": 3,
+    "Replaced by explicit synthetic cloud rehearsal in probe_cloud_store_configs.py; never use real customers in pytest": 1
+  },
+  "remote_network_enabled": false,
+  "local_service_connections_enabled": false,
+  "runtime_private_socketpair_permitted": true,
+  "postgres_tests_enabled": false,
+  "live_tests_enabled": false,
+  "application_database_used": false,
+  "provider_messages_sent": false,
+  "production_lifespan_started": false,
+  "ledger_isolated_in_temporary_directory": true,
+  "test_infrastructure_fixes": [
+    "block inherited test DB URL and loopback services",
+    "private Windows socketpair exception for asyncio",
+    "temporary WORM fixture path"
+  ],
+  "test_expectation_fix": "Route publication configuration tested independently of delivery evidence; replaced obsolete pre-Phase17 unavailable-route assertion",
+  "evidence_sha256": {
+    "phase19_backend_full.xml": "0004f4218ff733d432c7bac78574143bdae7a5dda95b7e901192659b2c42d963",
+    "phase19_backend_full.log": "1945d229bb2cc7992e21583bbb0357231c143ee662549bb30ba777d9690cc1c7"
+  }
+}

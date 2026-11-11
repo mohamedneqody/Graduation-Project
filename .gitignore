@@ -60,3 +60,7 @@ upload/colab_training/*.zip
 
 
 ~$*
+.codex-runtime-build*
+.zcode/
+patch_*.py
+

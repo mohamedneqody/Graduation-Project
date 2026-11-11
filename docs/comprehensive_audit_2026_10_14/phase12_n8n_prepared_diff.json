@@ -1,0 +1,138 @@
+{
+  "changes": [
+    {
+      "id": "qrv7DBmlhfYp63X9",
+      "name": "AI-COS: Finance Agent (Arabic v2)",
+      "node_changes": [
+        "Get Customer Data",
+        "Calculate CLV",
+        "Ask Ollama",
+        "Parse Response",
+        "Notify Admin"
+      ],
+      "graph_changed": true,
+      "credentials_preserved": true
+    },
+    {
+      "id": "fsCIHwHnZPCl9VSW",
+      "name": "AI-COS: Support Agent (Arabic v2)",
+      "node_changes": [
+        "Get Customer",
+        "Ask Ollama",
+        "Parse Response",
+        "Notify Admin"
+      ],
+      "graph_changed": false,
+      "credentials_preserved": true
+    },
+    {
+      "id": "ofhk7M9PfQzHx0BV",
+      "name": "AI-COS: Analytics Agent (Arabic v2)",
+      "node_changes": [
+        "Orders Revenue",
+        "Churn Risk",
+        "Merge Prompt",
+        "Ask Ollama",
+        "Build Report",
+        "Send Report"
+      ],
+      "graph_changed": false,
+      "credentials_preserved": true
+    },
+    {
+      "id": "tBAAF1jT2jP9dJiD",
+      "name": "AI-COS: Customer Success Agent (Arabic v2)",
+      "node_changes": [
+        "Get Cycles",
+        "Calc Churn",
+        "Ask Ollama",
+        "Build Response",
+        "Alert Admin"
+      ],
+      "graph_changed": false,
+      "credentials_preserved": true
+    },
+    {
+      "id": "h6V0iABymaF3COv7",
+      "name": "AI-COS: Patient Health Agent",
+      "node_changes": [
+        "Build Health Prompt",
+        "Ask Ollama",
+        "Parse Health Response",
+        "Notify Admin"
+      ],
+      "graph_changed": true,
+      "credentials_preserved": true
+    },
+    {
+      "id": "YLX90juWgWUxaHHE",
+      "name": "AI-COS Global Error Handler",
+      "node_changes": [
+        "Send Ops Error Alert"
+      ],
+      "graph_changed": false,
+      "credentials_preserved": true
+    },
+    {
+      "id": "zWNggcB1fRoc7VJN",
+      "name": "AI-COS Governance SLA Monitor",
+      "node_changes": [
+        "1. Pull Pending Reminders",
+        "2. Filter SLA Breaches (>24h)",
+        "4. Send SLA Breach Telegram Alert"
+      ],
+      "graph_changed": false,
+      "credentials_preserved": true
+    },
+    {
+      "id": "AIcosDiscount002",
+      "name": "AI-COS - send_discount_offer",
+      "node_changes": [
+        "Prepare Discount Offer Message",
+        "Respond OK",
+        "Callback Delivered → AI-COS"
+      ],
+      "graph_changed": false,
+      "credentials_preserved": true
+    },
+    {
+      "id": "AIcosSummary0003",
+      "name": "AI-COS Weekly Executive Summary (FIXED)",
+      "node_changes": [
+        "Send Real Digest to Board"
+      ],
+      "graph_changed": false,
+      "credentials_preserved": true
+    },
+    {
+      "id": "AIcosWormAnchor01",
+      "name": "AI-COS - worm_anchor",
+      "node_changes": [
+        "Format Anchor Message",
+        "Respond OK"
+      ],
+      "graph_changed": false,
+      "credentials_preserved": true
+    },
+    {
+      "id": "AIcosWormAlert002",
+      "name": "AI-COS - worm_alert",
+      "node_changes": [
+        "Format Alert Message"
+      ],
+      "graph_changed": false,
+      "credentials_preserved": true
+    },
+    {
+      "id": "AIcosEmgAlertFIX03",
+      "name": "AI-COS Medical Emergency Escalation (FIXED v3)",
+      "node_changes": [
+        "2. Send Telegram Alert"
+      ],
+      "graph_changed": false,
+      "credentials_preserved": true
+    }
+  ],
+  "imported": false,
+  "executed": false
+}

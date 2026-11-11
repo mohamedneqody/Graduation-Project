@@ -1,0 +1,145 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 820" width="1200" height="820" dir="rtl">
+  <defs>
+    <linearGradient id="bg2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16" />
+      <stop offset="50%" stop-color="#111827" />
+      <stop offset="100%" stop-color="#1e1b4b" />
+    </linearGradient>
+    <linearGradient id="step1Grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#4f46e5" />
+      <stop offset="100%" stop-color="#6366f1" />
+    </linearGradient>
+    <linearGradient id="step2Grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0284c7" />
+      <stop offset="100%" stop-color="#38bdf8" />
+    </linearGradient>
+    <linearGradient id="step3Grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#059669" />
+      <stop offset="100%" stop-color="#10b981" />
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="820" fill="url(#bg2)" rx="24" />
+
+  <!-- Header -->
+  <rect x="40" y="25" width="1120" height="75" rx="16" fill="#1e293b" stroke="#475569" stroke-width="2" />
+  <text x="600" y="58" text-anchor="middle" fill="#ffffff" font-family="Segoe UI, Tahoma, Arial, sans-serif" font-size="22" font-weight="bold">
+    دورة حياة التحول الذكي: كيف يتكون الباك إند (Backend) والفرونت إند (Frontend) لأي منشأة
+  </text>
+  <text x="600" y="84" text-anchor="middle" fill="#93c5fd" font-family="Segoe UI, Tahoma, Arial, sans-serif" font-size="14">
+    من إدخال بيانات المنشأة في استوديو التأسيس وحتى إطلاق موقع المتجر المستقل ولوحة التحكم بالذكاء الاصطناعي
+  </text>
+
+  <!-- STAGE 1: Frontend Onboarding Wizard -->
+  <rect x="40" y="120" width="1120" height="190" rx="18" fill="#1e293b" stroke="#6366f1" stroke-width="2" />
+  <rect x="60" y="135" width="1080" height="38" rx="10" fill="url(#step1Grad)" />
+  <text x="600" y="160" text-anchor="middle" fill="#ffffff" font-family="Segoe UI, Tahoma, Arial, sans-serif" font-size="16" font-weight="bold">
+    المرحلة الأولى: معالج تأسيس المتجر في الفرونت إند (/admin/vertical-packs — 3-Step SaaS Wizard)
+  </text>
+
+  <g font-family="Segoe UI, Tahoma, Arial, sans-serif">
+    <!-- Box 1A -->
+    <rect x="800" y="188" width="335" height="105" rx="12" fill="#0f172a" stroke="#4f46e5" stroke-width="1.5" />
+    <text x="967" y="214" text-anchor="middle" fill="#a5b4fc" font-size="15" font-weight="bold">1. إدخال الهوية والمنتجات</text>
+    <text x="967" y="238" text-anchor="middle" fill="#e2e8f0" font-size="12.5">• اسم المنشأة + نوع النشاط + اللوجو + العنوان</text>
+    <text x="967" y="260" text-anchor="middle" fill="#e2e8f0" font-size="12.5">• رفع ملف منتجات CSV / JSON مباشر</text>
+    <text x="967" y="280" text-anchor="middle" fill="#34d399" font-size="11.5">أو اختيار قالب سريع (إلكترونيات / قهوة / أزياء)</text>
+
+    <!-- Box 1B -->
+    <rect x="430" y="188" width="340" height="105" rx="12" fill="#0f172a" stroke="#4f46e5" stroke-width="1.5" />
+    <text x="600" y="214" text-anchor="middle" fill="#a5b4fc" font-size="15" font-weight="bold">2. فحص النواقص والخيارات الذكية</text>
+    <text x="600" y="238" text-anchor="middle" fill="#e2e8f0" font-size="12.5">• استكمال أي حقل ناقص تلقائياً بذكاء القطاع</text>
+    <text x="600" y="260" text-anchor="middle" fill="#e2e8f0" font-size="12.5">• اختيار سياسة المخزون: FEFO / FIFO / WAC</text>
+    <text x="600" y="280" text-anchor="middle" fill="#fcd34d" font-size="11.5">• تحديد سقوف الخصم + دورة التوريد + كود ETA</text>
+
+    <!-- Box 1C -->
+    <rect x="65" y="188" width="335" height="105" rx="12" fill="#0f172a" stroke="#4f46e5" stroke-width="1.5" />
+    <text x="232" y="214" text-anchor="middle" fill="#a5b4fc" font-size="15" font-weight="bold">3. بناء واعتماد ملف الـ YAML</text>
+    <text x="232" y="238" text-anchor="middle" fill="#e2e8f0" font-size="12.5">• دمج 82% نواة الصيدلية + 18% اختيارات العميل</text>
+    <text x="232" y="260" text-anchor="middle" fill="#e2e8f0" font-size="12.5">• معاينة حية لملف الـ YAML مع إمكانية التعديل</text>
+    <text x="232" y="280" text-anchor="middle" fill="#34d399" font-size="11.5">• ضغطة زر: «إطلاق المتجر وتفعيله الآن»</text>
+  </g>
+
+  <!-- STAGE 2: Backend Processing Engine -->
+  <rect x="40" y="335" width="1120" height="220" rx="18" fill="#1e293b" stroke="#38bdf8" stroke-width="2" />
+  <rect x="60" y="350" width="1080" height="38" rx="10" fill="url(#step2Grad)" />
+  <text x="600" y="375" text-anchor="middle" fill="#ffffff" font-family="Segoe UI, Tahoma, Arial, sans-serif" font-size="16" font-weight="bold">
+    المرحلة الثانية: كيف يتشكل الباك إند في 5 إجراءات ذاتية (FastAPI + PostgreSQL RLS + 9 AI Agents)
+  </text>
+
+  <g font-family="Segoe UI, Tahoma, Arial, sans-serif">
+    <rect x="925" y="405" width="210" height="130" rx="12" fill="#0f172a" stroke="#0284c7" />
+    <text x="1030" y="430" text-anchor="middle" fill="#38bdf8" font-size="14" font-weight="bold">إجراء 1: حفظ التهيئة</text>
+    <text x="1030" y="454" text-anchor="middle" fill="#cbd5e1" font-size="12">حفظ المانيفست والـ YAML في</text>
+    <text x="1030" y="474" text-anchor="middle" fill="#34d399" font-size="11.5" dir="ltr">tenant_store_configs</text>
+    <text x="1030" y="496" text-anchor="middle" fill="#94a3b8" font-size="11">مع حماية قوالب verticals/*.yaml</text>
+    <text x="1030" y="516" text-anchor="middle" fill="#94a3b8" font-size="11">بنسبة 100% للقراءة فقط</text>
+
+    <rect x="705" y="405" width="205" height="130" rx="12" fill="#0f172a" stroke="#0284c7" />
+    <text x="807" y="430" text-anchor="middle" fill="#38bdf8" font-size="14" font-weight="bold">إجراء 2: برمجة الوكلاء</text>
+    <text x="807" y="454" text-anchor="middle" fill="#cbd5e1" font-size="12">حقن مصطلحات القطاع</text>
+    <text x="807" y="474" text-anchor="middle" fill="#fcd34d" font-size="12">في الوكلاء التسعة (9 Agents)</text>
+    <text x="807" y="496" text-anchor="middle" fill="#94a3b8" font-size="11">وضبط حاجز السلامة</text>
+    <text x="807" y="516" text-anchor="middle" fill="#94a3b8" font-size="11">وسقوف الخصومات المالية</text>
+
+    <rect x="485" y="405" width="205" height="130" rx="12" fill="#0f172a" stroke="#0284c7" />
+    <text x="587" y="430" text-anchor="middle" fill="#38bdf8" font-size="14" font-weight="bold">إجراء 3: حساب EOQ</text>
+    <text x="587" y="454" text-anchor="middle" fill="#cbd5e1" font-size="12">حساب الكمية الاقتصادية</text>
+    <text x="587" y="474" text-anchor="middle" fill="#34d399" font-size="12" dir="ltr">EOQ = √(2×D×S ÷ H)</text>
+    <text x="587" y="496" text-anchor="middle" fill="#94a3b8" font-size="11">ونقطة إعادة الطلب ROP</text>
+    <text x="587" y="516" text-anchor="middle" fill="#94a3b8" font-size="11">بناءً على تكلفة الصنف الفعلية</text>
+
+    <rect x="265" y="405" width="205" height="130" rx="12" fill="#0f172a" stroke="#0284c7" />
+    <text x="367" y="430" text-anchor="middle" fill="#38bdf8" font-size="14" font-weight="bold">إجراء 4: عزل RLS والكتالوج</text>
+    <text x="367" y="454" text-anchor="middle" fill="#cbd5e1" font-size="12">إنشاء Tenant + تسعير مستقل</text>
+    <text x="367" y="474" text-anchor="middle" fill="#a5b4fc" font-size="11.5" dir="ltr">tenant_price + stock = 0</text>
+    <text x="367" y="496" text-anchor="middle" fill="#94a3b8" font-size="11">وربط الكتالوج بـ tenant_id</text>
+    <text x="367" y="516" text-anchor="middle" fill="#94a3b8" font-size="11">وتسوية المخزون عبر الجرد</text>
+
+    <rect x="60" y="405" width="190" height="130" rx="12" fill="#0f172a" stroke="#0284c7" />
+    <text x="155" y="430" text-anchor="middle" fill="#38bdf8" font-size="14" font-weight="bold">إجراء 5: ختم الحوكمة</text>
+    <text x="155" y="454" text-anchor="middle" fill="#cbd5e1" font-size="12">توثيق عملية التحويل</text>
+    <text x="155" y="474" text-anchor="middle" fill="#34d399" font-size="12" dir="ltr">audit_logs + WORM</text>
+    <text x="155" y="496" text-anchor="middle" fill="#94a3b8" font-size="11">بصلاحية super_admin</text>
+    <text x="155" y="516" text-anchor="middle" fill="#94a3b8" font-size="11">وإصدار الرابط المعزول</text>
+  </g>
+
+  <!-- STAGE 3: Dynamic Frontend Storefront & ERP Output -->
+  <rect x="40" y="580" width="1120" height="210" rx="18" fill="#1e293b" stroke="#10b981" stroke-width="2" />
+  <rect x="60" y="595" width="1080" height="38" rx="10" fill="url(#step3Grad)" />
+  <text x="600" y="620" text-anchor="middle" fill="#ffffff" font-family="Segoe UI, Tahoma, Arial, sans-serif" font-size="16" font-weight="bold">
+    المرحلة الثالثة: كيف يتشكل الفرونت إند (Next.js Chameleon Storefront &amp; Dynamic Admin ERP)
+  </text>
+
+  <g font-family="Segoe UI, Tahoma, Arial, sans-serif">
+    <!-- Storefront Box -->
+    <rect x="610" y="648" width="530" height="122" rx="14" fill="#0f172a" stroke="#10b981" stroke-width="1.5" />
+    <text x="875" y="674" text-anchor="middle" fill="#34d399" font-size="15" font-weight="bold">
+      🌐 موقع المتجر المستقل للعملاء (/store/[slug]?tenant=[subdomain])
+    </text>
+    <text x="875" y="698" text-anchor="middle" fill="#e2e8f0" font-size="12.5">
+      • يستدعي GET /api/v1/verticals/public-storefront/{slug}?tenant=... بعزل صارم
+    </text>
+    <text x="875" y="720" text-anchor="middle" fill="#e2e8f0" font-size="12.5">
+      • تسجيل عضوية العميل (/enroll) + حجز المخزون 30 دقيقة وإصدار الطلب (/orders)
+    </text>
+    <text x="875" y="742" text-anchor="middle" fill="#fcd34d" font-size="12">
+      • يضم المستشار الذكي الخاص بالمتجر + احتساب ضريبة القيمة المضافة ETA (14% VAT)
+    </text>
+
+    <!-- Admin ERP Box -->
+    <rect x="60" y="648" width="525" height="122" rx="14" fill="#0f172a" stroke="#6366f1" stroke-width="1.5" />
+    <text x="322" y="674" text-anchor="middle" fill="#a5b4fc" font-size="15" font-weight="bold">
+      📊 لوحة التحكم والأنظمة الإدارية والمالية (/admin/*)
+    </text>
+    <text x="322" y="698" text-anchor="middle" fill="#e2e8f0" font-size="12.5">
+      • الوكلاء التسعة يعملون بمفردات وسقوف وقواعد القطاع المختار
+    </text>
+    <text x="322" y="720" text-anchor="middle" fill="#e2e8f0" font-size="12.5">
+      • دفتر الأستاذ العام، ميزان المراجعة، وفحص بنفورد الجنائي يعملون تلقائياً
+    </text>
+    <text x="322" y="742" text-anchor="middle" fill="#34d399" font-size="12">
+      • موقع الصيدلية الرئيسي (localhost:3000/) يظل محفوظاً ومستقلاً 100%
+    </text>
+  </g>
+</svg>

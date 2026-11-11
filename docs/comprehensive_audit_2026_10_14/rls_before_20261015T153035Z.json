@@ -1,0 +1,473 @@
+{
+  "policies": [
+    {
+      "schemaname": "public",
+      "tablename": "customers",
+      "policyname": "tenant_isolation_customers",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "public"
+      ],
+      "cmd": "SELECT",
+      "qual": "(tenant_id = current_user_tenant_id())",
+      "with_check": null
+    },
+    {
+      "schemaname": "public",
+      "tablename": "orders",
+      "policyname": "tenant_isolation_orders",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "public"
+      ],
+      "cmd": "ALL",
+      "qual": "(tenant_id = current_user_tenant_id())",
+      "with_check": null
+    },
+    {
+      "schemaname": "public",
+      "tablename": "order_items",
+      "policyname": "tenant_isolation_order_items",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "public"
+      ],
+      "cmd": "ALL",
+      "qual": "(EXISTS ( SELECT 1\n   FROM orders o\n  WHERE ((o.order_id = order_items.order_id) AND (o.tenant_id = current_user_tenant_id()))))",
+      "with_check": "(EXISTS ( SELECT 1\n   FROM orders o\n  WHERE ((o.order_id = order_items.order_id) AND (o.tenant_id = current_user_tenant_id()))))"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "sessions",
+      "policyname": "tenant_isolation_sessions",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "public"
+      ],
+      "cmd": "ALL",
+      "qual": "(tenant_id = current_user_tenant_id())",
+      "with_check": "(tenant_id = current_user_tenant_id())"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "customers",
+      "policyname": "Allow app to read and update self",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "aicos_app"
+      ],
+      "cmd": "ALL",
+      "qual": "((auth_user_id)::text = current_setting('app.current_auth_user_id'::text, true))",
+      "with_check": null
+    },
+    {
+      "schemaname": "public",
+      "tablename": "complaints",
+      "policyname": "complaints_tenant_isolation",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "public"
+      ],
+      "cmd": "ALL",
+      "qual": "((tenant_id)::text = current_setting('app.current_tenant_id'::text, true))",
+      "with_check": null
+    },
+    {
+      "schemaname": "public",
+      "tablename": "events",
+      "policyname": "tenant_isolation_events",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "public"
+      ],
+      "cmd": "ALL",
+      "qual": "(EXISTS ( SELECT 1\n   FROM (sessions s\n     JOIN customers c ON ((c.customer_id = s.customer_id)))\n  WHERE ((s.session_id = events.session_id) AND (c.tenant_id = current_user_tenant_id()))))",
+      "with_check": "(EXISTS ( SELECT 1\n   FROM (sessions s\n     JOIN customers c ON ((c.customer_id = s.customer_id)))\n  WHERE ((s.session_id = events.session_id) AND (c.tenant_id = current_user_tenant_id()))))"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "contact_messages",
+      "policyname": "Users can insert their own contact messages",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "public"
+      ],
+      "cmd": "INSERT",
+      "qual": null,
+      "with_check": "((auth.uid() = customer_id) OR (customer_id IS NULL))"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "contact_messages",
+      "policyname": "Service role has full access",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "service_role"
+      ],
+      "cmd": "ALL",
+      "qual": "true",
+      "with_check": "true"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "tenants",
+      "policyname": "Allow app to read active tenants for routing",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "aicos_app"
+      ],
+      "cmd": "SELECT",
+      "qual": "(is_active = true)",
+      "with_check": null
+    },
+    {
+      "schemaname": "public",
+      "tablename": "customers",
+      "policyname": "Allow app to provision customers",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "aicos_app"
+      ],
+      "cmd": "INSERT",
+      "qual": null,
+      "with_check": "true"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "contact_messages",
+      "policyname": "Allow app to insert contact messages",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "aicos_app"
+      ],
+      "cmd": "INSERT",
+      "qual": null,
+      "with_check": "true"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "customers",
+      "policyname": "Allow app to update customers in tenant",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "aicos_app"
+      ],
+      "cmd": "UPDATE",
+      "qual": "((tenant_id = (NULLIF(current_setting('app.current_tenant_id'::text, true), ''::text))::uuid) OR ((auth_user_id)::text = current_setting('app.current_auth_user_id'::text, true)))",
+      "with_check": "((tenant_id = (NULLIF(current_setting('app.current_tenant_id'::text, true), ''::text))::uuid) OR ((auth_user_id)::text = current_setting('app.current_auth_user_id'::text, true)))"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "tenant_settings",
+      "policyname": "tenant_settings_isolation",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "public"
+      ],
+      "cmd": "ALL",
+      "qual": "((tenant_id = current_user_tenant_id()) OR (tenant_id = (NULLIF(current_setting('app.current_tenant_id'::text, true), ''::text))::uuid))",
+      "with_check": "((tenant_id = current_user_tenant_id()) OR (tenant_id = (NULLIF(current_setting('app.current_tenant_id'::text, true), ''::text))::uuid))"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "prescriptions",
+      "policyname": "tenant_isolation",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "public"
+      ],
+      "cmd": "ALL",
+      "qual": "((tenant_id)::text = current_setting('app.current_tenant_id'::text, true))",
+      "with_check": "((tenant_id)::text = current_setting('app.current_tenant_id'::text, true))"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "prescription_items",
+      "policyname": "deny_anon",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "public"
+      ],
+      "cmd": "ALL",
+      "qual": "false",
+      "with_check": null
+    },
+    {
+      "schemaname": "public",
+      "tablename": "prescription_analyses",
+      "policyname": "deny_anon",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "public"
+      ],
+      "cmd": "ALL",
+      "qual": "false",
+      "with_check": null
+    },
+    {
+      "schemaname": "public",
+      "tablename": "inventory_items",
+      "policyname": "tenant_isolation_inventory",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "public"
+      ],
+      "cmd": "SELECT",
+      "qual": "((tenant_id)::text = current_setting('app.current_tenant_id'::text, true))",
+      "with_check": null
+    },
+    {
+      "schemaname": "public",
+      "tablename": "audit_logs",
+      "policyname": "tenant_isolation_audit_logs",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "public"
+      ],
+      "cmd": "ALL",
+      "qual": "((tenant_id = current_user_tenant_id()) OR (current_user_tenant_id() IS NULL))",
+      "with_check": "((tenant_id = current_user_tenant_id()) OR (current_user_tenant_id() IS NULL))"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "ai_chat_logs",
+      "policyname": "tenant_isolation_ai_chat_logs",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "public"
+      ],
+      "cmd": "ALL",
+      "qual": "((tenant_id)::text = current_setting('app.current_tenant_id'::text, true))",
+      "with_check": "((tenant_id)::text = current_setting('app.current_tenant_id'::text, true))"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "ab_test_results",
+      "policyname": "tenant_isolation_ab_test_results",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "public"
+      ],
+      "cmd": "ALL",
+      "qual": "(EXISTS ( SELECT 1\n   FROM ab_tests t\n  WHERE ((t.test_id = ab_test_results.test_id) AND (t.tenant_id = current_user_tenant_id()))))",
+      "with_check": "(EXISTS ( SELECT 1\n   FROM ab_tests t\n  WHERE ((t.test_id = ab_test_results.test_id) AND (t.tenant_id = current_user_tenant_id()))))"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "drugs",
+      "policyname": "global_read_drugs",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "public"
+      ],
+      "cmd": "SELECT",
+      "qual": "true",
+      "with_check": null
+    },
+    {
+      "schemaname": "public",
+      "tablename": "drug_interactions",
+      "policyname": "global_read_drug_interactions",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "public"
+      ],
+      "cmd": "SELECT",
+      "qual": "true",
+      "with_check": null
+    },
+    {
+      "schemaname": "public",
+      "tablename": "drug_affinities",
+      "policyname": "global_read_drug_affinities",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "public"
+      ],
+      "cmd": "SELECT",
+      "qual": "true",
+      "with_check": null
+    },
+    {
+      "schemaname": "public",
+      "tablename": "ab_tests",
+      "policyname": "tenant_isolation_ab_tests",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "public"
+      ],
+      "cmd": "ALL",
+      "qual": "((tenant_id = current_user_tenant_id()) OR (current_user_tenant_id() IS NULL))",
+      "with_check": "((tenant_id = current_user_tenant_id()) OR (current_user_tenant_id() IS NULL))"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "inventory_items",
+      "policyname": "tenant_isolation_inventory_items",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "public"
+      ],
+      "cmd": "ALL",
+      "qual": "((tenant_id = current_user_tenant_id()) OR (current_user_tenant_id() IS NULL))",
+      "with_check": "((tenant_id = current_user_tenant_id()) OR (current_user_tenant_id() IS NULL))"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "knowledge_chunks",
+      "policyname": "tenant_isolation_knowledge_chunks",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "public"
+      ],
+      "cmd": "ALL",
+      "qual": "((tenant_id = current_user_tenant_id()) OR (current_user_tenant_id() IS NULL))",
+      "with_check": "((tenant_id = current_user_tenant_id()) OR (current_user_tenant_id() IS NULL))"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "notifications",
+      "policyname": "tenant_isolation_notifications",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "public"
+      ],
+      "cmd": "ALL",
+      "qual": "((tenant_id = current_user_tenant_id()) OR (current_user_tenant_id() IS NULL))",
+      "with_check": "((tenant_id = current_user_tenant_id()) OR (current_user_tenant_id() IS NULL))"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "tenants",
+      "policyname": "tenant_isolation_tenants",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "public"
+      ],
+      "cmd": "ALL",
+      "qual": "((tenant_id = current_user_tenant_id()) OR (current_user_tenant_id() IS NULL))",
+      "with_check": "((tenant_id = current_user_tenant_id()) OR (current_user_tenant_id() IS NULL))"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "tenants",
+      "policyname": "allow_read_active_tenants",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "public"
+      ],
+      "cmd": "SELECT",
+      "qual": "(is_active = true)",
+      "with_check": null
+    },
+    {
+      "schemaname": "public",
+      "tablename": "contact_messages",
+      "policyname": "tenant_isolation_contact_messages",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "public"
+      ],
+      "cmd": "SELECT",
+      "qual": "((tenant_id = current_user_tenant_id()) OR (current_user_tenant_id() IS NULL))",
+      "with_check": null
+    },
+    {
+      "schemaname": "public",
+      "tablename": "contact_messages",
+      "policyname": "public_insert_contact_messages",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "public"
+      ],
+      "cmd": "INSERT",
+      "qual": null,
+      "with_check": "true"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "market_intelligence_actions",
+      "policyname": "market_actions_tenant_isolation",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "public"
+      ],
+      "cmd": "ALL",
+      "qual": "((tenant_id IS NULL) OR (NULLIF(current_setting('app.current_tenant_id'::text, true), ''::text) IS NULL) OR (tenant_id = (NULLIF(current_setting('app.current_tenant_id'::text, true), ''::text))::uuid))",
+      "with_check": null
+    },
+    {
+      "schemaname": "public",
+      "tablename": "emergency_outbox",
+      "policyname": "tenant_isolation_emergency_outbox",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "public"
+      ],
+      "cmd": "ALL",
+      "qual": "((tenant_id = current_user_tenant_id()) OR (current_user_tenant_id() IS NULL))",
+      "with_check": "((tenant_id = current_user_tenant_id()) OR (current_user_tenant_id() IS NULL))"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "pending_reminders",
+      "policyname": "tenant_isolation_pending_reminders",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "public"
+      ],
+      "cmd": "ALL",
+      "qual": "(EXISTS ( SELECT 1\n   FROM customers c\n  WHERE ((c.customer_id = pending_reminders.customer_id) AND ((c.tenant_id = current_user_tenant_id()) OR (current_user_tenant_id() IS NULL)))))",
+      "with_check": "(EXISTS ( SELECT 1\n   FROM customers c\n  WHERE ((c.customer_id = pending_reminders.customer_id) AND ((c.tenant_id = current_user_tenant_id()) OR (current_user_tenant_id() IS NULL)))))"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "customer_cycles",
+      "policyname": "tenant_isolation_customer_cycles",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "public"
+      ],
+      "cmd": "ALL",
+      "qual": "(EXISTS ( SELECT 1\n   FROM customers c\n  WHERE ((c.customer_id = customer_cycles.customer_id) AND ((c.tenant_id = current_user_tenant_id()) OR (current_user_tenant_id() IS NULL)))))",
+      "with_check": "(EXISTS ( SELECT 1\n   FROM customers c\n  WHERE ((c.customer_id = customer_cycles.customer_id) AND ((c.tenant_id = current_user_tenant_id()) OR (current_user_tenant_id() IS NULL)))))"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "coupons",
+      "policyname": "coupons_tenant_isolation",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "public"
+      ],
+      "cmd": "ALL",
+      "qual": "((tenant_id)::text = current_setting('app.current_tenant_id'::text, true))",
+      "with_check": null
+    },
+    {
+      "schemaname": "public",
+      "tablename": "automation_runs",
+      "policyname": "automation_runs_tenant_isolation",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "public"
+      ],
+      "cmd": "ALL",
+      "qual": "((tenant_id)::text = current_setting('app.current_tenant_id'::text, true))",
+      "with_check": null
+    },
+    {
+      "schemaname": "public",
+      "tablename": "simulation_runs",
+      "policyname": "simruns_tenant_isolation",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "public"
+      ],
+      "cmd": "ALL",
+      "qual": "((tenant_id)::text = current_setting('app.current_tenant_id'::text, true))",
+      "with_check": null
+    }
+  ],
+  "helper_definition": "CREATE OR REPLACE FUNCTION public.current_user_tenant_id()\n RETURNS uuid\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$\n          SELECT COALESCE(\n            NULLIF(current_setting('app.current_tenant_id', true), '')::uuid,\n            (SELECT tenant_id FROM public.customers\n             WHERE auth_user_id = auth.uid() LIMIT 1)\n          );\n        $function$\n"
+}

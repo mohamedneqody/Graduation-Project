@@ -1,13 +1,6 @@
 @echo off
-echo Activating Python virtual environment...
-call "D:\Graduation Project\venv\Scripts\activate.bat"
-if errorlevel 1 (
-    echo ERROR: Could not activate venv!
-    echo Make sure venv exists at: D:\Graduation Project\venv
-    pause
-    exit /b 1
-)
-
-echo Starting FastAPI Backend on http://localhost:8000 ...
-cd /d "D:\Graduation Project\AI-COS-Pharmacy\backend"
-python -m uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+setlocal
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0AI-COS-Pharmacy\scripts\start-local.ps1" -Mode backend %*
+set "AI_COS_START_EXIT=%errorlevel%"
+if "%~1"=="" pause
+exit /b %AI_COS_START_EXIT%

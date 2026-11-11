@@ -6,7 +6,8 @@
         "httpMethod": "POST",
         "path": "emergency-alert",
         "responseMode": "onReceived",
-        "options": {}
+        "options": {},
+        "authentication": "headerAuth"
       },
       "name": "1. Emergency Webhook",
       "type": "n8n-nodes-base.webhook",
@@ -17,7 +18,13 @@
       ],
       "id": "e1100001-a1c0-4000-8000-000000000001",
       "notesInFlow": true,
-      "notes": "يستقبل إشارة الطوارئ اللحظية من محرك EscalationEngine في الباك إند"
+      "notes": "يستقبل إشارة الطوارئ اللحظية من محرك EscalationEngine في الباك إند",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "AIcosInternalHeader01",
+          "name": "AI-COS Internal Header"
+        }
+      }
     },
     {
       "parameters": {

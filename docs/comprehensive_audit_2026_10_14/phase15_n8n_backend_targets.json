@@ -1,0 +1,218 @@
+{
+  "source_snapshot": "phase14_live_all_workflows.json",
+  "source_workflows_count": 219,
+  "active_ai_cos_count": 13,
+  "inspection": "Read-only snapshot parsing; no live n8n execution or requests. URL literal counts do not count dynamic runtime requests. No headers, credentials, paths, queries, or identifiers included.",
+  "target_distribution": [
+    {
+      "kind": "backend",
+      "scheme": "http",
+      "host": "host.docker.internal",
+      "port": 8000,
+      "url_literals": 12
+    },
+    {
+      "kind": "local_llm",
+      "scheme": "http",
+      "host": "host.docker.internal",
+      "port": 11434,
+      "url_literals": 5
+    }
+  ],
+  "workflows": [
+    {
+      "name": "AI-COS - Combined Reminder & Evaluation Engine",
+      "active_version_matches_current": true,
+      "http_request_nodes": 9,
+      "dynamic_or_unresolved_http_url_nodes": 0,
+      "reference_source_counts": {
+        "http_request_url": 9
+      },
+      "targets": [
+        {
+          "kind": "backend",
+          "scheme": "http",
+          "host": "host.docker.internal",
+          "port": 8000,
+          "url_literals": 9
+        }
+      ]
+    },
+    {
+      "name": "AI-COS: Finance Agent (Arabic v2)",
+      "active_version_matches_current": true,
+      "http_request_nodes": 1,
+      "dynamic_or_unresolved_http_url_nodes": 0,
+      "reference_source_counts": {
+        "http_request_url": 1
+      },
+      "targets": [
+        {
+          "kind": "local_llm",
+          "scheme": "http",
+          "host": "host.docker.internal",
+          "port": 11434,
+          "url_literals": 1
+        }
+      ]
+    },
+    {
+      "name": "AI-COS: Support Agent (Arabic v2)",
+      "active_version_matches_current": true,
+      "http_request_nodes": 1,
+      "dynamic_or_unresolved_http_url_nodes": 0,
+      "reference_source_counts": {
+        "http_request_url": 1
+      },
+      "targets": [
+        {
+          "kind": "local_llm",
+          "scheme": "http",
+          "host": "host.docker.internal",
+          "port": 11434,
+          "url_literals": 1
+        }
+      ]
+    },
+    {
+      "name": "AI-COS: Analytics Agent (Arabic v2)",
+      "active_version_matches_current": true,
+      "http_request_nodes": 1,
+      "dynamic_or_unresolved_http_url_nodes": 0,
+      "reference_source_counts": {
+        "http_request_url": 1
+      },
+      "targets": [
+        {
+          "kind": "local_llm",
+          "scheme": "http",
+          "host": "host.docker.internal",
+          "port": 11434,
+          "url_literals": 1
+        }
+      ]
+    },
+    {
+      "name": "AI-COS: Customer Success Agent (Arabic v2)",
+      "active_version_matches_current": true,
+      "http_request_nodes": 1,
+      "dynamic_or_unresolved_http_url_nodes": 0,
+      "reference_source_counts": {
+        "http_request_url": 1
+      },
+      "targets": [
+        {
+          "kind": "local_llm",
+          "scheme": "http",
+          "host": "host.docker.internal",
+          "port": 11434,
+          "url_literals": 1
+        }
+      ]
+    },
+    {
+      "name": "AI-COS: Patient Health Agent",
+      "active_version_matches_current": true,
+      "http_request_nodes": 1,
+      "dynamic_or_unresolved_http_url_nodes": 0,
+      "reference_source_counts": {
+        "http_request_url": 1
+      },
+      "targets": [
+        {
+          "kind": "local_llm",
+          "scheme": "http",
+          "host": "host.docker.internal",
+          "port": 11434,
+          "url_literals": 1
+        }
+      ]
+    },
+    {
+      "name": "AI-COS Global Error Handler",
+      "active_version_matches_current": true,
+      "http_request_nodes": 0,
+      "dynamic_or_unresolved_http_url_nodes": 0,
+      "reference_source_counts": {},
+      "targets": []
+    },
+    {
+      "name": "AI-COS Governance SLA Monitor",
+      "active_version_matches_current": true,
+      "http_request_nodes": 1,
+      "dynamic_or_unresolved_http_url_nodes": 0,
+      "reference_source_counts": {
+        "http_request_url": 1
+      },
+      "targets": [
+        {
+          "kind": "backend",
+          "scheme": "http",
+          "host": "host.docker.internal",
+          "port": 8000,
+          "url_literals": 1
+        }
+      ]
+    },
+    {
+      "name": "AI-COS - send_discount_offer",
+      "active_version_matches_current": true,
+      "http_request_nodes": 1,
+      "dynamic_or_unresolved_http_url_nodes": 0,
+      "reference_source_counts": {
+        "http_request_url": 1
+      },
+      "targets": [
+        {
+          "kind": "backend",
+          "scheme": "http",
+          "host": "host.docker.internal",
+          "port": 8000,
+          "url_literals": 1
+        }
+      ]
+    },
+    {
+      "name": "AI-COS Weekly Executive Summary (FIXED)",
+      "active_version_matches_current": true,
+      "http_request_nodes": 1,
+      "dynamic_or_unresolved_http_url_nodes": 0,
+      "reference_source_counts": {
+        "http_request_url": 1
+      },
+      "targets": [
+        {
+          "kind": "backend",
+          "scheme": "http",
+          "host": "host.docker.internal",
+          "port": 8000,
+          "url_literals": 1
+        }
+      ]
+    },
+    {
+      "name": "AI-COS - worm_anchor",
+      "active_version_matches_current": true,
+      "http_request_nodes": 0,
+      "dynamic_or_unresolved_http_url_nodes": 0,
+      "reference_source_counts": {},
+      "targets": []
+    },
+    {
+      "name": "AI-COS - worm_alert",
+      "active_version_matches_current": true,
+      "http_request_nodes": 0,
+      "dynamic_or_unresolved_http_url_nodes": 0,
+      "reference_source_counts": {},
+      "targets": []
+    },
+    {
+      "name": "AI-COS Medical Emergency Escalation (FIXED v3)",
+      "active_version_matches_current": true,
+      "http_request_nodes": 0,
+      "dynamic_or_unresolved_http_url_nodes": 0,
+      "reference_source_counts": {},
+      "targets": []
+    }
+  ]
+}

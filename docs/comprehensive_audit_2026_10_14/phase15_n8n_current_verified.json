@@ -1,0 +1,88 @@
+{
+  "checked_at_utc": "2026-10-24T08:21:56.431158+00:00",
+  "source": "fresh read-only n8n CLI export",
+  "active_ai_cos_count": 13,
+  "workflows": [
+    {
+      "name": "AI-COS - Combined Reminder & Evaluation Engine",
+      "unchanged_since_phase14": true,
+      "active_version_matches_current": true,
+      "enabled_http_nodes_targeting_backend_8000": 6
+    },
+    {
+      "name": "AI-COS: Finance Agent (Arabic v2)",
+      "unchanged_since_phase14": true,
+      "active_version_matches_current": true,
+      "enabled_http_nodes_targeting_backend_8000": 0
+    },
+    {
+      "name": "AI-COS: Support Agent (Arabic v2)",
+      "unchanged_since_phase14": true,
+      "active_version_matches_current": true,
+      "enabled_http_nodes_targeting_backend_8000": 0
+    },
+    {
+      "name": "AI-COS: Analytics Agent (Arabic v2)",
+      "unchanged_since_phase14": true,
+      "active_version_matches_current": true,
+      "enabled_http_nodes_targeting_backend_8000": 0
+    },
+    {
+      "name": "AI-COS: Customer Success Agent (Arabic v2)",
+      "unchanged_since_phase14": true,
+      "active_version_matches_current": true,
+      "enabled_http_nodes_targeting_backend_8000": 0
+    },
+    {
+      "name": "AI-COS: Patient Health Agent",
+      "unchanged_since_phase14": true,
+      "active_version_matches_current": true,
+      "enabled_http_nodes_targeting_backend_8000": 0
+    },
+    {
+      "name": "AI-COS Global Error Handler",
+      "unchanged_since_phase14": true,
+      "active_version_matches_current": true,
+      "enabled_http_nodes_targeting_backend_8000": 0
+    },
+    {
+      "name": "AI-COS Governance SLA Monitor",
+      "unchanged_since_phase14": true,
+      "active_version_matches_current": true,
+      "enabled_http_nodes_targeting_backend_8000": 1
+    },
+    {
+      "name": "AI-COS - send_discount_offer",
+      "unchanged_since_phase14": true,
+      "active_version_matches_current": true,
+      "enabled_http_nodes_targeting_backend_8000": 1
+    },
+    {
+      "name": "AI-COS Weekly Executive Summary (FIXED)",
+      "unchanged_since_phase14": true,
+      "active_version_matches_current": true,
+      "enabled_http_nodes_targeting_backend_8000": 1
+    },
+    {
+      "name": "AI-COS - worm_anchor",
+      "unchanged_since_phase14": true,
+      "active_version_matches_current": true,
+      "enabled_http_nodes_targeting_backend_8000": 0
+    },
+    {
+      "name": "AI-COS - worm_alert",
+      "unchanged_since_phase14": true,
+      "active_version_matches_current": true,
+      "enabled_http_nodes_targeting_backend_8000": 0
+    },
+    {
+      "name": "AI-COS Medical Emergency Escalation (FIXED v3)",
+      "unchanged_since_phase14": true,
+      "active_version_matches_current": true,
+      "enabled_http_nodes_targeting_backend_8000": 0
+    }
+  ],
+  "messages_sent_by_check": false,
+  "all_active_ai_cos_unchanged": true,
+  "enabled_backend_http_nodes": 9
+}

@@ -1,0 +1,188 @@
+{
+  "version": "1.0.0",
+  "prepared_on": "2026-10-13",
+  "status": "draft_requires_clinical_and_integration_review",
+  "clinical_signoff": false,
+  "scope": "Knowledge and response-policy examples, not individualized prescribing, verified live prices, or executed workflow actions.",
+  "query_order": [
+    "formal_ar",
+    "egyptian_ar",
+    "context_dependent",
+    "common_typo",
+    "two_words",
+    "english"
+  ],
+  "deployment_notes": [
+    "Do not index the context-dependent query as an independent global alias.",
+    "Apply all runtime guards to every query; is_medical is metadata, not a guard bypass.",
+    "No trade-name formulation or Egyptian market availability was established by this dataset.",
+    "Project identity and port 9202 are user-supplied, not independently verified.",
+    "The 85% reminder is a proposed operational policy, not a clinical standard.",
+    "English queries should be answered in the detected user language using the same verified facts.",
+    "No live services or production importer were tested."
+  ],
+  "cases": [
+    {
+      "topic": "hypertension_cold_decongestants",
+      "coreference_query_index": 2,
+      "required_context": "المستخدم بالغ مصاب بارتفاع الضغط ويسأل عن مستحضر برد محدد لم تُؤكد تركيبته.",
+      "missing_context_action": "Ask which item or subject is meant; never resolve by topic similarity alone.",
+      "source_urls": [
+        "https://www.ema.europa.eu/en/medicines/human/referrals/pseudoephedrine-containing-medicinal-products"
+      ],
+      "source_type": "external_primary_sources_and_design_recommendations",
+      "last_checked": "2026-10-13"
+    },
+    {
+      "topic": "antithrombotics_nsaids_bleeding",
+      "coreference_query_index": 2,
+      "required_context": "المستخدم يتناول الوارفارين أو أسبرين موصوفاً للوقاية، ويسأل عن إيبوبروفين أو ديكلوفيناك.",
+      "missing_context_action": "Ask which item or subject is meant; never resolve by topic similarity alone.",
+      "source_urls": [
+        "https://www.nhs.uk/medicines/warfarin/",
+        "https://111.wales.nhs.uk/encyclopaedia/p/article/paracetamolforadults",
+        "https://www.cuh.nhs.uk/patient-information/oral-anticoagulant-therapy-with-warfarin-phenindione-or-acencoumarol/"
+      ],
+      "source_type": "external_primary_sources_and_design_recommendations",
+      "last_checked": "2026-10-13"
+    },
+    {
+      "topic": "children_fever_aspirin_reye",
+      "coreference_query_index": 2,
+      "required_context": "المحادثة عن طفل لديه حرارة، والدواء المشار إليه هو الأسبرين؛ العمر والوزن غير مكتملين.",
+      "missing_context_action": "Ask which item or subject is meant; never resolve by topic similarity alone.",
+      "source_urls": [
+        "https://www.nhs.uk/baby/health/medicines-for-babies-and-children/",
+        "https://www.nhs.uk/symptoms/fever-in-children/",
+        "https://www.fda.gov/consumers/consumer-updates/should-you-give-kids-medicine-coughs-and-colds"
+      ],
+      "source_type": "external_primary_sources_and_design_recommendations",
+      "last_checked": "2026-10-13"
+    },
+    {
+      "topic": "nitrates_sildenafil_contraindication",
+      "coreference_query_index": 2,
+      "required_context": "المستخدم يتناول نترات للقلب، والدواء المشار إليه هو السيلدينافيل.",
+      "missing_context_action": "Ask which item or subject is meant; never resolve by topic similarity alone.",
+      "source_urls": [
+        "https://dailymed.nlm.nih.gov/dailymed/fda/fdaDrugXsl.cfm?setid=c6c048ec-0b99-4fa4-9df7-9926db93749b&type=display"
+      ],
+      "source_type": "external_primary_sources_and_design_recommendations",
+      "last_checked": "2026-10-13"
+    },
+    {
+      "topic": "ppi_iron_calcium_absorption",
+      "coreference_query_index": 2,
+      "required_context": "الدواء المشار إليه أوميبرازول، والضمير الجمعي يشير إلى الحديد والكالسيوم.",
+      "missing_context_action": "Ask which item or subject is meant; never resolve by topic similarity alone.",
+      "source_urls": [
+        "https://ods.od.nih.gov/factsheets/Iron-HealthProfessional/",
+        "https://ods.od.nih.gov/factsheets/Calcium-HealthProfessional/"
+      ],
+      "source_type": "external_primary_sources_and_design_recommendations",
+      "last_checked": "2026-10-13"
+    },
+    {
+      "topic": "calcium_vitamin_d_need_based",
+      "coreference_query_index": 2,
+      "required_context": "المنتج المشار إليه مكمل كالسيوم؛ وجود فيتامين د وتركيزه لم يُتحققا.",
+      "missing_context_action": "Ask which item or subject is meant; never resolve by topic similarity alone.",
+      "source_urls": [
+        "https://ods.od.nih.gov/factsheets/Calcium-HealthProfessional/"
+      ],
+      "source_type": "external_primary_sources_and_design_recommendations",
+      "last_checked": "2026-10-13"
+    },
+    {
+      "topic": "pregnancy_analgesics_antibiotics",
+      "coreference_query_index": 2,
+      "required_context": "الدواء المشار إليه مسكن أو مضاد حيوي معروف في الجلسة، والمستخدم حامل؛ أسبوع الحمل غير معروف.",
+      "missing_context_action": "Ask which item or subject is meant; never resolve by topic similarity alone.",
+      "source_urls": [
+        "https://www.fda.gov/drugs/labeling-information-drug-products/pregnancy-and-lactation-labeling-resources",
+        "https://www.fda.gov/drugs/drug-safety-and-availability/fda-recommends-avoiding-use-nsaids-pregnancy-20-weeks-or-later-because-they-can-result-low-amniotic",
+        "https://sps.nhs.uk/articles/pain-treatment-during-pregnancy/",
+        "https://www.medicinesinpregnancy.org/leaflets-a-z/amoxicillin/"
+      ],
+      "source_type": "external_primary_sources_and_design_recommendations",
+      "last_checked": "2026-10-13"
+    },
+    {
+      "topic": "antibiotic_course_equivalent_alternative",
+      "coreference_query_index": 2,
+      "required_context": "الدواء المشار إليه مضاد حيوي موصوف؛ المستخدم يسأل بعد التحسن وعن بديل عند النقص.",
+      "missing_context_action": "Ask which item or subject is meant; never resolve by topic similarity alone.",
+      "source_urls": [
+        "https://www.cdc.gov/antibiotic-use/about/",
+        "https://www.fda.gov/drugs/generic-drugs/generic-drug-facts"
+      ],
+      "source_type": "external_primary_sources_and_design_recommendations",
+      "last_checked": "2026-10-13"
+    },
+    {
+      "topic": "live_catalog_price_stock",
+      "coreference_query_index": 2,
+      "required_context": "يوجد منتج مختار واحد بهوية مؤكدة وتركيز وشكل وحجم عبوة وفرع؛ لم يُستعلم بعد عن السعر.",
+      "missing_context_action": "Ask which item or subject is meant; never resolve by topic similarity alone.",
+      "source_urls": [],
+      "source_type": "user_project_specification_and_proposed_workflow",
+      "last_checked": "2026-10-13"
+    },
+    {
+      "topic": "monthly_cost_deterministic_math",
+      "coreference_query_index": 2,
+      "required_context": "يوجد منتج وجرعة ثابتة موصوفة؛ يلزم استكمال السعر وحجم العبوة والمدة والرصيد.",
+      "missing_context_action": "Ask which item or subject is meant; never resolve by topic similarity alone.",
+      "source_urls": [],
+      "source_type": "user_project_specification_and_proposed_workflow",
+      "last_checked": "2026-10-13"
+    },
+    {
+      "topic": "prescription_ocr_red_card",
+      "coreference_query_index": 2,
+      "required_context": "المستخدم أرفق صورة روشتة تخص طلبه؛ محتواها لم يُؤكد من الصيدلي.",
+      "missing_context_action": "Ask which item or subject is meant; never resolve by topic similarity alone.",
+      "source_urls": [],
+      "source_type": "user_project_specification_and_proposed_workflow",
+      "last_checked": "2026-10-13"
+    },
+    {
+      "topic": "refill_reminder_85_percent",
+      "coreference_query_index": 2,
+      "required_context": "الدواء المشار إليه علاج مزمن بجرعة ثابتة؛ لم تُستكمل موافقة قناة التذكير والمدخلات.",
+      "missing_context_action": "Ask which item or subject is meant; never resolve by topic similarity alone.",
+      "source_urls": [],
+      "source_type": "user_project_specification_and_proposed_workflow",
+      "last_checked": "2026-10-13"
+    },
+    {
+      "topic": "customer_distress_human_escalation",
+      "coreference_query_index": 2,
+      "required_context": "المستخدم غير راضٍ عن الخدمة ويطلب مساعدة بشرية؛ لا توجد أعراض سريرية في السياق.",
+      "missing_context_action": "Ask which item or subject is meant; never resolve by topic similarity alone.",
+      "source_urls": [],
+      "source_type": "user_project_specification_and_proposed_workflow",
+      "last_checked": "2026-10-13"
+    },
+    {
+      "topic": "project_identity_academic_team",
+      "coreference_query_index": 2,
+      "required_context": "المحادثة تتناول مشروع الصيدلية المحدد في بيانات المستخدم.",
+      "missing_context_action": "Ask which item or subject is meant; never resolve by topic similarity alone.",
+      "source_urls": [],
+      "source_type": "user_project_specification_and_proposed_workflow",
+      "last_checked": "2026-10-13"
+    },
+    {
+      "topic": "prompt_injection_jailbreak_defense",
+      "coreference_query_index": 2,
+      "required_context": "الضمير يعود إلى تعليمات الأمان، والبيانات المطلوبة أسرار النظام أو بيانات مرضى غير مصرح بها.",
+      "missing_context_action": "Ask which item or subject is meant; never resolve by topic similarity alone.",
+      "source_urls": [
+        "https://cheatsheetseries.owasp.org/cheatsheets/LLM_Prompt_Injection_Prevention_Cheat_Sheet.html"
+      ],
+      "source_type": "external_primary_sources_and_design_recommendations",
+      "last_checked": "2026-10-13"
+    }
+  ]
+}

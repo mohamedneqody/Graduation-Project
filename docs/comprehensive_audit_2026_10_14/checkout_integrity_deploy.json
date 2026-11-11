@@ -1,0 +1,10 @@
+{
+  "committed": true,
+  "live_revision": "20261016_order_integrity",
+  "existing_rows_unchanged": true,
+  "legacy_reservations_not_expired": true,
+  "runtime_role_still_limited": true,
+  "backup_directory": "D:\\.codex\\backups\\ai-cos-checkout\\20261016T081435Z",
+  "backup_scope": "orders table only; full public backup from previous phase retained",
+  "local_database_started": false
+}

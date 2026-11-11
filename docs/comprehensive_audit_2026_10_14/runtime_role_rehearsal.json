@@ -1,0 +1,20 @@
+{
+  "applied": false,
+  "checks": [
+    "non_owner_nobypass_no_truncate",
+    "no_context_private_reads_denied",
+    "tenant_scoped_reads",
+    "public_catalog_readable",
+    "scoped_chain_verification",
+    "no_platform_identity",
+    "maintenance_rpc_denied",
+    "own_write_rollback",
+    "cross_tenant_write_denied"
+  ],
+  "runtime_role": "aicos_runtime",
+  "bypasses_rls": false,
+  "runtime_env_updated": false,
+  "services_restarted": false,
+  "cloud_only": true,
+  "revision": "20261015_runtime_privileges"
+}

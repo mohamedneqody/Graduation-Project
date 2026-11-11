@@ -6,7 +6,8 @@
         "httpMethod": "POST",
         "path": "worm-anchor",
         "responseMode": "responseNode",
-        "options": {}
+        "options": {},
+        "authentication": "headerAuth"
       },
       "id": "wh-worm-anchor-001",
       "name": "Webhook (worm-anchor)",
@@ -16,7 +17,13 @@
         208,
         304
       ],
-      "webhookId": "worm-anchor"
+      "webhookId": "worm-anchor",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "AIcosInternalHeader01",
+          "name": "AI-COS Internal Header"
+        }
+      }
     },
     {
       "parameters": {

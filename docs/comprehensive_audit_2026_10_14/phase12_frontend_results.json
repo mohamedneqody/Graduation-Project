@@ -1,0 +1,7 @@
+{
+  "render_tests": 6,
+  "passed": 6,
+  "typescript_exit_code": 0,
+  "app_started": false,
+  "observed_from_tool_runs": true
+}

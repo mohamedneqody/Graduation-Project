@@ -1,0 +1,70 @@
+{
+  "checked_at_utc": "2026-10-24T13:31:58.486432+00:00",
+  "workflow_inventory_preserved": true,
+  "changed_workflows": [
+    {
+      "id": "81yGYG75B34myKyX",
+      "name": "AI-COS - Combined Reminder & Evaluation Engine",
+      "version": "53825cd1-c88e-4c24-90ce-e7cf31383de9",
+      "url_changes": 9,
+      "checks": {
+        "nodes_equal_expected": true,
+        "connections_unchanged": true,
+        "settings_unchanged": true,
+        "name_unchanged": true,
+        "active_preserved": true,
+        "published_version_matches_current": true
+      },
+      "mismatched_node_keys": []
+    },
+    {
+      "id": "zWNggcB1fRoc7VJN",
+      "name": "AI-COS Governance SLA Monitor",
+      "version": "17f18828-e379-4452-b4d9-3de749cc6958",
+      "url_changes": 1,
+      "checks": {
+        "nodes_equal_expected": true,
+        "connections_unchanged": true,
+        "settings_unchanged": true,
+        "name_unchanged": true,
+        "active_preserved": true,
+        "published_version_matches_current": true
+      },
+      "mismatched_node_keys": []
+    },
+    {
+      "id": "AIcosDiscount002",
+      "name": "AI-COS - send_discount_offer",
+      "version": "2ea1ee39-9b53-4f6e-a3ca-27d5bb878cf6",
+      "url_changes": 1,
+      "checks": {
+        "nodes_equal_expected": true,
+        "connections_unchanged": true,
+        "settings_unchanged": true,
+        "name_unchanged": true,
+        "active_preserved": true,
+        "published_version_matches_current": true
+      },
+      "mismatched_node_keys": []
+    },
+    {
+      "id": "AIcosSummary0003",
+      "name": "AI-COS Weekly Executive Summary (FIXED)",
+      "version": "406d8aae-6171-4b6e-84dd-6aa8e533ef29",
+      "url_changes": 1,
+      "checks": {
+        "nodes_equal_expected": true,
+        "connections_unchanged": true,
+        "settings_unchanged": true,
+        "name_unchanged": true,
+        "active_preserved": true,
+        "published_version_matches_current": true
+      },
+      "mismatched_node_keys": []
+    }
+  ],
+  "unchanged_other_workflows": 215,
+  "unexpected_other_changes": [],
+  "all_passed": true,
+  "old_backend_urls_in_active_ai_cos_http_nodes": 0
+}

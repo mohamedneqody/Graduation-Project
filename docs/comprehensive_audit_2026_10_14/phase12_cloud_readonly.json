@@ -1,0 +1,10 @@
+{
+  "cloud_only": true,
+  "read_only_transaction": true,
+  "role": "aicos_runtime",
+  "analytics_all_queries_valid": true,
+  "sla_query_valid": true,
+  "missing_attribution_not_zero": true,
+  "business_data_exported": false,
+  "business_writes": false
+}

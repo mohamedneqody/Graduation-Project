@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" width="1200" height="760" dir="rtl">
+  <defs>
+    <linearGradient id="bg3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="50%" stop-color="#172554" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+    <linearGradient id="orchGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#7c3aed" />
+      <stop offset="100%" stop-color="#4f46e5" />
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="760" fill="url(#bg3)" rx="24" />
+
+  <!-- Title -->
+  <rect x="40" y="25" width="1120" height="75" rx="16" fill="#1e293b" stroke="#475569" stroke-width="2" />
+  <text x="600" y="56" text-anchor="middle" fill="#ffffff" font-family="Segoe UI, Tahoma, Arial, sans-serif" font-size="22" font-weight="bold">
+    معمارية الوكلاء التسعة (9 AI Agents) وعقيدة: الكود يحسب والذكاء الاصطناعي يصيغ
+  </text>
+  <text x="600" y="83" text-anchor="middle" fill="#fcd34d" font-family="Segoe UI, Tahoma, Arial, sans-serif" font-size="14" font-weight="bold">
+    Code Calculates (Deterministic Python Math &amp; Guards) ⟶ LLM Articulates (Gemma 4 / Gemini / Local Qwen)
+  </text>
+
+  <!-- Central Orchestrator -->
+  <rect x="250" y="120" width="700" height="65" rx="16" fill="url(#orchGrad)" stroke="#c4b5fd" stroke-width="2" />
+  <text x="600" y="148" text-anchor="middle" fill="#ffffff" font-family="Segoe UI, Tahoma, Arial, sans-serif" font-size="17" font-weight="bold">
+    🧠 المنسق المركزي للوكلاء (Supervisor / Fast-Path Orchestrator — 0.01s Routing)
+  </text>
+  <text x="600" y="171" text-anchor="middle" fill="#e0e7ff" font-family="Segoe UI, Tahoma, Arial, sans-serif" font-size="13">
+    يقرأ ملف الـ YAML النشط للقطاع + يطبق إخفاء البيانات الشخصية [[الاسم]] قبل إرسال أي نص للنموذج
+  </text>
+
+  <!-- 9 Agents Grid (3x3) -->
+  <g font-family="Segoe UI, Tahoma, Arial, sans-serif">
+    <!-- Row 1 -->
+    <rect x="800" y="205" width="360" height="105" rx="14" fill="#1e293b" stroke="#38bdf8" stroke-width="1.8" />
+    <text x="980" y="232" text-anchor="middle" fill="#38bdf8" font-size="15" font-weight="bold">1. وكيل المخزون والتوريد (Inventory Agent)</text>
+    <text x="980" y="256" text-anchor="middle" fill="#e2e8f0" font-size="12.5">• المحرك الحتمي: معدل الحرق ΔQ/Δt + معادلة Wilson EOQ</text>
+    <text x="980" y="278" text-anchor="middle" fill="#34d399" font-size="12">• يتكيف مع YAML: FEFO (صيدلية/قهوة) | FIFO (إلكترونيات)</text>
+    <text x="980" y="298" text-anchor="middle" fill="#94a3b8" font-size="11">• المخرج: أمر شراء مقترح (Purchase Order) عند كسر ROP</text>
+
+    <rect x="420" y="205" width="360" height="105" rx="14" fill="#1e293b" stroke="#f59e0b" stroke-width="1.8" />
+    <text x="600" y="232" text-anchor="middle" fill="#fbbf24" font-size="15" font-weight="bold">2. الوكيل المالي والربحية (Finance Agent)</text>
+    <text x="600" y="256" text-anchor="middle" fill="#e2e8f0" font-size="12.5">• المحرك الحتمي: فرض سقف الهامش (Clamp) قبل الـ LLM</text>
+    <text x="600" y="278" text-anchor="middle" fill="#34d399" font-size="12">• يتكيف مع YAML: 10%/12% صيدلية | 18% إلكترونيات | 30% أزياء</text>
+    <text x="600" y="298" text-anchor="middle" fill="#94a3b8" font-size="11">• المخرج: اعتماد/رفض الخصم وحماية هامش الربح</text>
+
+    <rect x="40" y="205" width="360" height="105" rx="14" fill="#1e293b" stroke="#10b981" stroke-width="1.8" />
+    <text x="220" y="232" text-anchor="middle" fill="#34d399" font-size="15" font-weight="bold">3. وكيل التسعير والعائد (Pricing &amp; ROI Agent)</text>
+    <text x="220" y="256" text-anchor="middle" fill="#e2e8f0" font-size="12.5">• المحرك الحتمي: حساب ROI حتمياً (يرفض أي رقم من النموذج)</text>
+    <text x="220" y="278" text-anchor="middle" fill="#34d399" font-size="12">• الحارس السريري/التجاري: يمنع العروض المخالفة لسياسة القطاع</text>
+    <text x="220" y="298" text-anchor="middle" fill="#94a3b8" font-size="11">• المخرج: عرض سعري موثق بعائد استثمار حقيقي</text>
+
+    <!-- Row 2 -->
+    <rect x="800" y="325" width="360" height="105" rx="14" fill="#1e293b" stroke="#ec4899" stroke-width="1.8" />
+    <text x="980" y="352" text-anchor="middle" fill="#f472b6" font-size="15" font-weight="bold">4. وكيل التسويق والاستبقاء (Marketing Agent)</text>
+    <text x="980" y="376" text-anchor="middle" fill="#e2e8f0" font-size="12.5">• المحرك الحتمي: تجزئة العملاء RFM + توليد كوبون حقيقي في DB</text>
+    <text x="980" y="398" text-anchor="middle" fill="#34d399" font-size="12">• الخصوصية: إخفاء اسم العميل [[الاسم]] واستعادته محلياً</text>
+    <text x="980" y="418" text-anchor="middle" fill="#94a3b8" font-size="11">• المخرج: حملة مخصصة + سجل في جدول coupons وaudit_logs</text>
+
+    <rect x="420" y="325" width="360" height="105" rx="14" fill="#1e293b" stroke="#8b5cf6" stroke-width="1.8" />
+    <text x="600" y="352" text-anchor="middle" fill="#a78bfa" font-size="15" font-weight="bold">5. وكيل التحليلات والتنبؤ (Analytics Agent)</text>
+    <text x="600" y="376" text-anchor="middle" fill="#e2e8f0" font-size="12.5">• المحرك الحتمي: استعلامات CTE حية + XGBoost (MAE=3.27d)</text>
+    <text x="600" y="398" text-anchor="middle" fill="#34d399" font-size="12">• الصرامة الإحصائية: فاصل ثقة 95% (±1.96σ) + تفسير TreeSHAP</text>
+    <text x="600" y="418" text-anchor="middle" fill="#94a3b8" font-size="11">• المخرج: تشخيص مؤشرات الأداء وتوقعات تسرب العملاء</text>
+
+    <rect x="40" y="325" width="360" height="105" rx="14" fill="#1e293b" stroke="#06b6d4" stroke-width="1.8" />
+    <text x="220" y="352" text-anchor="middle" fill="#22d3ee" font-size="15" font-weight="bold">6. وكيل نجاح العملاء (Customer Success)</text>
+    <text x="220" y="376" text-anchor="middle" fill="#e2e8f0" font-size="12.5">• المحرك الحتمي: حساب القيمة الدائمة CLV ومؤشر خطر الانقطاع</text>
+    <text x="220" y="398" text-anchor="middle" fill="#34d399" font-size="12">• يتكيف مع YAML: متابعة دورة إعادة الشراء الخاصة بالقطاع</text>
+    <text x="220" y="418" text-anchor="middle" fill="#94a3b8" font-size="11">• المخرج: خطة استعادة استباقية للعملاء المعرضين للتسرب</text>
+
+    <!-- Row 3 -->
+    <rect x="800" y="445" width="360" height="105" rx="14" fill="#1e293b" stroke="#22c55e" stroke-width="1.8" />
+    <text x="980" y="472" text-anchor="middle" fill="#4ade80" font-size="15" font-weight="bold">7. وكيل الدعم والاستشارات (Support &amp; RAG)</text>
+    <text x="980" y="496" text-anchor="middle" fill="#e2e8f0" font-size="12.5">• المحرك الحتمي: بحث هجين (60% دلالي + 40% معجمي) + حراس أمان</text>
+    <text x="980" y="518" text-anchor="middle" fill="#34d399" font-size="12">• يتكيف مع YAML: مستشار دوائي / خبير تقني / باريستا مختص</text>
+    <text x="980" y="538" text-anchor="middle" fill="#94a3b8" font-size="11">• المخرج: إجابة موثقة من كتالوج المتجر بدون هلوسة</text>
+
+    <rect x="420" y="445" width="360" height="105" rx="14" fill="#1e293b" stroke="#f97316" stroke-width="1.8" />
+    <text x="600" y="472" text-anchor="middle" fill="#fb923c" font-size="15" font-weight="bold">8. وكيل الأتمتة والتنفيذ (Automation &amp; n8n)</text>
+    <text x="600" y="496" text-anchor="middle" fill="#e2e8f0" font-size="12.5">• المحرك الحتمي: جدولة المهام + عامل إعادة المحاولة (Retry Worker)</text>
+    <text x="600" y="518" text-anchor="middle" fill="#34d399" font-size="12">• التكامل الحي: إرسال Webhooks إلى n8n وTelegram مع Callback</text>
+    <text x="600" y="538" text-anchor="middle" fill="#94a3b8" font-size="11">• المخرج: تنفيذ خارجي مقاس فعلياً في جدول automation_runs</text>
+
+    <rect x="40" y="445" width="360" height="105" rx="14" fill="#1e293b" stroke="#eab308" stroke-width="1.8" />
+    <text x="220" y="472" text-anchor="middle" fill="#facc15" font-size="15" font-weight="bold">9. وكيل الامتثال والتدقيق (Compliance &amp; WORM)</text>
+    <text x="220" y="496" text-anchor="middle" fill="#e2e8f0" font-size="12.5">• المحرك الحتمي: فحص ثنائي الاتجاه verify_against_db</text>
+    <text x="220" y="518" text-anchor="middle" fill="#34d399" font-size="12">• كشف التلاعب: يطابق جدول القاعدة مع سجل WORM الخارجي</text>
+    <text x="220" y="538" text-anchor="middle" fill="#94a3b8" font-size="11">• المخرج: صك تفتيش رقمي حي (COMPLIANT / NEEDS_ATTENTION)</text>
+  </g>
+
+  <!-- Bottom Governance & Security Shield -->
+  <rect x="40" y="575" width="1120" height="155" rx="18" fill="#090d16" stroke="#10b981" stroke-width="2" />
+  <text x="600" y="608" text-anchor="middle" fill="#34d399" font-family="Segoe UI, Tahoma, Arial, sans-serif" font-size="18" font-weight="bold">
+    🛡️ درع الحوكمة والرقابة الداخلية الموحد عبر جميع القطاعات (Enterprise BIS Governance Shield)
+  </text>
+
+  <g font-family="Segoe UI, Tahoma, Arial, sans-serif" font-size="13">
+    <rect x="885" y="625" width="255" height="85" rx="12" fill="#1e293b" stroke="#334155" />
+    <text x="1012" y="650" text-anchor="middle" fill="#38bdf8" font-weight="bold">عزل البيانات (PostgreSQL RLS)</text>
+    <text x="1012" y="672" text-anchor="middle" fill="#cbd5e1" font-size="11.5">FORCE ROW LEVEL SECURITY</text>
+    <text x="1012" y="692" text-anchor="middle" fill="#94a3b8" font-size="11">كل متجر معزول بـ tenant_id</text>
+
+    <rect x="610" y="625" width="255" height="85" rx="12" fill="#1e293b" stroke="#334155" />
+    <text x="737" y="650" text-anchor="middle" fill="#fcd34d" font-weight="bold">كشف الاحتيال (Benford's Law)</text>
+    <text x="737" y="672" text-anchor="middle" fill="#cbd5e1" font-size="11.5">تحليل الرقم الأول + كشف التجزئة</text>
+    <text x="737" y="692" text-anchor="middle" fill="#94a3b8" font-size="11">Smurfing Threshold: 10,000 EGP</text>
+
+    <rect x="335" y="625" width="255" height="85" rx="12" fill="#1e293b" stroke="#334155" />
+    <text x="462" y="650" text-anchor="middle" fill="#a78bfa" font-weight="bold">الرقابة الثنائية (Maker-Checker)</text>
+    <text x="462" y="672" text-anchor="middle" fill="#cbd5e1" font-size="11.5">فصل المهام SoD للقرارات الحرجة</text>
+    <text x="462" y="692" text-anchor="middle" fill="#94a3b8" font-size="11">AWAITING_SECOND_APPROVAL</text>
+
+    <rect x="60" y="625" width="255" height="85" rx="12" fill="#1e293b" stroke="#334155" />
+    <text x="187" y="650" text-anchor="middle" fill="#34d399" font-weight="bold">التدقيق غير القابل للمسح (WORM)</text>
+    <text x="187" y="672" text-anchor="middle" fill="#cbd5e1" font-size="11.5">سلسلة هاش SHA-256 مترابطة</text>
+    <text x="187" y="692" text-anchor="middle" fill="#94a3b8" font-size="11">تكشف أي عبث بقاعدة البيانات فوراً</text>
+  </g>
+</svg>

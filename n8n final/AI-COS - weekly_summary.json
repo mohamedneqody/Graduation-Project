@@ -6,7 +6,8 @@
         "httpMethod": "POST",
         "path": "weekly_summary",
         "responseMode": "responseNode",
-        "options": {}
+        "options": {},
+        "authentication": "headerAuth"
       },
       "id": "wh-weekly_summary-001",
       "name": "Webhook (weekly_summary)",
@@ -16,7 +17,13 @@
         208,
         304
       ],
-      "webhookId": "weekly_summary"
+      "webhookId": "weekly_summary",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "AIcosInternalHeader01",
+          "name": "AI-COS Internal Header"
+        }
+      }
     },
     {
       "parameters": {

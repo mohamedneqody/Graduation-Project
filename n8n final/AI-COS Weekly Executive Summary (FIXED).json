@@ -26,7 +26,8 @@
       "parameters": {
         "httpMethod": "POST",
         "path": "weekly_summary",
-        "options": {}
+        "options": {},
+        "authentication": "headerAuth"
       },
       "name": "Webhook Trigger (weekly_summary)",
       "type": "n8n-nodes-base.webhook",
@@ -36,7 +37,13 @@
         500
       ],
       "id": "wh-weekly-fix01",
-      "webhookId": "weekly-summary-fix01"
+      "webhookId": "weekly-summary-fix01",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "AIcosInternalHeader01",
+          "name": "AI-COS Internal Header"
+        }
+      }
     },
     {
       "parameters": {

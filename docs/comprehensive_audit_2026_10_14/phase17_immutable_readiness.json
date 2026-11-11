@@ -1,0 +1,13 @@
+{
+  "read_only": true,
+  "public_data_changed": false,
+  "immutable_verified": false,
+  "enabled": false,
+  "configuration_present": {
+    "bucket": false,
+    "region": false,
+    "expected_owner": false,
+    "retention_days": false
+  },
+  "state": "disabled"
+}

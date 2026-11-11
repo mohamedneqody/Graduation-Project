@@ -6,7 +6,8 @@
         "httpMethod": "POST",
         "path": "send_reminder",
         "responseMode": "onReceived",
-        "options": {}
+        "options": {},
+        "authentication": "headerAuth"
       },
       "id": "e2a20002-0000-4000-8000-000000000001",
       "name": "Webhook Trigger (send_reminder)",
@@ -16,7 +17,13 @@
         200,
         260
       ],
-      "webhookId": "send_reminder"
+      "webhookId": "send_reminder",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "AIcosInternalHeader01",
+          "name": "AI-COS Internal Header"
+        }
+      }
     },
     {
       "parameters": {

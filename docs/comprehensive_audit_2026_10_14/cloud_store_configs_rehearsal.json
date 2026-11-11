@@ -1,0 +1,16 @@
+{
+  "checks": [
+    "actual_migration_and_copied_live_rls_policies",
+    "two_store_manifests_atomic_and_opening_stock_zero",
+    "actual_storefront_tenant_price_stock_identity_and_config_isolation",
+    "missing_ambiguous_and_duplicate_stores_rejected",
+    "failed_audit_rolls_back_tenant_manifest_and_inventory",
+    "no_context_read_denied_and_no_mutation_privileges"
+  ],
+  "temporary_schema_removed": true,
+  "public_existing_rows_modified": false,
+  "synthetic_public_identity_rolled_back": true,
+  "shared_yaml_files_unchanged": true,
+  "local_database_used": false,
+  "migration_sha256": "2e08bf76ad9f07eb279e3602339a7b07e27cdf94718820ea0cfca41d090f0f16"
+}
