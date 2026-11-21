@@ -61,7 +61,7 @@
         "url": "https://api.telegram.org/bot7330340609:AAHSYF7u2czYCdJvehF7BgJ_ET8gIwpJLHs/sendMessage",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n  \"chat_id\": \"6262223810\",\n  \"parse_mode\": \"HTML\",\n  \"text\": \"🎁 <b>عرض صحي خاص من صيدلية AI-COS</b>\\n\\nمرحباً بك 👋 تقديراً لالتزامك برحلتك العلاجية 💙\\n\\n🏷️ <b>كوبون خصم حصري:</b>\\n<code>{{ $json.coupon_code || \"AICOS15\" }}</code>\\n\\nخصم <b>{{ $json.discount_percentage || 15 }}%</b> على طلبك القادم لعلاجك 💊\\n\\n{{ $json.message_text || \"صحتك هي أولويتنا دائماً. استخدم الكود أثناء الدفع.\" }}\\n\\n✨ <i>العرض ساري لمدة 48 ساعة فقط.</i>\"\n}",
+        "jsonBody": "={\n  \"chat_id\": \"6262223810\",\n  \"parse_mode\": \"HTML\",\n  \"text\": \"🎁 <b>عرض صحي خاص من صيدلية كيورا الذكية (Cura AI Pharmacy)</b>\\n\\nمرحباً بك 👋 تقديراً لالتزامك برحلتك العلاجية 💙\\n\\n🏷️ <b>كوبون خصم حصري:</b>\\n<code>{{ $json.coupon_code || \"CURA15\" }}</code>\\n\\nخصم <b>{{ $json.discount_percentage || 15 }}%</b> على طلبك القادم لعلاجك 💊\\n\\n{{ $json.message_text || \"صحتك هي أولويتنا دائماً. استخدم الكود أثناء الدفع.\" }}\\n\\n✨ <i>العرض ساري لمدة 48 ساعة فقط.</i>\"\n}",
         "options": {}
       },
       "id": "decddfde-5ef5-4f9f-892f-400fc6e3ba70",

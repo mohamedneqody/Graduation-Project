@@ -1,7 +1,7 @@
 @echo off
 REM ============================================================
 REM  Install Arabic (Egypt) TTS voice - Microsoft Hoda (female)
-REM  For the AI-COS Pharmacy chatbot speaker feature
+REM  For the AI-COS chatbot speaker feature
 REM ============================================================
 
 REM Admin check
@@ -31,7 +31,7 @@ echo ==================================================
 echo  NEXT STEPS (very important):
 echo  1. If State = Installed : perfect
 echo  2. Close ALL Chrome and Edge windows
-echo  3. Reopen the browser and go to localhost:3000
+echo  3. Reopen the browser and go to http://localhost:3001
 echo  4. Open the chat and press the speaker button
 echo     - You will hear Microsoft Hoda (female Arabic voice)
 echo ==================================================

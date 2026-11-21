@@ -86,10 +86,15 @@ class PrescriptionOCREngine:
         )
         self.tokenizer = RobertaTokenizer.from_pretrained(self.model_dir)
         self.processor = TrOCRProcessor(image_processor=self.image_processor, tokenizer=self.tokenizer)
-        self.model = VisionEncoderDecoderModel.from_pretrained(self.model_dir).to(self.trocr_device)
-        if self.trocr_device == "cuda":
-            self.model = self.model.half()
+        self.model = VisionEncoderDecoderModel.from_pretrained(
+            self.model_dir,
+            torch_dtype=torch.float16 if self.trocr_device == "cuda" else torch.float32,
+        ).to(self.trocr_device)
         self.model.eval()
+        import gc
+        gc.collect()
+        if torch.cuda.is_available():
+            torch.cuda.empty_cache()
         
         # 4. Load Real Drugs Database for Fuzzy Matching
         if drugs_db_path is None:
@@ -111,17 +116,28 @@ class PrescriptionOCREngine:
 
     def load_florence(self):
         if self.florence_model is None:
+            import gc
+            gc.collect()
             print("[OCR Engine] Initializing Florence-2 Vision & Layout Engine from D:\\huggingface_cache...")
             self.florence_processor = AutoProcessor.from_pretrained(
                 self.florence_model_id,
-                trust_remote_code=True
+                trust_remote_code=True,
+                local_files_only=True,
+            )
+            florence_kwargs = dict(
+                trust_remote_code=True,
+                local_files_only=True,
+                low_cpu_mem_usage=True,
+                torch_dtype=torch.bfloat16 if self.florence_device == "cpu" else torch.float16,
             )
             self.florence_model = AutoModelForCausalLM.from_pretrained(
                 self.florence_model_id,
-                trust_remote_code=True,
-                torch_dtype=torch.float32 if self.florence_device == "cpu" else torch.float16
-            ).to(self.florence_device)
+                **florence_kwargs,
+            )
+            if self.florence_device != "cpu":
+                self.florence_model = self.florence_model.to(self.florence_device)
             self.florence_model.eval()
+            gc.collect()
             print(f"[OCR Engine] Florence-2 Vision Engine initialized successfully on {self.florence_device.upper()}.")
 
     def _preprocess_crop(self, image):
@@ -425,6 +441,7 @@ class PrescriptionOCREngine:
         # Aspect-preserving letterbox onto the canvas (no distortion).
         lb = letterbox_square(full_image, ocr_settings.florence_canvas)
         inputs = self.florence_processor(text=prompt, images=lb.image, return_tensors="pt").to(self.florence_device)
+        inputs["pixel_values"] = inputs["pixel_values"].to(self.florence_device, dtype=self.florence_model.dtype)
 
         with torch.inference_mode():
             output = self.florence_model.generate(
@@ -802,6 +819,7 @@ class PrescriptionOCREngine:
             inputs = self.florence_processor(
                 text="<OCR_WITH_REGION>", images=lb.image, return_tensors="pt"
             ).to(self.florence_device)
+            inputs["pixel_values"] = inputs["pixel_values"].to(self.florence_device, dtype=self.florence_model.dtype)
             with torch.inference_mode():
                 out = self.florence_model.generate(
                     input_ids=inputs["input_ids"],

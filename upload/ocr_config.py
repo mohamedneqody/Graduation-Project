@@ -56,8 +56,8 @@ class OCRSettings:
     # Square canvas the page is letterboxed into (aspect-preserving). Florence-2
     # was trained at 768; keep default 768 on a 4GB card. <= 832 max supported.
     florence_canvas: int = min(_env_int("FLORENCE_CANVAS", 768), 832)
-    florence_num_beams: int = _env_int("FLORENCE_NUM_BEAMS", 3)
-    florence_max_new_tokens: int = _env_int("FLORENCE_MAX_NEW_TOKENS", 512)
+    florence_num_beams: int = _env_int("FLORENCE_NUM_BEAMS", 2)
+    florence_max_new_tokens: int = _env_int("FLORENCE_MAX_NEW_TOKENS", 256)
     # Florence device driver: keep "cpu" to reserve VRAM for TrOCR (default), or
     # "cuda" for faster page pass if VRAM headroom exists.
     # 2026-09-17: measured on T1200 4GB — TrOCR-Large alone peaks ~2.4GB, so
@@ -113,7 +113,7 @@ class OCRSettings:
     # the crop itself (letterboxed) to get an honest per-line confidence.
     # Bounded to the N weakest lines per page to protect latency (CPU).
     florence_retry_enabled: bool = _env_bool("OCR_FLORENCE_RETRY", True)
-    florence_retry_max: int = _env_int("OCR_FLORENCE_RETRY_MAX", 3)
+    florence_retry_max: int = _env_int("OCR_FLORENCE_RETRY_MAX", 1)
     # Third hypothesis: decode the FLORENCE BOX crop (line bbox on the
     # original-resolution image) with TrOCR for weak lines — measured 0.95+
     # confidence on clean pages where the OpenCV-band crop reads wrong.

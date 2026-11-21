@@ -73,7 +73,7 @@
         "url": "https://api.telegram.org/bot7330340609:AAHSYF7u2czYCdJvehF7BgJ_ET8gIwpJLHs/sendMessage",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n  \"chat_id\": \"6262223810\",\n  \"parse_mode\": \"HTML\",\n  \"text\": \"📊 <b>[AI-COS Executive Weekly Digest]</b>\\n\\nتقرير الأداء الأسبوعي لإدارة صيدلية AI-COS 🏥\\n\\n💰 <b>الوفر المالي التقديري (CDSS ROI):</b> {{ $json.estimated_savings_formatted || \"$15,000\" }}\\n🛡️ <b>الطلبات المحظورة لحماية المريض:</b> {{ $json.blocked_orders_count || 3 }}\\n📦 <b>إجمالي الطلبات المعالجة:</b> {{ $json.total_orders_analyzed || 8578 }}\\n📈 <b>معدل الأمان السريري:</b> {{ $json.safety_rate || \"99.9%\" }}\\n\\n🎯 <i>التقرير صادر آلياً عن نظام الحوكمة ودعم القرار الطبي.</i>\"\n}",
+        "jsonBody": "={\n  \"chat_id\": \"6262223810\",\n  \"parse_mode\": \"HTML\",\n  \"text\": \"📊 <b>[Cura AI Pharmacy Executive Weekly Digest]</b>\\n\\nتقرير الأداء الأسبوعي لإدارة صيدلية كيورا الذكية (Cura AI Pharmacy) 🏥\\n\\n💰 <b>الوفر المالي التقديري (CDSS ROI):</b> {{ $json.estimated_savings_formatted || \"$15,000\" }}\\n🛡️ <b>الطلبات المحظورة لحماية المريض:</b> {{ $json.blocked_orders_count || 3 }}\\n📦 <b>إجمالي الطلبات المعالجة:</b> {{ $json.total_orders_analyzed || 8578 }}\\n📈 <b>معدل الأمان السريري:</b> {{ $json.safety_rate || \"99.9%\" }}\\n\\n🎯 <i>التقرير صادر آلياً عن نظام الحوكمة ودعم القرار الطبي.</i>\"\n}",
         "options": {}
       },
       "id": "5ed59859-36a3-46a2-b27c-ce3a8766e10e",

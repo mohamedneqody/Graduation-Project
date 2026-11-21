@@ -21,7 +21,7 @@ TEST_CASES = [
         "category": "Identity & Project Info",
         "name": "Team Members",
         "type": "generate",
-        "prompt": "من هم أعضاء الفريق الذين ساعدوا المطور في بناء نظام AI-COS Pharmacy؟"
+        "prompt": "من هم أعضاء الفريق الذين ساعدوا المطور في بناء نظام Cura AI Pharmacy (صيدلية كيورا الذكية)؟"
     },
     {
         "category": "Identity & Project Info",

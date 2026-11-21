@@ -17,26 +17,26 @@
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1,
       "position": [
-        200,
-        300
+        864,
+        0
       ],
-      "id": "sched-weekly-fix01"
+      "id": "f068d942-ad10-43fa-820a-e56d55c80bfa"
     },
     {
       "parameters": {
         "httpMethod": "POST",
         "path": "weekly_summary",
-        "options": {},
-        "authentication": "headerAuth"
+        "authentication": "headerAuth",
+        "options": {}
       },
       "name": "Webhook Trigger (weekly_summary)",
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
       "position": [
-        200,
-        500
+        864,
+        208
       ],
-      "id": "wh-weekly-fix01",
+      "id": "75e7ff3f-2f33-435d-9d41-15bc5aca2b64",
       "webhookId": "weekly-summary-fix01",
       "credentials": {
         "httpHeaderAuth": {
@@ -60,10 +60,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 1,
       "position": [
-        420,
-        500
+        1088,
+        208
       ],
-      "id": "if-verify-weekly-fix01"
+      "id": "c8a3e8cb-e538-4ee2-b4be-53dc8e5de8e1"
     },
     {
       "parameters": {},
@@ -71,14 +71,13 @@
       "type": "n8n-nodes-base.noOp",
       "typeVersion": 1,
       "position": [
-        640,
-        640
+        1312,
+        352
       ],
-      "id": "noop-reject-weekly-fix01"
+      "id": "e5d789b5-f37b-400f-987a-f11b227a2db2"
     },
     {
       "parameters": {
-        "method": "GET",
         "url": "http://host.docker.internal:8000/api/v1/business-value/internal/weekly-digest",
         "sendHeaders": true,
         "headerParameters": {
@@ -95,15 +94,15 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4,
       "position": [
-        860,
-        400
+        1536,
+        112
       ],
-      "id": "http-digest-fix01"
+      "id": "7fdf5721-28ed-46eb-9f7b-ecdf5e373c93"
     },
     {
       "parameters": {
         "chatId": "6262223810",
-        "text": "=📊 <b>[AI-COS Executive Weekly Digest]</b>\n\nتقرير الأداء الأسبوعي لإدارة صيدلية AI-COS 🏥\n\n💰 <b>الوفر المالي التقديري (CDSS ROI):</b> {{ $json.estimated_savings_formatted }}\n🛡️ <b>الطلبات المحظورة لحماية المريض:</b> {{ $json.blocked_orders_count }}\n📦 <b>إجمالي الطلبات المعالجة:</b> {{ $json.total_orders_analyzed }}\n📈 <b>معدل الأمان السريري:</b> {{ $json.safety_rate }}\n\n(منع التكرار العلاجي والتعارضات الدوائية قبل وصولها للمريض)\n\n🎯 <i>أرقام حية من قاعدة الإنتاج — صادرة آلياً عن نظام الحوكمة ودعم القرار الطبي.</i>",
+        "text": "={{ (() => {\n  const esc = v => String(v ?? 'غير متاح').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');\n  return '📊 <b>لقطة تراكمية مرسلة أسبوعيًا</b>'+\n    '\\nمحاولات حظر مسجلة (قد تشمل التكرار): '+esc($json.blocked_orders_count)+\n    '\\nالطلبات المكتملة: '+esc($json.total_orders_analyzed)+\n    '\\nسيناريو مالي تقديري، وليس وفرًا محققًا: '+esc($json.estimated_savings_formatted)+\n    '\\nالنتائج السريرية ومعدل السلامة: غير مقاسة.'+\n    '\\nهذه مؤشرات تشغيلية تراكمية ولا تثبت منع ضرر طبي أو عائد مالي فعلي.';\n})() }}",
         "additionalFields": {
           "appendAttribution": false,
           "parse_mode": "HTML"
@@ -113,15 +112,105 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        1080,
-        400
+        1744,
+        112
       ],
-      "id": "tg-digest-fix01",
+      "id": "b2108b72-a35c-40df-88aa-e58fce60c7f7",
+      "webhookId": "d4459b08-b8ee-4463-b9c8-26793a68b9e3",
       "credentials": {
         "telegramApi": {
           "id": "ntDvdegoGPkjWfXU",
           "name": "مشروع تخرج"
         }
+      }
+    },
+    {
+      "id": "a1c05a1a-4001-4000-8000-000000000010",
+      "name": "Check Backend Health",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1088,
+        0
+      ],
+      "onError": "continueRegularOutput",
+      "parameters": {
+        "method": "GET",
+        "url": "http://host.docker.internal:8000/health",
+        "options": {
+          "timeout": 5000
+        }
+      }
+    },
+    {
+      "id": "a1c05a1a-4001-4000-8000-000000000011",
+      "name": "Is Backend Online?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1312,
+        0
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "sum-health-status",
+              "leftValue": "={{ $json.status || \"\" }}",
+              "rightValue": "ok",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            },
+            {
+              "id": "sum-health-service",
+              "leftValue": "={{ $json.service || \"\" }}",
+              "rightValue": "aicos-pharmacy-backend",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "a1c05a1a-4001-4000-8000-000000000012",
+      "name": "Skipped - Backend Offline",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1536,
+        -80
+      ],
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "sum-skip-status",
+              "name": "status",
+              "value": "skipped",
+              "type": "string"
+            },
+            {
+              "id": "sum-skip-reason",
+              "name": "reason",
+              "value": "={{ $json.error?.message || $json.status || \"backend_offline\" }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
       }
     }
   ],
@@ -130,7 +219,7 @@
       "main": [
         [
           {
-            "node": "Fetch Real ROI Digest (internal)",
+            "node": "Check Backend Health",
             "type": "main",
             "index": 0
           }
@@ -171,6 +260,35 @@
         [
           {
             "node": "Send Real Digest to Board",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Backend Health": {
+      "main": [
+        [
+          {
+            "node": "Is Backend Online?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Backend Online?": {
+      "main": [
+        [
+          {
+            "node": "Fetch Real ROI Digest (internal)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Skipped - Backend Offline",
             "type": "main",
             "index": 0
           }

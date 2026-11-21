@@ -16,14 +16,76 @@
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1,
       "position": [
-        -1632,
-        576
+        -2848,
+        144
       ],
-      "id": "47169e89-0756-454c-82ef-5a348bde6202"
+      "id": "f395d93b-2ccb-436f-bd4b-36b89002c418"
+    },
+    {
+      "id": "a1c05a1a-4000-4000-8000-000000000010",
+      "name": "Check Backend Health",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -2656,
+        144
+      ],
+      "onError": "continueRegularOutput",
+      "parameters": {
+        "method": "GET",
+        "url": "http://host.docker.internal:8000/health",
+        "options": {
+          "timeout": 5000
+        }
+      },
+      "notesInFlow": true,
+      "notes": "فحص جاهزية الخادم الخلفي قبل الاستعلام لتفادي الإنذارات الكاذبة عندما يكون السيرفر المحلي مغلقاً"
+    },
+    {
+      "id": "a1c05a1a-4000-4000-8000-000000000011",
+      "name": "Is Backend Online?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -2464,
+        144
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "sla-health-status",
+              "leftValue": "={{ $json.status || \"\" }}",
+              "rightValue": "ok",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            },
+            {
+              "id": "sla-health-service",
+              "leftValue": "={{ $json.service || \"\" }}",
+              "rightValue": "aicos-pharmacy-backend",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      }
     },
     {
       "parameters": {
-        "url": "http://host.docker.internal:8000/internal/governance/pending?limit=100",
+        "url": "http://host.docker.internal:8000/internal/governance/review-overdue?hours=24",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
@@ -33,31 +95,62 @@
             }
           ]
         },
-        "options": {}
+        "options": {
+          "timeout": 10000
+        }
       },
       "name": "1. Pull Pending Reminders",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4,
       "position": [
-        -1408,
-        576
+        -2256,
+        64
       ],
-      "id": "6908c2ee-cff8-4203-af49-096b33af0d14",
+      "id": "b2fa55a9-e2d0-4281-9014-21aab6b941d1",
       "notesInFlow": true,
       "notes": "جلب التذكيرات المعلقة عبر نقطة الحوكمة الداخلية"
     },
     {
+      "id": "a1c05a1a-4000-4000-8000-000000000012",
+      "name": "Skipped - Backend Offline",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -2256,
+        288
+      ],
       "parameters": {
-        "jsCode": "\nconst items = $input.all();\nconst breached = [];\nconst now = new Date().getTime();\n\nfor (const item of items) {\n  const data = item.json;\n  if (data.decision === 'human_review') {\n    const createdTime = data.created_at ? new Date(data.created_at).getTime() : now;\n    const hoursElapsed = Math.round((now - createdTime) / (1000 * 60 * 60));\n    \n    if (hoursElapsed >= 24) {\n      breached.push({\n        json: {\n          ...data,\n          hours_elapsed: hoursElapsed,\n          sla_breached: true\n        }\n      });\n    }\n  }\n}\n\nreturn breached;\n"
+        "assignments": {
+          "assignments": [
+            {
+              "id": "sla-skip-status",
+              "name": "status",
+              "value": "skipped",
+              "type": "string"
+            },
+            {
+              "id": "sla-skip-reason",
+              "name": "reason",
+              "value": "={{ $json.error?.message || $json.status || \"backend_offline\" }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const data = $input.first().json;\nif (!Number.isInteger(data.overdue_count) || data.overdue_count < 0 ||\n    data.requires_human_approval !== true || !Number.isFinite(data.review_threshold_hours)) {\n  throw new Error('Invalid human-review SLA metrics');\n}\nreturn data.overdue_count > 0 ? [{json:{...data, sla_breached:true}}] : [];"
       },
       "name": "2. Filter SLA Breaches (>24h)",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -1200,
-        576
+        -2048,
+        64
       ],
-      "id": "75277d2e-08aa-4af3-bed9-c3b6c87b8d48",
+      "id": "037e7196-f6c5-454c-b320-07b2836e7922",
       "notesInFlow": true,
       "notes": "فلترة التذكيرات التي تجاوزت حد الـ 24 ساعة بدون مراجعة بشرية"
     },
@@ -76,15 +169,15 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 1,
       "position": [
-        -976,
-        576
+        -1824,
+        64
       ],
-      "id": "9dfa3619-957c-4277-8da6-7589240ab07f"
+      "id": "d42d645e-3dc6-4241-9d6d-5f271f5bc46e"
     },
     {
       "parameters": {
         "chatId": "6262223810",
-        "text": "=⏳ <b>تنبيه خرق مدة المراجعة — SLA Breach Alert</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n👨‍⚕️ <b>د. الصيدلي المناوب:</b> يوجد تذكير معلق ينتظر قرارك الطبي العاجل!\n👤 <b>المريض:</b> {{ $json.customer_name }}\n💊 <b>الدواء:</b> {{ $json.drug_name }}\n📊 <b>نسبة ثقة الذكاء الاصطناعي:</b> {{ Math.round(($json.cycle_confidence || 0.72) * 100) }}%\n⏱️ <b>مدة الانتظار الحالية:</b> {{ $json.hours_elapsed }} ساعة (تجاوزت حد الـ 24 ساعة)\n\n🔗 <b>الإجراء الفوري:</b> يرجى فتح لوحة المراجعة البشرية للاعتماد أو الرفض.",
+        "text": "={{ (() => {\n  const esc = v => String(v ?? 'غير متاح').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');\n  return '⏳ <b>تجاوز مدة انتظار المراجعة البشرية</b>\\nعدد التذكيرات: '+esc($json.overdue_count)+\n    '\\nحد الانتظار: '+esc($json.review_threshold_hours)+' ساعة'+\n    '\\nأقدم مدة انتظار: '+esc($json.oldest_age_hours)+' ساعة'+\n    '\\nيرجى فتح لوحة المراجعة البشرية للاعتماد أو الرفض. هذا تنبيه إداري ولا يعتمد أي تذكير تلقائيًا.';\n})() }}",
         "additionalFields": {
           "appendAttribution": false,
           "parse_mode": "HTML"
@@ -94,10 +187,10 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        -752,
-        512
+        -1600,
+        0
       ],
-      "id": "4e0020d3-2293-41b0-8ec2-01027009ba7f",
+      "id": "f8d009d1-53bb-4a01-bff7-2d66b10c1f26",
       "notesInFlow": true,
       "webhookId": "7d62d03e-c1dc-46c6-af76-eb26df30ec9c",
       "credentials": {
@@ -115,7 +208,36 @@
       "main": [
         [
           {
+            "node": "Check Backend Health",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Backend Health": {
+      "main": [
+        [
+          {
+            "node": "Is Backend Online?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Backend Online?": {
+      "main": [
+        [
+          {
             "node": "1. Pull Pending Reminders",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Skipped - Backend Offline",
             "type": "main",
             "index": 0
           }

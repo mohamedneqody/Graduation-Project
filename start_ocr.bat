@@ -1,6 +1,6 @@
 @echo off
 color 0a
-title AI-COS OCR Server (Port 9202)
+title Cura AI Pharmacy OCR Server (Port 9202)
 
 :check_port
 netstat -ano | findstr ":9202 " | findstr "LISTENING" >nul 2>&1

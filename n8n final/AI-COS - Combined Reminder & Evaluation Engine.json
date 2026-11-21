@@ -1,5 +1,7 @@
 {
+  "id": "81yGYG75B34myKyX",
   "name": "AI-COS - Combined Reminder & Evaluation Engine",
+  "active": true,
   "nodes": [
     {
       "parameters": {
@@ -16,37 +18,37 @@
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1,
       "position": [
-        7888,
-        2704
+        9136,
+        4640
       ],
-      "id": "2ba1987b-d585-4738-9f89-70f517ab9b42"
+      "id": "c601c4d0-4f26-4a55-906c-76690d2165f6"
     },
     {
       "parameters": {},
-      "id": "92ea43de-8642-40b6-9984-d3715365a8ee",
+      "id": "cba4015c-054e-4d63-afdd-95f6b31a425e",
       "name": "When clicking \"Execute Workflow\"",
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
       "position": [
-        7888,
-        2496
+        9136,
+        4448
       ]
     },
     {
       "parameters": {
         "httpMethod": "POST",
         "path": "evaluate_due",
+        "authentication": "headerAuth",
         "responseMode": "responseNode",
-        "options": {},
-        "authentication": "headerAuth"
+        "options": {}
       },
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2.1,
       "position": [
-        7888,
-        2896
+        8688,
+        5088
       ],
-      "id": "8ddcf845-ee74-4a44-8ad3-319fabb5da0f",
+      "id": "8ec83f07-b673-480e-b5a6-e2c98b48de0e",
       "name": "Webhook Evaluate Due",
       "webhookId": "8e022842-4da4-4180-bc7e-e3b8b3c1f887",
       "credentials": {
@@ -60,17 +62,17 @@
       "parameters": {
         "httpMethod": "POST",
         "path": "send_reminder",
+        "authentication": "headerAuth",
         "responseMode": "responseNode",
-        "options": {},
-        "authentication": "headerAuth"
+        "options": {}
       },
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2.1,
       "position": [
-        7888,
-        3104
+        8688,
+        4256
       ],
-      "id": "24548707-ec6a-4ff9-8444-6a115c5cd04c",
+      "id": "81f3bcbc-b914-4d44-9158-e6edb1947f93",
       "name": "Webhook Send Reminder",
       "webhookId": "9f133953-5e51-4291-adf3-8d133e2c2f98",
       "credentials": {
@@ -95,10 +97,11 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 1,
       "position": [
-        8128,
-        2896
+        8688,
+        5312
       ],
-      "id": "5a989a1c-e047-4036-8d55-d611bce249bd"
+      "id": "74f3e1e4-6576-43f9-8623-e76f9d4b0668",
+      "disabled": true
     },
     {
       "parameters": {
@@ -115,10 +118,11 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 1,
       "position": [
-        8128,
-        3104
+        8688,
+        6208
       ],
-      "id": "683e87f9-0f1d-4139-8476-c75f21f03159"
+      "id": "dd31f118-c60a-4e18-a955-ac3b25b1929d",
+      "disabled": true
     },
     {
       "parameters": {
@@ -139,40 +143,45 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4,
       "position": [
-        8400,
-        2800
+        9360,
+        5088
       ],
-      "id": "3cd17ef9-cd9c-48d5-8c45-862a7f324803"
+      "id": "e719c49b-4a30-42b7-acde-67ac5dcc130d",
+      "retryOnFail": false
     },
     {
       "parameters": {
         "respondWith": "json",
-        "responseBody": "={\n  \"status\": \"success\",\n  \"workflow\": \"evaluate_due\",\n  \"message\": \"Due reminders evaluated and queued successfully.\"\n}",
-        "options": {}
+        "responseBody": "={{ {accepted:true,delivery_confirmed:false} }}",
+        "options": {
+          "responseCode": 202
+        }
       },
       "name": "Respond Evaluate",
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.1,
       "position": [
-        8640,
-        2896
+        9136,
+        5088
       ],
-      "id": "a264baab-c814-40ae-8ba8-a852f072bd83"
+      "id": "861d8570-8c94-4efd-b94f-ca25a42089a2"
     },
     {
       "parameters": {
         "respondWith": "json",
-        "responseBody": "={\n  \"status\": \"success\",\n  \"workflow\": \"send_reminder\",\n  \"message\": \"Reminders dispatched to queue and processed.\"\n}",
-        "options": {}
+        "responseBody": "={{ {accepted:true,delivery_confirmed:false} }}",
+        "options": {
+          "responseCode": 202
+        }
       },
       "name": "Respond Reminder",
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.1,
       "position": [
-        8400,
-        3200
+        9136,
+        4256
       ],
-      "id": "bbd27b19-ba47-4eea-b95f-336582ec2f8e"
+      "id": "76f22dee-0074-40f8-bcae-a3f3211d5d67"
     },
     {
       "parameters": {
@@ -192,10 +201,12 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4,
       "position": [
-        8640,
-        3104
+        9360,
+        4448
       ],
-      "id": "32f49ddf-e828-4c2f-a373-5d3626f090df"
+      "id": "0d967dc5-14fd-4749-ae3e-c9522303b137",
+      "alwaysOutputData": true,
+      "retryOnFail": false
     },
     {
       "parameters": {
@@ -212,10 +223,11 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 1,
       "position": [
-        8896,
-        3104
+        8688,
+        6432
       ],
-      "id": "846221a7-4a5f-4080-b1b8-0a623cadd8f4"
+      "id": "0662e0f8-ea48-4e67-862e-2a29d04f75f2",
+      "disabled": true
     },
     {
       "parameters": {
@@ -239,35 +251,11 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4,
       "position": [
-        9152,
-        3008
+        8688,
+        5760
       ],
-      "id": "af13b636-4f5b-40fc-a8dd-e44796892b48"
-    },
-    {
-      "parameters": {
-        "chatId": "6262223810",
-        "text": "=🏥 <b>صيدلية AI-COS</b>\n\n💙 <b>تذكير بموعد تجديد علاجك</b>\n\nمرحباً أستاذ {{ $('1. Pull Pending Reminders').item.json.customer_name }} 👋\nنتمنى لك دوام الصحة والعافية 💙\n\n💊 <b>علاجك المجدول</b>\n<code>{{ $('1. Pull Pending Reminders').item.json.drug_name }}</code>\n\n⏰ <b>حان موعد تجديد علاجك</b>\nنذكّرك بتجديد علاجك في الوقت المناسب للمساعدة على الاستمرار في خطتك العلاجية.\n\n{{ $('2.5 Marketing Agent').item.json.coupon_code ? \"🎁 <b>هدية خاصة تقديراً لالتزامك</b>\\n\\nخصم <b>15%</b> على إعادة طلب علاجك\\n\\n🏷️ <code>\" + $('2.5 Marketing Agent').item.json.coupon_code + \"</code>\\n\\n📋 أدخل الكود أثناء إتمام الطلب.\" : \"\" }}\n\n👇 <b>اضغط زر «إعادة الطلب» بالأسفل لإكمال طلبك.</b>",
-        "additionalFields": {
-          "appendAttribution": false,
-          "parse_mode": "HTML"
-        }
-      },
-      "name": "3A. Send Telegram",
-      "type": "n8n-nodes-base.telegram",
-      "typeVersion": 1.2,
-      "position": [
-        9392,
-        3008
-      ],
-      "id": "d36819b9-c055-4aad-b1cb-2b38dcaed5d3",
-      "webhookId": "80463c23-44eb-4bc5-9c06-94e813a2afc4",
-      "credentials": {
-        "telegramApi": {
-          "id": "ntDvdegoGPkjWfXU",
-          "name": "مشروع تخرج"
-        }
-      }
+      "id": "7ff1ca22-903f-4f61-9984-8cb4e386518a",
+      "disabled": true
     },
     {
       "parameters": {
@@ -297,10 +285,11 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4,
       "position": [
-        9856,
-        3008
+        8688,
+        5984
       ],
-      "id": "2de2fb89-cbd4-4a51-b6db-b09f5c344066"
+      "id": "5ec4e452-79f6-4bbb-83e2-8885cb5e9531",
+      "disabled": true
     },
     {
       "parameters": {
@@ -315,17 +304,18 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        9152,
-        3248
+        8688,
+        6656
       ],
-      "id": "326d5cf9-5030-4c36-b582-01e3a8ba1114",
+      "id": "224fe1c3-9bcb-4076-b6d9-60f7dd822234",
       "webhookId": "1bc4137e-b570-430a-9825-b5962ab747ce",
       "credentials": {
         "telegramApi": {
           "id": "ntDvdegoGPkjWfXU",
           "name": "مشروع تخرج"
         }
-      }
+      },
+      "disabled": true
     },
     {
       "parameters": {
@@ -335,14 +325,15 @@
           "responseCode": 403
         }
       },
-      "id": "unauth-resp-9999",
+      "id": "18131285-cce6-4854-992b-58f1a020438e",
       "name": "Respond Unauthorized",
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.1,
       "position": [
-        7552,
-        2832
-      ]
+        8688,
+        4864
+      ],
+      "disabled": true
     },
     {
       "parameters": {
@@ -371,31 +362,491 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        9600,
-        2992
+        8688,
+        5536
       ],
-      "id": "a894ab5b-5cd7-483e-a603-d03bd5e49226",
-      "name": "Callback Delivered → AI-COS"
+      "id": "1737346e-cff4-4943-9f8d-7c43aa1c9f9a",
+      "name": "Callback Delivered → AI-COS",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const b = $input.first().json.body || {};\nconst uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;\nif (!uuid.test(b.run_id || '') || !uuid.test(b.tenant_id || '') ||\n    !Number.isInteger(b.attempt) || b.attempt < 1) {\n  throw new Error('A persisted automation run, tenant and attempt are required');\n}\nreturn [{json:{run_id:b.run_id, tenant_id:b.tenant_id, attempt:b.attempt}}];"
+      },
+      "id": "dc082511-03fa-4da0-8af1-d270d2b15d3a",
+      "name": "Validate Reminder Request",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        8912,
+        4256
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const b = $input.first().json.body || {};\nconst uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;\nif (!uuid.test(b.run_id || '') || !uuid.test(b.tenant_id || '') ||\n    !Number.isInteger(b.attempt) || b.attempt < 1) {\n  throw new Error('A persisted automation run, tenant and attempt are required');\n}\nreturn [{json:{run_id:b.run_id, tenant_id:b.tenant_id, attempt:b.attempt}}];"
+      },
+      "id": "164cdaa7-70ca-4616-b2c4-7e3348344b0c",
+      "name": "Validate Evaluation Request",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        8912,
+        5088
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const rows = $input.all().flatMap(i => Array.isArray(i.json) ? i.json : [i.json]);\nconst uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;\nconst approved = rows.filter(r => r && uuid.test(r.reminder_id || '') && r.decision === 'approved' && r.status === 'pending');\nreturn approved.length ? approved.map(r => ({json:{reminder_id:r.reminder_id}})) : [{json:{skip:true}}];"
+      },
+      "id": "22168733-e3bf-41b3-b857-12709794d6cd",
+      "name": "Normalize Approved Queue",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        9584,
+        4448
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "958a352e-b52d-4191-83cf-c2e8309b936f",
+      "name": "Loop Approved Reminders",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        9808,
+        4448
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $json.skip !== true }}",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "id": "8df04117-bfd7-4eb1-b77e-611f60e6804b",
+      "name": "Has Reminder",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        10080,
+        4416
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://host.docker.internal:8000/internal/governance/{{ $json.reminder_id }}/claim",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-Internal-Token",
+              "value": "={{ $env.INTERNAL_SERVICE_KEY }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ (() => {\n  try { const p = $('Validate Reminder Request').first().json;\n    return {parent_run_id:p.run_id,parent_attempt:p.attempt}; }\n  catch { return {}; }\n})() }}",
+        "options": {
+          "timeout": 20000
+        }
+      },
+      "id": "4bc56b14-6681-4349-9655-d12423ff8e70",
+      "name": "Claim Reminder",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        10256,
+        4400
+      ],
+      "retryOnFail": false
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ Boolean($json.claimed) }}",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "id": "16227822-c445-44ae-902b-bda7e99e7bea",
+      "name": "Claim Granted",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        10480,
+        4480
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const c = $('Claim Reminder').item.json;\nconst r = $input.first().json;\nconst id = r.message_id ?? r.result?.message_id;\nconst confirmed = !r.error && Number.isInteger(id) && id > 0;\nconst remId = c.reminder ? c.reminder.reminder_id : c.reminder_id;\nreturn [{json:{reminder_id:remId, run_id:c.run_id, claim_token:c.claim_token,\n  status:confirmed ? 'delivered' : 'delivery_unknown', message_id:confirmed ? String(id) : null}}];"
+      },
+      "id": "5e37220c-809e-4e06-93fb-d4ecb9ee5601",
+      "name": "Prepare Completion Evidence",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        11040,
+        4544
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://host.docker.internal:8000/internal/governance/{{ $json.reminder_id }}/complete",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-Internal-Token",
+              "value": "={{ $env.INTERNAL_SERVICE_KEY }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ {run_id:$json.run_id,claim_token:$json.claim_token,status:$json.status,message_id:$json.message_id} }}",
+        "options": {
+          "timeout": 20000
+        }
+      },
+      "id": "83d42663-a52b-4335-a862-ba0a7e317e5b",
+      "name": "Complete Reminder",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        9888,
+        4640
+      ],
+      "retryOnFail": false
+    },
+    {
+      "parameters": {
+        "jsCode": "try {\n  const p = $('Validate Reminder Request').first().json;\n  return [{json:{run_id:p.run_id,attempt:p.attempt,status:'processing_completed',\n    detail:'Approved reminder queue scanned. Each claimed reminder has a separate delivery record; this is not customer receipt.'}}];\n} catch { return []; }"
+      },
+      "id": "7dd8622d-bad8-4431-8416-4ff9acfc2fa1",
+      "name": "Prepare Scan Completion",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        10032,
+        4208
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:8000/api/v1/agents/automation/callback",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-Internal-Token",
+              "value": "={{ $env.INTERNAL_SERVICE_KEY }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json }}",
+        "options": {
+          "timeout": 20000
+        }
+      },
+      "id": "ea13b535-d088-4222-b894-7059d5f4aea9",
+      "name": "Record Scan Completion",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        10256,
+        4208
+      ],
+      "retryOnFail": false
+    },
+    {
+      "parameters": {
+        "jsCode": "const p = $('Validate Evaluation Request').first().json;\nconst result = $input.first().json;\nif (result.error || typeof result.task_id !== 'string' || !result.task_id) {\n  throw new Error('Recalculation queue acceptance was not confirmed');\n}\nreturn [{json:{run_id:p.run_id,attempt:p.attempt,status:'processing_queued',\n  detail:'Cycle recalculation was queued; completion and new approvals have not been verified.'}}];"
+      },
+      "id": "7a76a811-50fb-419a-90f5-99fbdd862764",
+      "name": "Prepare Evaluation Queued",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        9584,
+        5088
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:8000/api/v1/agents/automation/callback",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-Internal-Token",
+              "value": "={{ $env.INTERNAL_SERVICE_KEY }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json }}",
+        "options": {
+          "timeout": 20000
+        }
+      },
+      "id": "054d397a-9df4-47f9-af92-fdb5a79fa31d",
+      "name": "Record Evaluation Queued",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        9808,
+        5088
+      ],
+      "retryOnFail": false
+    },
+    {
+      "parameters": {
+        "chatId": "6262223810",
+        "text": "=🏥 <b>صيدلية AI-COS</b>\n\n💙 <b>تذكير بإعادة طلب العلاج</b>\n\nمرحباً أستاذ {{ $('Claim Reminder').item.json.reminder ? $('Claim Reminder').item.json.reminder.customer_name : $('1. Pull Pending Reminders').item.json.customer_name }} 👋\nنتمنى لك دوام الصحة والعافية.\n\n💊 <b>العلاج:</b>\n{{ $('Claim Reminder').item.json.reminder ? $('Claim Reminder').item.json.reminder.drug_name : $('1. Pull Pending Reminders').item.json.drug_name }}\n\n🎁 <b>هدية خاصة بك (خصم 15%):</b>\n<code>{{ $('2.5 Marketing Agent1').item.json.coupon_code || 'HEALTH15' }}</code>\n\n👇 يسعدنا تواصلك وخدمتك دائماً.",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "name": "3A. Send Telegram1",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        10992,
+        4272
+      ],
+      "id": "6e170b40-e37c-41e5-af34-98729f60d841",
+      "webhookId": "53e3d94f-c727-4729-bcba-8bb29792b0c5",
+      "credentials": {
+        "telegramApi": {
+          "id": "ntDvdegoGPkjWfXU",
+          "name": "مشروع تخرج"
+        }
+      },
+      "continueOnFail": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "fromEmail": "ai.fairy.tale.g@gmail.com",
+        "toEmail": "=ai.fairy.tale.g@gmail.com, jridjdjdmhmd@gmail.com",
+        "subject": "=هدية وكوبون خصم من صيدلية AI-COS - {{ $('1. Pull Pending Reminders').item.json.drug_name }}",
+        "html": "=<!DOCTYPE html>\n<html lang=\"ar\" dir=\"rtl\" xmlns=\"http://www.w3.org/1999/xhtml\" xmlns:v=\"urn:schemas-microsoft-com:vml\" xmlns:o=\"urn:schemas-microsoft-com:office:office\">\n<head>\n    <meta charset=\"utf-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n    <meta name=\"x-apple-disable-message-reformatting\">\n    <title>تذكير إعادة الطلب</title>\n    <!--[if mso]>\n    <xml>\n        <o:OfficeDocumentSettings>\n            <o:AllowPNG/>\n            <o:PixelsPerInch>96</o:PixelsPerInch>\n        </o:OfficeDocumentSettings>\n    </xml>\n    <style type=\"text/css\">\n        table {border-collapse: collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;}\n        table, td, p, a, h1, h2, h3, span {font-family: Arial, sans-serif !important;}\n    </style>\n    <![endif]-->\n    <style type=\"text/css\">\n        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap');\n        \n        html, body { margin: 0 auto !important; padding: 0 !important; height: 100% !important; width: 100% !important; background-color: #F8FAFC !important; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }\n        * { -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; }\n        table, td { mso-table-lspace: 0pt !important; mso-table-rspace: 0pt !important; border-spacing: 0 !important; border-collapse: collapse !important; }\n        img { -ms-interpolation-mode: bicubic; border: 0; outline: none; text-decoration: none; }\n        a { text-decoration: none; }\n        \n        .font-sans { font-family: 'Tajawal', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }\n        \n        @media screen and (max-width: 600px) {\n            .email-container { width: 100% !important; margin: 0 !important; border-radius: 0 !important; border: none !important; }\n            .content-padding { padding-left: 24px !important; padding-right: 24px !important; }\n            .mobile-full-width { display: block !important; width: 100% !important; }\n        }\n    </style>\n</head>\n<body width=\"100%\" style=\"margin: 0; padding: 0 !important; mso-line-height-rule: exactly; background-color: #F8FAFC;\">\n    <center style=\"width: 100%; background-color: #F8FAFC; text-align: center;\">\n        \n        <div style=\"display: none; font-size: 1px; line-height: 1px; max-height: 0px; max-width: 0px; opacity: 0; overflow: hidden; mso-hide: all; font-family: sans-serif;\">\n            تذكير طبي هام بخصوص استكمال خطتك العلاجية.\n        </div>\n\n        <!--[if mso | IE]>\n        <table role=\"presentation\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" style=\"background-color: #F8FAFC;\">\n        <tr><td align=\"center\" valign=\"top\" style=\"padding-top: 40px; padding-bottom: 40px;\">\n        <table role=\"presentation\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"600\">\n        <tr><td align=\"center\" valign=\"top\">\n        <![endif]-->\n\n        <table role=\"presentation\" class=\"email-container\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"600\" style=\"margin: 40px auto; background-color: #FFFFFF; border-radius: 20px; border: 1px solid #E2E8F0; width: 600px; max-width: 600px; overflow: hidden; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);\" dir=\"rtl\">\n            \n            <!-- Text Logo -->\n            <tr>\n                <td align=\"center\" class=\"content-padding\" style=\"padding: 40px 48px 0 48px;\">\n                    <p class=\"font-sans\" style=\"margin: 0; font-size: 22px; font-weight: 800; color: #0F766E; letter-spacing: -0.5px;\">\n                        🏥 صيدلية AI-COS 🏥\n                    </p>\n                </td>\n            </tr>\n\n            <!-- Hero Section -->\n            <tr>\n                <td align=\"center\" class=\"content-padding\" style=\"padding: 32px 48px 32px 48px;\">\n                    <table role=\"presentation\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"margin-bottom: 20px;\">\n                        <tr>\n                            <td align=\"center\" style=\"background-color: #F0FDF4; border: 1px solid #BBF7D0; border-radius: 100px; padding: 6px 16px;\">\n                                <span class=\"font-sans\" style=\"font-size: 13px; font-weight: 700; color: #16A34A; letter-spacing: 0.5px;\">💚 تذكير بإعادة الطلب</span>\n                            </td>\n                        </tr>\n                    </table>\n                    \n                    <h1 class=\"font-sans\" style=\"margin: 0 0 16px 0; font-size: 32px; font-weight: 800; color: #0F172A; line-height: 1.3; letter-spacing: -0.5px;\">\n                        حان وقت إعادة طلب علاجك\n                    </h1>\n                    \n                    <p class=\"font-sans\" style=\"margin: 0; font-size: 18px; font-weight: 700; color: #334155; line-height: 1.6;\">\n                        مرحباً أستاذ {{ $('1. Pull Pending Reminders').item.json.customer_name }} 👋<br>\n                        <span style=\"font-weight: 500; color: #64748B;\">نتمنى لك دوام الصحة.</span>\n                    </p>\n                </td>\n            </tr>\n\n            <!-- Message Text -->\n            <tr>\n                <td align=\"center\" class=\"content-padding\" style=\"padding: 0 48px 32px 48px;\">\n                    <p class=\"font-sans\" style=\"margin: 0; font-size: 16px; color: #475569; line-height: 1.7; font-weight: 500;\">\n                        {{ $('2.5 Marketing Agent1').item.json.message_text }}\n                    </p>\n                </td>\n            </tr>\n\n            <!-- Medicine Card -->\n            <tr>\n                <td align=\"center\" class=\"content-padding\" style=\"padding: 0 48px 32px 48px;\">\n                    <table role=\"presentation\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" style=\"background-color: #F8FAFC; border-radius: 16px; border: 1px solid #E2E8F0;\">\n                        <tr>\n                            <td align=\"center\" style=\"padding: 24px;\">\n                                <p class=\"font-sans\" style=\"margin: 0 0 8px 0; font-size: 14px; font-weight: 700; color: #64748B;\">💊 الدواء الذي اقترب موعد إعادة طلبه</p>\n                                <p class=\"font-sans\" style=\"margin: 0; font-size: 22px; font-weight: 800; color: #0F766E;\">\n                                    {{ $('1. Pull Pending Reminders').item.json.drug_name }}\n                                </p>\n                            </td>\n                        </tr>\n                    </table>\n                </td>\n            </tr>\n\n            <!-- Premium Gift Voucher Card -->\n            <tr>\n                <td align=\"center\" class=\"content-padding\" style=\"padding: 0 48px 40px 48px;\">\n                    <table role=\"presentation\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" style=\"background-color: #FFF8E8; border-radius: 16px; border: 1px solid #F4C95D; box-shadow: 0 6px 16px rgba(217, 119, 6, 0.08);\">\n                        <tr>\n                            <td align=\"center\" style=\"padding: 32px 24px;\">\n                                <p class=\"font-sans\" style=\"margin: 0 0 24px 0; font-size: 16px; font-weight: 800; color: #1F2937; letter-spacing: 0.5px;\">🎁 هدية تقديراً لالتزامك بالعلاج</p>\n                                \n                                <table role=\"presentation\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">\n                                    <tr>\n                                        <td align=\"center\" style=\"background-color: #FFFFFF; border-radius: 12px; border: 2px dashed #D97706; padding: 18px 48px; box-shadow: 0 4px 6px rgba(0,0,0,0.02);\">\n                                            <span style=\"font-family: 'Courier New', Courier, monospace; font-size: 42px; font-weight: 900; color: #1F2937; letter-spacing: 4px; line-height: 1;\">\n                                                {{ $('2.5 Marketing Agent1').item.json.coupon_code }}\n                                            </span>\n                                        </td>\n                                    </tr>\n                                </table>\n                                \n                                <p class=\"font-sans\" style=\"margin: 24px 0 8px 0; font-size: 17px; color: #D97706; font-weight: 800;\">خصم 15% على إعادة طلب علاجك</p>\n                                <p class=\"font-sans\" style=\"margin: 0; font-size: 13px; color: #4B5563; font-weight: 600;\">📋 استخدم هذا الكود أثناء إتمام الطلب.</p>\n                            </td>\n                        </tr>\n                    </table>\n                </td>\n            </tr>\n\n            <!-- CTA Section -->\n            <tr>\n                <td align=\"center\" class=\"content-padding\" style=\"padding: 0 48px 16px 48px;\">\n                    <!--[if mso]>\n                    <v:roundrect xmlns:v=\"urn:schemas-microsoft-com:vml\" xmlns:w=\"urn:schemas-microsoft-com:office:word\" href=\"https://dawaagate.com/reorder\" style=\"height:60px;v-text-anchor:middle;width:300px;\" arcsize=\"14%\" stroke=\"f\" fillcolor=\"#16A34A\">\n                        <w:anchorlock/>\n                        <center style=\"color:#ffffff;font-family:Arial,sans-serif;font-size:18px;font-weight:bold;\">استكمال إعادة الطلب</center>\n                    </v:roundrect>\n                    <![endif]-->\n                    <!--[if !mso]><!-->\n                    <table role=\"presentation\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">\n                        <tr>\n                            <td align=\"center\" style=\"background-color: #16A34A; border-radius: 12px; box-shadow: 0 4px 12px rgba(22, 163, 74, 0.25);\">\n                                <a href=\"https://dawaagate.com/reorder\" target=\"_blank\" class=\"font-sans\" style=\"display: inline-block; padding: 18px 48px; font-size: 18px; font-weight: 800; color: #FFFFFF; text-decoration: none; border-radius: 12px;\">استكمال إعادة الطلب</a>\n                            </td>\n                        </tr>\n                    </table>\n                    <!--<![endif]-->\n                </td>\n            </tr>\n\n            <!-- Microcopy -->\n            <tr>\n                <td align=\"center\" class=\"content-padding\" style=\"padding: 0 48px 32px 48px;\">\n                    <p class=\"font-sans\" style=\"margin: 0; font-size: 13px; color: #94A3B8; font-weight: 500;\">\n                        لن تستغرق إعادة الطلب أكثر من دقيقة.\n                    </p>\n                </td>\n            </tr>\n\n            <!-- Trust Indicators -->\n            <tr>\n                <td align=\"center\" class=\"content-padding\" style=\"padding: 0 48px 40px 48px;\">\n                    <table role=\"presentation\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" dir=\"rtl\">\n                        <tr>\n                            <td align=\"center\" valign=\"top\" width=\"33%\">\n                                <p style=\"margin: 0; font-size: 18px;\">🚚</p>\n                                <p class=\"font-sans\" style=\"margin: 6px 0 0 0; font-size: 14px; font-weight: 700; color: #334155;\">توصيل سريع</p>\n                            </td>\n                            <td align=\"center\" valign=\"top\" width=\"33%\">\n                                <p style=\"margin: 0; font-size: 18px;\">🔒</p>\n                                <p class=\"font-sans\" style=\"margin: 6px 0 0 0; font-size: 14px; font-weight: 700; color: #334155;\">دفع آمن</p>\n                            </td>\n                            <td align=\"center\" valign=\"top\" width=\"33%\">\n                                <p style=\"margin: 0; font-size: 18px;\">👨⚕️</p>\n                                <p class=\"font-sans\" style=\"margin: 6px 0 0 0; font-size: 14px; font-weight: 700; color: #334155;\">دعم صيدلي</p>\n                            </td>\n                        </tr>\n                    </table>\n                </td>\n            </tr>\n\n            <!-- Minimal Footer -->\n            <tr>\n                <td align=\"center\" class=\"content-padding\" style=\"padding: 32px 48px; background-color: #F8FAFC; border-top: 1px solid #F1F5F9; border-radius: 0 0 20px 20px;\">\n                    <p class=\"font-sans\" style=\"margin: 0; font-size: 13px; color: #64748B; font-weight: 600;\">\n                        شكراً لثقتكم برعايتنا الصحية. نحن هنا دائماً لخدمتكم.\n                    </p>\n                </td>\n            </tr>\n\n        </table>\n\n        <!--[if mso | IE]>\n        </td></tr></table>\n        </td></tr></table>\n        <![endif]-->\n        \n        <br><br>\n    </center>\n</body>\n</html>",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "name": "3B. Send Email",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        10752,
+        4112
+      ],
+      "id": "254a4e4a-3540-4158-9acc-e228fdfee729",
+      "webhookId": "e984ac13-bf25-4c55-9696-57f9b25617d4",
+      "credentials": {
+        "smtp": {
+          "id": "QLxeFzlaWJAsV8bH",
+          "name": "SMTP account"
+        }
+      },
+      "continueOnFail": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:8000/api/v1/agents/marketing/generate-campaign",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-Internal-Token",
+              "value": "={{ $env.INTERNAL_SERVICE_KEY }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"customer_id\": \"{{ $json.reminder ? $json.reminder.customer_id : $('1. Pull Pending Reminders').item.json.customer_id }}\",\n  \"drug_id\": \"{{ $json.reminder ? $json.reminder.drug_id : $('1. Pull Pending Reminders').item.json.drug_id }}\",\n  \"customer_name\": \"{{ $json.reminder ? $json.reminder.customer_name : $('1. Pull Pending Reminders').item.json.customer_name }}\",\n  \"drug_name\": \"{{ $json.reminder ? $json.reminder.drug_name : $('1. Pull Pending Reminders').item.json.drug_name }}\",\n  \"discount_percentage\": 15\n}",
+        "options": {
+          "timeout": 20000
+        }
+      },
+      "name": "2.5 Marketing Agent1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        10640,
+        4304
+      ],
+      "notesInFlow": true,
+      "id": "ad94f552-5faa-4d86-8da4-805bfade67bc",
+      "notes": "توليد نص تسويقي وكوبون خصم عبر الذكاء الاصطناعي (موثّق بالتوكن)",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "id": "a1c081y0-4000-4000-8000-000000000010",
+      "name": "Check Backend Health",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        9184,
+        4640
+      ],
+      "onError": "continueRegularOutput",
+      "parameters": {
+        "method": "GET",
+        "url": "http://host.docker.internal:8000/health",
+        "options": {
+          "timeout": 5000
+        }
+      },
+      "notesInFlow": true,
+      "notes": "فحص جاهزية الخادم الخلفي قبل الجلب المجدول لتفادي أخطاء الاتصال عندما يكون السيرفر المحلي مغلقاً"
+    },
+    {
+      "id": "a1c081y0-4000-4000-8000-000000000011",
+      "name": "Is Backend Online?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        9344,
+        4640
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "comb-health-status",
+              "leftValue": "={{ $json.status || \"\" }}",
+              "rightValue": "ok",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            },
+            {
+              "id": "comb-health-service",
+              "leftValue": "={{ $json.service || \"\" }}",
+              "rightValue": "aicos-pharmacy-backend",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "a1c081y0-4000-4000-8000-000000000012",
+      "name": "Skipped - Backend Offline",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        9504,
+        4800
+      ],
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "comb-skip-status",
+              "name": "status",
+              "value": "skipped",
+              "type": "string"
+            },
+            {
+              "id": "comb-skip-reason",
+              "name": "reason",
+              "value": "={{ $json.error?.message || $json.status || \"backend_offline\" }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      }
     }
   ],
-  "pinData": {},
   "connections": {
-    "Schedule Trigger (Every 9 AM)": {
+    "Webhook Send Reminder": {
       "main": [
         [
           {
-            "node": "0. Evaluate Due Reminders",
+            "node": "Validate Reminder Request",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "When clicking \"Execute Workflow\"": {
+    "Validate Reminder Request": {
       "main": [
         [
           {
-            "node": "0. Evaluate Due Reminders",
+            "node": "Respond Reminder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Respond Reminder": {
+      "main": [
+        [
+          {
+            "node": "1. Pull Pending Reminders",
             "type": "main",
             "index": 0
           }
@@ -406,59 +857,29 @@
       "main": [
         [
           {
-            "node": "Verify Token (Evaluate)",
+            "node": "Validate Evaluation Request",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Verify Token (Evaluate)": {
+    "Validate Evaluation Request": {
+      "main": [
+        [
+          {
+            "node": "Respond Evaluate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Respond Evaluate": {
       "main": [
         [
           {
             "node": "0. Evaluate Due Reminders",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Respond Unauthorized",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Webhook Send Reminder": {
-      "main": [
-        [
-          {
-            "node": "Verify Token (Reminder)",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Verify Token (Reminder)": {
-      "main": [
-        [
-          {
-            "node": "Respond Reminder",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "1. Pull Pending Reminders",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Respond Unauthorized",
             "type": "main",
             "index": 0
           }
@@ -469,10 +890,38 @@
       "main": [
         [
           {
-            "node": "Respond Evaluate",
+            "node": "Prepare Evaluation Queued",
             "type": "main",
             "index": 0
-          },
+          }
+        ]
+      ]
+    },
+    "Prepare Evaluation Queued": {
+      "main": [
+        [
+          {
+            "node": "Record Evaluation Queued",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger (Every 9 AM)": {
+      "main": [
+        [
+          {
+            "node": "Check Backend Health",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking \"Execute Workflow\"": {
+      "main": [
+        [
           {
             "node": "1. Pull Pending Reminders",
             "type": "main",
@@ -485,58 +934,172 @@
       "main": [
         [
           {
-            "node": "2. Is Auto Send?",
+            "node": "Normalize Approved Queue",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "2. Is Auto Send?": {
+    "Normalize Approved Queue": {
       "main": [
         [
           {
-            "node": "2.5 Marketing Agent",
+            "node": "Loop Approved Reminders",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Approved Reminders": {
+      "main": [
+        [
+          {
+            "node": "Prepare Scan Completion",
             "type": "main",
             "index": 0
           }
         ],
         [
           {
-            "node": "3B. Alert Pharmacy Staff",
+            "node": "Has Reminder",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "2.5 Marketing Agent": {
+    "Has Reminder": {
       "main": [
         [
           {
-            "node": "3A. Send Telegram",
+            "node": "Claim Reminder",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Loop Approved Reminders",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "3A. Send Telegram": {
+    "Claim Reminder": {
       "main": [
         [
           {
-            "node": "Callback Delivered → AI-COS",
+            "node": "Claim Granted",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Callback Delivered → AI-COS": {
+    "Claim Granted": {
       "main": [
         [
           {
-            "node": "4A. Mark as Sent in DB",
+            "node": "2.5 Marketing Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Loop Approved Reminders",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Completion Evidence": {
+      "main": [
+        [
+          {
+            "node": "Complete Reminder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Complete Reminder": {
+      "main": [
+        [
+          {
+            "node": "Loop Approved Reminders",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Scan Completion": {
+      "main": [
+        [
+          {
+            "node": "Record Scan Completion",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "3A. Send Telegram1": {
+      "main": [
+        [
+          {
+            "node": "Prepare Completion Evidence",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "2.5 Marketing Agent1": {
+      "main": [
+        [
+          {
+            "node": "3A. Send Telegram1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "3B. Send Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Backend Health": {
+      "main": [
+        [
+          {
+            "node": "Is Backend Online?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Backend Online?": {
+      "main": [
+        [
+          {
+            "node": "1. Pull Pending Reminders",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Skipped - Backend Offline",
             "type": "main",
             "index": 0
           }
@@ -544,7 +1107,6 @@
       ]
     }
   },
-  "active": true,
   "settings": {
     "executionOrder": "v1",
     "binaryMode": "separate",
@@ -553,19 +1115,8 @@
     "errorWorkflow": "YLX90juWgWUxaHHE",
     "callerPolicy": "workflowsFromSameOwner"
   },
-  "versionId": "0dafc00c-548a-4234-a3f9-f4525140eacc",
+  "pinData": {},
   "meta": {
-    "templateCredsSetupCompleted": true,
-    "instanceId": "67759659ff19a6d8d0a373387e2c30c462b5296cebb74994c5d58fe5daad1960"
-  },
-  "nodeGroups": [],
-  "id": "81yGYG75B34myKyX",
-  "tags": [
-    {
-      "updatedAt": "2026-08-05T15:39:30.301Z",
-      "createdAt": "2026-08-05T15:39:30.301Z",
-      "id": "zTQQM5OPihN02AOR",
-      "name": "مشروغ تخرج"
-    }
-  ]
+    "templateCredsSetupCompleted": true
+  }
 }

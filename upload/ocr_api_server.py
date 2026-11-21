@@ -13,7 +13,7 @@ from ocr_review import review_ocr_candidate
 # تحميل محرك TrOCR المحلي
 from prescription_ocr_engine import PrescriptionOCREngine
 
-app = FastAPI(title="AI-COS Pharmacy Prescription OCR & Intelligence Engine")
+app = FastAPI(title="Cura AI Pharmacy (صيدلية كيورا الذكية) Prescription OCR & Intelligence Engine")
 
 ALLOWED_LOCAL_ORIGINS = [
     "http://localhost:3000",
@@ -203,7 +203,7 @@ def infer_text(
     if x_internal_secret != INTERNAL_API_KEY:
         raise HTTPException(status_code=403, detail="Forbidden: Invalid internal secret")
 
-    if not INFERENCE_GATE.acquire(blocking=False):
+    if not INFERENCE_GATE.acquire(blocking=True, timeout=90.0):
         _record_busy()
         raise HTTPException(
             status_code=503,
